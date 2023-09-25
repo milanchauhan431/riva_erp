@@ -7,16 +7,16 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-md-6">
-                                <h4 class="card-title"><?='<a href="' . base_url("itemCategory/list/" . $ref_id) . '">' .$categoryName . '</a>'?></h4>
+                                <h4 class="card-title">Fine</h4>
                             </div>
                             <div class="col-md-6">
-                                <button type="button" class="btn waves-effect waves-light btn-outline-primary float-right addNew press-add-btn" data-button="both" data-modal_id="modal-md" data-function="addItemCategory" data-form_title="Add Item Category" data-postdata='{"ref_id":<?=$parent_id?>}'><i class="fa fa-plus"></i> Add Category</button>
+                                <button type="button" class="btn waves-effect waves-light btn-outline-primary float-right addNew press-add-btn permission-write" data-button="both" data-modal_id="modal-md" data-function="addFine" data-form_title="Add Fine"><i class="fa fa-plus"></i> Add Fine</button>
                             </div>                             
                         </div>                                         
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id='itemCategoryTable' class="table table-bordered ssTable ssTable-cf" data-url='/getDTRows/<?=$parent_id?>'></table>
+                            <table id='fineTable' class="table table-bordered ssTable ssTable-cf" data-url='/getDTRows' data-ninput="[0,1]"></table>
                         </div>
                     </div>
                 </div>

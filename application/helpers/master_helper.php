@@ -96,6 +96,36 @@ function getMasterDtHeader($page){
     $data['consumable'][] = ["name"=>"GST (%)"];
     $data['consumable'][] = ["name"=>"Defual Disc. (%)"];
 
+    /* Purity Header */
+    $data['purity'][] = ["name"=>"Action","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"];
+    $data['purity'][] = ["name"=>"#","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"]; 
+    $data['purity'][] = ["name"=>"Purity"];
+    $data['purity'][] = ["name"=>"Remark"];
+
+    /* Fine Header */
+    $data['fine'][] = ["name"=>"Action","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"];
+    $data['fine'][] = ["name"=>"#","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"]; 
+    $data['fine'][] = ["name"=>"Fine"];
+    $data['fine'][] = ["name"=>"Remark"];
+
+    /* Polish Header */
+    $data['polish'][] = ["name"=>"Action","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"];
+    $data['polish'][] = ["name"=>"#","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"]; 
+    $data['polish'][] = ["name"=>"Polish"];
+    $data['polish'][] = ["name"=>"Remark"];
+
+    /* Color Header */
+    $data['color'][] = ["name"=>"Action","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"];
+    $data['color'][] = ["name"=>"#","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"]; 
+    $data['color'][] = ["name"=>"Color"];
+    $data['color'][] = ["name"=>"Remark"];
+
+    /* Clarity Header */
+    $data['clarity'][] = ["name"=>"Action","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"];
+    $data['clarity'][] = ["name"=>"#","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"]; 
+    $data['clarity'][] = ["name"=>"Clarity"];
+    $data['clarity'][] = ["name"=>"Remark"];
+
     return tableHeader($data[$page]);
 }
 
@@ -203,4 +233,64 @@ function getProductData($data){
     $action = getActionButton($editButton.$deleteButton);
 
     return [$action,$data->sr_no,$data->item_code,$data->item_name,$data->category_name,$data->unit_name,floatVal($data->price),$data->hsn_code,floatVal($data->gst_per),floatVal($data->defualt_disc)];
+}
+
+function getPurityData($data){
+    $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Purity'}";
+    $editParam = "{'postData':{'id' : ".$data->id."},'modal_id' : 'modal-md', 'form_id' : 'edit', 'title' : 'Update Purity'}";
+
+    $editButton = '<a class="btn btn-success btn-edit permission-modify" href="javascript:void(0)" datatip="Edit" flow="down" onclick="edit('.$editParam.');"><i class="ti-pencil-alt"></i></a>';
+    $deleteButton = '<a class="btn btn-danger btn-delete permission-remove" href="javascript:void(0)" onclick="trash('.$deleteParam.');" datatip="Remove" flow="down"><i class="ti-trash"></i></a>';
+
+    $action = getActionButton($editButton.$deleteButton);
+
+    return [$action,$data->sr_no,$data->purity,$data->remark];
+}
+
+function getFineData($data){
+    $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Fine'}";
+    $editParam = "{'postData':{'id' : ".$data->id."},'modal_id' : 'modal-md', 'form_id' : 'edit', 'title' : 'Update Fine'}";
+
+    $editButton = '<a class="btn btn-success btn-edit permission-modify" href="javascript:void(0)" datatip="Edit" flow="down" onclick="edit('.$editParam.');"><i class="ti-pencil-alt"></i></a>';
+    $deleteButton = '<a class="btn btn-danger btn-delete permission-remove" href="javascript:void(0)" onclick="trash('.$deleteParam.');" datatip="Remove" flow="down"><i class="ti-trash"></i></a>';
+
+    $action = getActionButton($editButton.$deleteButton);
+
+    return [$action,$data->sr_no,$data->fine,$data->remark];
+}
+
+function getPolishData($data){
+    $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Polish'}";
+    $editParam = "{'postData':{'id' : ".$data->id."},'modal_id' : 'modal-md', 'form_id' : 'edit', 'title' : 'Update Polish'}";
+
+    $editButton = '<a class="btn btn-success btn-edit permission-modify" href="javascript:void(0)" datatip="Edit" flow="down" onclick="edit('.$editParam.');"><i class="ti-pencil-alt"></i></a>';
+    $deleteButton = '<a class="btn btn-danger btn-delete permission-remove" href="javascript:void(0)" onclick="trash('.$deleteParam.');" datatip="Remove" flow="down"><i class="ti-trash"></i></a>';
+
+    $action = getActionButton($editButton.$deleteButton);
+
+    return [$action,$data->sr_no,$data->polish,$data->remark];
+}
+
+function getColorData($data){
+    $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Color'}";
+    $editParam = "{'postData':{'id' : ".$data->id."},'modal_id' : 'modal-md', 'form_id' : 'edit', 'title' : 'Update Color'}";
+
+    $editButton = '<a class="btn btn-success btn-edit permission-modify" href="javascript:void(0)" datatip="Edit" flow="down" onclick="edit('.$editParam.');"><i class="ti-pencil-alt"></i></a>';
+    $deleteButton = '<a class="btn btn-danger btn-delete permission-remove" href="javascript:void(0)" onclick="trash('.$deleteParam.');" datatip="Remove" flow="down"><i class="ti-trash"></i></a>';
+
+    $action = getActionButton($editButton.$deleteButton);
+
+    return [$action,$data->sr_no,$data->color,$data->remark];
+}
+
+function getClarityData($data){
+    $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Clarity'}";
+    $editParam = "{'postData':{'id' : ".$data->id."},'modal_id' : 'modal-md', 'form_id' : 'edit', 'title' : 'Update Clarity'}";
+
+    $editButton = '<a class="btn btn-success btn-edit permission-modify" href="javascript:void(0)" datatip="Edit" flow="down" onclick="edit('.$editParam.');"><i class="ti-pencil-alt"></i></a>';
+    $deleteButton = '<a class="btn btn-danger btn-delete permission-remove" href="javascript:void(0)" onclick="trash('.$deleteParam.');" datatip="Remove" flow="down"><i class="ti-trash"></i></a>';
+
+    $action = getActionButton($editButton.$deleteButton);
+
+    return [$action,$data->sr_no,$data->clarity,$data->remark];
 }

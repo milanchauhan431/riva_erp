@@ -67,6 +67,11 @@ class MY_Controller extends CI_Controller{
 		$this->load->model('ItemCategoryModel','itemCategory');
 		$this->load->model('BrandMasterModel','brandMaster');
 		$this->load->model('SizeMasterModel','sizeMaster');
+		$this->load->model('PurityModel','purity');
+		$this->load->model('FineModel','fine');
+		$this->load->model('PolishModel','polish');
+		$this->load->model('ColorModel','color');
+		$this->load->model('ClarityModel','clarity');
 		$this->load->model('ItemModel','item');
 
 		/* Sales Model */
@@ -106,7 +111,7 @@ class MY_Controller extends CI_Controller{
 		/* Estimation Model [Cash Entry] */
 		$this->load->model("EstimateModel",'estimate');
 
-		$this->setSessionVariables(["masterModel","dashboard","permission","terms","transport","hsnModel","materialGrade","itemCategory","brandMaster","sizeMaster","item","department","designation","employeeCategory","shiftModel","employee","party","transMainModel","taxMaster","expenseMaster","salesOrder","purchaseOrder","purchaseIndent","vehicleType","storeLocation","gateEntry","gateInward","salesInvoice","estimate","paymentVoucher","leads","salesEnquiry","salesQuotation","gstExpense","gstIncome","journalEntry","creditNote","debitNote"]);
+		$this->setSessionVariables(["masterModel","dashboard","permission","terms","transport","hsnModel","materialGrade","itemCategory","brandMaster","sizeMaster","purity","fine","polish", "color", "clarity", "item","department","designation","employeeCategory","shiftModel","employee","party","transMainModel","taxMaster","expenseMaster","salesOrder","purchaseOrder","purchaseIndent","vehicleType","storeLocation","gateEntry","gateInward","salesInvoice","estimate","paymentVoucher","leads","salesEnquiry","salesQuotation","gstExpense","gstIncome","journalEntry","creditNote","debitNote"]);
 	}
 
 	public function setSessionVariables($modelNames){

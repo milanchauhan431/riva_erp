@@ -60,7 +60,6 @@ $(document).ready(function(){
 	ssTableInit();
 	initMultiSelect();
 	checkPermission();
-	initModalSelect();
 	setMinMaxDate();
 	$(".single-select").comboSelect();setPlaceHolder();
 	$('.select2').select2({ width: null});
@@ -121,7 +120,7 @@ $(document).ready(function(){
 
         $.ajax({ 
             type: "post",   
-            url: base_url + controllerName + '/' + functionName,   
+            url: base_url + controllerName + '/' + functionName,
             data: postData
         }).done(function(response){
             $("#"+modalId).modal({show:true});
@@ -153,13 +152,7 @@ $(document).ready(function(){
                 $("#"+modalId+" .modal-footer .btn-save").show();
             }
 
-			initModalSelect();
-			$(".single-select").comboSelect();
-	        $('.select2').select2({with:null});
-			//$('.model-select2').select2({ dropdownParent: $('.model-select2').parent() });
-			$("#processDiv").hide();
-			$("#"+modalId+" .scrollable").perfectScrollbar({suppressScrollX: true});
-			setTimeout(function(){ initMultiSelect();setPlaceHolder(); }, 5);
+			initModalPlugin(modalId);
         });
     });	
 
@@ -496,7 +489,6 @@ function setPlaceHolder(){
 }
 
 function initMultiSelect(){
-    //$(".jp_multiselect option:selected").prependTo(".jp_multiselect");
 	$('.jp_multiselect').multiselect({
 		includeSelectAllOption:false,
 		enableFiltering:true,
@@ -505,8 +497,6 @@ function initMultiSelect(){
 		onChange: function() {
 			var inputId = this.$select.data('input_id');
 			var selected = this.$select.val();$('#' + inputId).val(selected);
-			//$(".jp_multiselect option:selected").prependTo(".jp_multiselect");
-		    //reInitMultiSelect();
 		}
 	});
 	$('.form-check-input').addClass('filled-in');
@@ -584,15 +574,15 @@ function initTable(postData = {}){
 	}	
 }
 
-function initDataTable(){
-	var table = $('#commanTable').DataTable( {
+function initDataTable(tableId = "commanTable"){
+	var table = $('#'+tableId).DataTable( {
 		lengthChange: false,
 		responsive: true,
 		'stateSave':true,
 		retrieve: true,
 		buttons: [ 'pageLength','copy', 'excel' ]
 	});
-	table.buttons().container().appendTo( '#commanTable_wrapper .col-md-6:eq(0)' );
+	table.buttons().container().appendTo( '#'+tableId+'_wrapper .col-md-6:eq(0)' );
 	return table;
 };
 
@@ -805,12 +795,7 @@ function edit(data){
 			$("#"+data.modal_id+" .modal-footer .btn-save").show();
 		}
 
-		initModalSelect();
-		$(".single-select").comboSelect();
-		$('.select2').select2({with:null});
-		//$('.model-select2').select2({ dropdownParent: $('.model-select2').parent() });
-		$("#"+data.modal_id+" .scrollable").perfectScrollbar({suppressScrollX: true});
-		initMultiSelect();setPlaceHolder();
+		initModalPlugin(data.modal_id);
 	});
 }
 
@@ -1030,7 +1015,17 @@ function toFixTableHeader(){
 	checkPermission();
 }
 
-function initModalSelect(){$('.select2').select2({ width: null});}
+function initModalPlugin(modalId){
+	$("#"+modalId+" .single-select").comboSelect();
+	$("#"+modalId+" .select2").select2({with:null});
+	$("#"+modalId+" .scrollable").perfectScrollbar({suppressScrollX: true});
+	setTimeout(function(){ 
+		initMultiSelect();setPlaceHolder();
+	}, 5);
+	setTimeout(function(){
+		$('#'+modalId+' input[type="text"]:first').focus();
+	},500);
+}
 
 function formatResult(node) {
     var level = "1";
