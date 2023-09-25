@@ -90,10 +90,6 @@ class Items extends MY_Controller{
         $this->data['unitData'] = $this->item->itemUnits();
         $this->data['categoryList'] = $this->itemCategory->getCategoryList(['category_type'=>$itemDetail->item_type,'final_category'=>1]);
         $this->data['hsnData'] = $this->hsnModel->getHSNList();
-        if($itemDetail->item_type):
-            $this->data['brandList'] = $this->brandMaster->getBrandList();
-            $this->data['sizeList'] = $this->sizeMaster->getSizeList();
-        endif;
         $this->load->view($this->form,$this->data);
     }
 
