@@ -1,2 +1,1 @@
-# admix
-Nativebit Technologies
+# RIVA ERP
