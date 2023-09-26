@@ -70,5 +70,23 @@ class Dashboard extends MY_Controller{
         </table>';
 		$this->printJson(['status'=>1,"decodeData"=>$decodeData]);
     }
+	public function saveTodo(){
+        $data = file_get_contents('php://input'); 
+        $data = json_decode($data,true);
+        
+        $this->printJson($this->dashboard->saveTodo($data));
+    }
+    
+    public function getTodoList(){
+        $data = $this->input->get();
+        //print_r($data);exit;
+        $this->printJson($this->dashboard->getTodoList($data));
+    }
+    
+    public function deleteTodo(){
+        $data = file_get_contents('php://input'); 
+        $data = json_decode($data,true);
+        $this->printJson($this->dashboard->deleteTodo($data['id']));
+    }
 }
 ?>

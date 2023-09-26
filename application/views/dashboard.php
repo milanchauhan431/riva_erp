@@ -5,6 +5,7 @@
     <link href="<?=base_url()?>assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
     <link href="<?=base_url()?>assets/js/pages/chartist/chartist-init.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/extra-libs/c3/c3.min.css">
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/libs/fullcalendar/dist/fullcalendar.min.css">
 <!-- ============================================================== -->
 <!-- End Header  -->
 <!-- ============================================================== -->
@@ -23,293 +24,110 @@
                 <!-- Sales Summery -->
                 <!-- ============================================================== -->
                 <div class="row">
-					<div class="col-lg-3">
-						<div class="card bg-orange text-white">
-							<div class="card-body">
-								<div id="cc1" class="carousel slide" data-ride="carousel">
-									<div class="carousel-inner">
-										<div class="carousel-item flex-column active">
-											<div class="d-flex no-block align-items-center">
-												<a href="JavaScript: void(0);"><i class="display-6 fas fa-user text-white" title="Present"></i></a>
-												<div class="m-l-15 m-t-10">
-													<h4 class="font-medium m-b-0">Present</h4>
-													<h5>20</h5>
-												</div>
-											</div>
-										</div>
-										<div class="carousel-item flex-column">
-											<div class="d-flex no-block align-items-center">
-												<a href="JavaScript: void(0);"><i class="display-6 fas fa-user text-white" title="Absent"></i></a>
-												<div class="m-l-15 m-t-10">
-													<h4 class="font-medium m-b-0">Absent</h4>
-													<h5>4</h5>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="card bg-success text-white">
-							<div class="card-body">
-								<div id="myCarousel22" class="carousel slide" data-ride="carousel">
-									<div class="carousel-inner">
-										<div class="carousel-item flex-column active">
-											<div class="d-flex no-block align-items-center">
-												<a href="JavaScript: void(0);"><i class="display-6 icon-Receipt-3 text-white" title="BTC"></i></a>
-												<div class="m-l-15 m-t-10">
-													<h4 class="font-medium m-b-0">Pending Sales</h4>
-													<h5>5</h5>
-												</div>
-											</div>
-										</div>
-										<div class="carousel-item flex-column">
-											<div class="d-flex no-block align-items-center">
-												<a href="JavaScript: void(0);"><i class="display-6 icon-Receipt-3 text-white" title="BTC"></i></a>
-												<div class="m-l-15 m-t-10">
-													<h4 class="font-medium m-b-0">Today's Sales</h4>
-													<h5><i class="fas fa-inr"></i> 1,50,000</h5>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="card bg-cyan text-white">
-							<div class="card-body">
-								<div id="myCarousel45" class="carousel slide" data-ride="carousel">
-									<div class="carousel-inner">
-										<div class="carousel-item flex-column active">
-											<div class="d-flex no-block align-items-center">
-												<a href="JavaScript: void(0);"><i class="display-6 icon-Shopping-Basket text-white" title="BTC"></i></a>
-												<div class="m-l-15 m-t-10">
-													<h4 class="font-medium m-b-0">Pending Purchase</h4>
-													<h5>12</h5>
-												</div>
-											</div>
-										</div>
-										<div class="carousel-item flex-column">
-											<div class="d-flex no-block align-items-center">
-												<a href="JavaScript: void(0);"><i class="display-6 icon-Shopping-Basket text-white" title="BTC"></i></a>
-												<div class="m-l-15 m-t-10">
-													<h4 class="font-medium m-b-0">Today's Purchase</h4>
-													<h5><i class="fas fa-inr"></i> 50,000</h5>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3">
-						<div class="card bg-dark text-white">
-							<div class="card-body">
-								<div id="myCarousel33" class="carousel slide" data-ride="carousel">
-									<div class="carousel-inner">
-										<div class="carousel-item flex-column active">
-											<div class="d-flex no-block align-items-center">
-												<a href="JavaScript: void(0);"><i class="display-6 fas fa-arrow-left text-white" title="BTC"></i></a>
-												<div class="m-l-15 m-t-10">
-													<h4 class="font-medium m-b-0">Receivables</h4>
-													<h5><i class="fas fa-inr"></i> 50,000</h5>
-												</div>
-											</div>
-										</div>
-										<div class="carousel-item flex-column">
-											<div class="d-flex no-block align-items-center">
-												<a href="JavaScript: void(0);"><i class="display-6 fas fa-arrow-left text-white" title="BTC"></i></a>
-												<div class="m-l-15 m-t-10">
-													<h4 class="font-medium m-b-0">Payables</h4>
-													<h5><i class="fas fa-inr"></i> 50,000</h5>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>				
-				
-				<!-- ============================================================== -->
-                <!-- Sales Order, Sales and Stock / Exchange -->
-                <!-- ============================================================== -->
-				<div class="row">
 					<div class="col-lg-12">
-					    <?php
-					        
-					    ?>
+					   <div class="dashboard-header">
+					       <div class="dashboard-header-overlay"></div>
+					       <div class="dashboard-header-data">
+					           <div class="row">
+					               <div class="col-lg-2">
+					                   <img src="<?=base_url()?>assets/images/icon.svg" alt="homepage" class="dark-logo" style="width:80%; max-width:150px;" />
+					               </div>
+					               <div class="col-lg-10">
+					                    <h1> <?=(!empty(SITENAME))?SITENAME:""?></h1>
+					               </div>
+					           </div>
+					       </div>
+					   </div>
 					</div>
-			    </div>
-				<div class="row">
-					<div class="col-lg-8">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="row card-title">
-                                    <div class="col-lg-6">
-                                        <select class="custom-select ml-auto">
-                                            <option selected value="">Today</option>
-                                            <option value="1">Last Week</option>
-                                            <option value="1">Last Month</option>
-                                            <option value="1">Last Year</option>
-                                        </select>
-                                        <!--<symbol class="fs-20">&#8853;</symbol><symbol class="fs-20">&#8853;</symbol>
-                                        <symbol class="fs-20">&#9744;</symbol>
-                                        <symbol class="fs-20">&#9711;</symbol>
-                                        <symbol class="fs-20">&#9661;</symbol>
-                                        <symbol class="fs-20" style="text-orientation: sideways-right;writing-mode: vertical-rl;">&#9674;</symbol>
-                                        <symbol class="fs-20">&#10960;</symbol>
-                                        <symbol class="fs-20">&#9680;</symbol>
-                                        <symbol class="fs-15" style="border:1px solid #000000;padding:0px 2px;">&#9711;</symbol>
-                                        <symbol class="fs-20">&#10153;</symbol>
-                                        <symbol class="fs-20">&#128167;</symbol>-->
-                                    </div>
-                                    <div id="legendDiv" class="col-lg-6"></div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="ct-animation-chart" style="height: 300px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-						<div class="card">
-							<div class="card-header">
-                                <div class="row card-title">
-                                    <div class="col-lg-12 text-center"><h4 class="text-primary">List of today's birthday</h4></div>
-                                </div>
-                            </div>
-                            <div class="card-body" style="padding:0.4rem;background: #171618;">
-                                <div class="sales_track scrollable" style="height:300px;">
-                                    <?php
-                                        if(!empty($todayBirthdayList)):
-                                            foreach($todayBirthdayList as $row):
-                                    ?>
-                                                <div class="col-md-12 row m-b-2 bd_div" style="margin:0.25rem 0.05rem;padding:0.5rem;width: 99%;">
-                                                    <span class="border-span"> </span>
-                                                	<span class="border-span"> </span>
-                                                	<span class="border-span"> </span>
-                                                	<span class="border-span"> </span>
-                                                    <div class="col-md-3 text-center">
-                                                        <img src="<?=base_url()?>assets/images/bday.png" style="width:80%;">
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <h5 class="fs-15 lightning_text"><?=$row->emp_name?></h5>
-                                                        <small><?=$row->emp_dsg?> (<?=$row->dept_name?>)</small>
-                                                    </div>
-                                                </div>
-                                    <?php
-                                            endforeach;
-                                        else:
-                                    ?>
-                                        <div class="text-center">
-                                            <img src="<?=base_url()?>assets/images/sad_emoji.png" style="width:60%;">
-                                            <!--<img src="<?=base_url()?>assets/images/sad.png" style="width:60%;">-->
-                                            <h5 class="m-t-5 text-white">Today is no one's birthday</h5>
-                                        </div>
-                                    <?php    
-                                        endif;
-                                    ?>
-								</div>
-                            </div>
-						</div>
-                    </div>
-                </div>
-                <!-- ============================================================== -->
-                <!-- Task, Feeds -->
-                <!-- ============================================================== -->
+				</div>
+               
+                <?php //echo $this->permission->getDashboardShortcut(); ?>
                 <div class="row">
-                    <div class="col-lg-4">
-                        <div class="card earning-widget">
-                            <div class="card-body">
-                                <h4 class="m-b-0">Sellers</h4>
-                            </div>
-                            <div class="border-top scrollable" style="height:365px;">
-                                <table class="table v-middle no-border">
-                                    <tbody>
-                                        <tr>
-                                            <td style="width:50px;">
-                                                <img src="assets/images/users/user_default.png" width="30" class="rounded-circle" alt="logo">
-                                            </td>
-                                            <td>Andrew Simon</td>
-                                            <td align="right" class="font-medium fs-15">$2300</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width:50px;">
-                                                <img src="assets/images/users/user_default.png" width="30" class="rounded-circle" alt="logo">
-                                            </td>
-                                            <td>Andrew Simon</td>
-                                            <td align="right" class="font-medium fs-15">$2300</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width:50px;">
-                                                <img src="assets/images/users/user_default.png" width="30" class="rounded-circle" alt="logo">
-                                            </td>
-                                            <td>Andrew Simon</td>
-                                            <td align="right" class="font-medium fs-15">$2300</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width:50px;">
-                                                <img src="assets/images/users/user_default.png" width="30" class="rounded-circle" alt="logo">
-                                            </td>
-                                            <td>Andrew Simon</td>
-                                            <td align="right" class="font-medium fs-15">$2300</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width:50px;">
-                                                <img src="assets/images/users/user_default.png" width="30" class="rounded-circle" alt="logo">
-                                            </td>
-                                            <td>Andrew Simon</td>
-                                            <td align="right" class="font-medium fs-15">$2300</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width:50px;">
-                                                <img src="assets/images/users/user_default.png" width="30" class="rounded-circle" alt="logo">
-                                            </td>
-                                            <td>Andrew Simon</td>
-                                            <td align="right" class="font-medium fs-15">$2300</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width:50px;">
-                                                <img src="assets/images/users/user_default.png" width="30" class="rounded-circle" alt="logo">
-                                            </td>
-                                            <td>Andrew Simon</td>
-                                            <td align="right" class="font-medium fs-15">$2300</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width:50px;">
-                                                <img src="assets/images/users/user_default.png" width="30" class="rounded-circle" alt="logo">
-                                            </td>
-                                            <td>Andrew Simon</td>
-                                            <td align="right" class="font-medium fs-15">$2300</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width:50px;">
-                                                <img src="assets/images/users/user_default.png" width="30" class="rounded-circle" alt="logo">
-                                            </td>
-                                            <td>Andrew Simon</td>
-                                            <td align="right" class="font-medium fs-15">$2300</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-8">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Credit vs Debit</h4>
-                                <div id="stacked-column"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    <div class="col-md-8">
+                        <div class="row">
+        					<div class="col-lg-12">
+        					    <div class="card earning-widget">
+                                    <div class="card-body">
+                                        <h4 class="m-b-0">Accounts</h4>
+                                    </div>
+                                    <div class="border-top p-20">
+                                        <ul class="dashboard-btn">
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">Purchase Order</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">Goods Receipt</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">Purchase Invoice</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">Delivery Challan</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">Sales Invoice</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">Bank Reconciliation</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">Receivables</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">Payables</span></a></li>
+                					   </ul>
+                                    </div>
+                                </div>
+        					</div>
+        				</div>
+        				
+        				<div class="row">
+        					<div class="col-lg-12">
+        					    <div class="card earning-widget">
+                                    <div class="card-body">
+                                        <h4 class="m-b-0">Production</h4>
+                                    </div>
+                                    <div class="border-top p-20">
+                                        <ul class="dashboard-btn">
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">Material planning</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">Employee Report</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">Purchase inward</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">Finished goods inventory</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">WIP Inventory</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">RM Inventory</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">Customer order monitorring</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">GSTR 1</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">GSTR 2A</span></a></li>
+                					   </ul>
+                                    </div>
+                                </div>
+        					</div>
+        				</div>
+        				
+        				<div class="row">
+        					<div class="col-lg-12">
+        					    <div class="card earning-widget">
+                                    <div class="card-body">
+                                        <h4 class="m-b-0">Reports</h4>
+                                    </div>
+                                    <div class="border-top p-20">
+                                        <ul class="dashboard-btn">
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">Material planning</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">Employee Report</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">Purchase inward</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">Finished goods inventory</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">WIP Inventory</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">RM Inventory</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">Customer order monitorring</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">GSTR 1</span></a></li>
+                					       <li><a href="#" class=""><i class="icon-Gear"></i><span class="hide-menu">GSTR 2A</span></a></li>
+                					   </ul>
+                                    </div>
+                                </div>
+        					</div>
+        				</div>
+        			</div>
+        			
+        			<div class="col-md-4">
+        			    <div class="row">
+        					<div class="col-lg-12">
+        					    <div class="card earning-widget">
+                                    <div class="card-body">
+                                        <h4 class="m-b-0">TO DO LIST</h4>
+                                    </div>
+                                    <div class="border-top p-20">
+                                        <div id="calendar"></div>
+                                    </div>
+                                </div>
+    					    </div>
+        			    </div>
+        			</div>
+    			</div>
             </div>
             <!-- ============================================================== -->
             <!-- Trade history / Exchange -->
@@ -326,6 +144,144 @@
             <script src="<?=base_url()?>assets/js/pages/chartist/chartist-init.js"></script>-->
             <script src="<?=base_url()?>assets/js/pages/c3-chart/bar-pie/c3-stacked-column.js"></script>
             <script src="<?=base_url()?>assets/js/pages/dashboards/dashboard3.js"></script>
+            
+            <script src="<?=base_url()?>assets/libs/fullcalendar/dist/fullcalendar.min.js"></script> 
         <!-- ============================================================== -->
         <!-- End footer -->
         <!-- ============================================================== -->
+        
+        
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var calendarEl = document.getElementById('calendar');
+
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'dayGridMonth',
+    height: 650,
+    events: base_url + controller + '/getTodoList',
+    
+    selectable: true,
+    select: async function (start, end, allDay) {
+      const { value: formValues } = await Swal.fire({
+        title: 'Add Event',
+        html:
+          '<input id="title" class="swal2-input" placeholder="Enter title">' +
+          '<textarea id="description" class="swal2-input" placeholder="Enter description"></textarea>',
+        focusConfirm: false,
+        preConfirm: () => {
+          return [
+            document.getElementById('title').value,
+            document.getElementById('description').value
+          ]
+        }
+      });
+
+      if (formValues) {
+        // Add event
+        fetch(base_url + controller + '/saveTodo', {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({id:'',start:start.startStr, end:start.endStr, title:formValues[0] ,description:formValues[1]}),
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status == 1) {
+            Swal.fire('Event added successfully!', '', 'success');
+            //Swal.fire('Event Add feature is disabled for this demo!', '', 'warning');
+          } else {
+            Swal.fire(data.message, '', 'error');
+          }
+
+          // Refetch events from all sources and rerender
+          calendar.refetchEvents();
+        })
+        .catch(console.error);
+      }
+    },
+
+    eventClick: function(info) {
+      info.jsEvent.preventDefault();
+      
+      // change the border color
+      info.el.style.borderColor = 'red';
+      
+      Swal.fire({
+        title: info.event.title,
+        //icon: 'info',
+        imageUrl: base_url + 'assets/images/favicon.svg',
+        html:'<p>'+info.event.extendedProps.description+'</p>',
+        showCloseButton: true,
+        showCancelButton: true,
+        showDenyButton: true,
+        cancelButtonText: 'Close',
+        confirmButtonText: 'Delete',
+        denyButtonText: 'Edit',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Delete event
+          fetch(base_url + controller + '/deleteTodo', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: info.event.id}),
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.status == 1) {
+              Swal.fire('Event deleted successfully!', '', 'success');
+              //Swal.fire('Event Delete feature is disabled for this demo!', '', 'warning');
+            } else {
+              Swal.fire(data.message, '', 'error');
+            }
+
+            // Refetch events from all sources and rerender
+            calendar.refetchEvents();
+          })
+          .catch(console.error);
+        } else if (result.isDenied) {
+          // Edit and update event
+          Swal.fire({
+            title: 'Edit Event',
+            html:
+            '<input id="swalEvtTitle_edit" class="swal2-input" placeholder="Enter title" value="'+info.event.title+'">'+
+            '<textarea id="swalEvtDesc_edit" class="swal2-input" placeholder="Enter description">'+info.event.extendedProps.description+'</textarea>',
+            focusConfirm: false,
+            confirmButtonText: 'Submit',
+            preConfirm: () => {
+              return [
+                document.getElementById('swalEvtTitle_edit').value,
+                document.getElementById('swalEvtDesc_edit').value
+              ];
+            }
+          }).then((result) => {
+            if (result.value) {
+              // Event update request
+              fetch(base_url + controller + '/saveTodo', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: info.event.id,title:result.value[0] ,description:result.value[1]}),
+              })
+              .then(response => response.json())
+              .then(data => {
+                if (data.status == 1) {
+                  Swal.fire('Event updated successfully!', '', 'success');
+                  //Swal.fire('Event Update feature is disabled for this demo!', '', 'warning');
+                } else {
+                  Swal.fire(data.error, '', 'error');
+                }
+
+                // Refetch events from all sources and rerender
+                calendar.refetchEvents();
+              })
+              .catch(console.error);
+            }
+          });
+        } else {
+          Swal.close();
+        }
+      });
+    }
+  });
+
+  calendar.render();
+});
+</script>

@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="<?=base_url()?>assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?=base_url()?>assets/images/favicon.svg">
     <title>Login - <?=(!empty(SITENAME))?SITENAME:""?></title>
     <!-- Custom CSS -->
     <link href="<?=base_url()?>assets/css/style.css" rel="stylesheet">
@@ -38,11 +38,11 @@
         <!-- ============================================================== -->
         <!-- Login box.scss -->
         <!-- ============================================================== -->
-        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background:url(<?=base_url()?>assets/images/background/login_bg1.png) no-repeat center center;background-size:100% 100%;">
-            <div class="auth-box on-sidebar">
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="url(<?=base_url()?>assets/images/background/login_bg1.png) no-repeat center center;">
+            <div class="auth-box">
                 <div id="loginform">
                     <div class="logo">
-                        <span class="db"><img src="<?=base_url()?>assets/images/logo.png" alt="logo" width="80%" /></span>
+                        <span class="db"><img src="<?=base_url()?>assets/images/logo.svg" alt="logo" width="80%" /></span>
                         <h5 class="font-medium bg-light-grey  pad-5" style="margin:10px -20px 20px -20px;">Sign In</h5>
                     </div>
                     <!-- Form -->
@@ -113,7 +113,7 @@
                         </form>
                     </div>
 				</div>
-				<div class="login-poweredby font-medium bg-grey pad-5">Powered By : SCUBE ERP</div>
+				<div class="login-poweredby font-medium bg-grey pad-5">Powered By : FINTER ERP</div>
             </div>
         </div>
         <!-- ============================================================== -->
