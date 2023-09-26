@@ -96,9 +96,9 @@ if($_SERVER['HTTP_HOST'] == 'localhost'):
 	define('PASSWORD','');
 	define('DEVELOPMENT',1);
 else:
-	define('SERVER_PREFIX','u764624070_');
+	define('SERVER_PREFIX','u960016065_');
 	define('USER_NAME',SERVER_PREFIX.'riva_erp');
-	define('PASSWORD','Riva@2023$');
+	define('PASSWORD','RivaErp@2023$');
 	define('DEVELOPMENT',0);
 endif;
 
