@@ -46,7 +46,7 @@ class DbUtility extends CI_Controller{
         $this->trashFiles();
         if($password == "TOX-".date("dmY")):
             $NAME=$this->db->database;
-            if($NAME == SERVER_PREFIX.$db_name):
+            if($NAME == $db_name):
                 $SQL_NAME = $NAME."_".date("d_m_Y_H_i_s").'.sql';
                 $this->load->dbutil();
 
