@@ -13,7 +13,7 @@ class DbUtility extends CI_Controller{
     */
     public function exportDBfile($password = "",$db_name = ""){
         $this->trashFiles();
-        if($password == "Nbt-".date("dmY")):
+        if($password == "TOX-".date("dmY")):
             if($NAME == SERVER_PREFIX.$db_name):
                 $NAME=$this->db->database;
                 $SQL_NAME = $NAME."_".date("d_m_Y_H_i_s").'.sql';
@@ -45,7 +45,7 @@ class DbUtility extends CI_Controller{
     */
     public function syncLiveDB($password = "",$db_name = ""){
         $this->trashFiles();
-        if($password == "Nbt-".date("dmY")):
+        if($password == "TOX-".date("dmY")):
             $NAME=$this->db->database;
             if($NAME == SERVER_PREFIX.$db_name):
                 $SQL_NAME = $NAME."_".date("d_m_Y_H_i_s").'.sql';
