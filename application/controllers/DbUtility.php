@@ -177,7 +177,7 @@ class DbUtility extends CI_Controller{
                         $this->db->trans_commit();
                         print json_encode(['status'=>1,'message'=>"SQL Querys Executed successfully."]);exit;
                     endif;
-                }catch(\Exception $e){
+                }catch(\Throwable $e){
                     $this->db->trans_rollback();
                     print json_encode(['status'=>2,'message'=>"somthing is wrong. Error : ".$e->getMessage()]);exit;
                 }
