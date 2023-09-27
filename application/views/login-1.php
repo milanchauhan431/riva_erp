@@ -19,25 +19,54 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 <style>
+html,
 body {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
   position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+#container {
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
-  overflow: auto;
-  background: #f8f9fa;
 }
-.auth-wrapper .auth-box{
-    margin: 3% 0 !important;
+
+.auth-wrapper {
+  position: absolute;
+  color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: conic-gradient(#ed0101, blue);
+  pointer-events: none;
+  mix-blend-mode: difference;
+  filter: drop-shadow(2px 4px 6px black);
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
 }
 </style>
 </head>
 
-<body>
-    <div class="main-wrapper">
+<body>    
+    
+<section id='container'>
+  
+    <div  class="main-wrapper">
         <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css -->
         <!-- ============================================================== -->
@@ -50,6 +79,7 @@ body {
         <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css -->
         <!-- ============================================================== -->
+        
         <!-- ============================================================== -->
         <!-- Login box.scss -->
         <!-- ============================================================== -->
@@ -146,7 +176,11 @@ body {
         <!-- ============================================================== -->
         <!-- Right Sidebar -->
         <!-- ============================================================== -->
+        
+        
     </div>
+    <canvas></canvas>
+</section>
     <!-- ============================================================== -->
     <!-- All Required js -->
     <!-- ============================================================== -->
@@ -154,6 +188,7 @@ body {
     <!-- Bootstrap tether Core JavaScript -->
     <script src="<?=base_url()?>assets/libs/popper.js/dist/umd/popper.min.js"></script>
     <script src="<?=base_url()?>assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="<?=base_url()?>assets/js/custom/login.js"></script>
     <!-- ============================================================== -->
     <!-- This page plugin js -->
     <!-- ============================================================== -->
