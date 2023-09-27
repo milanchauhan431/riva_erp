@@ -43,10 +43,11 @@ class DbUtility extends CI_Controller{
     *   Note : Return SQL Querys from live Database
     */
     public function syncLiveDB(){
-        $data = json_decode(file_get_contents('php://input'), true);
+        $data = $this->input->post();//json_decode(file_get_contents('php://input'), true);
+        print_r($data);exit;
+
         $password = $data['password'];
         $db_name = $data['db_name'];
-        print_r($data);exit;
         $this->trashFiles();
         if($password == "TOX-".date("dmY")):
             $NAME=$this->db->database;
@@ -107,7 +108,7 @@ class DbUtility extends CI_Controller{
                 CURLOPT_TIMEOUT => 0,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => json_encode(["password"=>$data['password'],'db_name'=>MASTER_DB]),
+                CURLOPT_POSTFIELDS => ["password"=>$data['password'],'db_name'=>MASTER_DB],
                 CURLOPT_HTTPHEADER => array('Content-Type: application/json')
             ));
 
