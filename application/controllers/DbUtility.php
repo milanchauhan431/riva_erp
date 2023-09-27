@@ -42,8 +42,8 @@ class DbUtility extends CI_Controller{
     *   Required Data : password
     *   Note : Return SQL Querys from live Database
     */
-    public function syncLiveDB(){
-        print json_encode(['status'=>0,'message'=>"Invalid DB name.",'db_file'=>""]);exit;
+    public function syncLiveDB($password="",$db_name=""){
+        print json_encode(['status'=>$password,'message'=>"Invalid Password.",'db_file'=>$db_name]);exit;
         $data = $this->input->post();//json_decode(file_get_contents('php://input'), true);
         
 
@@ -101,7 +101,7 @@ class DbUtility extends CI_Controller{
 
             $curlSync = curl_init();
             curl_setopt_array($curlSync, array(
-                CURLOPT_URL => LIVE_LINK."dbUtility/syncLiveDB",
+                CURLOPT_URL => LIVE_LINK."dbUtility/syncLiveDB/".$data['password']."/".MASTER_DB,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_ENCODING => "",
