@@ -42,11 +42,14 @@ class DbUtility extends CI_Controller{
     *   Required Data : password
     *   Note : Return SQL Querys from live Database
     */
-    public function syncLiveDB($password = "",$db_name = ""){
+    public function syncLiveDB(){
+        $data = json_decode(file_get_contents('php://input'), true);
+        $password = $data['password'];
+        $db_name = $data['db_name'];
         $this->trashFiles();
         if($password == "TOX-".date("dmY")):
             $NAME=$this->db->database;
-            if($NAME == $db_name):
+            if($NAME == SERVER_PREFIX.$db_name):
                 $SQL_NAME = $NAME."_".date("d_m_Y_H_i_s").'.sql';
                 $this->load->dbutil();
 
@@ -95,14 +98,15 @@ class DbUtility extends CI_Controller{
 
             $curlSync = curl_init();
             curl_setopt_array($curlSync, array(
-                CURLOPT_URL => LIVE_LINK."dbUtility/syncLiveDB/".$data['password']."/".MASTER_DB,
+                CURLOPT_URL => LIVE_LINK."dbUtility/syncLiveDB",
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_ENCODING => "",
                 CURLOPT_MAXREDIRS => 10,
                 CURLOPT_TIMEOUT => 0,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "GET",
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => json_encode(["password"=>$data['password'],'db_name'=>MASTER_DB]),
                 CURLOPT_HTTPHEADER => array('Content-Type: application/json')
             ));
 
