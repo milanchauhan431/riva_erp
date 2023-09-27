@@ -46,6 +46,7 @@ class DbUtility extends CI_Controller{
         $data = json_decode(file_get_contents('php://input'), true);
         $password = $data['password'];
         $db_name = $data['db_name'];
+        print_r($data);exit;
         $this->trashFiles();
         if($password == "TOX-".date("dmY")):
             $NAME=$this->db->database;
@@ -118,6 +119,7 @@ class DbUtility extends CI_Controller{
                 print json_encode(['status'=>0,'message'=>'Somthing went wrong. cURL Error #: '. $error]);exit;
             else:
                 $response = json_decode($response);	
+                print_r($response);exit;
                 if($response->status == 0):
                     print json_encode(['status'=>0,'message'=>'Somthing went wrong. Error #: '. $response->message]);exit;
                 else:
