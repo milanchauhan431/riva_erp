@@ -168,11 +168,19 @@ class DbUtility extends CI_Controller{
         if($password == "TOX-".date("dmY")):
             $NAME=$this->db->database;
             if($NAME == SERVER_PREFIX.$db_name):
-                if($this->db->query($data['querys'])):
-                    print json_encode(['status'=>1,'message'=>"SQL Querys Executed successfully."]);exit;
-                else:
-                    print json_encode(['status'=>0,'message'=>"SQL Querys Execution Failed."]);exit;
-                endif;   
+                try{
+                    $this->db->trans_begin();
+
+                    $this->db->query($data['querys']);
+
+                    if ($this->db->trans_status() !== FALSE):
+                        $this->db->trans_commit();
+                        print json_encode(['status'=>1,'message'=>"SQL Querys Executed successfully."]);exit;
+                    endif;
+                }catch(\Exception $e){
+                    $this->db->trans_rollback();
+                    print json_encode(['status'=>2,'message'=>"somthing is wrong. Error : ".$e->getMessage()]);exit;
+                }
             else:
                 print json_encode(['status'=>0,'message'=>"Invalid DB name."]);exit;
             endif;
