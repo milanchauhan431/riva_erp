@@ -1412,7 +1412,7 @@ pre {
   color: #3e5569; }
   .table th,
   .table td {
-    padding: 0.20rem; padding:0px 4px;
+    padding: 0.20rem; padding:5px 4px;
     vertical-align: top;
     border-top: 1px solid #e9ecef; 
 	vertical-align:middle;}
@@ -9731,6 +9731,7 @@ html body .waves-notransition {
   color: #333;
  /* background-color: #565656;*/ 
  background-color: #e0ca9f !important;
+ margin: 2px;
 }
 
 .btn-pinterest {
