@@ -2358,7 +2358,8 @@ span.multiselect-native-select select {
 #bs-collapse  .panel {border-radius: 0;}
 #bs-collapse .panel + .panel {margin-top: 0;}
 #bs-collapse .panel-heading {
-	background-color: #009688;
+	/* background-color: #009688; */
+	background-color: #d7b56e;
 	border-radius: 0;
 	border: none;
 	color: #fff;
@@ -2700,10 +2701,10 @@ span.multiselect-native-select select {
     float: right;
 }
 .report .btn-report {
-    background-color: #332b6f;
+    background-color: #d7b56e;
     border-color: transparent !important;
     color: #fff;
-    box-shadow: 0 2px 6px #acb5f6;
+    /* box-shadow: 0 2px 6px #acb5f6; */
     border-radius: 0.25rem;
     padding: 0.2rem 0.8rem;
 }
