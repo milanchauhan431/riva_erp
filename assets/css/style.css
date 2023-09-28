@@ -9722,15 +9722,16 @@ html body .waves-notransition {
 
 .btn-googleplus {
   color: #fff;
-  /* background-color: #dd4b39; */
-  background-color: #e0ca9f;
+  background-color: #dd4b39;
 }
   .btn-googleplus:hover {
     color: #fff; }
 
 .btn-instagram {
   color: #333;
- /* background-color: #565656;*/ }
+ /* background-color: #565656;*/ 
+ background-color: #e0ca9f !important;
+}
 
 .btn-pinterest {
   color: #fff;
