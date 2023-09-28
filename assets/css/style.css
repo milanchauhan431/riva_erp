@@ -9722,7 +9722,9 @@ html body .waves-notransition {
 
 .btn-googleplus {
   color: #fff;
-  background-color: #dd4b39; }
+  /* background-color: #dd4b39; */
+  background-color: #e0ca9f;
+}
   .btn-googleplus:hover {
     color: #fff; }
 
