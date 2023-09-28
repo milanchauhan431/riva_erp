@@ -17564,3 +17564,9 @@ span.multiselect-native-select select {
 .fc-theme-standard td{ height:50px}
 
 .topbar .top-navbar .navbar-header .navbar-brand .logo-text img { max-height:45px;}
+
+
+.fc .fc-toolbar-title {
+  font-size: 1.20em !important;
+  margin: 0;
+}
