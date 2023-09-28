@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="<?=base_url()?>assets/images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?=base_url()?>assets/images/favicon.png">
     <title>Login - <?=(!empty(SITENAME))?SITENAME:""?></title>
     <!-- Custom CSS -->
     <link href="<?=base_url()?>assets/css/style.css" rel="stylesheet">
@@ -19,21 +19,6 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
-<style>
-body {
-  position: absolute;
-  margin: 0;
-  padding: 0;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background: #f8f9fa;
-}
-.auth-wrapper .auth-box{
-    margin: 3% 0 !important;
-}
-</style>
 </head>
 
 <body>
@@ -53,11 +38,11 @@ body {
         <!-- ============================================================== -->
         <!-- Login box.scss -->
         <!-- ============================================================== -->
-        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center">
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="url(<?=base_url()?>assets/images/background/login_bg1.png) no-repeat center center;">
             <div class="auth-box">
                 <div id="loginform">
                     <div class="logo">
-                        <span class="db"><img src="<?=base_url()?>assets/images/logo.svg" alt="logo" width="80%" /></span>
+                        <span class="db"><img src="<?=base_url()?>assets/images/logo_text.png" alt="logo" style="max-height:50px;" /></span>
                         <h5 class="font-medium bg-light-grey  pad-5" style="margin:10px -20px 20px -20px;">Sign In</h5>
                     </div>
                     <!-- Form -->
@@ -86,13 +71,13 @@ body {
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="filled-in chk-col-success" value="lsRememberMe" id="rememberMe" onclick="lsRememberMe();">
                                             <label class="" for="rememberMe">Remember me</label>
-                                            <a href="javascript:void(0)" id="to-recover" class="text-dark float-right"><i class="fa fa-lock m-r-5"></i> Forgot pwd?</a>
+                                            <a href="javascript:void(0)" id="to-recover" class="text-dark float-right"><i class="fa fa-lock m-r-5"></i> Forgot password?</a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group text-center">
                                     <div class="col-xs-12 p-b-20">
-                                        <button class="btn btn-success waves-effect btn-rounded waves-light btn-block" type="submit"> Sign In</button>
+                                        <button class="btn btn-primary waves-effect btn-rounded waves-light btn-block" type="submit"> Sign In</button>
                                     </div>
                                 </div>                                
 							</form>
@@ -102,7 +87,7 @@ body {
                 <div id="recoverform">
                     <div class="logo">
                         <span class="db">
-                            <img src="<?=base_url()?>assets/images/logo.png" alt="logo" width="100%"  />
+                            <img src="<?=base_url()?>assets/images/logo.png" alt="logo" style="max-height:50px;"  />
                         </span>
                         <h5 class="font-medium bg-light-grey pad-5" style="margin:10px -20px 20px -20px;">Recover Password</h5>
                         <span>Enter your Email and instructions will be sent to you!</span>
@@ -119,7 +104,7 @@ body {
                             <!-- pwd -->
                             <div class="row m-t-20">
                                 <div class="col-12">
-                                    <button class="btn btn-block btn-lg btn-danger" type="submit" name="action">Submit</button>                                    
+                                    <button class="btn btn-block btn-lg btn-primary" type="submit" name="action">Submit</button>                                    
                                 </div>
                                 <div class="col-12 text-center m-t-10">
                                     <a href="javascript:void(0)" id="to-login" class="text-dark"><i class="fa fa-lock m-r-5"></i> Sign In</a>

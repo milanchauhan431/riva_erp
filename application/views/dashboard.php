@@ -1,7 +1,7 @@
 <!-- ============================================================== -->
 <!-- Header -->
 <!-- ============================================================== -->
-    <?php $this->load->view('includes/header'); ?>
+<?php $this->load->view('includes/header'); ?>
     <link href="<?=base_url()?>assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
     <link href="<?=base_url()?>assets/js/pages/chartist/chartist-init.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/extra-libs/c3/c3.min.css">
@@ -30,7 +30,7 @@
 					       <div class="dashboard-header-data">
 					           <div class="row">
 					               <div class="col-lg-2">
-					                   <img src="<?=base_url()?>assets/images/icon.svg" alt="homepage" class="dark-logo" style="width:80%; max-width:150px;" />
+					                   <img src="<?=base_url()?>assets/images/icon.png" alt="homepage" class="dark-logo" />
 					               </div>
 					               <div class="col-lg-10">
 					                    <h1> <?=(!empty(SITENAME))?SITENAME:""?></h1>

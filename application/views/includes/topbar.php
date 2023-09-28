@@ -11,10 +11,8 @@
             <a class="navbar-brand" href="<?=base_url();?>" style="padding-top: 10px;">
                 <!-- Logo icon -->
                 <b class="logo-icon">
-                    <!-- Dark Logo icon -->
-                    <img src="<?=base_url()?>assets/images/icon.png" alt="homepage" class="dark-logo" style="width:100%;" />
-                    <!-- Light Logo icon -->
-                    <img src="<?=base_url()?>assets/images/icon.png" alt="homepage" class="light-logo" style="width:100%;"  />
+                    <img src="<?=base_url()?>assets/images/icon.png" alt="homepage" class="dark-logo" style="width:100%;max-height:43px;" />
+                    <img src="<?=base_url()?>assets/images/icon.png" alt="homepage" class="light-logo" style="width:100%;max-height:43px;"  />
                 </b>
                 <!--End Logo icon -->
                 <!-- Logo text -->

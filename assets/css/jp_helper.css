@@ -20,7 +20,7 @@
 .table-hover .table-success:hover {background-color: #bfefe6; }
 .table-hover .table-success:hover > td,.table-hover .table-success:hover > th {background-color: #bfefe6; }
 
-.table .thead-info th {/* color: #fff; */background-color: #daeafa;border-color: #9fc9f3;}
+.table .thead-info th {/* color: #fff; */background-color: #f9e9c9;border-color: #d7b56e;}
 .table-hover .table-info:hover {background-color: #c4ddf7; }
 .table-hover .table-info:hover > td,.table-hover .table-info:hover > th {background-color: #c4ddf7; }
 
@@ -68,7 +68,7 @@
     background-color: #b81cff!important;
 }
 .bg-primary {
-    background-color: #673ab7!important;
+    background-color: #d7b56e !important;
 }
 .bg-success {
     background-color: #0f9d58!important;
@@ -501,7 +501,7 @@
 }
 
 .text-facebook {
-    color: #3b5998!important;
+    color: #000000 !important;
 }
 
 .text-twitter {
@@ -1074,7 +1074,7 @@
     width: 30px;
     border-radius: 50%;
     display: block;
-    color: #fff;
+    /* color: #fff; */
     text-align: center;
 	margin:auto;
     z-index: 1;
@@ -1109,7 +1109,7 @@
     position: relative;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 1%), 0 3px 1px -2px rgb(0 0 0 / 2%), 0 1px 5px 0 rgb(0 0 0 / 2%);
 }
-.actionButtonsRight .mainButton:hover{color:#ffffff;}
+/* .actionButtonsRight .mainButton:hover{color:#ffffff;} */
 .actionButtonsRight .btnDiv a:nth-child(1) {transition: opacity .07s ease-in-out .07s, box-shadow .15s ease-in-out;}
 .actionButtonsRight .btnDiv a:nth-child(2) {transition: opacity .10s ease-in-out .10s, box-shadow .15s ease-in-out;}
 .actionButtonsRight .btnDiv a:nth-child(3) {transition: opacity .13s ease-in-out .13s, box-shadow .15s ease-in-out;}
