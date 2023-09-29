@@ -613,4 +613,59 @@ function getSpAccListOption($accounts,$acc_id = 0){
 
 	return $options;
 }
+
+/* Get Purity Options */
+function getPurityListOptions($purityList,$purity_id = 0){
+	$options = '';
+	foreach($purityList as $row):
+		$selected = (!empty($purity_id) && $purity_id == $row->id)?"selected":"";
+		$options .= '<option value="'.$row->id.'" '.$selected.'>'.$row->purity.'</option>';
+	endforeach;
+
+	return $options;
+}
+
+/* Get Fine Options */
+function getFineListOptions($fineList,$fine_id = 0){
+	$options = '';
+	foreach($fineList as $row):
+		$selected = (!empty($fine_id) && $fine_id == $row->id)?"selected":"";
+		$options .= '<option value="'.$row->id.'" '.$selected.'>'.$row->fine.'</option>';
+	endforeach;
+
+	return $options;
+}
+
+/* Get Polish Options */
+function getPolishListOptions($polishList,$polish_id = 0){
+	$options = '';
+	foreach($polishList as $row):
+		$selected = (!empty($polish_id) && $polish_id == $row->id)?"selected":"";
+		$options .= '<option value="'.$row->id.'" '.$selected.'>'.$row->polish.'</option>';
+	endforeach;
+
+	return $options;
+}
+
+/* Get Color Options */
+function getColorListOptions($colorList,$color_id = 0){
+	$options = '';
+	foreach($colorList as $row):
+		$selected = (!empty($color_id) && $color_id == $row->id)?"selected":"";
+		$options .= '<option value="'.$row->id.'" '.$selected.'>'.$row->color.'</option>';
+	endforeach;
+
+	return $options;
+}
+
+/* Get Clarity Options */
+function getClarityListOptions($clarityList,$clarity_id = 0){
+	$options = '';
+	foreach($clarityList as $row):
+		$selected = (!empty($clarity_id) && $clarity_id == $row->id)?"selected":"";
+		$options .= '<option value="'.$row->id.'" '.$selected.'>'.$row->clarity.'</option>';
+	endforeach;
+
+	return $options;
+}
 ?>

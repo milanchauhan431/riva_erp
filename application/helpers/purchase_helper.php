@@ -28,6 +28,21 @@ function getPurchaseDtHeader($page){
     $data['purchaseIndent'][] = ["name"=>"Remark"]; 
     $data['purchaseIndent'][] = ["name"=>"Status"];
 
+    /* Inward Receipt Header */
+    $data['inwardReceipt'][] = ["name"=>"Action","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"];
+	$data['inwardReceipt'][] = ["name"=>"#","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"]; 
+	$data['inwardReceipt'][] = ["name"=>"Inward No."];
+	$data['inwardReceipt'][] = ["name"=>"Inward Date"];
+	$data['inwardReceipt'][] = ["name"=>"Party Name"];
+	$data['inwardReceipt'][] = ["name"=>"Item Name"];
+	$data['inwardReceipt'][] = ["name"=>"Design No."];
+    $data['inwardReceipt'][] = ["name"=>"Qty"];
+    $data['inwardReceipt'][] = ["name"=>"Gross Weight"];
+    $data['inwardReceipt'][] = ["name"=>"Net Weight"];
+    $data['inwardReceipt'][] = ["name"=>"Purchase Price"];
+    $data['inwardReceipt'][] = ["name"=>"Sales Price"];
+    $data['inwardReceipt'][] = ["name"=>"Remark"];
+
     return tableHeader($data[$page]);
 }
 
@@ -67,4 +82,10 @@ function getPurchaseIndentData($data){
    
 }
 
+function getInwardReceiptData($data){
+    $action = "";//getActionButton($printBtn.$editButton.$deleteButton);
+
+    return [$action,$data->sr_no,$data->trans_number,$data->trans_date,$data->party_name,$data->item_name,$data->design_no,$data->qty,$data->gross_weight,$data->net_weight,$data->purchase_price,$data->sales_price,$data->item_remark];
+
+}
 ?>

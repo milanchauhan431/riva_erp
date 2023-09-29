@@ -62,5 +62,12 @@ class ClarityModel extends MasterModel{
             return ['status'=>2,'message'=>"somthing is wrong. Error : ".$e->getMessage()];
         }	
     }
+
+    public function getClarityList($data=array()){
+        $queryData = array();
+        $queryData['tableName'] = $this->clarity;
+        $result = $this->rows($queryData);
+        return $result;
+    }
 }
 ?>

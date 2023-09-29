@@ -58,5 +58,12 @@ class Polish extends MY_Controller{
             $this->printJson($this->polish->delete($id));
         endif;
     }    
+
+    public function getPolishList(){
+        $data = $this->input->post();
+        $polishList = $this->polish->getPolishList($data);
+        $polishOptions = getPolishListOptions($polishList);
+        $this->printJson(['status'=>1,'data'=>['polishList'=>$polishList,"polishOptions"=>$polishOptions]]);
+    }
 }
 ?>

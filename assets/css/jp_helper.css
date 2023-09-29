@@ -1150,7 +1150,11 @@
 	border-radius: 10px;
 	text-align:center !important;
 }
-.centerImg img{margin:3% auto;height: 120px; width: 120px;}
+.centerImg img{    
+    margin: 0% auto;
+    height: 84px;
+    width: 120px;
+}
 
 
 .ct-chart {  

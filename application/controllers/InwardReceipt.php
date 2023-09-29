@@ -8,6 +8,7 @@ class InwardReceipt extends MY_Controller{
         $this->data['headData']->pageTitle = "Inward Receipt";
 		$this->data['headData']->controller = "inwardReceipt";
 		$this->data['headData']->pageUrl = "inwardReceipt";
+        $this->data['entryData'] = $this->transMainModel->getEntryType(['controller'=>'inwardReceipt']);
     }
 
     public function index(){
@@ -15,8 +16,8 @@ class InwardReceipt extends MY_Controller{
         $this->load->view($this->indexPage,$this->data);
     }
 
-    public function getDTRows(){
-        $data = $this->input->post();
+    public function getDTRows($status = 0){
+        $data = $this->input->post(); $data['status'] = $status;
         $result = $this->inwardReceipt->getDTRows($data);
         $sendData = array();$i=($data['start']+1);
         foreach($result['data'] as $row):
@@ -27,6 +28,21 @@ class InwardReceipt extends MY_Controller{
         $this->printJson($result);
     }
 
-    
+    public function addInward(){        
+        $this->data['entry_type'] = $this->data['entryData']->id;
+        $this->data['trans_prefix'] = $this->data['entryData']->trans_prefix;
+        $this->data['trans_no'] = $this->data['entryData']->trans_no;
+        $this->data['trans_number'] = $this->data['trans_prefix'].$this->data['trans_no'];
+
+        $this->data['partyList'] = $this->party->getPartyList(['party_category'=>"1,2,3"]);
+        $this->data['itemList'] = $this->item->getItemList();
+        $this->data['purityList'] = $this->purity->getPurityList();
+        $this->data['fineList'] = $this->fine->getFineList();
+        $this->data['polishList'] = $this->polish->getPolishList();
+        $this->data['colorList'] = $this->color->getColorList();
+        $this->data['clarityList'] = $this->clarity->getClarityList();
+
+        $this->load->view($this->form,$this->data);
+    }
 }
 ?>

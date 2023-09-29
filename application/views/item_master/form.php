@@ -4,12 +4,12 @@
             <input type="hidden" name="id" id="id" value="<?=(!empty($dataRow->id))?$dataRow->id:""?>">
             <input type="hidden" name="item_type" id="item_type" value="<?=(!empty($dataRow->item_type))?$dataRow->item_type:$item_type?>">
 
-            <div class="col-md-3 form-group">
+            <div class="col-md-2 form-group">
                 <label for="item_code">Item Code</label>
                 <input type="text" name="item_code" class="form-control" value="<?= (!empty($dataRow->item_code)) ? $dataRow->item_code : ""; ?>" />
             </div>
 
-            <div class="col-md-6 form-group">
+            <div class="col-md-4 form-group">
                 <label for="item_name">Item Name</label>
                 <input type="text" name="item_name" class="form-control req" value="<?=htmlentities((!empty($dataRow->item_name)) ? $dataRow->item_name : "")?>" />
             </div>
@@ -27,7 +27,7 @@
                 </select>
             </div>       
 
-            <div class="col-md-2 form-group">
+            <div class="col-md-3 form-group">
                 <label for="unit_id">Unit</label>
                 <select name="unit_id" id="unit_id" class="form-control select2 req">
                     <option value="0">--</option>
@@ -36,8 +36,13 @@
             </div>
 
             <div class="col-md-2 form-group">
+                <label for="packing_standard">Standard Qty</label>
+                <input type="text" name="packing_standard" id="packing_standard" class="form-control numericOnly" value="<?=(!empty($dataRow->packing_standard))?$dataRow->packing_standard:1?>">
+            </div>
+
+            <div class="col-md-2 form-group">
                 <label for="defualt_disc">Defual Disc. (%)</label>
-                <input type="text" name="defualt_disc" class="form-control floatOnly req" value="<?=(!empty($dataRow->defualt_disc)) ? $dataRow->defualt_disc : ""?>" />
+                <input type="text" name="defualt_disc" class="form-control floatOnly" value="<?=(!empty($dataRow->defualt_disc)) ? $dataRow->defualt_disc : ""?>" />
             </div>
 
             <div class="col-md-2 form-group">

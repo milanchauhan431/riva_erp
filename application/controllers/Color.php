@@ -58,5 +58,12 @@ class Color extends MY_Controller{
             $this->printJson($this->color->delete($id));
         endif;
     }    
+
+    public function getColorList(){
+        $data = $this->input->post();
+        $colorList = $this->color->getColorList($data);
+        $colorOptions = getColorListOptions($colorList);
+        $this->printJson(['status'=>1,'data'=>['colorList'=>$colorList,"colorOptions"=>$colorOptions]]);
+    }
 }
 ?>

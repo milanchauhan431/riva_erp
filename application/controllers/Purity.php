@@ -58,5 +58,12 @@ class Purity extends MY_Controller{
             $this->printJson($this->purity->delete($id));
         endif;
     }    
+
+    public function getPurityList(){
+        $data = $this->input->post();
+        $purityList = $this->purity->getPurityList($data);
+        $purityOptions = getPurityListOptions($purityList);
+        $this->printJson(['status'=>1,'data'=>['purityList'=>$purityList,"purityOptions"=>$purityOptions]]);
+    }
 }
 ?>

@@ -57,6 +57,13 @@ class Fine extends MY_Controller{
         else:
             $this->printJson($this->fine->delete($id));
         endif;
-    }    
+    }  
+    
+    public function getFineList(){
+        $data = $this->input->post();
+        $fineList = $this->fine->getFineList($data);
+        $fineOptions = getFineListOptions($fineList);
+        $this->printJson(['status'=>1,'data'=>['fineList'=>$fineList,"fineOptions"=>$fineOptions]]);
+    }
 }
 ?>

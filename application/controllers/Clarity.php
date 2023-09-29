@@ -57,6 +57,13 @@ class Clarity extends MY_Controller{
         else:
             $this->printJson($this->clarity->delete($id));
         endif;
-    }    
+    } 
+
+    public function getClarityList(){
+        $data = $this->input->post();
+        $clarityList = $this->clarity->getClarityList($data);
+        $clarityOptions = getClarityListOptions($clarityList);
+        $this->printJson(['status'=>1,'data'=>['clarityList'=>$clarityList,"clarityOptions"=>$clarityOptions]]);
+    }   
 }
 ?>

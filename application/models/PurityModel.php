@@ -62,5 +62,12 @@ class PurityModel extends MasterModel{
             return ['status'=>2,'message'=>"somthing is wrong. Error : ".$e->getMessage()];
         }	
     }
+
+    public function getPurityList($data=array()){
+        $queryData = array();
+        $queryData['tableName'] = $this->purity;
+        $result = $this->rows($queryData);
+        return $result;
+    }
 }
 ?>

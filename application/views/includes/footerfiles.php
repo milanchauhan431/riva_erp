@@ -124,5 +124,5 @@
 <div class="ajaxModal"></div>
 <div class="centerImg">
 	<img src="<?=base_url()?>assets/images/logo.png" style="width:85%;height:auto;"><br>
-	<img src="<?=base_url()?>assets/images/ajaxLoading.gif" style="margin-top:-25px;">
+	<img src="<?=base_url()?>assets/images/ajaxLoading.gif" style="margin-top:-7px;">
 </div>

@@ -105,7 +105,8 @@ class Items extends MY_Controller{
     public function getItemList(){
         $data = $this->input->post();
         $itemList = $this->item->getItemList($data);
-        $this->printJson(['status'=>1,'data'=>['itemList'=>$itemList]]);
+        $itemOptions = getItemListOption($itemList);
+        $this->printJson(['status'=>1,'data'=>['itemList'=>$itemList,"itemOptions"=>$itemOptions]]);
     }
 
     public function getItemDetails(){

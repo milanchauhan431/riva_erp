@@ -62,5 +62,12 @@ class FineModel extends MasterModel{
             return ['status'=>2,'message'=>"somthing is wrong. Error : ".$e->getMessage()];
         }	
     }
+
+    public function getFineList($data=array()){
+        $queryData = array();
+        $queryData['tableName'] = $this->fine;
+        $result = $this->rows($queryData);
+        return $result;
+    }
 }
 ?>

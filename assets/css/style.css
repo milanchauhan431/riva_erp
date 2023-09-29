@@ -17570,3 +17570,7 @@ span.multiselect-native-select select {
   font-size: 1.20em !important;
   margin: 0;
 }
+
+.hidden{
+  display: none;
+}

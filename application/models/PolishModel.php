@@ -62,5 +62,12 @@ class PolishModel extends MasterModel{
             return ['status'=>2,'message'=>"somthing is wrong. Error : ".$e->getMessage()];
         }	
     }
+
+    public function getPolishList($data=array()){
+        $queryData = array();
+        $queryData['tableName'] = $this->polish;
+        $result = $this->rows($queryData);
+        return $result;
+    }
 }
 ?>

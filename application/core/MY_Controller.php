@@ -35,6 +35,9 @@ class MY_Controller extends CI_Controller{
 	public $purchaseTypeCodes = ["'PURGSTACC'","'PURIGSTACC'","'PURJOBGSTACC'","'PURJOBIGSTACC'","'PURURDGSTACC'","'PURURDIGSTACC'","'PURTFACC'","'PUREXEMPTEDTFACC'","'IMPORTACC'","'IMPORTSACC'","'SEZRACC'","'SEZSGSTACC'","'SEZSTFACC'","'DEEMEDEXP'"];
 
 	public $salesTypeCodes = ["'SALESGSTACC'","'SALESIGSTACC'","'SALESJOBGSTACC'","'SALESJOBIGSTACC'","'SALESTFACC'","'SALESEXEMPTEDTFACC'","'EXPORTGSTACC'","'EXPORTTFACC'","'SEZSGSTACC'","'SEZSTFACC'","'DEEMEDEXP'"];
+
+	//Inward Types
+	public $inwardTypes = ["Gold","Gold Items","Gold + Diamond Items","Silver","Silver Items","Loos Diamond","Diamond Items","Platinum Items","Platinum + Diamond Items"];
 	
 	public function __construct(){
 		parent::__construct();
@@ -86,6 +89,7 @@ class MY_Controller extends CI_Controller{
 		/* Purchase Model */
 		$this->load->model('PurchaseOrderModel','purchaseOrder');
 		$this->load->model('PurchaseIndentModel','purchaseIndent');
+		$this->load->model('InwardReceiptModel','inwardReceipt');
 
 		/* Store Model */
 		$this->load->model('StoreLocationModel','storeLocation');
@@ -111,7 +115,7 @@ class MY_Controller extends CI_Controller{
 		/* Estimation Model [Cash Entry] */
 		$this->load->model("EstimateModel",'estimate');
 
-		$this->setSessionVariables(["masterModel","dashboard","permission","terms","transport","hsnModel","materialGrade","itemCategory","brandMaster","sizeMaster","purity","fine","polish", "color", "clarity", "item","department","designation","employeeCategory","shiftModel","employee","party","transMainModel","taxMaster","expenseMaster","salesOrder","purchaseOrder","purchaseIndent","vehicleType","storeLocation","gateEntry","gateInward","salesInvoice","estimate","paymentVoucher","leads","salesEnquiry","salesQuotation","gstExpense","gstIncome","journalEntry","creditNote","debitNote"]);
+		$this->setSessionVariables(["masterModel","dashboard","permission","terms","transport","hsnModel","materialGrade","itemCategory","brandMaster","sizeMaster","purity","fine","polish", "color", "clarity", "item","department","designation","employeeCategory","shiftModel","employee","party","transMainModel","taxMaster","expenseMaster","salesOrder","purchaseOrder","purchaseIndent","vehicleType","storeLocation","gateEntry","gateInward","salesInvoice","estimate","paymentVoucher","leads","salesEnquiry","salesQuotation","gstExpense","gstIncome","journalEntry","creditNote","debitNote","inwardReceipt"]);
 	}
 
 	public function setSessionVariables($modelNames){

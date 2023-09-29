@@ -23,13 +23,17 @@ class InwardReceiptModel extends MasterModel{
 
         $data['searchCol'][] = "";
         $data['searchCol'][] = "";
-        $data['searchCol'][] = "trans_main.trans_number";
-        $data['searchCol'][] = "DATE_FORMAT(trans_main.trans_date,'%d-%m-%Y')";
-        $data['searchCol'][] = "trans_main.party_name";
-        $data['searchCol'][] = "trans_child.item_name";
-        $data['searchCol'][] = "trans_child.qty";
-        $data['searchCol'][] = "trans_child.dispatch_qty";
-        $data['searchCol'][] = "(trans_child.qty - trans_child.dispatch_qty)";
+        $data['searchCol'][] = "inward_receipt.trans_number";
+        $data['searchCol'][] = "DATE_FORMAT(inward_receipt.trans_date,'%d-%m-%Y')";
+        $data['searchCol'][] = "party_master.party_name";
+        $data['searchCol'][] = "item_master.item_name";
+        $data['searchCol'][] = "inward_receipt.design_no";
+        $data['searchCol'][] = "inward_receipt.qty";
+        $data['searchCol'][] = "inward_receipt.gross_weight";
+        $data['searchCol'][] = "inward_receipt.net_weight";
+        $data['searchCol'][] = "inward_receipt.purchase_price";
+        $data['searchCol'][] = "inward_receipt.sales_price";
+        $data['searchCol'][] = "inward_receipt.remark";
 
         $columns =array(); foreach($data['searchCol'] as $row): $columns[] = $row; endforeach;
         if(isset($data['order'])){$data['order_by'][$columns[$data['order'][0]['column']]] = $data['order'][0]['dir'];}

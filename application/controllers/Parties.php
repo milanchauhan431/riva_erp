@@ -307,7 +307,8 @@ class Parties extends MY_Controller{
     public function getPartyList(){
         $data = $this->input->post();
         $partyList = $this->party->getPartyList($data);
-        $this->printJson(['status'=>1,'data'=>['partyList'=>$partyList]]);
+        $partyOptions = getPartyListOption($partyList);
+        $this->printJson(['status'=>1,'data'=>['partyList'=>$partyList,'partyOptions'=>$partyOptions]]);
     }
 
     public function getPartyDetails(){

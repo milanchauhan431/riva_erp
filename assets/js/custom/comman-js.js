@@ -1,3 +1,5 @@
+
+var zindex = 9000;
 $(document).ready(function(){
 
 	var lastActivityTime = new Date();
@@ -61,10 +63,11 @@ $(document).ready(function(){
 	initMultiSelect();
 	checkPermission();
 	setMinMaxDate();
-	$(".single-select").comboSelect();setPlaceHolder();
+	setPlaceHolder();
+	//getDynamicItemList();
+	$(".single-select").comboSelect();
 	$('.select2').select2({ width: null});
 	
-	getDynamicItemList();
 	$(document).on("keypress",".numericOnly",function (e) {
 		if (String.fromCharCode(e.keyCode).match(/[^0-9]/g)) return false;
 	});	
@@ -99,6 +102,7 @@ $(document).ready(function(){
     	localStorage.setItem('selected_tab', id);
     });
 	
+	
 	$(document).on('click',".addNew",function(){
         var functionName = $(this).data("function");
         var modalId = $(this).data('modal_id');
@@ -124,7 +128,7 @@ $(document).ready(function(){
             data: postData
         }).done(function(response){
             $("#"+modalId).modal({show:true});
-            $("#"+modalId).css({'z-index':9999,'overflow':'auto'});
+            $("#"+modalId).css({'z-index':zindex++,'overflow':'auto'});
 			$("#"+modalId+'').addClass(formId+"Modal");
 			$("#"+modalId+' .modal-title').html(title);
 			$("#"+modalId+' .modal-body').html("");
@@ -310,6 +314,9 @@ $(document).ready(function(){
 		if((cDate < fDate || cDate > lDate)) {
 			$("."+inputName).html("Please select valid Date.");
 			$(this).val("");
+			$(".btn-save").attr('disabled','disabled');
+		}else{
+			$('.btn-save').removeAttr('disabled');
 		}
 	});	
 
@@ -392,43 +399,6 @@ $(window).on('pageshow', function() {
 	$('form').off();
 	checkPermission();setMinMaxDate();
 });
-
-function getPartyList(postData){
-	$.ajax({
-		url : base_url + '/parties/getPartyList',
-		type : 'post',
-		data : postData,
-		dataType : 'json',
-	}).done(function(response){
-		var partyList = response.data.partyList;
-		var html = '<option value="">Select Party Name</option>';
-		if(!$.isEmptyObject(partyList)){
-			$.each(partyList,function(index,row){  
-				html += '<option value="'+row.id+'">'+row.party_name+'</option>';
-			});
-			$(".partyOptions").html(html);
-		}
-	});
-}
-
-function getItemList(postData){
-	$.ajax({
-		url : base_url + '/items/getItemList',
-		type : 'post',
-		data : postData,
-		dataType : 'json',
-	}).done(function(response){
-		var itemList = response.data.itemList;
-		var html = '<option value="">Select Item Name</option>';
-		if(!$.isEmptyObject(itemList)){
-			$.each(itemList,function(index,row){
-				var itemFullName = (row.item_code != "")?"[ "+row.item_code+" ] "+row.item_name:row.item_name  
-				html += '<option value="'+row.id+'">'+itemFullName+'</option>';
-			});
-			$(".itemOptions").html(html);
-		}
-	});
-}
 
 function setMinMaxDate(){
 	$.each($('.fyDates'),function(){
@@ -587,10 +557,12 @@ function initDataTable(tableId = "commanTable"){
 };
 
 function closeModal(formId){
+	zindex = zindex--;
 	var modal_id = $("."+formId+"Modal").attr('id');
 	$("#"+modal_id).removeClass(formId+"Modal");
 	$("#"+modal_id+' .modal-body').html("");
 	$("#"+modal_id).modal('hide');	
+	$("#"+modal_id).modal({'overflow':'auto'});	
 	$(".modal").css({'overflow':'auto'});
 
 	$("#"+modal_id+" .modal-header .close").attr('data-modal_id',"");
@@ -767,7 +739,7 @@ function edit(data){
 		data: data.postData,
 	}).done(function(response){
 		$("#"+data.modal_id).modal({show:true});
-		$("#"+data.modal_id).css({'z-index':9999,'overflow':'auto'});
+		$("#"+data.modal_id).css({'z-index':zindex++,'overflow':'auto'});
 		$("#"+data.modal_id).addClass(data.form_id+"Modal");
 		$("#"+data.modal_id+' .modal-title').html(data.title);
 		$("#"+data.modal_id+' .modal-body').html('');
@@ -1020,7 +992,7 @@ function initModalPlugin(modalId){
 	$("#"+modalId+" .select2").select2({with:null});
 	$("#"+modalId+" .scrollable").perfectScrollbar({suppressScrollX: true});
 	setTimeout(function(){ 
-		initMultiSelect();setPlaceHolder();
+		initMultiSelect();setPlaceHolder();setMinMaxDate();
 	}, 5);
 	setTimeout(function(){
 		$('#'+modalId+' input[type="text"]:first').focus();
@@ -1139,12 +1111,17 @@ function resPartyMaster(response,formId){
         $('#'+formId)[0].reset();closeModal(formId);
         toastr.success(response.message, 'Success', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
 
-		getPartyList({"party_category":$("#party_id").data('party_category'),"party_type":($("#party_id").data('party_type') || 1)});
-		setTimeout(function(){
+		$.ajax({
+			url : base_url + '/parties/getPartyList',
+			type : 'post',
+			data : {"party_category":$("#party_id").data('party_category'),"party_type":($("#party_id").data('party_type') || 1)},
+			dataType : 'json',
+		}).done(function(res){
+			$(".partyOptions").html(res.data.partyOptions);
 			$("#party_id").val(response.id);
 			$("#party_id").select2();
 			$(".partyDetails").trigger('change');
-		},1000);
+		});		
     }else{
         if(typeof response.message === "object"){
             $(".error").html("");
@@ -1160,12 +1137,17 @@ function resItemMaster(response,formId){
         $('#'+formId)[0].reset();closeModal(formId);
         toastr.success(response.message, 'Success', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
 
-		getItemList({"item_type":$("#item_id").data('item_type')});
-		setTimeout(function(){
+		$.ajax({
+			url : base_url + '/items/getItemList',
+			type : 'post',
+			data : {"item_type":$("#item_id").data('item_type')},
+			dataType : 'json',
+		}).done(function(res){
+			$(".itemOptions").html(res.data.itemOptions);
 			$("#item_id").val(response.id);
 			$("#item_id").select2();
 			$(".itemDetails").trigger('change');
-		},1000);
+		});
     }else{
         if(typeof response.message === "object"){
             $(".error").html("");
@@ -1174,4 +1156,129 @@ function resItemMaster(response,formId){
             toastr.error(response.message, 'Error', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
         }			
     }	
+}
+
+function resPurityMaster(response,formId){
+	if(response.status==1){
+        $('#'+formId)[0].reset();closeModal(formId);
+        toastr.success(response.message, 'Success', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
+
+		$.ajax({
+			url : base_url + '/purity/getPurityList',
+			type : 'post',
+			data : {},
+			dataType : 'json',
+		}).done(function(res){
+			$(".purityOptions").html(res.data.purityOptions);
+			$("#purity_id").val(response.id);
+			$("#purity_id").select2();
+		});
+    }else{
+        if(typeof response.message === "object"){
+            $(".error").html("");
+            $.each( response.message, function( key, value ) {$("."+key).html(value);});
+        }else{
+            toastr.error(response.message, 'Error', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
+        }			
+    }
+}
+
+function resFineMaster(response,formId){
+	if(response.status==1){
+        $('#'+formId)[0].reset();closeModal(formId);
+        toastr.success(response.message, 'Success', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
+
+		$.ajax({
+			url : base_url + '/fine/getFineList',
+			type : 'post',
+			data : {},
+			dataType : 'json',
+		}).done(function(res){
+			$(".fineOptions").html(res.data.fineOptions);
+			$("#fine_id").val(response.id);
+			$("#fine_id").select2();
+		});
+    }else{
+        if(typeof response.message === "object"){
+            $(".error").html("");
+            $.each( response.message, function( key, value ) {$("."+key).html(value);});
+        }else{
+            toastr.error(response.message, 'Error', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
+        }			
+    }
+}
+
+function resPolishMaster(response,formId){
+	if(response.status==1){
+        $('#'+formId)[0].reset();closeModal(formId);
+        toastr.success(response.message, 'Success', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
+
+		$.ajax({
+			url : base_url + '/polish/getPolishList',
+			type : 'post',
+			data : {},
+			dataType : 'json',
+		}).done(function(res){
+			$(".polishOptions").html(res.data.polishOptions);
+			$("#polish_id").val(response.id);
+			$("#polish_id").select2();
+		});
+    }else{
+        if(typeof response.message === "object"){
+            $(".error").html("");
+            $.each( response.message, function( key, value ) {$("."+key).html(value);});
+        }else{
+            toastr.error(response.message, 'Error', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
+        }			
+    }
+}
+
+function resColorMaster(response,formId){
+	if(response.status==1){
+        $('#'+formId)[0].reset();closeModal(formId);
+        toastr.success(response.message, 'Success', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
+
+		$.ajax({
+			url : base_url + '/color/getColorList',
+			type : 'post',
+			data : {},
+			dataType : 'json',
+		}).done(function(res){
+			$(".colorOptions").html(res.data.colorOptions);
+			$("#color_id").val(response.id);
+			$("#color_id").select2();
+		});
+    }else{
+        if(typeof response.message === "object"){
+            $(".error").html("");
+            $.each( response.message, function( key, value ) {$("."+key).html(value);});
+        }else{
+            toastr.error(response.message, 'Error', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
+        }			
+    }
+}
+
+function resClarityMaster(response,formId){
+	if(response.status==1){
+        $('#'+formId)[0].reset();closeModal(formId);
+        toastr.success(response.message, 'Success', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
+
+		$.ajax({
+			url : base_url + '/clarity/getClarityList',
+			type : 'post',
+			data : {},
+			dataType : 'json',
+		}).done(function(res){
+			$(".clarityOptions").html(res.data.clarityOptions);
+			$("#clarity_id").val(response.id);
+			$("#clarity_id").select2();
+		});
+    }else{
+        if(typeof response.message === "object"){
+            $(".error").html("");
+            $.each( response.message, function( key, value ) {$("."+key).html(value);});
+        }else{
+            toastr.error(response.message, 'Error', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
+        }			
+    }
 }
