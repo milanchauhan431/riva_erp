@@ -5,6 +5,7 @@
             <input type="hidden" name="id" id="id" value="<?=(!empty($dataRow->id))?$dataRow->id:""?>">
             <input type="hidden" name="trans_prefix" id="trans_prefix" value="<?=(!empty($dataRow->trans_prefix))?$dataRow->trans_prefix:$trans_prefix?>">
             <input type="hidden" name="trans_no" id="trans_no" value="<?=(!empty($dataRow->trans_no))?$dataRow->trans_no:$trans_no?>">
+            <input type="hidden" name="entry_type" id="entry_type" value="<?=(!empty($dataRow->entry_type))?$dataRow->entry_type:$entry_type?>">
         </div>
 
         <div class="row">
@@ -61,11 +62,11 @@
                     </span>
                 </div>
 
-                <select name="item_id" id="item_id" class="form-control select2 itemDetails itemOptions req" data-res_function="resItemDetail">
+                <select name="item_id" id="item_id" class="form-control select2 itemDetails1 itemOptions req" data-res_function="resItemDetail">
                     <option value="">Select Product Name</option>
                     <?=getItemListOption($itemList,((!empty($dataRow->item_id))?$dataRow->item_id:0))?>
                 </select>
-                <input type="hidden" name="item_name" id="item_name" class="form-control" value="" />
+                <!-- <input type="hidden" name="item_name" id="item_name" class="form-control" value="" /> -->
             </div>
 
             <div class="col-md-2 form-group">
@@ -83,7 +84,7 @@
 
             <div class="col-md-2 form-group">
                 <label for="design_no">Design No.</label>
-                <input type="text" name="design_no" id="design_no" class="form-control" value="<?=(!empty($dataRow->design_no))?$dataRow->design_no:""?>">
+                <input type="text" name="design_no" id="design_no" class="form-control req" value="<?=(!empty($dataRow->design_no))?$dataRow->design_no:""?>">
             </div>
 
             <div class="col-md-2 form-group">
@@ -93,12 +94,12 @@
 
             <div class="col-md-2 form-group">
                 <label for="gross_weight">Gross Weight</label>
-                <input type="text" name="gross_weight" id="gross_weight" class="form-control floatOnly" value="<?=(!empty($dataRow->gross_weight))?$dataRow->gross_weight:""?>">
+                <input type="text" name="gross_weight" id="gross_weight" class="form-control floatOnly req" value="<?=(!empty($dataRow->gross_weight))?$dataRow->gross_weight:""?>">
             </div>
 
             <div class="col-md-2 form-group">
                 <label for="net_weight">Net Weight</label>
-                <input type="text" name="net_weight" id="net_weight" class="form-control floatOnly" value="<?=(!empty($dataRow->net_weight))?$dataRow->net_weight:""?>">
+                <input type="text" name="net_weight" id="net_weight" class="form-control floatOnly req" value="<?=(!empty($dataRow->net_weight))?$dataRow->net_weight:""?>">
             </div>
 
             <div class="col-md-2 form-group">
@@ -116,13 +117,14 @@
                 <input type="text" name="remark" id="remark" class="form-control" value="<?=(!empty($dataRow->remark))?$dataRow->remark:""?>">
             </div>
         </div>
+        
         <hr>
         <div class="row">
             <div class="col-md-12 form-group">
                 <h4>Item Details : </h4>
             </div>
 
-            <div class="col-md-2 form-group">
+            <div id="purity_input" class="col-md-2 form-group">
                 <label for="purity_id">Purity</label>
                 <div class="float-right">                    
                     <span class="dropdown float-right m-r-5">
@@ -144,7 +146,7 @@
                 </select>
             </div>
 
-            <div class="col-md-2 form-group">
+            <div id="fine_input" class="col-md-2 form-group">
                 <label for="fine_id">Fine</label>
                 <div class="float-right">                    
                     <span class="dropdown float-right m-r-5">
@@ -166,7 +168,7 @@
                 </select>
             </div>
 
-            <div class="col-md-2 form-group">
+            <div id="polish_input" class="col-md-2 form-group">
                 <label for="polish_id">Polish</label>
                 <div class="float-right">                    
                     <span class="dropdown float-right m-r-5">
@@ -188,7 +190,7 @@
                 </select>
             </div>
 
-            <div class="col-md-2 form-group">
+            <div id="color_input" class="col-md-2 form-group">
                 <label for="color_id">Color</label>
                 <div class="float-right">                    
                     <span class="dropdown float-right m-r-5">
@@ -210,7 +212,7 @@
                 </select>
             </div>
 
-            <div class="col-md-2 form-group">
+            <div id="clarity_input" class="col-md-2 form-group">
                 <label for="clarity_id">Clarity</label>
                 <div class="float-right">                    
                     <span class="dropdown float-right m-r-5">
@@ -232,22 +234,22 @@
                 </select>
             </div>
 
-            <div class="col-md-2 form-group">
+            <div id="diamond_weight_input" class="col-md-2 form-group">
                 <label for="diamond_weight">Diamond Weight</label>
                 <input type="text" name="diamond_weight" id="diamond_weight" class="form-control floatOnly" value="<?=(!empty($dataRow->diamond_weight))?$dataRow->diamond_weight:""?>">
             </div>
 
-            <div class="col-md-2 form-group">
+            <div id="diamond_carat_input" class="col-md-2 form-group">
                 <label for="diamond_carat">Diamond Carat</label>
                 <input type="text" name="diamond_carat" id="diamond_carat" class="form-control" value="<?=(!empty($dataRow->diamond_carat))?$dataRow->diamond_carat:""?>">
             </div>
 
-            <div class="col-md-2 form-group">
+            <div id="diamond_pcs_input" class="col-md-2 form-group">
                 <label for="diamond_pcs">Diamond Pcs.</label>
                 <input type="text" name="diamond_pcs" id="diamond_pcs" class="form-control numericOnly" value="<?=(!empty($dataRow->diamond_pcs))?$dataRow->diamond_pcs:""?>">
             </div>
 
-            <div class="col-md-2 form-group">
+            <div id="diamond_size_cut_input" class="col-md-2 form-group">
                 <label for="diamond_size_cut">Diamond Size Cut</label>
                 <input type="text" name="diamond_size_cut" id="diamond_size_cut" class="form-control" value="<?=(!empty($dataRow->diamond_size_cut))?$dataRow->diamond_size_cut:""?>">
             </div>
@@ -267,6 +269,7 @@
                 <input type="text" name="moti_weight" id="moti_weight" class="form-control floatOnly" value="<?=(!empty($dataRow->moti_weight))?$dataRow->moti_weight:""?>">
             </div>
         </div>
+        
         <hr>
         <div class="row">
             <div class="col-md-12 form-group">
@@ -297,6 +300,38 @@
 </form>
 
 <script>
+$(document).ready(function(){
+    $("#purity_input,#fine_input,#polish_input,#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input").hide();
+    $("#inward_type").trigger("change");
+    $(document).on('change',"#inward_type",function(){
+        var type = $(this).find(":selected").val();
+        if(type != ""){
+            if($("#id").val() == ""){
+                $("#purity_id,#fine_id,#polish_id,#color_id,#clarity_id").val("");
+                $("#purity_id,#fine_id,#polish_id,#color_id,#clarity_id").select2();
+            }
+
+            if($.inArray(type, ["Gold","Gold Items","Platinum Items"]) >= 0){
+                $("#purity_input,#fine_input,#polish_input").show();                
+                $("#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input").hide();
+            }else if($.inArray(type, ["Gold + Diamond Items","Platinum + Diamond Items"]) >= 0){
+                $("#purity_input,#fine_input,#polish_input,#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input").show();
+            }else if($.inArray(type, ["Silver","Silver Items"]) >= 0){
+                $("#polish_input").show();
+                $("#purity_input,#fine_input,#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input").hide();
+            }
+            else if($.inArray(type, ["Loos Diamond","Diamond Items"]) >= 0){
+                $("#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input").show();
+                $("#polish_input,#purity_input,#fine_input").hide();
+            }
+        }else{
+            $("#purity_id,#fine_id,#polish_id,#color_id,#clarity_id").val("");
+            $("#purity_id,#fine_id,#polish_id,#color_id,#clarity_id").select2();
+            $("#purity_input,#fine_input,#polish_input,#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input").hide();
+        }
+    });
+});
+
 function resItemDetail(response = ""){
     if(response != ""){
         var itemDetail = response.data.itemDetail;

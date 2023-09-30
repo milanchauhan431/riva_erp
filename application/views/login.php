@@ -113,7 +113,7 @@
             -webkit-transform: translate(-50%, -50%);
             background-color: #fff;
             border-radius: 2rem;
-            width:30%;height:65%;
+            width:25%;height:65%;
         }
 
         .canvas-wrapper.transition-in {

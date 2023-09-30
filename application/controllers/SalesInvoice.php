@@ -130,7 +130,7 @@ class SalesInvoice extends MY_Controller{
 
     public function printInvoice($id="",$type=""){
         $postData = $this->input->post();
-        //print_r($postData);exit;
+        
         $printTypes = array();
         if(!empty($postData['original'])):
             $printTypes[] = "ORIGINAL";
@@ -176,15 +176,12 @@ class SalesInvoice extends MY_Controller{
             
 		$mpdf = new \Mpdf\Mpdf();
 		$pdfFileName = str_replace(["/","-"," "],"_",$invData->trans_number).'.pdf';
-		/* $stylesheet = file_get_contents(base_url('assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css'));
-        $stylesheet = file_get_contents(base_url('assets/css/style.css?v=' . time())); */
         $stylesheet = file_get_contents(base_url('assets/css/pdf_style.css?v='.time()));
 		$mpdf->WriteHTML($stylesheet,1);
 		$mpdf->SetDisplayMode('fullpage');
 		$mpdf->SetWatermarkImage($logo,0.03,array(120,45));
 		$mpdf->showWatermarkImage = true;
-		$mpdf->SetProtection(array('print'));
-		
+		$mpdf->SetProtection(array('print'));		
 		/* $mpdf->SetHTMLHeader($htmlHeader);
 		$mpdf->SetHTMLFooter($htmlFooter); */
 		$mpdf->AddPage('P','','','','',10,5,(($postData['header_footer'] == 1)?5:35),5,5,5,'','','','','','','','','','A4-P');

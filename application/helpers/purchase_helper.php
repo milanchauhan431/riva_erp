@@ -83,9 +83,15 @@ function getPurchaseIndentData($data){
 }
 
 function getInwardReceiptData($data){
-    $action = "";//getActionButton($printBtn.$editButton.$deleteButton);
+    $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Inward Receipt'}";
+    $editParam = "{'postData':{'id' : ".$data->id."},'modal_id' : 'modal-xxl', 'form_id' : 'editInward', 'title' : 'Update Inward Receipt'}";
 
-    return [$action,$data->sr_no,$data->trans_number,$data->trans_date,$data->party_name,$data->item_name,$data->design_no,$data->qty,$data->gross_weight,$data->net_weight,$data->purchase_price,$data->sales_price,$data->item_remark];
+    $editButton = '<a class="btn btn-success btn-edit permission-modify" href="javascript:void(0)" datatip="Edit" flow="down" onclick="edit('.$editParam.');"><i class="ti-pencil-alt"></i></a>';
+    $deleteButton = '<a class="btn btn-danger btn-delete permission-remove" href="javascript:void(0)" onclick="trash('.$deleteParam.');" datatip="Remove" flow="down"><i class="ti-trash"></i></a>';
+
+    $action = getActionButton($editButton.$deleteButton);
+
+    return [$action,$data->sr_no,$data->trans_number,formatDate($data->trans_date),$data->party_name,$data->item_name,$data->design_no,$data->qty,$data->gross_weight,$data->net_weight,$data->purchase_price,$data->sales_price,$data->remark];
 
 }
 ?>

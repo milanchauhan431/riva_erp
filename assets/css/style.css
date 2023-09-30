@@ -14859,7 +14859,7 @@ File: scss
 /*.highlight {background-color: whitesmoke !important;}*/
 /*.bg-light-pink th, .bg-light-pink td{background-color:#ffb0b0 !important;background:#ffb0b0 !important;}*/
 
-table.table tr:hover td{background-color: whitesmoke;}
+table.table tr:hover td{/* background-color: whitesmoke; */ background-color: #fff2d9;}
 
 /*** Transform ***/
 .transform-45{transform: rotate(45deg);}

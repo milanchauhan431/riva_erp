@@ -40,5 +40,49 @@ class InwardReceiptModel extends MasterModel{
         
         return $this->pagingRows($data);
     }
+
+    public function getInwardReceipt($data=array()){
+        $queryData = array();
+        $queryData['tableName'] = $this->inwardReceipt;
+        $queryData['where']['id'] = $data['id'];
+        return $this->row($queryData);
+    }
+
+    public function save($data){
+        try{
+            $this->db->trans_begin();
+
+            if(empty($data['id'])):
+                $data['trans_no'] = $this->transMainModel->nextTransNo($data['entry_type']);
+                $data['trans_number'] = $data['trans_prefix'].$data['trans_no'];
+            endif;
+
+            $result = $this->store($this->inwardReceipt,$data,'Inward Receipt');
+
+            if ($this->db->trans_status() !== FALSE):
+                $this->db->trans_commit();
+                return $result;
+            endif;
+        }catch(\Throwable $e){
+            $this->db->trans_rollback();
+            return ['status'=>2,'message'=>"somthing is wrong. Error : ".$e->getMessage()];
+        }
+    }
+
+    public function delete($id){
+        try{
+            $this->db->trans_begin();
+
+            $result = $this->trash($this->inwardReceipt,['id'=>$id],'Inward Receipt');
+
+            if ($this->db->trans_status() !== FALSE):
+                $this->db->trans_commit();
+                return $result;
+            endif;
+        }catch(\Throwable $e){
+            $this->db->trans_rollback();
+            return ['status'=>2,'message'=>"somthing is wrong. Error : ".$e->getMessage()];
+        }	
+    }
 }
 ?>
