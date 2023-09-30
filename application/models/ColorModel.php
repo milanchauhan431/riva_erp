@@ -43,7 +43,7 @@ class ColorModel extends MasterModel{
         try{
             $this->db->trans_begin();
 
-            $checkData['columnName'] = [];
+            $checkData['columnName'] = ["color_id"];
             $checkData['value'] = $id;
             $checkUsed = $this->checkUsage($checkData);
 

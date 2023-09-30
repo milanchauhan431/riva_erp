@@ -43,7 +43,7 @@ class PurityModel extends MasterModel{
         try{
             $this->db->trans_begin();
 
-            $checkData['columnName'] = [];
+            $checkData['columnName'] = ["purity_id"];
             $checkData['value'] = $id;
             $checkUsed = $this->checkUsage($checkData);
 

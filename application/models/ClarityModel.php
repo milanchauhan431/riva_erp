@@ -43,7 +43,7 @@ class ClarityModel extends MasterModel{
         try{
             $this->db->trans_begin();
 
-            $checkData['columnName'] = [];
+            $checkData['columnName'] = ["clarity_id"];
             $checkData['value'] = $id;
             $checkUsed = $this->checkUsage($checkData);
 

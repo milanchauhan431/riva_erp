@@ -43,7 +43,7 @@ class FineModel extends MasterModel{
         try{
             $this->db->trans_begin();
 
-            $checkData['columnName'] = [];
+            $checkData['columnName'] = ["fine_id"];
             $checkData['value'] = $id;
             $checkUsed = $this->checkUsage($checkData);
 

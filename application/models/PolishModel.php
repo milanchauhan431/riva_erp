@@ -43,7 +43,7 @@ class PolishModel extends MasterModel{
         try{
             $this->db->trans_begin();
 
-            $checkData['columnName'] = [];
+            $checkData['columnName'] = ["polish_id"];
             $checkData['value'] = $id;
             $checkUsed = $this->checkUsage($checkData);
 
