@@ -17574,3 +17574,19 @@ span.multiselect-native-select select {
 .hidden{
   display: none;
 }
+
+.form-control-sm {
+  display: block;
+  width: 100%;
+  height: calc(1em + 0.75rem + 2px);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.76563rem;
+  font-weight: 500;
+  line-height: 1;
+  color: #4f5467;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #c0cfdd;
+  border-radius: 1px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}

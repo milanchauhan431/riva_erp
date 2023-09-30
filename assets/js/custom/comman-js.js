@@ -78,22 +78,7 @@ $(document).ready(function(){
 	
 	// Focus QR Code input
 	$( "#qrCodeModal" ).on('shown.bs.modal', function(){$('.decodeData').html('');$('#decodeQr').val('');$('#decodeQr').focus();});	
-	/**** Start row-column highlight of datatable (ssTable) ***/
-	/* $('.ssTable tbody').on( 'mouseenter', 'td', function () {
-		if(ssTable.cells().nodes().length > 0){
-			var colIdx = ssTable.cell(this).index().column;
-			$( ssTable.cells().nodes() ).removeClass( 'highlight' );
-			$( ssTable.column( colIdx ).nodes() ).addClass( 'highlight' );
-		}
-	}); */
-	/**** End row-column highlight of datatable (ssTable) ***/
 	
-	/*** Keep Selected Tab after page loading ***/
-	/* $('.tabLinks a[data-toggle="tab"]').click(function (e) {e.preventDefault();$(this).tab('show');});
-	$('.tabLinks a[data-toggle="tab"]').on("shown.bs.tab", function (e) {var id = $(e.target).attr("href");localStorage.setItem('selectedTab', id)});
-	var selectedTab = localStorage.getItem('selectedTab');
-	if (selectedTab != null) {$('.tabLinks a[data-toggle="tab"][href="' + selectedTab + '"]').tab('show');} */
-
 	/*** Keep Selected Tab after page loading ***/
 	var selectedTab = localStorage.getItem('selected_tab');
 	if (selectedTab != null) { $("#"+selectedTab).trigger('click'); }
@@ -357,6 +342,7 @@ $(document).ready(function(){
 	});
 
 	$(document).on('click','.btn-close,.close',function(){
+		zindex = zindex--;
 		var modal_id = $(this).data('modal_id');
 		var modal_class = $(this).data('modal_class');
 		$("#"+modal_id).removeClass(modal_class);
