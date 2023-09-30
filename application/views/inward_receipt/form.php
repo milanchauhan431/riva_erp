@@ -228,7 +228,7 @@
 
                 <select name="clarity_id" id="clarity_id" class="form-control select2 clarityOptions">
                     <option value="">Select Clarity</option>
-                    <?=getColorListOptions($clarityList,((!empty($dataRow->clarity_id))?$dataRow->clarity_id:0))?>
+                    <?=getClarityListOptions($clarityList,((!empty($dataRow->clarity_id))?$dataRow->clarity_id:0))?>
                 </select>
             </div>
 
