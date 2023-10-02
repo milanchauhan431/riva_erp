@@ -24,6 +24,7 @@
             position: absolute;
             width: 100%;
             height: 100%;
+            background:url(https://riva.toxscube.com/assets/images/dashboard-bg.jpg) no-repeat center center; background-size:cover;
         }
 
         canvas {
@@ -113,7 +114,8 @@
             -webkit-transform: translate(-50%, -50%);
             background-color: #fff;
             border-radius: 2rem;
-            width:25%;height:65%;
+            width:33%;
+            height:70%;
         }
 
         .canvas-wrapper.transition-in {
@@ -126,6 +128,12 @@
 
         .canvas-wrapper.transition-in [class^="letter"] {
             opacity: 1;
+        }
+        @media only screen and (max-width: 750px) {
+         .canvas-wrapper {
+            width:95%;
+            height:85%;
+          }
         }
     </style>
 </head>
@@ -152,7 +160,7 @@
                         <h5 class="font-medium bg-grey  pad-5" style="margin:10px 0px 20px 0px;">Sign In</h5>
                     </div>
                     
-                    <div class="row  m-l-20 m-r-20">
+                    <div class="row m-b-30 m-l-20 m-r-20">
                         <div class="col-12">
                             <form class="form-horizontal m-t-20" id="loginform" action="<?=base_url('login/auth');?>" method="post">
                                 <?php if($errorMsg = $this->session->flashdata('loginError')): ?>
@@ -212,7 +220,7 @@
                                 </div>
                             </div>
                             <!-- pwd -->
-                            <div class="row m-t-20">
+                            <div class="row m-t-20 mb-2">
                                 <div class="col-12">
                                     <button class="btn btn-block btn-lg btn-primary" type="submit" name="action">Submit</button>                                    
                                 </div>

@@ -59,8 +59,8 @@ class InwardReceipt extends MY_Controller{
             $errorMessage['item_id'] = "Product Name is required.";
         if(empty($data['inward_type']))
             $errorMessage['inward_type'] = "Inward Type is required.";
-        if(empty($data['design_no']))
-            $errorMessage['design_no'] = "Design No. is required.";
+        if(empty($data['order_type']))
+            $errorMessage['order_type'] = "Challan Type is required.";
         if(empty($data['qty']))
             $errorMessage['qty'] = "Qty is required.";
         if(empty($data['gross_weight']))

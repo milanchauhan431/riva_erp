@@ -70,6 +70,15 @@
             </div>
 
             <div class="col-md-2 form-group">
+                <label for="order_type">Challan Type</label>
+                
+                <select name="order_type" id="order_type" class="form-control select2 req">
+                    <option value="">Select Type</option>
+                    <option value="regular" <?php echo (!empty($dataRow->order_type) && $dataRow->order_type == "regular")?"selected":""; ?>>Regular</option>
+                    <option value="job_work" <?php echo (!empty($dataRow->order_type) && $dataRow->order_type == "job_work")?"selected":""; ?>>Job work</option>
+                </select>
+            </div>
+            <div class="col-md-2 form-group">
                 <label for="inward_type">Inward Type</label>
                 <select name="inward_type" id="inward_type" class="form-control select2 req">
                     <option value="">Select Type</option>
@@ -84,7 +93,7 @@
 
             <div class="col-md-2 form-group">
                 <label for="design_no">Design No.</label>
-                <input type="text" name="design_no" id="design_no" class="form-control req" value="<?=(!empty($dataRow->design_no))?$dataRow->design_no:""?>">
+                <input type="text" name="design_no" id="design_no" class="form-control" value="<?=(!empty($dataRow->design_no))?$dataRow->design_no:""?>">
             </div>
 
             <div class="col-md-2 form-group">

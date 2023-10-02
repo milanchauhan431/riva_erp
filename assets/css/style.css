@@ -15936,7 +15936,7 @@ table.table tr:hover td{/* background-color: whitesmoke; */ background-color: #f
 .dashboard-btn li a:hover{ background:#333; color:#fff;}
 .dashboard-btn li i{ margin-right:5px; display:none;}
 
-.dashboard-header{ margin:0px 0px 40px 0px; padding:0px; background:url(../images/dashboard-bg.jpg) center; background-size:cover; height:180px; position:relative;}
+.dashboard-header{ margin:0px 0px 40px 0px; padding:0px; background:url(../images/dashboard-bg-1.jpg) center; background-size:cover; height:180px; position:relative;}
 .dashboard-header-overlay{ position:absolute; width:100%; height:100%; background:#000; opacity:25%; z-index:0;}
 .dashboard-header-data{ padding:50px 50px 70px 50px; position:relative; z-index:1; color:#fff;}
 .dashboard-header-data img{ max-height:80px;}

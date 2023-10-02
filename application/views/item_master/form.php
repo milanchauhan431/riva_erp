@@ -40,12 +40,12 @@
                 <input type="text" name="packing_standard" id="packing_standard" class="form-control numericOnly" value="<?=(!empty($dataRow->packing_standard))?$dataRow->packing_standard:1?>">
             </div>
 
-            <div class="col-md-2 form-group">
+            <div class="col-md-2 form-group d-none">
                 <label for="defualt_disc">Defual Disc. (%)</label>
                 <input type="text" name="defualt_disc" class="form-control floatOnly" value="<?=(!empty($dataRow->defualt_disc)) ? $dataRow->defualt_disc : ""?>" />
             </div>
 
-            <div class="col-md-2 form-group">
+            <div class="col-md-2 form-group d-none">
                 <label for="price">Price</label>
                 <input type="text" name="price" id="price" class="form-control floatOnly" value="<?=(!empty($dataRow->price))?$dataRow->price:""?>">
             </div>

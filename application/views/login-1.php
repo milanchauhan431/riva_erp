@@ -38,7 +38,7 @@
         <!-- ============================================================== -->
         <!-- Login box.scss -->
         <!-- ============================================================== -->
-        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="url(<?=base_url()?>assets/images/background/login_bg1.png) no-repeat center center;">
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="url(<?=base_url()?>assets/images/background/login_bg1.png) no-repeat center center;background: #d7b56e;">
             <div class="auth-box">
                 <div id="loginform">
                     <div class="logo">
