@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="table-responsive">
             <table id="summaryTable" class="table">
-                <thead class="table-info">
+                <thead class="thead-info">
                     <tr>
                         <th class="summary_desc" style="width: 30%;">Descrtiption</th>
                         <th class="ledgerColumn" style="width: 30%;">Ledger</th>
@@ -185,7 +185,7 @@
                     ?>
 
                 </tbody>
-                <tfoot class="table-info">
+                <tfoot class="thead-info">
                     <tr>
                         <th>Net. Amount</th>
                         <th class="ledgerColumn"></th>
