@@ -32,6 +32,17 @@ class TransactionMainModel extends MasterModel{
 		return $trans_no;
     }
 
+	public function getNextTransNo($data=array()){
+		$no_column = (!empty($data['no_column']))?$data['no_column']:"trans_no";
+		$date_column = (!empty($data['date_column']))?$data['date_column']:"trans_date";
+		$queryData = array();
+		$queryData['tableName'] = $data['table_name'];
+        $queryData['select'] = "ifnull(MAX(".$no_column." + 1),1) as next_no";
+        $queryData['where'][$date_column.' >='] = $this->startYearDate;
+        $queryData['where'][$date_column.' <='] = $this->endYearDate;
+        return $this->row($queryData)->next_no;
+	}
+
 	public function getMirNextNo($type = 1){
         $queryData['tableName'] = $this->mir;
         $queryData['select'] = "ifnull(MAX(trans_no + 1),1) as next_no";
