@@ -64,6 +64,10 @@ class StoreLocationModel extends MasterModel{
 
             $result = $this->store($this->locationMaster,$data,'Store Location');
 
+            if(!empty($data['id'])):
+                $this->edit($this->locationMaster,['ref_id'=>$data['id']],['store_name'=>$data['location']]);
+            endif;
+
             if ($this->db->trans_status() !== FALSE):
                 $this->db->trans_commit();
                 return $result;
@@ -96,6 +100,16 @@ class StoreLocationModel extends MasterModel{
 
             if($checkUsed == true):
                 return ['status'=>0,'message'=>'The Store Location is currently in use. you cannot delete it.'];
+            endif;
+
+            $queryData = array();
+            $queryData['tableName'] = $this->locationMaster;
+            $queryData['where']['ref_id'] = $id;
+            $queryData['resultType'] = "numRows";
+            $checkUsed =  $this->specificRow($queryData);
+
+            if($checkUsed == true):
+                return ['status'=>0,'message'=>'The Store Location has subcategory. you cannot delete it.'];
             endif;
 
             $result = $this->trash($this->locationMaster,['id'=>$id],'Store Location');
