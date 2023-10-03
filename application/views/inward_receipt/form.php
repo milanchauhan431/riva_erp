@@ -1,4 +1,4 @@
-<form>
+<form  enctype="multipart/form-data">
     <div class="col-md-12">
 
         <div class="hiddenInputs">
@@ -6,6 +6,7 @@
             <input type="hidden" name="trans_prefix" id="trans_prefix" value="<?=(!empty($dataRow->trans_prefix))?$dataRow->trans_prefix:$trans_prefix?>">
             <input type="hidden" name="trans_no" id="trans_no" value="<?=(!empty($dataRow->trans_no))?$dataRow->trans_no:$trans_no?>">
             <input type="hidden" name="entry_type" id="entry_type" value="<?=(!empty($dataRow->entry_type))?$dataRow->entry_type:$entry_type?>">
+            <input type="hidden" name="approved_by" id="approved_by" value="<?=(!empty($approved_by))?$approved_by:0?>">
         </div>
 
         <div class="row">
@@ -66,18 +67,16 @@
                     <option value="">Select Product Name</option>
                     <?=getItemListOption($itemList,((!empty($dataRow->item_id))?$dataRow->item_id:0))?>
                 </select>
-                <!-- <input type="hidden" name="item_name" id="item_name" class="form-control" value="" /> -->
             </div>
 
             <div class="col-md-2 form-group">
-                <label for="order_type">Challan Type</label>
-                
+                <label for="order_type">Challan Type</label>                
                 <select name="order_type" id="order_type" class="form-control select2 req">
-                    <option value="">Select Type</option>
-                    <option value="regular" <?php echo (!empty($dataRow->order_type) && $dataRow->order_type == "regular")?"selected":""; ?>>Regular</option>
-                    <option value="job_work" <?php echo (!empty($dataRow->order_type) && $dataRow->order_type == "job_work")?"selected":""; ?>>Job work</option>
+                    <option value="Regular" <?=(!empty($dataRow->order_type) && $dataRow->order_type == "Regular")?"selected":""; ?>>Regular</option>
+                    <option value="Job Work" <?=(!empty($dataRow->order_type) && $dataRow->order_type == "Job Work")?"selected":""; ?>>Job Work</option>
                 </select>
             </div>
+
             <div class="col-md-2 form-group">
                 <label for="inward_type">Inward Type</label>
                 <select name="inward_type" id="inward_type" class="form-control select2 req">
@@ -116,14 +115,26 @@
                 <input type="text" name="purchase_price" id="purchase_price" class="form-control floatOnly req" value="<?=(!empty($dataRow->purchase_price))?$dataRow->purchase_price:""?>">
             </div>
 
-            <div class="col-md-2 form-group">
+            <div class="col-md-2 form-group hidden" id="salesPriceDiv">
                 <label for="sales_price">Sales Price</label>
                 <input type="text" name="sales_price" id="sales_price" class="form-control floatOnly" value="<?=(!empty($dataRow->sales_price))?$dataRow->sales_price:""?>">
             </div>
 
-            <div class="col-md-10 form-group">
+            <div class="col-md-10 form-group" id="remarkDiv">
                 <label for="remark">Remark</label>
                 <input type="text" name="remark" id="remark" class="form-control" value="<?=(!empty($dataRow->remark))?$dataRow->remark:""?>">
+            </div>
+
+            <div class="col-md-3 form-group <?=(!isset($approved_by) && empty($approved_by))?"hidden":""?>">
+                <label for="location_id">Store Location</label>
+                <select name="location_id" id="location_id" class="form-control select2 req">
+                    <option value="">Select Location</option>
+                    <?php
+                        if(!empty($locationList)):
+                            echo getLocationListOption($locationList);
+                        endif;
+                    ?>
+                </select>
             </div>
         </div>
         
@@ -263,6 +274,11 @@
                 <input type="text" name="diamond_size_cut" id="diamond_size_cut" class="form-control" value="<?=(!empty($dataRow->diamond_size_cut))?$dataRow->diamond_size_cut:""?>">
             </div>
 
+            <div id="diamond_quality_input" class="col-md-2 form-group">
+                <label for="diamond_quality">Diamond Quality</label>
+                <input type="text" name="diamond_quality" id="diamond_quality" class="form-control" value="<?=(!empty($dataRow->diamond_quality))?$dataRow->diamond_quality:""?>">
+            </div>
+
             <div class="col-md-2 form-group">
                 <label for="kundan_weight">Kundan Weight</label>
                 <input type="text" name="kundan_weight" id="kundan_weight" class="form-control floatOnly" value="<?=(!empty($dataRow->kundan_weight))?$dataRow->kundan_weight:""?>">
@@ -305,39 +321,85 @@
                 <input type="text" name="other_charge" id="other_charge" class="form-control floatOnly" value="<?=(!empty($dataRow->other_charge))?$dataRow->other_charge:""?>">
             </div>
         </div>
+
+        <hr>
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <h4>Attechments :</h4>
+            </div>
+
+            <div class="col-md-4 form-group">
+                <label for="attechments">Attechments</label>
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input multifiles" name="attachments[]" id="attachments" accept=".jpg, .jpeg, .png" multiple>
+                        <label class="custom-file-label" for="attachments">Choose file</label>
+                    </div>
+                </div>
+                <div class="error attachment_error"></div>
+            </div>
+
+            <div class="col-md-8"></div>
+
+            <?php 
+                if(!empty($dataRow->attachments)): 
+                    $attachments = explode(",",$dataRow->attachments);
+                    foreach($attachments as $file):
+            ?>
+                <div class="col-md-2 form-group text-center m-t-20">
+                    <img src="<?=base_url("assets/uploads/inventory_img/".$file)?>" class="img-zoom" alt="IMG"><br>
+                    <button type="button" class="btn btn-outline-danger m-t-10 remove"><i class="ti-trash"></i> Remove</button>
+                    <input type="hidden" name="attachment[]" value="<?=$file?>">
+                </div>
+            <?php 
+                    endforeach;
+                endif; 
+            ?>
+        </div>
     </div>
 </form>
 
 <script>
 $(document).ready(function(){
-    $("#purity_input,#fine_input,#polish_input,#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input").hide();
+    $("#purity_input,#fine_input,#polish_input,#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input,#diamond_quality_input").hide();
+
     $("#inward_type").trigger("change");
     $(document).on('change',"#inward_type",function(){
         var type = $(this).find(":selected").val();
         if(type != ""){
             if($("#id").val() == ""){
-                $("#purity_id,#fine_id,#polish_id,#color_id,#clarity_id").val("");
+                $("#purity_id,#fine_id,#polish_id,#color_id,#clarity_id,#sales_price").val("");
                 $("#purity_id,#fine_id,#polish_id,#color_id,#clarity_id").select2();
+                $("#salesPriceDiv").addClass("hidden");
+                $("#remarkDiv").removeClass("col-md-8").addClass("col-md-10");
             }
 
-            if($.inArray(type, ["Gold","Gold Items","Platinum Items"]) >= 0){
+            if($.inArray(type, ["Gold","Gold Items","Platinum Items","Palladium"]) >= 0){
                 $("#purity_input,#fine_input,#polish_input").show();                
-                $("#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input").hide();
+                $("#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input,#diamond_quality_input").hide();
             }else if($.inArray(type, ["Gold + Diamond Items","Platinum + Diamond Items"]) >= 0){
-                $("#purity_input,#fine_input,#polish_input,#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input").show();
+                $("#purity_input,#fine_input,#polish_input,#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input,#diamond_quality_input").show();
             }else if($.inArray(type, ["Silver","Silver Items"]) >= 0){
                 $("#polish_input").show();
-                $("#purity_input,#fine_input,#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input").hide();
+                $("#purity_input,#fine_input,#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input,#diamond_quality_input").hide();
             }
-            else if($.inArray(type, ["Loos Diamond","Diamond Items"]) >= 0){
-                $("#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input").show();
+            else if($.inArray(type, ["Loos Diamond","Diamond Items","Lab Grown Diamond"]) >= 0){
+                $("#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input,#diamond_quality_input").show();
                 $("#polish_input,#purity_input,#fine_input").hide();
+                $("#salesPriceDiv").removeClass("hidden");
+                $("#remarkDiv").removeClass("col-md-10").addClass("col-md-8");
             }
         }else{
-            $("#purity_id,#fine_id,#polish_id,#color_id,#clarity_id").val("");
+            $("#purity_id,#fine_id,#polish_id,#color_id,#clarity_id,#sales_price").val("");
             $("#purity_id,#fine_id,#polish_id,#color_id,#clarity_id").select2();
-            $("#purity_input,#fine_input,#polish_input,#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input").hide();
+            $("#purity_input,#fine_input,#polish_input,#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input,#diamond_quality_input").hide();
+            $("#salesPriceDiv").addClass("hidden");
+            $("#remarkDiv").removeClass("col-md-8").addClass("col-md-10");
         }
+    });
+
+    $(document).on('click','.remove',function(){
+        $(this).parent('div').remove();
     });
 });
 

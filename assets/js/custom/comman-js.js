@@ -357,7 +357,13 @@ $(document).ready(function(){
 
 	$(document).on('change','.custom-file-input',function(){
 		var inputId = $(this).attr('id');
-		var fileName = $('#'+inputId).val().split('\\').pop() || "Choose file";
+		if($('#'+inputId).hasClass("multifiles")){
+			var files = $('#'+inputId).prop("files")
+			var fileNames = $.map(files, function(val) { return val.name; });
+			var fileName = fileNames.join(", ") || "Choose file";
+		}else{
+			var fileName = $('#'+inputId).val().split('\\').pop() || "Choose file";
+		}
         $('label[for="' + inputId + '"]').html(fileName);
 	});
 

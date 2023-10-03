@@ -1,10 +1,11 @@
 <?php
 class InwardReceiptModel extends MasterModel{
     private $inwardReceipt = "inward_receipt";
+    private $stockTransaction = "stock_transaction";
 
     public function getDTRows($data){
         $data['tableName'] = $this->inwardReceipt;
-        $data['select'] = "inward_receipt.id,inward_receipt.trans_number,inward_receipt.trans_date,inward_receipt.party_id,party_master.party_name,inward_receipt.item_id,item_master.item_code,item_master.item_name,inward_receipt.design_no,inward_receipt.qty,inward_receipt.gross_weight,inward_receipt.net_weight,inward_receipt.purchase_price,inward_receipt.sales_price,inward_receipt.remark";
+        $data['select'] = "inward_receipt.id,inward_receipt.trans_number,inward_receipt.trans_date,inward_receipt.party_id,party_master.party_name,inward_receipt.item_id,item_master.item_code,item_master.item_name,inward_receipt.design_no,inward_receipt.qty,inward_receipt.gross_weight,inward_receipt.net_weight,inward_receipt.purchase_price,inward_receipt.sales_price,inward_receipt.remark,inward_receipt.approved_by";
 
         $data['leftJoin']['party_master'] = "inward_receipt.party_id = party_master.id";
         $data['leftJoin']['item_master'] = "inward_receipt.item_id = item_master.id";
@@ -53,11 +54,38 @@ class InwardReceiptModel extends MasterModel{
             $this->db->trans_begin();
 
             if(empty($data['id'])):
-                $data['trans_no'] = $this->transMainModel->nextTransNo($data['entry_type']);
+                $data['trans_no'] = $this->transMainModel->getNextTransNo(['table_name'=>"inward_receipt"]);
                 $data['trans_number'] = $data['trans_prefix'].$data['trans_no'];
             endif;
 
             $result = $this->store($this->inwardReceipt,$data,'Inward Receipt');
+
+            if(!empty($data['approved_by'])):
+                $stockTransData = [
+                    'id' => '',
+                    'entry_type' => $data['entry_type'],
+                    'ref_date' => $data['trans_date'],
+                    'ref_no' => $data['trans_number'],
+                    'main_ref_id' => $result['id'],
+                    'location_id' => $data['location_id'],
+                    'batch_no' => '',
+                    'party_id' => $data['party_id'],
+                    'item_id' => $data['item_id'],
+                    'p_or_m' => 1,
+                    'gross_weight' => $data['gross_weight'],
+                    'net_weight' => $data['net_weight'],
+                    'purchase_price' => $data['purchase_price'],
+                    'sales_price' => $data['sales_price']
+                ];
+
+                for($i=1;$i<=$data['qty'];$i++):
+                    $stockTransData['unique_id'] = time().$i;
+                    $stockTransData['batch_no'] = time().$i;
+                    $stockTransData['qty'] = 1;
+
+                    $this->store($this->stockTransaction,$stockTransData);
+                endfor;
+            endif;
 
             if ($this->db->trans_status() !== FALSE):
                 $this->db->trans_commit();

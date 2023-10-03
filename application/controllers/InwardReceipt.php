@@ -31,7 +31,7 @@ class InwardReceipt extends MY_Controller{
     public function addInward(){        
         $this->data['entry_type'] = $this->data['entryData']->id;
         $this->data['trans_prefix'] = $this->data['entryData']->trans_prefix;
-        $this->data['trans_no'] = $this->data['entryData']->trans_no;
+        $this->data['trans_no'] = $this->transMainModel->getNextTransNo(['table_name'=>"inward_receipt"]);
         $this->data['trans_number'] = $this->data['trans_prefix'].$this->data['trans_no'];
 
         $this->data['partyList'] = $this->party->getPartyList(['party_category'=>"1,2,3"]);
@@ -67,18 +67,84 @@ class InwardReceipt extends MY_Controller{
             $errorMessage['gross_weight'] = "Gross Weight is required.";
         if(empty($data['net_weight']))
             $errorMessage['net_weight'] = "Net Weight is required.";
-        if(empty($data['purchase_price']))
+        if(empty($data['purchase_price']) && $data['order_type'] == "Regular")
             $errorMessage['purchase_price'] = "Purchase Price is required.";
+
+        if(!empty($data['approved_by']) && empty($data['location_id']))
+            $errorMessage['location_id'] = "Location is required.";
 
         if(!empty($errorMessage)):
             $this->printJson(['status'=>0,'message'=>$errorMessage]);
         else:
+            $attachments = array();
+            if(!empty($data['id']) && !empty($data['attachment'])):
+                $attachments = $data['attachment']; unset($data['attachment']);
+            endif;
+
+            if(!empty($_FILES['attachments']['name'][0])):
+                $this->load->library('upload');
+                $this->load->library('image_lib'); 
+
+                $errorMessage['attachment_error'] = "";
+                
+                foreach($_FILES['attachments']['name'] as $key => $fileName):
+                    $_FILES['userfile']['name']     = $fileName;
+                    $_FILES['userfile']['type']     = $_FILES['attachments']['type'][$key];
+                    $_FILES['userfile']['tmp_name'] = $_FILES['attachments']['tmp_name'][$key];
+                    $_FILES['userfile']['error']    = $_FILES['attachments']['error'][$key];
+                    $_FILES['userfile']['size']     = $_FILES['attachments']['size'][$key];
+
+                    $imagePath = realpath(APPPATH . '../assets/uploads/inventory_img/');
+
+                    $fileName = preg_replace('/[^A-Za-z0-9]+/', '_', strtolower($fileName));
+                    $config = ['file_name' => time()."_IR_".$fileName,'allowed_types' => 'jpg|jpeg|png|gif|JPG|JPEG|PNG','max_size' => 10240,'overwrite' => FALSE, 'upload_path' => $imagePath];                
+
+                    $this->upload->initialize($config);
+                    if(!$this->upload->do_upload()):
+                        $errorMessage['attachment_error'] .= $fileName." => ". $this->upload->display_errors();
+                    else:
+                        $uploadData = $this->upload->data();
+                        $attachments[] = $uploadData['file_name'];
+
+                        $imgConfig['image_library'] = 'gd2';
+                        $imgConfig['source_image'] = $uploadData['full_path'];
+                        $imgConfig['maintain_ratio'] = TRUE;
+                        $imgConfig['width'] = 640;
+                        $imgConfig['height'] = 480;
+                        $imgConfig['quality'] = "50%";
+
+                        $this->image_lib->clear();
+                        $this->image_lib->initialize($imgConfig);                   
+
+                        if(!$this->image_lib->resize()):
+                            $errorMessage['attachment_error'] .= $fileName." => ". $this->image_lib->display_errors();
+                        endif;
+                    endif;
+                endforeach;
+
+                if(!empty($errorMessage['attachment_error'])):
+                    foreach($attachments as $file):
+                        if(file_exists($imagePath.'/'.$file)): unlink($imagePath.'/'.$file); endif;
+                    endforeach;
+                    $this->printJson(['status'=>0,'message'=>$errorMessage]);
+                endif;                
+            endif;
+
+            if(!empty($attachments)):
+                $data['attachments'] = implode(",",$attachments);
+            endif;
+
             $this->printJson($this->inwardReceipt->save($data));
         endif;
     }
 
     public function edit(){
         $data = $this->input->post();
+        if(!empty($data['is_approve'])):
+            $this->data['approved_by'] = $this->loginId;
+            $this->data['locationList'] = $this->storeLocation->getStoreLocationList(['final_location'=>1]);
+        endif;
+        
         $this->data['dataRow'] = $this->inwardReceipt->getInwardReceipt($data);
 
         $this->data['partyList'] = $this->party->getPartyList(['party_category'=>"1,2,3"]);

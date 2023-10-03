@@ -170,8 +170,8 @@ function ssDatatable(ele,tableHeaders,tableOptions,dataSet={}){
 	$('#' + tableId +'_filter .form-control-sm').css("width","97%");
 	$('#' + tableId +'_filter .form-control-sm').attr("placeholder","Search.....");	
 	$(".dataTables_scroll").addClass("key-scroll");
-	setTimeout(function(){ ssTable.columns.adjust().draw();}, 10);
-	$('.page-wrapper').resizer(function() { ssTable.columns.adjust().draw(); });
+	/* setTimeout(function(){ ssTable.columns.adjust().draw();}, 10);
+	$('.page-wrapper').resizer(function() { ssTable.columns.adjust().draw(); }); */
 	
     
 	$('.ssTable-cf thead tr:eq(1) th').each( function (i) {

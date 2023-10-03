@@ -85,11 +85,17 @@ function getPurchaseIndentData($data){
 function getInwardReceiptData($data){
     $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Inward Receipt'}";
     $editParam = "{'postData':{'id' : ".$data->id."},'modal_id' : 'modal-xxl', 'form_id' : 'editInward', 'title' : 'Update Inward Receipt'}";
+    $approveParam = "{'postData':{'id' : ".$data->id.",'is_approve':1},'modal_id' : 'modal-xxl', 'form_id' : 'editInward', 'title' : 'Approve Inward Receipt'}";
 
-    $editButton = '<a class="btn btn-success btn-edit permission-modify" href="javascript:void(0)" datatip="Edit" flow="down" onclick="edit('.$editParam.');"><i class="ti-pencil-alt"></i></a>';
+    $editButton = '<a class="btn btn-warning btn-edit permission-modify" href="javascript:void(0)" datatip="Edit" flow="down" onclick="edit('.$editParam.');"><i class="ti-pencil-alt"></i></a>';
     $deleteButton = '<a class="btn btn-danger btn-delete permission-remove" href="javascript:void(0)" onclick="trash('.$deleteParam.');" datatip="Remove" flow="down"><i class="ti-trash"></i></a>';
+    $approveButton = '<a class="btn btn-success btn-edit permission-approve" href="javascript:void(0)" datatip="Approve Inward" flow="down" onclick="edit('.$approveParam.');"><i class="ti-check"></i></a>';
 
-    $action = getActionButton($editButton.$deleteButton);
+    if(!empty($data->approved_by)):
+        $approveButton = $editButton = $deleteButton = "";
+    endif;
+
+    $action = getActionButton($approveButton.$editButton.$deleteButton);
 
     return [$action,$data->sr_no,$data->trans_number,formatDate($data->trans_date),$data->party_name,$data->item_name,$data->design_no,$data->qty,$data->gross_weight,$data->net_weight,$data->purchase_price,$data->sales_price,$data->remark];
 
