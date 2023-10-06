@@ -135,7 +135,7 @@ class InwardReceiptModel extends MasterModel{
         $queryData['select'] = "inward_receipt.*,(inward_receipt.qty - inward_receipt.inv_qty) as pending_qty,inward_receipt.entry_type as main_entry_type,item_master.item_code,item_master.item_name,item_master.item_type,item_master.hsn_code,item_master.gst_per,unit_master.id as unit_id,unit_master.unit_name,'0' as stock_eff";
         $queryData['leftJoin']['item_master'] = "item_master.id = inward_receipt.item_id";
         $queryData['leftJoin']['unit_master'] = "item_master.unit_id = unit_master.id";
-        $queryData['where']['mir.party_id'] = $data['party_id'];
+        $queryData['where']['inward_receipt.party_id'] = $data['party_id'];
         $queryData['where']['inward_receipt.entry_type'] = $this->data['entryData']->id;
         $queryData['where']['(inward_receipt.qty - inward_receipt.inv_qty) >'] = 0;
         return $this->rows($queryData);

@@ -1275,7 +1275,7 @@ function resClarityMaster(response,formId){
     }
 }
 
-function resdiamondQualityMaster(response,formId){
+function resDiamondQualityMaster(response,formId){
 	if(response.status==1){
         $('#'+formId)[0].reset();closeModal(formId);
         toastr.success(response.message, 'Success', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });

@@ -275,12 +275,7 @@
             </div>
 
             <div id="diamond_quality_input" class="col-md-2 form-group">
-                <label for="diamond_quality">Diamond Quality</label>
-                <input type="text" name="diamond_quality" id="diamond_quality" class="form-control" value="<?=(!empty($dataRow->diamond_quality))?$dataRow->diamond_quality:""?>">
-            </div>
-
-            <div id="purity_input" class="col-md-2 form-group">
-                <label for="purity_id">Diamond Quality</label>
+                <label for="diamond_quality_id">Diamond Quality</label>
                 <div class="float-right">                    
                     <span class="dropdown float-right m-r-5">
                         <a class="text-primary font-bold waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" datatip="Progress" flow="down">+ Add New</a>
@@ -289,7 +284,7 @@
 
                             <div class="d-flex no-block align-items-center p-10 bg-primary text-white">ACTION</div>
                             
-                            <a class="dropdown-item addNew" href="javascript:void(0)" data-button="both" data-modal_id="modal-md" data-function="addDiamondQuality" data-controller="diamondQuality" data-res_function="resdiamondQualityMaster" data-js_store_fn="customStore" data-form_title="Add Quality">+ Diamond Quality</a>
+                            <a class="dropdown-item addNew" href="javascript:void(0)" data-button="both" data-modal_id="modal-md" data-function="addDiamondQuality" data-controller="diamondQuality" data-res_function="resDiamondQualityMaster" data-js_store_fn="customStore" data-form_title="Add Quality">+ Diamond Quality</a>
                             
                         </div>
                     </span>
@@ -297,9 +292,10 @@
 
                 <select name="diamond_quality_id" id="diamond_quality_id" class="form-control select2 qualityOptions">
                     <option value="">Select Diamond Quality</option>
-                    <?=getdiamondQualityOptions($diamondQualityList,((!empty($dataRow->purity_id))?$dataRow->purity_id:0))?>
+                    <?=getDiamondQualityOptions($diamondQualityList,((!empty($dataRow->diamond_quality_id))?$dataRow->diamond_quality_id:0))?>
                 </select>
             </div>
+
             <div class="col-md-2 form-group">
                 <label for="kundan_weight">Kundan Weight</label>
                 <input type="text" name="kundan_weight" id="kundan_weight" class="form-control floatOnly" value="<?=(!empty($dataRow->kundan_weight))?$dataRow->kundan_weight:""?>">
