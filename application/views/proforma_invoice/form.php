@@ -5,7 +5,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header text-center">
-                        <h4><u>Proforma Invoice</u></h4>
+                        <h4><u><?=(!empty($is_approve))?"Approve ":""?>Proforma Invoice</u></h4>
                     </div>
                     <div class="card-body">
                         <form autocomplete="off" id="saveProformaInvoice" data-res_function="resProformaInvoice" enctype="multipart/form-data">
@@ -25,6 +25,9 @@
                                         <input type="hidden" name="party_state_code" id="party_state_code" value="<?=(!empty($dataRow->party_state_code))?$dataRow->party_state_code:""?>">
 
                                         <input type="hidden" name="tax_class" id="tax_class" value="<?=(!empty($dataRow->tax_class))?$dataRow->tax_class:""?>">
+
+                                        <input type="hidden" name="is_approve" id="is_approve" value="<?=(!empty($is_approve))?$this->loginId:0?>">
+                                        <input type="hidden" name="approve_date" id="approve_date" value="<?=(!empty($is_approve))?date("Y-m-d"):0?>">
                                     </div>
 
                                     <div class="col-md-2 form-group">
@@ -151,11 +154,6 @@
                                         <label for="ship_bill_date">Shipping Bill Date</label>
                                         <input type="date" name="ship_bill_date" id="ship_bill_date" class="form-control" value="<?=(!empty($dataRow->ship_bill_date))?$dataRow->ship_bill_date:""?>">
                                     </div>
-
-                                    <div class="col-md-2 form-group">
-                                        <label for="bill_per">Bill (%)</label>
-                                        <input type="text" name="masterDetails[i_col_1]" id="master_i_col_1" class="form-control numericOnly" value="<?=(!empty($dataRow->bill_per))?$dataRow->bill_per:"100"?>">
-                                    </div>
                                 </div>
 
                                 <hr>
@@ -163,7 +161,7 @@
                                 <div class="col-md-12 row">
                                     <div class="col-md-6"><h4>Item Details : </h4></div>
                                     <div class="col-md-4">
-										<input type="text" name="barcode_scanner" id="barcode_scanner" class="form-control numericOnly float-right" value="" placeholder="Scan barcode"  >
+										<input type="text" id="barcode_scanner" class="form-control numericOnly float-right" value="" placeholder="Scan barcode"  >
                                     </div>
                                     <div class="col-md-2">
                                         <button type="button" class="btn btn-outline-success waves-effect float-right add-item"><i class="fa fa-plus"></i> Add Item</button>
@@ -181,6 +179,8 @@
                                                         <th>Item Name</th>
                                                         <th>HSN Code</th>
                                                         <th>Qty.</th>
+                                                        <th>G.W.</th>
+                                                        <th>N.W.</th>
                                                         <th>Unit</th>
                                                         <th>Price</th>
                                                         <th>Disc.</th>
@@ -195,7 +195,7 @@
                                                 </thead>
                                                 <tbody id="tempItem" class="temp_item">
                                                     <tr id="noData">
-                                                        <td colspan="15" class="text-center">No data available in table</td>
+                                                        <td colspan="17" class="text-center">No data available in table</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -226,7 +226,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="col-md-12">
-                            <button type="button" class="btn waves-effect waves-light btn-outline-success float-right save-form" onclick="customStore({'formId':'saveProformaInvoice'});" ><i class="fa fa-check"></i> Save</button>
+                            <button type="button" class="btn waves-effect waves-light btn-outline-success float-right save-form" onclick="customStore({'formId':'saveProformaInvoice'});" ><i class="fa fa-check"></i> <?=(!empty($is_approve))?"Approve":"Save"?></button>
                             <a href="javascript:void(0)" onclick="window.location.href='<?=base_url($headData->controller)?>'" class="btn waves-effect waves-light btn-outline-secondary float-right btn-close press-close-btn save-form" style="margin-right:10px;"><i class="fa fa-times"></i> Cancel</a>
                         </div>
                     </div>
@@ -255,6 +255,10 @@
                                 <input type="hidden" name="item_type" id="item_type" value="1" />
                                 <input type="hidden" name="stock_eff" id="stock_eff" value="1" />
                                 <input type="hidden" name="org_price" id="org_price" class="org_price" value="" />
+                                <input type="hidden" name="stock_trans_id" id="stock_trans_id" value="" />
+                                <input type="hidden" name="location_id" id="location_id" value="" />
+                                <input type="hidden" name="standard_qty" id="standard_qty" value="" />
+                                <input type="hidden" name="purity" id="purity" value="" />
                             </div>
                             
 
@@ -266,23 +270,23 @@
                                     <?=getItemListOption($itemList)?>
                                 </select>
                             </div>
-                            <div class="col-md-3 form-group">
+                            <div class="col-md-4 form-group">
+                                <label for="unique_id">Barcode No.</label>
+                                <input type="text" name="unique_id" id="unique_id" class="form-control numericOnly" value="">
+                            </div>
+                            <div class="col-md-2 form-group">
                                 <label for="qty">Quantity</label>
                                 <input type="text" name="qty" id="qty" class="form-control floatOnly req" value="0">
                             </div>
-                            <div class="col-md-3 form-group">
-                                <label for="packing_qty">Packing Standard</label>
-                                <input type="text" name="packing_qty" id="packing_qty" class="form-control" value="" readonly>
-                            </div>
-                            <div class="col-md-3 form-group">
+                            <div class="col-md-2 form-group">
                                 <label for="disc_per">Disc. (%)</label>
                                 <input type="text" name="disc_per" id="disc_per" class="form-control floatOnly" value="0">
                             </div>
-                            <div class="col-md-3 form-group">
+                            <div class="col-md-2 form-group">
                                 <label for="price">Price</label>
                                 <input type="text" name="price" id="price" class="form-control floatOnly req" value="0" />
                             </div>
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-2 form-group">
                                 <label for="unit_id">Unit</label>        
                                 <select name="unit_id" id="unit_id" class="form-control select2">
                                     <option value="">Select Unit</option>
@@ -290,14 +294,14 @@
                                 </select> 
                                 <input type="hidden" name="unit_name" id="unit_name" class="form-control" value="" />                       
                             </div>
-							<div class="col-md-4 form-group">
+							<div class="col-md-3 form-group">
                                 <label for="hsn_code">HSN Code</label>
                                 <select name="hsn_code" id="hsn_code" class="form-control select2">
                                     <option value="">Select HSN Code</option>
                                     <?=getHsnCodeListOption($hsnList)?>
                                 </select>
                             </div>
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-3 form-group">
                                 <label for="gst_per">GST Per.(%)</label>
                                 <select name="gst_per" id="gst_per" class="form-control select2">
                                     <?php
@@ -306,6 +310,14 @@
                                         endforeach;
                                     ?>
                                 </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="gross_weight">Gross Weight</label>
+                                <input type="text" name="gross_weight" id="gross_weight" class="form-control floatOnly req" value="0" />
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="net_weight">Net Weight</label>
+                                <input type="text" name="net_weight" id="net_weight" class="form-control floatOnly req" value="0" />
                             </div>
                             <div class="col-md-12 form-group">
                                 <label for="item_remark">Remark</label>

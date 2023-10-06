@@ -699,6 +699,6 @@ function getItemPriceByRate($itemDetail){
 		$item_rate = $CompanyInfo->palladium_rate / 10; 
 	}
 	$purity = $item_rate * $itemDetail->purity / 99.99;
-	return sprintf("%.2f",$purity) + $itemDetail->sales_price ;
+	return sprintf("%.2f",$purity);
 }
 ?>

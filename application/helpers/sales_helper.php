@@ -95,18 +95,29 @@ function getSalesDtHeader($page){
 
 /* Proforma Invoice Table Data */
 function getProformaInvoiceData($data){
-    $editButton = '<a class="btn btn-success btn-edit permission-modify" href="'.base_url('salesInvoice/edit/'.$data->id).'" datatip="Edit" flow="down" ><i class="ti-pencil-alt"></i></a>';
+    $editButton = '<a class="btn btn-warning btn-edit permission-modify" href="'.base_url('proformaInvoice/edit/'.$data->id).'" datatip="Edit" flow="down" ><i class="ti-pencil-alt"></i></a>';
+
+    $approveButton = '<a class="btn btn-success btn-edit permission-approve" href="'.base_url('proformaInvoice/edit/'.$data->id."/1").'" datatip="Approve" flow="down" ><i class="ti-check"></i></a>';
 
     $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Sales Invoice'}";
     $deleteButton = '<a class="btn btn-danger btn-delete permission-remove" href="javascript:void(0)" onclick="trash('.$deleteParam.');" datatip="Remove" flow="down"><i class="ti-trash"></i></a>';
 
-    $print = '<a href="javascript:void(0)" class="btn btn-warning btn-edit printDialog permission-approve1" datatip="Print Invoice" flow="down" data-id="'.$data->id.'" data-fn_name="printInvoice"><i class="fa fa-print"></i></a>';
-	
-	if(!empty($data->trans_status)){
-		$editButton = $deleteButton = '';
-	}
+    $print = '<a href="javascript:void(0)" class="btn btn-info btn-edit printDialog permission-approve1" datatip="Print Invoice" flow="down" data-id="'.$data->id.'" data-fn_name="printInvoice"><i class="fa fa-print"></i></a>';
 
-    $action = getActionButton($print.$editButton.$deleteButton);
+    $unapprovedParam = "{'postData':{'id' : ".$data->id.",'is_approve':0},'modal_id' : 'modal-md', 'form_id' : 'reversalApproval', 'title' : 'Approval reversal','fnedit':'reversalApproval','fnsave':'saveReversalApproval'}";
+    $unapprovedButton = '<a class="btn btn-danger btn-edit permission-approve" href="javascript:void(0)" datatip="Approval Reversal" flow="down" onclick="edit('.$unapprovedParam.');"><i class="ti-close"></i></a>';
+	
+    if(!empty($data->is_approve)):
+        $approveButton = $editButton = $deleteButton = '';
+    else:
+        $unapprovedButton = '';
+    endif;
+
+	if(!empty($data->trans_status)):
+		$approveButton = $editButton = $deleteButton = '';
+    endif;
+
+    $action = getActionButton($print.$approveButton.$unapprovedButton.$editButton.$deleteButton);
 
     return [$action,$data->sr_no,$data->trans_number,formatDate($data->trans_date),$data->party_name,$data->taxable_amount,$data->gst_amount,$data->net_amount];
 }

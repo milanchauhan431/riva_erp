@@ -82,6 +82,7 @@ class ProformaInvoiceModel extends MasterModel{
                 $this->trash($this->transExpense,['trans_main_id'=>$data['id']]);
                 $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transMain,'description'=>"SI TERMS"]);
                 $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transMain,'description'=>"SI MASTER DETAILS"]);
+                $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transChild,'description'=>"PI SERIAL DETAILS"]);
             endif;
             
             $data['ledger_eff'] = 0;
@@ -141,9 +142,19 @@ class ProformaInvoiceModel extends MasterModel{
                 $row['trans_main_id'] = $result['id'];
                 $row['gst_amount'] = $row['igst_amount'];
                 $row['is_delete'] = 0;
-
+                $serialData = $row['masterData'];unset($row['masterData']);
                 $itemTrans = $this->store($this->transChild,$row);
 
+                $serialData['id'] = "";
+                $serialData['table_name'] = $this->transChild;
+                $serialData['description'] = "PI SERIAL DETAILS";
+                $serialData['main_ref_id'] = $result['id'];
+                $serialData['child_ref_id'] = $itemTrans['id'];
+                $this->store($this->transDetails,$serialData);
+
+                if(!empty($data['is_approve'])):
+                    $this->edit($this->stockTrans,['id'=>$serialData['i_col_2']],['stock_type'=>'FREEZE']);
+                endif;
                  
                 if(!empty($row['ref_id'])):
                     $setData = array();
@@ -220,7 +231,8 @@ class ProformaInvoiceModel extends MasterModel{
     public function getProformaInvoiceItems($data){
         $queryData = array();
         $queryData['tableName'] = $this->transChild;
-        $queryData['select'] = "trans_child.*";
+        $queryData['select'] = "trans_child.*,trans_details.i_col_1 as location_id,trans_details.t_col_1 as unique_id,trans_details.i_col_2 as stock_trans_id,trans_details.d_col_1 as standard_qty,trans_details.d_col_2 as purity";
+        $queryData['leftJoin']['trans_details'] = "trans_child.trans_main_id = trans_details.main_ref_id AND trans_details.child_ref_id = trans_child.id AND trans_details.description = 'PI SERIAL DETAILS' AND trans_details.table_name = '".$this->transChild."'";
         $queryData['where']['trans_child.trans_main_id'] = $data['id'];
         $result = $this->rows($queryData);
         return $result;
@@ -229,7 +241,9 @@ class ProformaInvoiceModel extends MasterModel{
     public function getProformaInvoiceItem($data){
         $queryData = array();
         $queryData['tableName'] = $this->transChild;
-        $queryData['where']['id'] = $data['id'];
+        $queryData['select'] = "trans_child.*,trans_details.i_col_1 as location_id,trans_details.t_col_1 as unique_id,trans_details.i_col_2 as stock_trans_id,trans_details.d_col_1 as standard_qty,trans_details.d_col_2 as purity";
+        $queryData['leftJoin']['trans_details'] = "trans_child.trans_main_id = trans_details.main_ref_id AND trans_details.child_ref_id = trans_child.id AND trans_details.description = 'PI SERIAL DETAILS' AND trans_details.table_name = '".$this->transChild."'";
+        $queryData['where']['trans_child.trans_main_id'] = $data['id'];
         $result = $this->row($queryData);
         return $result;
     }
@@ -270,7 +284,31 @@ class ProformaInvoiceModel extends MasterModel{
             
             $this->remove($this->transDetails,['main_ref_id'=>$id,'table_name'=>$this->transMain,'description'=>"PI TERMS"]);
             $this->remove($this->transDetails,['main_ref_id'=>$id,'table_name'=>$this->transMain,'description'=>"PI MASTER DETAILS"]);
-			$result = $this->trash($this->transMain,['id'=>$id],'Sales Invoice');
+            $this->remove($this->transDetails,['main_ref_id'=>$id,'table_name'=>$this->transChild,'description'=>"PI SERIAL DETAILS"]);
+			$result = $this->trash($this->transMain,['id'=>$id],'Proforma Invoice');
+
+            if ($this->db->trans_status() !== FALSE):
+                $this->db->trans_commit();
+                return $result;
+            endif;
+        }catch(\Throwable $e){
+            $this->db->trans_rollback();
+            return ['status'=>2,'message'=>"somthing is wrong. Error : ".$e->getMessage()];
+        }
+    }
+
+    public function saveReversalApproval($data){
+        try{
+            $this->db->trans_begin();
+
+            $dataRow = $this->getProformaInvoice(['id'=>$data['id'],'itemList'=>1]);
+            foreach($dataRow->itemList as $row):
+                $this->edit($this->stockTrans,['id'=>$row->stock_trans_id],['stock_type'=>'FRESH']);
+            endforeach;
+
+            $data['is_approve'] = 0;
+            $data['approve_date'] = null;
+            $result = $this->store($this->transMain,$data);
 
             if ($this->db->trans_status() !== FALSE):
                 $this->db->trans_commit();

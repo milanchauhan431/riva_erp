@@ -54,45 +54,8 @@ class ProformaInvoice extends MY_Controller{
             $errorMessage['party_id'] = "Party Name is required.";
         if(empty($data['sp_acc_id']))
             $errorMessage['sp_acc_id'] = "GST Type is required.";
-        if(empty($data['masterDetails']['i_col_1']))
-            $errorMessage['master_i_col_1'] = "Bill Per. is required.";
         if(empty($data['itemData'])):
             $errorMessage['itemData'] = "Item Details is required.";
-        else:
-            $bQty = array();
-            foreach($data['itemData'] as $key => $row):
-                if(!empty(floatVal($row['qty'])) && !empty($row['size'])):
-                    if(is_int(($row['qty'] / $row['packing_qty'])) == false):
-                        $errorMessage['qty'.$key] = "Invalid qty against packing standard.";
-                    endif;
-                endif;
-
-                if($row['stock_eff'] == 1):
-                    $postData = ['location_id' => $this->RTD_STORE->id,'batch_no' => "GB",'item_id' => $row['item_id'],'stock_required'=>1,'single_row'=>1];
-                    
-                    $stockData = $this->itemStock->getItemStockBatchWise($postData);  
-                    
-                    $stockQty = (!empty($stockData->qty))?$stockData->qty:0;
-                    if(!empty($row['id'])):
-                        $oldItem = $this->proformaInvoice->getProformaInvoiceItem(['id'=>$row['id']]);
-                        $stockQty = $stockQty + $oldItem->qty;
-                    endif;
-                    
-                    if(!isset($bQty[$row['item_id']])):
-                        $bQty[$row['item_id']] = $row['qty'] ;
-                    else:
-                        $bQty[$row['item_id']] += $row['qty'];
-                    endif;
-
-                    if(empty($stockQty)):
-                        $errorMessage['qty'.$key] = "Stock not available.";
-                    else:
-                        if($bQty[$row['item_id']] > $stockQty):
-                            $errorMessage['qty'.$key] = "Stock not available.";
-                        endif;
-                    endif;
-                endif;
-            endforeach;
         endif;
         
         if(!empty($errorMessage)):
@@ -104,7 +67,8 @@ class ProformaInvoice extends MY_Controller{
         endif;
     }
 
-    public function edit($id){
+    public function edit($id,$is_approve=0){
+        $this->data['is_approve'] = $is_approve;
         $this->data['dataRow'] = $dataRow = $this->proformaInvoice->getProformaInvoice(['id'=>$id,'itemList'=>1]);
         $this->data['gstinList'] = $this->party->getPartyGSTDetail(['party_id' => $dataRow->party_id]);
         $this->data['partyList'] = $this->party->getPartyList(['party_category' => 1]);
@@ -126,6 +90,19 @@ class ProformaInvoice extends MY_Controller{
         else:
             $this->printJson($this->proformaInvoice->delete($id));
         endif;
+    }
+
+    public function reversalApproval(){ 
+		$data['pageTitle'] = "Approval reversal"; 
+        $post = $this->input->post();
+        $data['dataRow'] = $this->proformaInvoice->getProformaInvoice(['id'=>$post['id'],'itemList'=>0]);
+        $this->load->view('proforma_invoice/reversal',$data);
+    }
+
+    public function saveReversalApproval(){  
+        $post = $this->input->post();
+		$this->printJson($this->proformaInvoice->saveReversalApproval($post)); 
+		
     }
 
     public function printInvoice($id="",$type=""){
