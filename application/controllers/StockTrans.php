@@ -8,7 +8,7 @@ class StockTrans extends MY_Controller{
 		$this->data['headData']->pageTitle = "FG Stock Inward";
 		$this->data['headData']->controller = "stockTrans";        
         $this->data['headData']->pageUrl = "stockTrans";
-        $this->data['entryData'] = $this->transMainModel->getEntryType(['controller'=>'stockTrans']);
+        //$this->data['entryData'] = $this->transMainModel->getEntryType(['controller'=>'stockTrans']);
 	}
 
     public function index(){
@@ -32,6 +32,15 @@ class StockTrans extends MY_Controller{
     public function addStock(){
         $this->data['itemList'] = $this->item->getItemList();
         $this->load->view($this->form, $this->data);
+    }
+
+    public function getItemDetails(){
+		$data = $this->input->post();
+        $itemDetail = $this->itemStock->getStockTrans($data);
+		if($itemDetail){
+			$itemDetail->price =  (float)getItemPriceByRate($itemDetail);
+		}
+        $this->printJson(['status'=>1,'data'=>['itemDetail'=>$itemDetail]]);
     }
 
     public function save(){

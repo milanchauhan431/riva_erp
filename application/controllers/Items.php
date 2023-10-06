@@ -112,10 +112,6 @@ class Items extends MY_Controller{
     public function getItemDetails(){
         $data = $this->input->post();
         $itemDetail = $this->item->getItem($data);
-		if($itemDetail){
-			$itemDetail->price =  (float)getItemPriceByRate($itemDetail);
-		}
-		
         $this->printJson(['status'=>1,'data'=>['itemDetail'=>$itemDetail]]);
     }
 }

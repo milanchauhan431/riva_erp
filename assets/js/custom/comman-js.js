@@ -1303,9 +1303,9 @@ function getItemBybarcode(){
 	var item_code = $("#barcode_scanner").val(); 
 	if(item_code){
 		$.ajax({
-			url : base_url + '/items/getItemDetails',
+			url : base_url + '/stockTrans/getItemDetails',
 			type:'post',
-			data: {item_code:item_code},
+			data: {unique_id:item_code},
 			dataType : 'json',
 		}).done(function(response){
 			 barcodeScan(response.data.itemDetail)
