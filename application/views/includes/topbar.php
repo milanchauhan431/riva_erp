@@ -54,6 +54,21 @@
             <!-- ============================================================== -->
             <ul class="navbar-nav float-right">
                 <!-- Financial Years -->
+                <li class="nav-item mr-10">
+				Gold: <?php echo $compamyInfoMaster->gold_rate?> | 
+				</li>
+                <li class="nav-item mr-10">
+				Silver: <?php echo $compamyInfoMaster->silver_rate?> | 
+				</li>
+                <li class="nav-item mr-10">
+				Platinum: <?php echo $compamyInfoMaster->platinum_rate?> | 
+				</li>
+                <li class="nav-item mr-10">
+				Palladium: <?php echo $compamyInfoMaster->palladium_rate?>
+				</li>
+			</ul>	
+			<ul class="navbar-nav float-right">
+                <!-- Financial Years -->
                 <li class="nav-item">
                     <select id="financialYearSelection" class="form-control mt-10">
                         <?php
