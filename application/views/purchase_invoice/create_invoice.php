@@ -22,8 +22,10 @@
                                 $row->row_index = "";
                                 $row->entry_type = "";
 
+                                $row->price = $row->purchase_price;
                                 $row->amount = (!empty($row->price))?($row->qty * $row->price):0;
-                                $row->disc_amount = (!empty($row->disc_per))?(($row->amount * $row->disc_per) / 100):0;
+                                $row->disc_per = 0;
+                                $row->disc_amount = 0;//(!empty($row->disc_per))?(($row->amount * $row->disc_per) / 100):0;
                                 $row->taxable_amount = $row->amount - $row->disc_amount;
                                 $row->gst_amount = $row->igst_amount = (!empty($row->gst_per))?(($row->taxable_amount * $row->gst_per) / 100):0;
                                 $row->cgst_per = $row->sgst_per = (!empty($row->gst_per))?($row->gst_per / 2):0;

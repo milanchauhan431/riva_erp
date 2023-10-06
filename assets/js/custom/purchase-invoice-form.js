@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	$(".ledgerColumn").hide();
 	$(".summary_desc").attr('style','width: 60%;');
-	
+
 	$(document).on('click','.getPendingOrders',function(){
 		var party_id = $('#party_id').val();
 		var party_name = $('#party_id :selected').text();
@@ -152,7 +152,7 @@ function createInvoice(){
 	var mainRefIds = []; var mainFromEntryType = [];
 	$(".orderItem:checked").map(function() {
 		row = $(this).data('row');
-		mainRefIds.push(row.mir_id);
+		mainRefIds.push(row.id);
 		mainFromEntryType.push(row.from_entry_type);
 		AddRow(row);
 	}).get();
@@ -228,6 +228,16 @@ function AddRow(data) {
 	cell.html(data.qty);
 	cell.append(qtyInput);
 	cell.append(qtyErrorDiv);
+
+	var grossWeightInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][gross_weight]", class:"", value: data.gross_weight });
+	cell = $(row.insertCell(-1));
+	cell.html(data.gross_weight);
+	cell.append(grossWeightInput);
+
+	var netWeightInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][net_weight]", class:"", value: data.net_weight });
+	cell = $(row.insertCell(-1));
+	cell.html(data.net_weight);
+	cell.append(netWeightInput);
 
     var unitIdInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][unit_id]", value: data.unit_id });
 	var unitNameInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][unit_name]", value: data.unit_name });

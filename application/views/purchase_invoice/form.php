@@ -161,6 +161,8 @@
                                                         <th>Item Name</th>
                                                         <th>HSN Code</th>
                                                         <th>Qty.</th>
+                                                        <th>G.W.</th>
+                                                        <th>N.W.</th>
                                                         <th>Unit</th>
                                                         <th>Price</th>
                                                         <th>Disc.</th>
@@ -175,7 +177,7 @@
                                                 </thead>
                                                 <tbody id="tempItem" class="temp_item">
                                                     <tr id="noData">
-                                                        <td colspan="15" class="text-center">No data available in table</td>
+                                                        <td colspan="17" class="text-center">No data available in table</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -244,17 +246,25 @@
                                     <?=getItemListOption($itemList)?>
                                 </select>
                             </div>
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-2 form-group">
                                 <label for="qty">Quantity</label>
                                 <input type="text" name="qty" id="qty" class="form-control floatOnly req" value="0">
                             </div>
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-2 form-group">
                                 <label for="disc_per">Disc. (%)</label>
                                 <input type="text" name="disc_per" id="disc_per" class="form-control floatOnly" value="0">
                             </div>
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-2 form-group">
                                 <label for="price">Price</label>
                                 <input type="text" name="price" id="price" class="form-control floatOnly req" value="0" />
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="gross_weight">Gross Weight</label>
+                                <input type="text" name="gross_weight" id="gross_weight" class="form-control floatOnly req" value="0" />
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="net_weight">Net Weight</label>
+                                <input type="text" name="net_weight" id="net_weight" class="form-control floatOnly req" value="0" />
                             </div>
                             <div class="col-md-4 form-group">
                                 <label for="unit_id">Unit</label>        

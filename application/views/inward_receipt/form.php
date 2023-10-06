@@ -278,7 +278,7 @@
                 <label for="diamond_quality_id">Diamond Quality</label>
                 <div class="float-right">                    
                     <span class="dropdown float-right m-r-5">
-                        <a class="text-primary font-bold waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" datatip="Progress" flow="down">+ Add New</a>
+                        <a class="text-primary font-bold waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" datatip="Progress" flow="down">+ Add</a>
 
                         <div class="dropdown-menu dropdown-menu-left user-dd animated flipInY" x-placement="start-left">
 
