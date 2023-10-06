@@ -86,16 +86,22 @@ function getInwardReceiptData($data){
     $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Inward Receipt'}";
     $editParam = "{'postData':{'id' : ".$data->id."},'modal_id' : 'modal-xxl', 'form_id' : 'editInward', 'title' : 'Update Inward Receipt'}";
     $approveParam = "{'postData':{'id' : ".$data->id.",'is_approve':1},'modal_id' : 'modal-xxl', 'form_id' : 'editInward', 'title' : 'Approve Inward Receipt'}";
+    $unapprovedParam = "{'postData':{'id' : ".$data->id.",'is_approve':0},'modal_id' : 'modal-md', 'form_id' : 'editInward', 'title' : 'Approval reversal','fnedit':'reversalApproval','fnsave':'saveReversalApproval'}";
 
     $editButton = '<a class="btn btn-warning btn-edit permission-modify" href="javascript:void(0)" datatip="Edit" flow="down" onclick="edit('.$editParam.');"><i class="ti-pencil-alt"></i></a>';
     $deleteButton = '<a class="btn btn-danger btn-delete permission-remove" href="javascript:void(0)" onclick="trash('.$deleteParam.');" datatip="Remove" flow="down"><i class="ti-trash"></i></a>';
-    $approveButton = '<a class="btn btn-success btn-edit permission-approve" href="javascript:void(0)" datatip="Approve Inward" flow="down" onclick="edit('.$approveParam.');"><i class="ti-check"></i></a>';
+    $approveButton = '<a class="btn btn-success btn-edit permission-approve" href="javascript:void(0)" datatip="Approve Inward" flow="down" onclick="edit('.$approveParam.');"><i class="ti-check"></i></a>'; 
+	
+	$unapprovedButton = '<a class="btn btn-danger btn-edit permission-approve" href="javascript:void(0)" datatip="Approval reversal" flow="down" onclick="edit('.$unapprovedParam.');"><i class="ti-close"></i></a>';
 
     if(!empty($data->approved_by)):
         $approveButton = $editButton = $deleteButton = "";
-    endif;
+    else:
+		$unapprovedButton = '';
+	endif;
+	
 
-    $action = getActionButton($approveButton.$editButton.$deleteButton);
+    $action = getActionButton($unapprovedButton.$approveButton.$editButton.$deleteButton);
 
     return [$action,$data->sr_no,$data->trans_number,formatDate($data->trans_date),$data->party_name,$data->item_name,$data->design_no,$data->qty,$data->gross_weight,$data->net_weight,$data->purchase_price,$data->sales_price,$data->remark];
 

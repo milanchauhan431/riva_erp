@@ -15,6 +15,18 @@ class InwardReceipt extends MY_Controller{
         $this->data['tableHeader'] = getPurchaseDtHeader($this->data['headData']->controller);
         $this->load->view($this->indexPage,$this->data);
     }
+    public function reversalApproval(){ 
+		$data['pageTitle'] = "Approval reversal"; 
+        $post = $this->input->post();
+        $data['dataRow'] = $this->inwardReceipt->getInwardReceipt($post);
+        $this->load->view('inward_receipt/reversal',$data);
+    }
+
+    public function saveReversalApproval(){  
+        $post = $this->input->post();
+		$this->printJson($this->inwardReceipt->update($post)); 
+		
+    }
 
     public function getDTRows($status = 0){
         $data = $this->input->post(); $data['status'] = $status;

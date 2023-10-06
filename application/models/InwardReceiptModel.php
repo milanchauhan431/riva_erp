@@ -96,6 +96,22 @@ class InwardReceiptModel extends MasterModel{
             return ['status'=>2,'message'=>"somthing is wrong. Error : ".$e->getMessage()];
         }
     }
+	public function update($data){
+        try{ 
+            $this->db->trans_begin();
+			$data['approved_by']=0;
+			$data['approved_at']=NULL;
+			$result = $this->store($this->inwardReceipt,$data);	
+			$this->remove($this->stockTransaction,['entry_type'=>$data['entry_type'],'main_ref_id'=>$data['id']]);
+		    if ($this->db->trans_status() !== FALSE):
+                $this->db->trans_commit();
+                return $result;
+            endif;
+        }catch(\Throwable $e){
+            $this->db->trans_rollback();
+            return ['status'=>2,'message'=>"somthing is wrong. Error : ".$e->getMessage()];
+        }
+    }
 
     public function delete($id){
         try{

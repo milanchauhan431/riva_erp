@@ -2732,3 +2732,10 @@ span.multiselect-native-select select {
     text-overflow: ellipsis !important;
     white-space: break-spaces !important;
 }
+.selectedTableRow a {
+    padding: 4px;
+    border-radius: 50%;
+    font-size: 13px;
+    line-height: 1;
+    margin-right: 5px;
+}
