@@ -1,4 +1,7 @@
 $(document).ready(function(){
+	$(".ledgerColumn").hide();
+	$(".summary_desc").attr('style','width: 60%;');
+	
 	$(document).on('click','.getPendingOrders',function(){
 		var party_id = $('#party_id').val();
 		var party_name = $('#party_id :selected').text();
@@ -6,7 +9,7 @@ $(document).ready(function(){
 
 		if (party_id != "" || party_id != 0) {
 			$.ajax({
-				url: base_url + 'gateInward/getPartyInwards',
+				url: base_url + 'inwardReceipt/getPartyInwards',
 				type: 'post',
 				data: { party_id: party_id },
 				success: function (response) {

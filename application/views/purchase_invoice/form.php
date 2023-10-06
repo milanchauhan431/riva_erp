@@ -60,7 +60,7 @@
 											</span>
 
                                             <span class="float-right m-r-10">
-                                                <a class="text-primary font-bold waves-effect waves-dark getPendingOrders" href="javascript:void(0)">+ Gate Inward</a>
+                                                <a class="text-primary font-bold waves-effect waves-dark getPendingOrders" href="javascript:void(0)">+ Inward Receipt</a>
                                             </span>
 										</div>
                                         <select name="party_id" id="party_id" class="form-control select2 partyDetails partyOptions req" data-res_function="resPartyDetail" data-party_category="2,3">

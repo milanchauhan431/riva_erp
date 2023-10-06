@@ -6,10 +6,8 @@
                     <thead class="thead-info">
                         <tr>
                             <th>#</th>
-                            <th>GI No.</th>
-                            <th>GI Date</th>
-                            <th>Inv No.</th>
-                            <th>Challan No.</th>
+                            <th>IR No.</th>
+                            <th>IR Date</th>
                             <th>Item Name</th>
                             <th>Pending Qty.</th>
                         </tr>
@@ -39,8 +37,6 @@
                                     </td>
                                     <td>".$row->trans_number."</td>
                                     <td>".formatDate($row->trans_date)."</td>
-                                    <td>".$row->inv_no."</td>
-                                    <td>".$row->doc_no."</td>
                                     <td>".$row->item_name."</td>
                                     <td>".floatval($row->pending_qty)."</td>
                                 </tr>";

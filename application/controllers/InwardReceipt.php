@@ -179,5 +179,11 @@ class InwardReceipt extends MY_Controller{
             $this->printJson($this->inwardReceipt->delete($id));
         endif;
     }
+
+    public function getPartyInwards(){
+        $data = $this->input->post();
+        $this->data['orderItems'] = $this->inwardReceipt->getPendingInwardItems($data);
+        $this->load->view('purchase_invoice/create_invoice',$this->data);
+    }
 }
 ?>

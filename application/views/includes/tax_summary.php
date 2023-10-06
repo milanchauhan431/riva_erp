@@ -191,9 +191,9 @@
                         <th class="ledgerColumn"></th>
                         <th></th>
                         <th></th>
-                        <td>
+                        <th>
                             <input type="text" name="net_amount" id="net_amount" class="form-control floatOnly" value="0" readonly />
-                        </td>
+                        </th>
                     </tr>
                 </tfoot>
             </table>									
