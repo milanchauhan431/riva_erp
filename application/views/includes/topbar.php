@@ -163,7 +163,7 @@
                     </div>
                 </li> -->
                 <!-- End Apps Menu -->
-                <!-- Comment -->
+                <!-- Comment  
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="ti-bell font-20" style="vertical-align: middle;"></i> </a>
                     <div class="dropdown-menu dropdown-menu-right mailbox animated bounceInDown">
@@ -176,8 +176,7 @@
                                 </div>
                             </li>
                             <li>
-                                <div class="message-center notifications">
-                                    <!-- Message -->
+                                <div class="message-center notifications"> 
                                     <a href="javascript:void(0)" class="message-item">
                                         <span class="btn btn-danger btn-circle">
                                             <i class="fa fa-link"></i>
@@ -187,8 +186,7 @@
                                             <span class="mail-desc">Just see the my new admin!</span>
                                             <span class="time">9:30 AM</span>
                                         </div>
-                                    </a>
-                                    <!-- Message -->
+                                    </a> 
                                     <a href="javascript:void(0)" class="message-item">
                                         <span class="btn btn-success btn-circle">
                                             <i class="ti-calendar"></i>
@@ -198,8 +196,7 @@
                                             <span class="mail-desc">Just a reminder that you have event</span>
                                             <span class="time">9:10 AM</span>
                                         </div>
-                                    </a>
-                                    <!-- Message -->
+                                    </a> 
                                     <a href="javascript:void(0)" class="message-item">
                                         <span class="btn btn-info btn-circle">
                                             <i class="ti-settings"></i>
@@ -209,8 +206,7 @@
                                             <span class="mail-desc">You can customize this template as you want</span>
                                             <span class="time">9:08 AM</span>
                                         </div>
-                                    </a>
-                                    <!-- Message -->
+                                    </a> 
                                     <a href="javascript:void(0)" class="message-item">
                                         <span class="btn btn-primary btn-circle">
                                             <i class="ti-user"></i>
@@ -231,7 +227,7 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li>-->
                 <!-- End Comment -->
                 <!-- Messages -->
                 <!-- <li class="nav-item dropdown">
@@ -334,7 +330,7 @@
                             </div>
                         </div>
                         <a class="dropdown-item" href="<?=base_url("hr/employees/empProfile/".$this->session->userdata('loginId'))?>"><i class="ti-user m-r-5 m-l-5"></i> My Profile</a>
-                        <a class="dropdown-item" href="javascript:void(0)"><i class="ti-wallet m-r-5 m-l-5"></i> TP Balance</a>
+                        <a class="dropdown-item addNew press-add-btn" href="javascript:void(0)" data-button="both" data-modal_id="modal-md" data-function="loadRate" data-controller="CompanyInfo" data-fnsave="saveRate" data-savebtn_text="<i class='fa fa-check'></i> Submit" data-form_title="Change rate"><i class="ti-wallet m-r-5 m-l-5"></i> Change Rate</a>
                         <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#change-psw"><i class="ti-key m-r-5 m-l-5"></i> Change Password</a>
                         <?php if($_SERVER['HTTP_HOST'] == 'localhost'): ?>
                             <a class="dropdown-item addNew press-add-btn" href="javascript:void(0)" data-button="both" data-modal_id="modal-md" data-function="dbForm" data-controller="dbUtility" data-fnsave="syncDbQuery" data-savebtn_text="<i class='fa fa-retweet'></i> SYNC" data-form_title="SYNC DB LIVE TO LOCAL"><i class="ti-link m-r-5 m-l-5"></i> SYNC DB</a>

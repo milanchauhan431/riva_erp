@@ -1274,3 +1274,28 @@ function resClarityMaster(response,formId){
         }			
     }
 }
+
+function resdiamondQualityMaster(response,formId){
+	if(response.status==1){
+        $('#'+formId)[0].reset();closeModal(formId);
+        toastr.success(response.message, 'Success', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
+
+		$.ajax({
+			url : base_url + '/diamondQuality/getList',
+			type : 'post',
+			data : {},
+			dataType : 'json',
+		}).done(function(res){
+			$(".qualityOptions").html(res.data.qualityOptions);
+			$("#diamond_quality_id").val(response.id);
+			$("#diamond_quality_id").select2();
+		});
+    }else{
+        if(typeof response.message === "object"){
+            $(".error").html("");
+            $.each( response.message, function( key, value ) {$("."+key).html(value);});
+        }else{
+            toastr.error(response.message, 'Error', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
+        }			
+    }
+}

@@ -625,6 +625,17 @@ function getPurityListOptions($purityList,$purity_id = 0){
 	return $options;
 }
 
+/* Get Diamond Quality Options */
+function getdiamondQualityOptions($diamondQualityList,$diamond_quality_id = 0){
+	$options = '';
+	foreach($diamondQualityList as $row):
+		$selected = (!empty($diamond_quality_id) && $diamond_quality_id == $row->id)?"selected":"";
+		$options .= '<option value="'.$row->id.'" '.$selected.'>'.$row->quality.'</option>';
+	endforeach;
+
+	return $options;
+}
+
 /* Get Fine Options */
 function getFineListOptions($fineList,$fine_id = 0){
 	$options = '';

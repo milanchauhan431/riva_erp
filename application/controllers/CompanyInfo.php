@@ -14,6 +14,33 @@ class CompanyInfo extends MY_Controller{
         $this->load->view($this->indexPage,$this->data);
     }
 
+	public function loadRate(){
+        $this->data['dataRow'] = $this->masterModel->getCompanyInfo(); 
+        $this->load->view("change_rate",$this->data);
+    }
+
+    public function saveRate(){
+        $data = $this->input->post();
+		$errorMessage = array();
+		if(empty($data['gold_rate']))
+			$errorMessage['gold_rate'] = "Gold rate is required.";
+       
+		if(empty($data['silver_rate']))
+			$errorMessage['silver_rate'] = "Silver rate is required.";
+       
+        if(!empty($errorMessage)):
+            $this->printJson(['status'=>0,'message'=>$errorMessage]);
+        else: 
+			$masterDetails['gold_rate'] = $data['gold_rate'];
+			$masterDetails['silver_rate'] = $data['silver_rate'];
+			$masterDetails['platinum_rate'] = $data['platinum_rate'];
+			$masterDetails['palladium_rate'] = $data['palladium_rate'];
+			$masterDetails['date'] = date("Y-m-d");  
+			$masterDetails['id'] = "";
+			$this->masterModel->store("rates",$masterDetails);
+            $this->printJson($this->masterModel->saveCompanyInfo($data));
+        endif;
+	}
     public function save(){
         $data = $this->input->post();
         $errorMessage = array();

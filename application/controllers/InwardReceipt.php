@@ -37,6 +37,7 @@ class InwardReceipt extends MY_Controller{
         $this->data['partyList'] = $this->party->getPartyList(['party_category'=>"1,2,3"]);
         $this->data['itemList'] = $this->item->getItemList();
         $this->data['purityList'] = $this->purity->getPurityList();
+        $this->data['diamondQualityList'] = $this->diamondQuality->getList();
         $this->data['fineList'] = $this->fine->getFineList();
         $this->data['polishList'] = $this->polish->getPolishList();
         $this->data['colorList'] = $this->color->getColorList();

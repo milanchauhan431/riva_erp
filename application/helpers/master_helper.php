@@ -126,6 +126,12 @@ function getMasterDtHeader($page){
     $data['clarity'][] = ["name"=>"Clarity"];
     $data['clarity'][] = ["name"=>"Remark"];
 
+    /* Clarity Header */
+    $data['diamondQuality'][] = ["name"=>"Action","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"];
+    $data['diamondQuality'][] = ["name"=>"#","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"]; 
+    $data['diamondQuality'][] = ["name"=>"Quality"];
+    $data['diamondQuality'][] = ["name"=>"Remark"];
+
     return tableHeader($data[$page]);
 }
 
@@ -293,4 +299,15 @@ function getClarityData($data){
     $action = getActionButton($editButton.$deleteButton);
 
     return [$action,$data->sr_no,$data->clarity,$data->remark];
+}
+function getDiamondQualityData($data){
+    $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Diamond Quality'}";
+    $editParam = "{'postData':{'id' : ".$data->id."},'modal_id' : 'modal-md', 'form_id' : 'edit', 'title' : 'Update Diamond Quality'}";
+
+    $editButton = '<a class="btn btn-success btn-edit permission-modify" href="javascript:void(0)" datatip="Edit" flow="down" onclick="edit('.$editParam.');"><i class="ti-pencil-alt"></i></a>';
+    $deleteButton = '<a class="btn btn-danger btn-delete permission-remove" href="javascript:void(0)" onclick="trash('.$deleteParam.');" datatip="Remove" flow="down"><i class="ti-trash"></i></a>';
+
+    $action = getActionButton($editButton.$deleteButton);
+
+    return [$action,$data->sr_no,$data->quality,$data->remark];
 }
