@@ -63,10 +63,11 @@
                     </span>
                 </div>
 
-                <select name="item_id" id="item_id" class="form-control select2 itemDetails1 itemOptions req" data-res_function="resItemDetail">
+                <select name="item_id" id="item_id" class="form-control select2 itemDetails itemOptions req" data-res_function="resItemDetail">
                     <option value="">Select Product Name</option>
                     <?=getItemListOption($itemList,((!empty($dataRow->item_id))?$dataRow->item_id:0))?>
                 </select>
+                <input type="hidden" name="standard_qty" id="standard_qty" value="<?=(!empty($dataRow->standard_qty))?$dataRow->standard_qty:""?>">
             </div>
 
             <div class="col-md-2 form-group">
@@ -115,12 +116,12 @@
                 <input type="text" name="purchase_price" id="purchase_price" class="form-control floatOnly req" value="<?=(!empty($dataRow->purchase_price))?$dataRow->purchase_price:""?>">
             </div>
 
-            <div class="col-md-2 form-group hidden" id="salesPriceDiv">
+            <div class="col-md-2 form-group" id="salesPriceDiv">
                 <label for="sales_price">Sales Price</label>
                 <input type="text" name="sales_price" id="sales_price" class="form-control floatOnly" value="<?=(!empty($dataRow->sales_price))?$dataRow->sales_price:""?>">
             </div>
 
-            <div class="col-md-10 form-group" id="remarkDiv">
+            <div class="col-md-8 form-group" id="remarkDiv">
                 <label for="remark">Remark</label>
                 <input type="text" name="remark" id="remark" class="form-control" value="<?=(!empty($dataRow->remark))?$dataRow->remark:""?>">
             </div>
@@ -160,9 +161,9 @@
                     </span>
                 </div>
 
-                <select name="purity_id" id="purity_id" class="form-control select2 purityOptions">
+                <select name="purity" id="purity" class="form-control select2 purityOptions">
                     <option value="">Select Purity</option>
-                    <?=getPurityListOptions($purityList,((!empty($dataRow->purity_id))?$dataRow->purity_id:0))?>
+                    <?=getPurityListOptions($purityList,((!empty($dataRow->purity))?$dataRow->purity:0))?>
                 </select>
             </div>
 
@@ -387,8 +388,6 @@ $(document).ready(function(){
             if($("#id").val() == ""){
                 $("#purity_id,#fine_id,#polish_id,#color_id,#clarity_id,#sales_price").val("");
                 $("#purity_id,#fine_id,#polish_id,#color_id,#clarity_id").select2();
-                $("#salesPriceDiv").addClass("hidden");
-                $("#remarkDiv").removeClass("col-md-8").addClass("col-md-10");
             }
 
             if($.inArray(type, ["Gold","Gold Items","Platinum Items","Palladium"]) >= 0){
@@ -403,8 +402,6 @@ $(document).ready(function(){
             else if($.inArray(type, ["Loos Diamond","Diamond Items","Lab Grown Diamond"]) >= 0){
                 $("#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input,#diamond_quality_input").show();
                 $("#polish_input,#purity_input,#fine_input").hide();
-                $("#salesPriceDiv").removeClass("hidden");
-                $("#remarkDiv").removeClass("col-md-10").addClass("col-md-8");
             }
         }else{
             $("#purity_id,#fine_id,#polish_id,#color_id,#clarity_id,#sales_price").val("");
@@ -423,9 +420,9 @@ $(document).ready(function(){
 function resItemDetail(response = ""){
     if(response != ""){
         var itemDetail = response.data.itemDetail;
-        $("#itemForm #item_name").val(itemDetail.item_name);
+        $("#standard_qty").val(itemDetail.packing_standard);
     }else{
-        $("#itemForm #item_name").val("");
+        $("#standard_qty").val("");
     }
 }
 </script>

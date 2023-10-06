@@ -80,11 +80,18 @@ class InwardReceipt extends MY_Controller{
             $errorMessage['gross_weight'] = "Gross Weight is required.";
         if(empty($data['net_weight']))
             $errorMessage['net_weight'] = "Net Weight is required.";
+
         if(empty($data['purchase_price']) && $data['order_type'] == "Regular")
             $errorMessage['purchase_price'] = "Purchase Price is required.";
 
         if(!empty($data['approved_by']) && empty($data['location_id']))
             $errorMessage['location_id'] = "Location is required.";
+
+        if(in_array($data['inward_type'],["Gold + Diamond Items","Loos Diamond","Diamond Items","Lab Grown Diamond","Platinum + Diamond Items"])):
+            if(empty($data['sales_price']) && $data['order_type'] == "Regular")
+                $errorMessage['sales_price'] = "Sales Price is required.";
+
+        endif;
 
         if(!empty($errorMessage)):
             $this->printJson(['status'=>0,'message'=>$errorMessage]);

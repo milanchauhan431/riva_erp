@@ -615,11 +615,11 @@ function getSpAccListOption($accounts,$acc_id = 0){
 }
 
 /* Get Purity Options */
-function getPurityListOptions($purityList,$purity_id = 0){
+function getPurityListOptions($purityList,$purity = 0){
 	$options = '';
 	foreach($purityList as $row):
-		$selected = (!empty($purity_id) && $purity_id == $row->id)?"selected":"";
-		$options .= '<option value="'.$row->id.'" '.$selected.'>'.$row->purity.'</option>';
+		$selected = (!empty($purity) && $purity == $row->purity)?"selected":"";
+		$options .= '<option value="'.$row->purity.'" '.$selected.'>'.$row->purity.'</option>';
 	endforeach;
 
 	return $options;
