@@ -68,7 +68,16 @@ class StockTransModel extends MasterModel{
 
     public function getStockTrans($data){
         $queryData['tableName'] = $this->stockTrans;
-        $queryData['where']['id'] = $data['id'];
+        $queryData['select'] = "stock_transaction.*,item_master.item_code,item_master.item_name,item_master.has_code,item_master.gst_per,item_master.unit_id,unit_master.unit_name";
+
+        $queryData['leftJoin']['item_master'] = "item_master.id = stock_transaction.item_id";
+        $queryData['leftJoin']['unit_master'] = "item_master.unit_id = unit_master.id";
+
+        if(!empty($data['id']))
+            $queryData['where']['id'] = $data['id'];
+        if(!empty($data['unique_id']))
+            $queryData['unique_id'] = $data['unique_id'];
+        
         return $this->row($queryData);
     }
 
