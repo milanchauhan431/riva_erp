@@ -679,4 +679,10 @@ function getClarityListOptions($clarityList,$clarity_id = 0){
 
 	return $options;
 }
+/* Get Item Price */
+function getItemPriceByRate($itemDetail){
+	$CI =& get_instance(); 
+	$CompanyInfo = $CI->masterModel->getCompanyInfo();
+	return $CompanyInfo->gold_rate;
+}
 ?>

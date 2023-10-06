@@ -340,7 +340,6 @@ $(document).ready(function(){
 			window[resFunctionName]();
 		}
 	});
-
 	$(document).on('click','.btn-close,.close',function(){
 		zindex = zindex--;
 		var modal_id = $(this).data('modal_id');
@@ -1298,4 +1297,20 @@ function resDiamondQualityMaster(response,formId){
             toastr.error(response.message, 'Error', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
         }			
     }
+}
+
+function getItemBybarcode(){
+	var item_code = $("#barcode_scanner").val(); 
+	if(item_code){
+		$.ajax({
+			url : base_url + '/items/getItemDetails',
+			type:'post',
+			data: {item_code:item_code},
+			dataType : 'json',
+		}).done(function(response){
+			 barcodeScan(response.data.itemDetail)
+		});
+	}else{
+		 
+	}
 }

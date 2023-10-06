@@ -162,7 +162,10 @@
 
                                 <div class="col-md-12 row">
                                     <div class="col-md-6"><h4>Item Details : </h4></div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
+										<input type="text" name="barcode_scanner" id="barcode_scanner" class="form-control numericOnly float-right" value="" placeholder="Scan barcode"  >
+                                    </div>
+                                    <div class="col-md-2">
                                         <button type="button" class="btn btn-outline-success waves-effect float-right add-item"><i class="fa fa-plus"></i> Add Item</button>
                                     </div>
                                 </div>
@@ -223,7 +226,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="col-md-12">
-                            <button type="button" class="btn waves-effect waves-light btn-outline-success float-right save-form" onclick="customStore({'formId':'saveSalesInvoice'});" ><i class="fa fa-check"></i> Save</button>
+                            <button type="button" class="btn waves-effect waves-light btn-outline-success float-right save-form" onclick="customStore({'formId':'saveProformaInvoice'});" ><i class="fa fa-check"></i> Save</button>
                             <a href="javascript:void(0)" onclick="window.location.href='<?=base_url($headData->controller)?>'" class="btn waves-effect waves-light btn-outline-secondary float-right btn-close press-close-btn save-form" style="margin-right:10px;"><i class="fa fa-times"></i> Cancel</a>
                         </div>
                     </div>
