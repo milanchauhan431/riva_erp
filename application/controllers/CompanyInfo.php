@@ -41,6 +41,7 @@ class CompanyInfo extends MY_Controller{
             $this->printJson($this->masterModel->saveCompanyInfo($data));
         endif;
 	}
+    
     public function save(){
         $data = $this->input->post();
         $errorMessage = array();

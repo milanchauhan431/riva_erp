@@ -1299,8 +1299,8 @@ function resDiamondQualityMaster(response,formId){
     }
 }
 
-function getItemBybarcode(){
-	var item_code = $("#barcode_scanner").val(); 
+function getItemBybarcode(barcode=""){
+	var item_code = barcode || $("#barcode_scanner").val(); 
 	if(item_code){
 		$.ajax({
 			url : base_url + '/stockTrans/getItemDetails',
@@ -1308,7 +1308,11 @@ function getItemBybarcode(){
 			data: {unique_id:item_code,stock_required:1},
 			dataType : 'json',
 		}).done(function(response){
-			 barcodeScan(response.data.itemDetail)
+			if(barcode != ""){
+				barcodeDetails(item_code,response.data.itemDetail)
+			}else{
+				barcodeScan(response.data.itemDetail)
+			}
 		});
 	}else{
 		 

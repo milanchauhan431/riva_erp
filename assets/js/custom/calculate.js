@@ -87,6 +87,18 @@ $(document).ready(function(){
 
 		claculateColumn();
 	});
+
+	$(document).on('keypress','#itemForm #unique_id',function(e){
+		if(e.which == 13) {
+			barcodeDetails($(this).val());
+	   	}
+	});
+
+	$(document).on('keypress','#barcode_scanner',function(e){
+		if(e.which == 13) {
+			barcodeScan();
+		}
+	});
 });
 
 function gstin(){
@@ -341,11 +353,49 @@ function calculateSummaryAmount() {
 	}
 }
 
-$('#barcode_scanner').on('keypress',function(e){
-	if(e.which == 13) {
- 		barcodeScan();
+async function barcodeDetails(barcode="",formData=""){	
+	if(formData ==""){
+		var formData = await getItemBybarcode(barcode);
+		console.log(formData);
+	}else{ 
+		if(formData == null){
+			toastr.error("Sorry! Item not found or Out of stock.", 'Error', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
+			return false;
+		}
+
+		if(formData.stock_type == "FREEZE"){
+			toastr.error("Sorry! This item is already booked.", 'Error', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
+			return false;
+		}
+
+		if(formData.item_id != $("#itemForm #item_id :selected").val()){
+			toastr.error("Sorry! Scaned barcode item and selected item mismatch.", 'Error', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
+			$('#itemForm #qty').val(1);
+			$('#itemForm #unique_id').val("");
+			$("#itemForm #stock_trans_id").val("");
+			$("#itemForm #location_id").val("");
+			$("#itemForm #standard_qty").val("");
+			$("#itemForm #purity").val("");
+			$("#itemForm #org_price").val("");
+			$("#itemForm #price").val("");
+			$("#itemForm #gross_weight").val("");
+			$("#itemForm #net_weight").val("");
+			return false;
+		}
+
+		$('#itemForm #qty').val(1);
+		$('#itemForm #unique_id').val(formData.unique_id);
+		$("#itemForm #stock_trans_id").val(formData.stock_trans_id);
+		$("#itemForm #location_id").val(formData.location_id);
+		$("#itemForm #standard_qty").val(formData.standard_qty);
+		$("#itemForm #purity").val(formData.purity);
+		$("#itemForm #org_price").val(formData.sales_price);
+		$("#itemForm #price").val(formData.price);
+		$("#itemForm #gross_weight").val(formData.gross_weight);
+		$("#itemForm #net_weight").val(formData.net_weight);
 	}
-});
+}
+
 async function barcodeScan(formData=""){
 	if(formData ==""){
 		var formData = await getItemBybarcode();
@@ -354,10 +404,12 @@ async function barcodeScan(formData=""){
 			toastr.error("Sorry! Item not found or Out of stock.", 'Error', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
 			return false;
 		}
+
 		if(formData.stock_type == "FREEZE"){
 			toastr.error("Sorry! This item is already booked.", 'Error', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
 			return false;
 		}
+
 		$('#barcode_scanner').val("");
 		formData.stock_trans_id = formData.id;
 		formData.id = "";
