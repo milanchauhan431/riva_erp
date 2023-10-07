@@ -8,7 +8,7 @@
                         <h4><u>Delivery Challan</u></h4>
                     </div>
                     <div class="card-body">
-                        <form autocomplete="off" id="saveSalesInvoice" data-res_function="resSaveInvoice" enctype="multipart/form-data">
+                        <form autocomplete="off" id="saveDeliveryChallan" data-res_function="resSaveDeliveryChallan" enctype="multipart/form-data">
                             <div class="col-md-12">
                                 <div class="row">
 
@@ -28,7 +28,7 @@
                                     </div>
 
                                     <div class="col-md-2 form-group">
-                                        <label for="trans_number">Inv. No.</label>
+                                        <label for="trans_number">DC. No.</label>
                                         <div class="input-group">
                                             <input type="text" name="trans_prefix" id="trans_prefix" class="form-control" value="<?=(!empty($dataRow->trans_prefix))?$dataRow->trans_prefix:((!empty($trans_prefix))?$trans_prefix:"")?>" readonly>
                                             <input type="text" name="trans_no" id="trans_no" class="form-control numericOnly" value="<?=(!empty($dataRow->trans_no))?$dataRow->trans_no:((!empty($trans_no))?$trans_no:"")?>">
@@ -38,7 +38,7 @@
                                     </div>
 
                                     <div class="col-md-2 form-group">
-                                        <label for="trans_date">Inv. Date</label>
+                                        <label for="trans_date">DC. Date</label>
                                         <input type="date" name="trans_date" id="trans_date" class="form-control" value="<?=(!empty($dataRow->trans_date))?$dataRow->trans_date:getFyDate()?>">
                                     </div>
 
@@ -83,7 +83,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-md-2 form-group">
+                                    <div class="col-md-2 form-group hidden">
 										<label for="memo_type">Memo Type</label>
 										<select name="memo_type" id="memo_type" class="form-control">
 											<option value="DEBIT" <?=(!empty($dataRow->memo_type) && $dataRow->memo_type == "DEBIT")?"selected":""?> >Debit</option>
@@ -91,7 +91,7 @@
 										</select>
 									</div>
 
-                                    <div class="col-md-3 form-group">
+                                    <div class="col-md-3 form-group hidden">
 										<label for="sp_acc_id">GST Type </label>
                                         <select name="sp_acc_id" id="sp_acc_id" class="form-control select2 req">
 											<?=getSpAccListOption($salesAccounts,((!empty($dataRow->sp_acc_id))?$dataRow->sp_acc_id:0))?>
@@ -99,12 +99,12 @@
                                         <input type="hidden" id="inv_type" value="SALES">
 									</div>
 
-                                    <div class="col-md-2 form-group">
+                                    <div class="col-md-2 form-group hidden">
 										<label for="challan_no">Challan No.</label>
 										<input type="text" name="challan_no" class="form-control" placeholder="Enter Challan No." value="<?= (!empty($dataRow->challan_no)) ? $dataRow->challan_no : "" ?>" />
 									</div>
 
-                                    <div class="col-md-2 form-group">
+                                    <div class="col-md-3 form-group">
                                         <label for="doc_no">PO. No.</label>
                                         <input type="text" name="doc_no" id="doc_no" class="form-control" value="<?=(!empty($dataRow->doc_no))?$dataRow->doc_no:""?>">
                                     </div>
@@ -114,7 +114,7 @@
                                         <input type="date" name="doc_date" id="doc_date" class="form-control" value="<?=(!empty($dataRow->doc_date))?$dataRow->doc_date:getFyDate()?>">
                                     </div>
 
-                                    <div class="col-md-2 form-group">
+                                    <div class="col-md-2 form-group hidden">
 										<label for="apply_round">Apply Round Off</label>
                                         <select name="apply_round" id="apply_round" class="form-control">
 											<option value="1" <?= (!empty($dataRow) && $dataRow->apply_round == 1) ? "selected" : "" ?>>Yes</option>
@@ -122,39 +122,34 @@
 										</select>
                                     </div>
                                     
-                                    <div class="col-md-2 form-group">
+                                    <div class="col-md-3 form-group">
                                         <label for="master_t_col_1">Contact Person</label>
                                         <input type="text" name="masterDetails[t_col_1]" id="master_t_col_1" class="form-control" value="<?=(!empty($dataRow->contact_person))?$dataRow->contact_person:""?>">
                                     </div>
 
-                                    <div class="col-md-2 form-group">
+                                    <div class="col-md-3 form-group">
                                         <label for="master_t_col_2">Contact No.</label>
                                         <input type="text" name="masterDetails[t_col_2]" id="master_t_col_2" class="form-control numericOnly" value="<?=(!empty($dataRow->contact_no))?$dataRow->contact_no:""?>">
                                     </div>
 
-                                    <div class="col-md-6 form-group">
+                                    <div class="col-md-12 form-group">
                                         <label for="master_t_col_3">Ship To</label>
                                         <input type="text" name="masterDetails[t_col_3]" id="master_t_col_3" class="form-control" value="<?=(!empty($dataRow->ship_address))?$dataRow->ship_address:""?>">
                                     </div>
 
-                                    <div class="col-md-2 form-group exportData <?=(empty($dataRow))?"hidden":((!empty($dataRow->tax_class) && !in_array($dataRow->tax_class,["EXPORTGSTACC","EXPORTTFACC"]))?"hidden":"")?>">
+                                    <div class="col-md-2 form-group hidden">
                                         <label for="port_code">Port Code</label>
                                         <input type="text" name="port_code" id="port_code" class="form-control" value="<?=(!empty($dataRow->port_code))?$dataRow->port_code:""?>">
                                     </div>
 
-                                    <div class="col-md-2 form-group exportData <?=(empty($dataRow))?"hidden":((!empty($dataRow->tax_class) && !in_array($dataRow->tax_class,["EXPORTGSTACC","EXPORTTFACC"]))?"hidden":"")?>">
+                                    <div class="col-md-2 form-group hidden">
                                         <label for="ship_bill_no">Shipping Bill No.</label>
                                         <input type="text" name="ship_bill_no" id="ship_bill_no" class="form-control" value="<?=(!empty($dataRow->ship_bill_no))?$dataRow->ship_bill_no:""?>">
                                     </div>
 
-                                    <div class="col-md-2 form-group exportData <?=(empty($dataRow))?"hidden":((!empty($dataRow->tax_class) && !in_array($dataRow->tax_class,["EXPORTGSTACC","EXPORTTFACC"]))?"hidden":"")?>">
+                                    <div class="col-md-2 form-group hidden">
                                         <label for="ship_bill_date">Shipping Bill Date</label>
                                         <input type="date" name="ship_bill_date" id="ship_bill_date" class="form-control" value="<?=(!empty($dataRow->ship_bill_date))?$dataRow->ship_bill_date:""?>">
-                                    </div>
-
-                                    <div class="col-md-2 form-group">
-                                        <label for="bill_per">Bill (%)</label>
-                                        <input type="text" name="masterDetails[i_col_1]" id="master_i_col_1" class="form-control numericOnly" value="<?=(!empty($dataRow->bill_per))?$dataRow->bill_per:"100"?>">
                                     </div>
                                 </div>
 
@@ -174,7 +169,7 @@
                                     <div class="error itemData"></div>
                                     <div class="row form-group">
                                         <div class="table-responsive">
-                                            <table id="salesInvoiceItems" class="table table-striped table-borderless">
+                                            <table id="deliveryChallanItems" class="table table-striped table-borderless">
                                                 <thead class="thead-info">
                                                     <tr>
                                                         <th style="width:5%;">#</th>
@@ -185,19 +180,13 @@
                                                         <th>N.W.</th>
                                                         <th>Unit</th>
                                                         <th>Price</th>
-                                                        <th>Disc.</th>
-                                                        <th class="igstCol">IGST</th>
-                                                        <th class="cgstCol">CGST</th>
-                                                        <th class="sgstCol">SGST</th>
-                                                        <th class="amountCol">Amount</th>
-                                                        <th class="netAmtCol">Amount</th>
                                                         <th>Remark</th>
                                                         <th class="text-center" style="width:10%;">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tempItem" class="temp_item">
                                                     <tr id="noData">
-                                                        <td colspan="17" class="text-center">No data available in table</td>
+                                                        <td colspan="10" class="text-center">No data available in table</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -205,10 +194,6 @@
                                     </div>
                                 </div>
                                 
-                                <hr>
-
-                                <?php $this->load->view('includes/tax_summary',['expenseList'=>$expenseList,'taxList'=>$taxList,'ledgerList'=>$ledgerList,'dataRow'=>((!empty($dataRow))?$dataRow:array())])?>
-
                                 <hr>
 
                                 <div class="row">
@@ -228,7 +213,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="col-md-12">
-                            <button type="button" class="btn waves-effect waves-light btn-outline-success float-right save-form" onclick="customStore({'formId':'saveSalesInvoice'});" ><i class="fa fa-check"></i> Save</button>
+                            <button type="button" class="btn waves-effect waves-light btn-outline-success float-right save-form" onclick="customStore({'formId':'saveDeliveryChallan'});" ><i class="fa fa-check"></i> Save</button>
                             <a href="javascript:void(0)" onclick="window.location.href='<?=base_url($headData->controller)?>'" class="btn waves-effect waves-light btn-outline-secondary float-right btn-close press-close-btn save-form" style="margin-right:10px;"><i class="fa fa-times"></i> Cancel</a>
                         </div>
                     </div>
@@ -341,7 +326,7 @@
 
 
 <?php $this->load->view('includes/footer'); ?>
-<script src="<?php echo base_url(); ?>assets/js/custom/sales-invoice-form.js?v=<?= time() ?>"></script>
+<script src="<?php echo base_url(); ?>assets/js/custom/delivery-challan-form.js?v=<?= time() ?>"></script>
 <!-- <script src="<?php echo base_url(); ?>assets/js/custom/row-attachment.js?v=<?= time() ?>"></script> -->
 <script src="<?php echo base_url(); ?>assets/js/custom/calculate.js?v=<?= time() ?>"></script>
 

@@ -80,8 +80,8 @@ class ProformaInvoiceModel extends MasterModel{
                 endif;
                 
                 $this->trash($this->transExpense,['trans_main_id'=>$data['id']]);
-                $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transMain,'description'=>"SI TERMS"]);
-                $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transMain,'description'=>"SI MASTER DETAILS"]);
+                $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transMain,'description'=>"PI TERMS"]);
+                $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transMain,'description'=>"PI MASTER DETAILS"]);
                 $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transChild,'description'=>"PI SERIAL DETAILS"]);
             endif;
             
@@ -204,7 +204,7 @@ class ProformaInvoiceModel extends MasterModel{
         $queryData = array();
         $queryData['tableName'] = $this->transMain;
         $queryData['select'] = "trans_main.*,trans_details.i_col_1 as bill_per,trans_details.t_col_1 as contact_person,trans_details.t_col_2 as contact_no,trans_details.t_col_3 as ship_address";
-        $queryData['leftJoin']['trans_details'] = "trans_main.id = trans_details.main_ref_id AND trans_details.description = 'SI MASTER DETAILS' AND trans_details.table_name = '".$this->transMain."'";
+        $queryData['leftJoin']['trans_details'] = "trans_main.id = trans_details.main_ref_id AND trans_details.description = 'PI MASTER DETAILS' AND trans_details.table_name = '".$this->transMain."'";
         $queryData['where']['trans_main.id'] = $data['id'];
         $result = $this->row($queryData);
 

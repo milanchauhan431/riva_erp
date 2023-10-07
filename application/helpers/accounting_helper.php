@@ -10,16 +10,7 @@ function getAccountingDtHeader($page){
 	$data['salesInvoice'][] = ["name"=>"Customer Name"];
 	$data['salesInvoice'][] = ["name"=>"Taxable Amount"];
 	$data['salesInvoice'][] = ["name"=>"GST Amount"];
-    $data['salesInvoice'][] = ["name"=>"Net Amount"];
-    /* Sales Invoice Header */
-    $data['deliveryChallan'][] = ["name"=>"Action","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"];
-	$data['deliveryChallan'][] = ["name"=>"#","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"]; 
-	$data['deliveryChallan'][] = ["name"=>"Inv No."];
-	$data['deliveryChallan'][] = ["name"=>"Inv Date"];
-	$data['deliveryChallan'][] = ["name"=>"Customer Name"];
-	$data['deliveryChallan'][] = ["name"=>"Taxable Amount"];
-	$data['deliveryChallan'][] = ["name"=>"GST Amount"];
-    $data['deliveryChallan'][] = ["name"=>"Net Amount"];
+    $data['salesInvoice'][] = ["name"=>"Net Amount"];   
 
     /* Credit Note Header */
     $data['creditNote'][] = ["name"=>"Action","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"];
@@ -100,19 +91,6 @@ function getAccountingDtHeader($page){
 
 /* Sales Invoice Table Data */
 function getSalesInvoiceData($data){
-    $editButton = '<a class="btn btn-success btn-edit permission-modify" href="'.base_url('salesInvoice/edit/'.$data->id).'" datatip="Edit" flow="down" ><i class="ti-pencil-alt"></i></a>';
-
-    $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Sales Invoice'}";
-    $deleteButton = '<a class="btn btn-danger btn-delete permission-remove" href="javascript:void(0)" onclick="trash('.$deleteParam.');" datatip="Remove" flow="down"><i class="ti-trash"></i></a>';
-
-    $print = '<a href="javascript:void(0)" class="btn btn-warning btn-edit printDialog permission-approve1" datatip="Print Invoice" flow="down" data-id="'.$data->id.'" data-fn_name="printInvoice"><i class="fa fa-print"></i></a>';
-
-    $action = getActionButton($print.$editButton.$deleteButton);
-
-    return [$action,$data->sr_no,$data->trans_number,formatDate($data->trans_date),$data->party_name,$data->taxable_amount,$data->gst_amount,$data->net_amount];
-}
-/* Delivery Challan  Table Data */
-function getDeliveryChallanData($data){
     $editButton = '<a class="btn btn-success btn-edit permission-modify" href="'.base_url('salesInvoice/edit/'.$data->id).'" datatip="Edit" flow="down" ><i class="ti-pencil-alt"></i></a>';
 
     $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Sales Invoice'}";

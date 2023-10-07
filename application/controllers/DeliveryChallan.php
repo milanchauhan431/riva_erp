@@ -12,7 +12,7 @@ class DeliveryChallan extends MY_Controller{
 	}
 
     public function index(){
-        $this->data['tableHeader'] = getAccountingDtHeader("deliveryChallan");
+        $this->data['tableHeader'] = getSalesDtHeader("deliveryChallan");
         $this->load->view($this->indexPage,$this->data);
     }
 
@@ -39,10 +39,7 @@ class DeliveryChallan extends MY_Controller{
         $this->data['unitList'] = $this->item->itemUnits();
         $this->data['hsnList'] = $this->hsnModel->getHSNList();
         $this->data['salesAccounts'] = $this->party->getPartyList(['system_code'=>$this->salesTypeCodes]);
-		$this->data['taxList'] = $this->taxMaster->getActiveTaxList(2);
-        $this->data['expenseList'] = $this->expenseMaster->getActiveExpenseList(2);
         $this->data['termsList'] = $this->terms->getTermsList(['type'=>'Sales']);
-		$this->data['ledgerList'] = $this->party->getPartyList(['group_code'=>["'DT'","'ED'","'EI'","'ID'","'II'"]]);
         $this->load->view($this->form,$this->data);
     }
 
@@ -52,10 +49,6 @@ class DeliveryChallan extends MY_Controller{
 
         if(empty($data['party_id']))
             $errorMessage['party_id'] = "Party Name is required.";
-        if(empty($data['sp_acc_id']))
-            $errorMessage['sp_acc_id'] = "GST Type is required.";
-        if(empty($data['masterDetails']['i_col_1']))
-            $errorMessage['master_i_col_1'] = "Bill Per. is required.";
         if(empty($data['itemData'])):
             $errorMessage['itemData'] = "Item Details is required.";
         else:
@@ -79,10 +72,7 @@ class DeliveryChallan extends MY_Controller{
         $this->data['unitList'] = $this->item->itemUnits();
         $this->data['hsnList'] = $this->hsnModel->getHSNList();
         $this->data['salesAccounts'] = $this->party->getPartyList(['system_code'=>$this->salesTypeCodes]);
-		$this->data['taxList'] = $this->taxMaster->getActiveTaxList(2);
-        $this->data['expenseList'] = $this->expenseMaster->getActiveExpenseList(2);
         $this->data['termsList'] = $this->terms->getTermsList(['type'=>'Sales']);
-        $this->data['ledgerList'] = $this->party->getPartyList(['group_code'=>["'DT'","'ED'","'EI'","'ID'","'II'"]]);
         $this->load->view($this->form,$this->data);
     }
 
@@ -95,7 +85,7 @@ class DeliveryChallan extends MY_Controller{
         endif;
     }
 
-    public function printInvoice($id="",$type=""){
+    public function printChallan($id="",$type=""){
         $postData = $this->input->post();
         
         $printTypes = array();

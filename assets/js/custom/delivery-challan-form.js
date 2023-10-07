@@ -1,7 +1,4 @@
 $(document).ready(function(){
-	$(".ledgerColumn").hide();
-	$(".summary_desc").attr('style','width: 60%;');
-
 	$(document).on('click','.getPendingOrders',function(){
 		var party_id = $('#party_id').val();
 		var party_name = $('#party_id :selected').text();
@@ -61,9 +58,6 @@ $(document).ready(function(){
         if (formData.item_id == "") {
 			$(".item_id").html("Item Name is required.");
 		}
-		/* if (formData.item_name == "") {
-			$(".item_name").html("Item Name is required.");
-		} */
         if (formData.qty == "" || parseFloat(formData.qty) == 0) {
             $(".qty").html("Qty is required.");
         }
@@ -78,11 +72,6 @@ $(document).ready(function(){
 		if(formData.net_weight == "" || parseInt(formData.net_weight) == 0){
 			$(".net_weight").html("Net Weight is required.");
 		}
-
-        /* var item_ids = $(".item_id").map(function () { return $(this).val(); }).get();
-        if ($.inArray(formData.item_id, item_ids) >= 0 && formData.row_index == "") {
-            $(".item_name").html("Item already added.");
-        } */
 
         var errorCount = $('#itemForm .error:not(:empty)').length;
 
@@ -191,7 +180,7 @@ function createInvoice(){
 }
 
 function AddRow(data) {
-    var tblName = "salesInvoiceItems";
+    var tblName = "deliveryChallanItems";
 
     //Remove blank line.
 	$('table#'+tblName+' tr#noData').remove();
@@ -287,52 +276,52 @@ function AddRow(data) {
 
     var discPerInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][disc_per]", value: data.disc_per});
 	var discAmtInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][disc_amount]", value: data.disc_amount });
-	cell = $(row.insertCell(-1));
-	cell.html(data.disc_amount + '(' + data.disc_per + '%)');
+	/* cell = $(row.insertCell(-1));
+	cell.html(data.disc_amount + '(' + data.disc_per + '%)'); */
 	cell.append(discPerInput);
 	cell.append(discAmtInput);
 
     var cgstPerInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][cgst_per]", value: data.cgst_per });
 	var cgstAmtInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][cgst_amount]", class:'cgst_amount', value: data.cgst_amount });
-	cell = $(row.insertCell(-1));
-	cell.html(data.cgst_amount + '(' + data.cgst_per + '%)');
+	/* cell = $(row.insertCell(-1));
+	cell.html(data.cgst_amount + '(' + data.cgst_per + '%)'); */
 	cell.append(cgstPerInput);
 	cell.append(cgstAmtInput);
-	cell.attr("class", "cgstCol");
+	//cell.attr("class", "cgstCol");
 
 	var sgstPerInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][sgst_per]", value: data.sgst_per });
 	var sgstAmtInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][sgst_amount]", class:"sgst_amount", value: data.sgst_amount });
-	cell = $(row.insertCell(-1));
-	cell.html(data.sgst_amount + '(' + data.sgst_per + '%)');
+	/* cell = $(row.insertCell(-1));
+	cell.html(data.sgst_amount + '(' + data.sgst_per + '%)'); */
 	cell.append(sgstPerInput);
 	cell.append(sgstAmtInput);
-	cell.attr("class", "sgstCol");
+	//cell.attr("class", "sgstCol");
 
 	var gstPerInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][gst_per]", class:"gst_per", value: data.gst_per });
 	var igstPerInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][igst_per]", value: data.igst_per });
 	var gstAmtInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][gst_amount]", class:"gst_amount", value: data.gst_amount });
 	var igstAmtInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][igst_amount]", class:"igst_amount", value: data.igst_amount });
-	cell = $(row.insertCell(-1));
-	cell.html(data.igst_amount + '(' + data.igst_per + '%)');
+	/* cell = $(row.insertCell(-1));
+	cell.html(data.igst_amount + '(' + data.igst_per + '%)'); */
 	cell.append(gstPerInput);
 	cell.append(igstPerInput);
 	cell.append(gstAmtInput);
 	cell.append(igstAmtInput);
-	cell.attr("class", "igstCol");
+	//cell.attr("class", "igstCol");
 
     var amountInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][amount]", class:"amount", value: data.amount });
     var taxableAmountInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][taxable_amount]", class:"taxable_amount", value: data.taxable_amount });
-	cell = $(row.insertCell(-1));
-	cell.html(data.taxable_amount);
+	/* cell = $(row.insertCell(-1));
+	cell.html(data.taxable_amount); */
 	cell.append(amountInput);
 	cell.append(taxableAmountInput);
-	cell.attr("class", "amountCol");
+	//cell.attr("class", "amountCol");
 
 	var netAmtInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][net_amount]", value: data.net_amount });
-	cell = $(row.insertCell(-1));
-	cell.html(data.net_amount);
+	/* cell = $(row.insertCell(-1));
+	cell.html(data.net_amount); */
 	cell.append(netAmtInput);
-	cell.attr("class", "netAmtCol");
+	//cell.attr("class", "netAmtCol");
 
     var itemRemarkInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][item_remark]", value: data.item_remark});
 	cell = $(row.insertCell(-1));
@@ -357,7 +346,7 @@ function AddRow(data) {
 	cell.attr("class", "text-center");
 	cell.attr("style", "width:10%;");
 
-    var gst_type = $("#gst_type").val();
+    /* var gst_type = $("#gst_type").val();
 	if (gst_type == 1) {
 		$(".cgstCol").show(); $(".sgstCol").show(); $(".igstCol").hide();
 		$(".amountCol").hide(); $(".netAmtCol").show();
@@ -369,7 +358,7 @@ function AddRow(data) {
 		$(".amountCol").show(); $(".netAmtCol").hide();
 	}
 
-    claculateColumn();
+    claculateColumn(); */
 }
 
 function Edit(data, button) {
@@ -380,13 +369,13 @@ function Edit(data, button) {
 	$.each(data, function (key, value) {
 		$("#itemForm #" + key).val(value);
 	});
-	//$("#itemForm #price").val(data.org_price);
+
 	$("#itemForm .select2").select2();
 	$("#itemForm #row_index").val(row_index);
 }
 
 function Remove(button) {
-    var tableId = "salesInvoiceItems";
+    var tableId = "deliveryChallanItems";
 	//Determine the reference of the Row using the Button.
 	var row = $(button).closest("TR");
 	var table = $("#"+tableId)[0];
@@ -396,10 +385,10 @@ function Remove(button) {
 	});
 	var countTR = $('#'+tableId+' tbody tr:last').index() + 1;
 	if (countTR == 0) {
-		$("#tempItem").html('<tr id="noData"><td colspan="15" align="center">No data available in table</td></tr>');
+		$("#tempItem").html('<tr id="noData"><td colspan="10" align="center">No data available in table</td></tr>');
 	}
 
-	claculateColumn();
+	//claculateColumn();
 }
 
 function resPartyDetail(response = ""){
@@ -456,7 +445,7 @@ function resItemDetail(response = ""){
     }
 }
 
-function resSaveInvoice(data,formId){
+function resSaveDeliveryChallan(data,formId){
     if(data.status==1){
         $('#'+formId)[0].reset();
         toastr.success(data.message, 'Success', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });

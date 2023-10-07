@@ -90,6 +90,14 @@ function getSalesDtHeader($page){
 	$data['estimate'][] = ["name"=>"Taxable Amount"];
     $data['estimate'][] = ["name"=>"Net Amount"];
 
+    /* Delivery Challan Header */
+    $data['deliveryChallan'][] = ["name"=>"Action","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"];
+    $data['deliveryChallan'][] = ["name"=>"#","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"]; 
+    $data['deliveryChallan'][] = ["name"=>"DC No."];
+    $data['deliveryChallan'][] = ["name"=>"DC Date"];
+    $data['deliveryChallan'][] = ["name"=>"Customer Name"];
+    $data['deliveryChallan'][] = ["name"=>"Remark"];
+
     return tableHeader($data[$page]);
 }
 
@@ -257,5 +265,20 @@ function getEstimateData($data){
     $action = getActionButton($print.$editButton.$deleteButton);
 
     return [$action,$data->sr_no,$data->trans_number,$data->trans_date,$data->party_name,$data->taxable_amount,$data->net_amount];
+}
+
+
+/* Delivery Challan  Table Data */
+function getDeliveryChallanData($data){
+    $editButton = '<a class="btn btn-success btn-edit permission-modify" href="'.base_url('deliveryChallan/edit/'.$data->id).'" datatip="Edit" flow="down" ><i class="ti-pencil-alt"></i></a>';
+
+    $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Delivery Challan'}";
+    $deleteButton = '<a class="btn btn-danger btn-delete permission-remove" href="javascript:void(0)" onclick="trash('.$deleteParam.');" datatip="Remove" flow="down"><i class="ti-trash"></i></a>';
+
+    $print = '<a href="javascript:void(0)" class="btn btn-warning printDialog permission-approve1" datatip="Print Challan" flow="down" data-id="'.$data->id.'" data-fn_name="printChallan"><i class="fa fa-print"></i></a>';
+
+    $action = getActionButton($print.$editButton.$deleteButton);
+
+    return [$action,$data->sr_no,$data->trans_number,formatDate($data->trans_date),$data->party_name,$data->remark];
 }
 ?>
