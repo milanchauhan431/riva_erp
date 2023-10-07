@@ -179,7 +179,7 @@ class SalesQuotation extends MY_Controller{
         $this->load->view($this->revHistory,$this->data);
     }
 
-    public function printQuotation($id,$pdf_type=''){
+    public function printPdfQuotation($id,$pdf_type=''){
         $this->data['dataRow'] = $dataRow = $this->salesQuotation->getSalesQuotation(['id'=>$id,'itemList'=>1]);
         $this->data['partyData'] = $this->party->getParty(['id'=>$dataRow->party_id]);
         $this->data['taxList'] = $this->taxMaster->getActiveTaxList(2);
@@ -217,6 +217,29 @@ class SalesQuotation extends MY_Controller{
 		
 		ob_clean();
 		$mpdf->Output($pdfFileName, 'I');
+		
+    }
+    public function printQuotation($id,$pdf_type=''){
+        $this->data['dataRow'] = $dataRow = $this->salesQuotation->getSalesQuotation(['id'=>$id,'itemList'=>1]);
+        $this->data['partyData'] = $this->party->getParty(['id'=>$dataRow->party_id]);
+        $this->data['taxList'] = $this->taxMaster->getActiveTaxList(2);
+        $this->data['expenseList'] = $this->expenseMaster->getActiveExpenseList(2);
+        $this->data['companyData'] = $companyData = $this->masterModel->getCompanyInfo();
+        
+        $logo = base_url('assets/images/logo.png');
+        $this->data['letter_head'] =  base_url('assets/images/letterhead-top.png');
+        
+        $pdfData = $this->load->view('sales_quotation/print_pos', $this->data, true);
+        
+        
+        $htmlFooter = '<table class="table top-table" style="margin-top:10px;border-top:1px solid #545454;">
+            <tr>
+                <td style="width:25%;">Qtn. No. & Date : '.$dataRow->trans_number . ' [' . formatDate($dataRow->trans_date) . ']</td>
+                <td style="width:25%;"></td>
+                <td style="width:25%;text-align:right;">Page No. {PAGENO}/{nbpg}</td>
+            </tr>
+        </table>';
+		echo $pdfData = $this->load->view('sales_quotation/print_pos',$this->data,true);
 		
     }
     

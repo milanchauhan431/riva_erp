@@ -1,10 +1,17 @@
+<style>
+<?php echo $stylesheet = file_get_contents(base_url('assets/css/pdf_style.css?v='.time())); ?>
+body{
+	margin:0px;
+	padding:0px;
+}
+</style>
 <div class="row">
     <div class="col-12">
         <?php if(!empty($header_footer)): ?>
         <table>
-            <tr>
+            <tr align="center">
                 <td>
-                    <img src="<?=$letter_head?>" class="img">
+                    <p style="font-size:25px;font-weight:bold">RIVA</p>
                 </td>
             </tr>
         </table>
@@ -12,11 +19,10 @@
 
         <table class="table bg-light-grey">
             <tr class="" style="letter-spacing: 2px;font-weight:bold;padding:2px !important; border-bottom:1px solid #000000;">
-                <td style="width:33%;" class="fs-18 text-left">
+                <td style="width:50%;" class="fs-18 text-left">
                     GSTIN: <?=$companyData->company_gst_no?>
                 </td>
-                <td style="width:33%;" class="fs-18 text-center">Tax Invocie</td>
-                <td style="width:33%;" class="fs-18 text-right"><?=$printType?></td>
+                <td style="width:50%;" class="fs-18 text-center">Proforma Invoice</td> 
             </tr>
         </table>
         
@@ -46,10 +52,9 @@
         
         <table class="table item-list-bb" style="margin-top:10px;">
             <?php $thead = '<thead>
-                    <tr>
-                        <th style="width:40px;">No.</th>
-                        <th class="text-left">Description of Goods</th>
-                        <th style="width:10%;">HSN/SAC</th>
+                    <tr> 
+                        <th class="text-left">Item</th> 
+                        <th class="text-left">HSN/<br>SAC</th> 
                         <th style="width:100px;">Qty</th>
                         <th style="width:60px;">Rate<br><small>('.$partyData->currency.')</small></th>
                         <th style="width:60px;">Disc (%)</th>
@@ -65,8 +70,7 @@
                     $rowCount = 1;$pageCount = 1;
                     if(!empty($invData->itemList)):
                         foreach($invData->itemList as $row):						
-                            echo '<tr>';
-                                echo '<td class="text-center">'.$i++.'</td>';
+                            echo '<tr>'; 
                                 echo '<td>'.$row->item_name.'</td>';
                                 echo '<td class="text-center">'.$row->hsn_code.'</td>';
                                 echo '<td class="text-center">'.floatVal($row->qty).' ('.$row->unit_name.')</td>';
@@ -94,21 +98,15 @@
                         endforeach;
                     endif;
 
-                    $blankLines = ($maxLinePP - $i);
-                    if($blankLines > 0):
-                        for($j=1;$j<=$blankLines;$j++):
-                            echo '<tr>
-                                <td style="border-top:none;border-bottom:none;">&nbsp;</td>
-                                <td style="border-top:none;border-bottom:none;"></td>
-                                <td style="border-top:none;border-bottom:none;"></td>
-                                <td style="border-top:none;border-bottom:none;"></td>
-                                <td style="border-top:none;border-bottom:none;"></td>
-                                <td style="border-top:none;border-bottom:none;"></td>
-                                <td style="border-top:none;border-bottom:none;"></td>
-                                <td style="border-top:none;border-bottom:none;"></td>
-                            </tr>';
-                        endfor;
-                    endif;
+                    echo '<tr>
+						<td style="border-top:none;border-bottom:none;">&nbsp;</td> 
+						<td style="border-top:none;border-bottom:none;"></td>
+						<td style="border-top:none;border-bottom:none;"></td>
+						<td style="border-top:none;border-bottom:none;"></td>
+						<td style="border-top:none;border-bottom:none;"></td>
+						<td style="border-top:none;border-bottom:none;"></td>
+						<td style="border-top:none;border-bottom:none;"></td>
+					</tr>';
                     
                     $rwspan= 0; $srwspan = '';
                     $beforExp = "";
@@ -163,14 +161,14 @@
                     $fixRwSpan = (!empty($rwspan))?3:0;
                 ?>
                 <tr>
-                    <th colspan="3" class="text-right">Total Qty.</th>
+                    <th colspan="2" class="text-right">Total Qty.</th>
                     <th class="text-right"><?=sprintf('%.3f',$totalQty)?></th>
                     <th></th>
                     <th colspan="2" class="text-right">Sub Total</th>
                     <th class="text-right"><?=sprintf('%.2f',$invData->taxable_amount)?></th>
                 </tr>
                 <tr>
-                    <th class="text-left" colspan="5" rowspan="<?=$rwspan?>">
+                    <th class="text-left" colspan="4" rowspan="<?=$rwspan?>">
                         <b>Bank Name : </b> <?=$companyData->company_bank_name?><br>
                         <b>A/c. No. : </b><?=$companyData->company_acc_no?><br>
                         <b>IFSC Code : </b><?=$companyData->company_ifsc_code?><br>
@@ -185,7 +183,7 @@
                 </tr>
                 <?=$beforExp.$taxHtml.$afterExp?>
                 <tr>
-                    <th class="text-left" colspan="5" rowspan="<?=$fixRwSpan?>">
+                    <th class="text-left" colspan="4" rowspan="<?=$fixRwSpan?>">
                         Amount In Words : <br><?=numToWordEnglish(sprintf('%.2f',$invData->net_amount))?>
                     </th>	
                     
@@ -240,3 +238,7 @@
     </div>
 </div>        
     
+<script>
+window.print();
+window.onafterprint = window.close;   
+</script>

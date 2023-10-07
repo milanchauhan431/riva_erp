@@ -102,7 +102,9 @@ function getProformaInvoiceData($data){
     $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Sales Invoice'}";
     $deleteButton = '<a class="btn btn-danger btn-delete permission-remove" href="javascript:void(0)" onclick="trash('.$deleteParam.');" datatip="Remove" flow="down"><i class="ti-trash"></i></a>';
 
-    $print = '<a href="javascript:void(0)" class="btn btn-info btn-edit printDialog permission-approve1" datatip="Print Invoice" flow="down" data-id="'.$data->id.'" data-fn_name="printInvoice"><i class="fa fa-print"></i></a>';
+  //  $print = '<a href="javascript:void(0)" class="btn btn-info btn-edit printDialog permission-approve1" datatip="Print Invoice" flow="down" data-id="'.$data->id.'" data-fn_name="printInvoice"><i class="fa fa-print"></i></a>';
+    $print = '<a href="javascript:void(0)" class="btn btn-info btn-edit printDialog permission-approve1" datatip="Print Invoice" flow="down" data-id="'.$data->id.'" data-fn_name="printRecipet"><i class="fa fa-print"></i></a>';
+    $print = '<a href="javascript:void(0)" class="btn btn-info btn-edit printDialog permission-approve1" datatip="Print Invoice" flow="down" data-id="'.$data->id.'" data-fn_name="printRecipet"><i class="fa fa-print"></i></a>';
 
     $unapprovedParam = "{'postData':{'id' : ".$data->id.",'is_approve':0},'modal_id' : 'modal-md', 'form_id' : 'reversalApproval', 'title' : 'Approval reversal','fnedit':'reversalApproval','fnsave':'saveReversalApproval'}";
     $unapprovedButton = '<a class="btn btn-danger btn-edit permission-approve" href="javascript:void(0)" datatip="Approval Reversal" flow="down" onclick="edit('.$unapprovedParam.');"><i class="ti-close"></i></a>';
@@ -197,7 +199,9 @@ function getSalesQuotationData($data){
     $quoteParam = "{'postData' : {'id' : ".$data->id.",'entry_type':4}, 'modal_id' : 'modal-md', 'form_id' : 'approachStatus', 'title' : 'Update Quotation Status','fnedit':'approachStatus','fnsave':'saveApproachStatus','controller':'lead'}";
     $quoteStatusButton = '<a class="btn btn-success btn-edit permission-approve" href="javascript:void(0)" datatip="Quotation Status" flow="down" onclick="edit('.$quoteParam.');"><i class="fa fa-check"></i></a>';
 
-    $printBtn = '<a class="btn btn-success btn-edit permission-approve" href="'.base_url('salesQuotation/printQuotation/'.$data->id).'" target="_blank" datatip="Print" flow="down"><i class="fas fa-print" ></i></a>';
+    $printBtn = '<a class="btn btn-success btn-edit permission-approve" href="'.base_url('salesQuotation/printPdfQuotation/'.$data->id).'" target="_blank" datatip="Download PDF" flow="down"><i class="fas fa-file-pdf" ></i></a>';
+
+    $pdfBtn = '<a class="btn btn-success btn-edit permission-approve" href="'.base_url('salesQuotation/printQuotation/'.$data->id).'" target="_blank" datatip="Print" flow="down"><i class="fas fa-print" ></i></a>';
 
     if($data->trans_status > 0):
         $revision = $editButton = $deleteButton = "";
@@ -207,7 +211,7 @@ function getSalesQuotationData($data){
         $followupBtn = $revision = $editButton = $deleteButton = $quoteStatusButton = "";
     endif;
 
-    $action = getActionButton($printBtn.$followupBtn.$quoteStatusButton.$revision.$editButton.$deleteButton);
+    $action = getActionButton($printBtn.$pdfBtn.$followupBtn.$quoteStatusButton.$revision.$editButton.$deleteButton);
 
     $rev_no = sprintf("%02d",$data->quote_rev_no);
     if($data->quote_rev_no > 0):
