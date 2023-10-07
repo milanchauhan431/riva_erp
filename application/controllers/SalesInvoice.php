@@ -59,13 +59,8 @@ class SalesInvoice extends MY_Controller{
         if(empty($data['itemData'])):
             $errorMessage['itemData'] = "Item Details is required.";
         else:
-            $bQty = array();
+            /* $bQty = array();
             foreach($data['itemData'] as $key => $row):
-                if(!empty(floatVal($row['qty'])) && !empty($row['size'])):
-                    if(is_int(($row['qty'] / $row['packing_qty'])) == false):
-                        $errorMessage['qty'.$key] = "Invalid qty against packing standard.";
-                    endif;
-                endif;
 
                 if($row['stock_eff'] == 1):
                     $postData = ['location_id' => $this->RTD_STORE->id,'batch_no' => "GB",'item_id' => $row['item_id'],'stock_required'=>1,'single_row'=>1];
@@ -92,7 +87,7 @@ class SalesInvoice extends MY_Controller{
                         endif;
                     endif;
                 endif;
-            endforeach;
+            endforeach; */
         endif;
         
         if(!empty($errorMessage)):

@@ -68,7 +68,7 @@ class StockTransModel extends MasterModel{
 
     public function getStockTrans($data){
         $queryData['tableName'] = $this->stockTrans;
-        $queryData['select'] = "stock_transaction.*,item_master.item_code,item_master.item_name,item_master.hsn_code,item_master.gst_per,item_master.unit_id,unit_master.unit_name";
+        $queryData['select'] = "stock_transaction.*,SUM(stock_transaction.qty * stock_transaction.p_or_m) as qty,item_master.item_code,item_master.item_name,item_master.hsn_code,item_master.gst_per,item_master.unit_id,unit_master.unit_name";
 
         $queryData['leftJoin']['item_master'] = "item_master.id = stock_transaction.item_id";
         $queryData['leftJoin']['unit_master'] = "item_master.unit_id = unit_master.id";
@@ -77,9 +77,12 @@ class StockTransModel extends MasterModel{
             $queryData['where']['stock_transaction.id'] = $data['id'];
         if(!empty($data['unique_id']))
             $queryData['where']['stock_transaction.unique_id'] = $data['unique_id'];
-      return  $this->row($queryData);
-		//$this->printQuery();
+
+        if(!empty($data['stock_required'])):
+            $queryData['having'][] = 'SUM(stock_transaction.qty * stock_transaction.p_or_m) > 0';
+        endif;
         
+        return  $this->row($queryData);        
     }
 
     // Get Single Item Stock From Stock Transaction

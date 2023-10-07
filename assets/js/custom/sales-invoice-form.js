@@ -1,4 +1,7 @@
 $(document).ready(function(){
+	$(".ledgerColumn").hide();
+	$(".summary_desc").attr('style','width: 60%;');
+
 	$(document).on('click','.getPendingOrders',function(){
 		var party_id = $('#party_id').val();
 		var party_name = $('#party_id :selected').text();
@@ -68,21 +71,18 @@ $(document).ready(function(){
             $(".price").html("Price is required.");
         }
 
-		if(formData.packing_qty == "" || parseInt(formData.packing_qty) == 0){
-			$(".packing_qty").html("Packing standard is required.");
+		if(formData.gross_weight == "" || parseInt(formData.gross_weight) == 0){
+			$(".gross_weight").html("Gross Weight is required.");
+		}
+
+		if(formData.net_weight == "" || parseInt(formData.net_weight) == 0){
+			$(".net_weight").html("Net Weight is required.");
 		}
 
         /* var item_ids = $(".item_id").map(function () { return $(this).val(); }).get();
         if ($.inArray(formData.item_id, item_ids) >= 0 && formData.row_index == "") {
             $(".item_name").html("Item already added.");
         } */
-
-		if(parseFloat(formData.qty) > 0 && parseInt(formData.packing_qty) > 0){
-			var totalBox = parseFloat(parseFloat(formData.qty) / parseFloat(formData.packing_qty));
-			if(!Number.isInteger(totalBox)){
-				$(".qty").html("Invalid qty against packing standard.");
-			}
-		}
 
         var errorCount = $('#itemForm .error:not(:empty)').length;
 
@@ -93,15 +93,17 @@ $(document).ready(function(){
             var gst_per = 0; var cgst_per = 0; var sgst_per = 0; var igst_per = 0;
 
 			formData.org_price = (formData.org_price != "" || parseFloat(formData.org_price) > 0)?formData.org_price:0;
-			formData.price = parseFloat((parseFloat(formData.org_price) * parseFloat(($("#master_i_col_1").val() || 0)) / 100)).toFixed(2);
 
             if (formData.disc_per == "" && formData.disc_per == "0") {
-                taxable_amount = amount = parseFloat(parseFloat(formData.qty) * parseFloat(formData.price)).toFixed(2);
+                taxable_amount = amount = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.price)).toFixed(2);
             } else {
-                amount = parseFloat(parseFloat(formData.qty) * parseFloat(formData.price)).toFixed(2);
+                amount = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.price)).toFixed(2);
                 disc_amt = parseFloat((amount * parseFloat(formData.disc_per)) / 100).toFixed(2);
                 taxable_amount = parseFloat(amount - disc_amt).toFixed(2);
             }
+
+			amount = parseFloat(parseFloat(amount) + parseFloat(formData.org_price)).toFixed(2);
+			taxable_amount = parseFloat(parseFloat(taxable_amount) + parseFloat(formData.org_price)).toFixed(2);
 
             formData.gst_per = igst_per = parseFloat(formData.gst_per).toFixed(0);
             formData.gst_amount = igst_amt = parseFloat((igst_per * taxable_amount) / 100).toFixed(2);
@@ -148,11 +150,6 @@ $(document).ready(function(){
 		$('#itemForm #row_index').val("");
 		$("#itemForm .error").html("");
         $("#itemForm .select2").select2();
-	});  
-	
-	$(document).on('keyup change',"#itemForm #price",function(){
-		var price = $(this).val() || 0;
-		$("#itemForm #org_price").val(price);
 	});
 
 	$(document).on('change','#unit_id',function(){
@@ -163,82 +160,6 @@ $(document).ready(function(){
 	$(document).on('change','#hsn_code',function(){
 		$("#gst_per").val(($("#hsn_code :selected").data('gst_per') || 0));
 		$("#gst_per").select2();
-	});
-
-	//on change Bill Per.
-	$(document).on('keyup change','#master_i_col_1',function(){
-		var billPer = $(this).val();
-		billPer = (parseFloat(billPer) > 0)?billPer:0;
-		var rowCount = $('#salesInvoiceItems tbody tr').length;
-		var countRow = 0;
-		for(var i=0;i<rowCount;i++){
-			countRow = i + 1;
-			if($("#salesInvoiceItems tbody tr:eq("+i+") input[name='itemData["+countRow+"][org_price]']").val()){				
-				formData = {};				
-
-				formData.id = $("#salesInvoiceItems tbody tr:eq("+i+") input[name='itemData["+countRow+"][id]']").val();
-				formData.item_id = $("#salesInvoiceItems tbody tr:eq("+i+") input[name='itemData["+countRow+"][item_id]']").val();
-				formData.item_name = $("#salesInvoiceItems tbody tr:eq("+i+") input[name='itemData["+countRow+"][item_name]']").val();
-				formData.from_entry_type = $("#salesInvoiceItems tbody tr:eq("+i+") input[name='itemData["+countRow+"][from_entry_type]']").val();
-				formData.ref_id = $("#salesInvoiceItems tbody tr:eq("+i+") input[name='itemData["+countRow+"][ref_id]']").val();
-				formData.item_code = $("#salesInvoiceItems tbody tr:eq("+i+") input[name='itemData["+countRow+"][item_code]']").val();
-				formData.item_type = $("#salesInvoiceItems tbody tr:eq("+i+") input[name='itemData["+countRow+"][item_type]']").val();
-				formData.stock_eff = $("#salesInvoiceItems tbody tr:eq("+i+") input[name='itemData["+countRow+"][stock_eff]']").val();
-				formData.p_or_m = $("#salesInvoiceItems tbody tr:eq("+i+") input[name='itemData["+countRow+"][p_or_m]']").val();
-				formData.hsn_code = $("#salesInvoiceItems tbody tr:eq("+i+") input[name='itemData["+countRow+"][hsn_code]']").val();
-				formData.qty = $("#salesInvoiceItems tbody tr:eq("+i+") input[name='itemData["+countRow+"][qty]']").val();
-				formData.packing_qty = $("#salesInvoiceItems tbody tr:eq("+i+") input[name='itemData["+countRow+"][packing_qty]']").val();
-				formData.unit_id = $("#salesInvoiceItems tbody tr:eq("+i+") input[name='itemData["+countRow+"][unit_id]']").val();
-				formData.unit_name = $("#salesInvoiceItems tbody tr:eq("+i+") input[name='itemData["+countRow+"][unit_name]']").val();
-
-				var org_price = $("#salesInvoiceItems tbody tr:eq("+i+") input[name='itemData["+countRow+"][org_price]']").val();
-				formData.org_price = (org_price != "" || parseFloat(org_price) > 0)?org_price:0;
-				formData.price = parseFloat((parseFloat(org_price) * parseFloat(billPer) / 100)).toFixed(2);
-				
-				formData.disc_per = $("#salesInvoiceItems tbody tr:eq("+i+") input[name='itemData["+countRow+"][disc_per]']").val();
-				formData.gst_per = $("#salesInvoiceItems tbody tr:eq("+i+") input[name='itemData["+countRow+"][gst_per]']").val();
-				formData.item_remark = $("#salesInvoiceItems tbody tr:eq("+i+") input[name='itemData["+countRow+"][item_remark]']").val();
-				
-				
-				var cgst_amt = 0;var sgst_amt = 0;var igst_amt = 0;
-				var cgst_per = 0;var sgst_per = 0;var igst_per = 0;
-				var amount = 0;var disc_amt = 0;var total = 0;var net_amount = 0;
-				if (formData.disc_per == "" && formData.disc_per == "0") {
-					taxable_amount = amount = parseFloat(parseFloat(formData.qty) * parseFloat(formData.price)).toFixed(2);
-				} else {
-					amount = parseFloat(parseFloat(formData.qty) * parseFloat(formData.price)).toFixed(2);
-					disc_amt = parseFloat((amount * parseFloat(formData.disc_per)) / 100).toFixed(2);
-					taxable_amount = parseFloat(amount - disc_amt).toFixed(2);
-				}
-				
-				cgst_per = parseFloat(parseFloat(formData.gst_per)/2).toFixed(2);
-				sgst_per = parseFloat(parseFloat(formData.gst_per)/2).toFixed(2);
-				
-				cgst_amt = parseFloat((cgst_per * taxable_amount )/100).toFixed(2);
-				sgst_amt = parseFloat((sgst_per * taxable_amount )/100).toFixed(2);
-				
-				formData.gst_per = igst_per = parseFloat(formData.gst_per).toFixed(2);
-				formData.gst_amount = igst_amt = parseFloat((igst_per * taxable_amount )/100).toFixed(2);
-				
-				net_amount = parseFloat(parseFloat(taxable_amount) + parseFloat(igst_amt)).toFixed(2);
-
-				formData.gst_per = parseFloat(formData.gst_per);
-				formData.gst_type = $('#gst_type').val();
-				formData.qty = parseFloat(formData.qty).toFixed(2);
-				formData.cgst_per = cgst_per;
-				formData.cgst_amount = cgst_amt;
-				formData.sgst_per = sgst_per;
-				formData.sgst_amount = sgst_amt;
-				formData.igst_per = igst_per;
-				formData.igst_amount = igst_amt;
-				formData.disc_amount = disc_amt;
-				formData.amount = amount;
-				formData.taxable_amount = taxable_amount;
-				formData.net_amount = net_amount;
-				formData.row_index = ""+i+"";
-				AddRow(formData); 				
-			}
-		}
 	});
 });
 
@@ -302,6 +223,11 @@ function AddRow(data) {
     var itemtypeInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][item_type]", value: data.item_type });
 	var stockEffInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][stock_eff]", value: data.stock_eff });
     var pormInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][p_or_m]", value: -1 });
+	var stockTransIdInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][i_col_2]", value: data.stock_trans_id });
+	var locationInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][i_col_1]", value: data.location_id });
+	var uniqueIdInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][t_col_1]", value: data.unique_id });
+	var standardQtyInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][d_col_1]", value: data.standard_qty });
+	var purityInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][d_col_2]", value: data.purity });
     cell = $(row.insertCell(-1));
     cell.html(data.item_name);
     cell.append(idInput);
@@ -313,6 +239,11 @@ function AddRow(data) {
     cell.append(itemtypeInput);
 	cell.append(stockEffInput);
     cell.append(pormInput);
+	cell.append(stockTransIdInput);
+    cell.append(locationInput);
+    cell.append(uniqueIdInput);
+    cell.append(standardQtyInput);
+    cell.append(purityInput);
 
     var hsnCodeInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][hsn_code]", value: data.hsn_code });
 	cell = $(row.insertCell(-1));
@@ -327,6 +258,16 @@ function AddRow(data) {
 	cell.append(qtyInput);
 	cell.append(psInput);
 	cell.append(qtyErrorDiv);
+
+	var grossWeightInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][gross_weight]", value: data.gross_weight });
+	cell = $(row.insertCell(-1));
+	cell.html(data.gross_weight);
+	cell.append(grossWeightInput);
+
+	var netWeightInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][net_weight]", value: data.net_weight });
+	cell = $(row.insertCell(-1));
+	cell.html(data.net_weight);
+	cell.append(netWeightInput);
 
     var unitIdInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][unit_id]", value: data.unit_id });
 	var unitNameInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][unit_name]", value: data.unit_name });
@@ -495,9 +436,9 @@ function resItemDetail(response = ""){
         $("#itemForm #unit_id").val(itemDetail.unit_id);$("#itemForm #unit_id").select2();
         $("#itemForm #unit_name").val(itemDetail.unit_name);
 		$("#itemForm #disc_per").val(itemDetail.defualt_disc);
-		$("#itemForm #price").val(itemDetail.price);
-		$("#itemForm #org_price").val(itemDetail.price);
-		$("#itemForm #packing_qty").val(itemDetail.packing_standard);
+		/* $("#itemForm #price").val(itemDetail.price);
+		$("#itemForm #org_price").val(itemDetail.price); */
+		$("#itemForm #standard_qty").val(itemDetail.packing_standard);
         $("#itemForm #hsn_code").val(itemDetail.hsn_code);$("#itemForm #hsn_code").select2();
         $("#itemForm #gst_per").val(parseFloat(itemDetail.gst_per).toFixed(0));$("#itemForm #gst_per").select2();
     }else{
@@ -509,7 +450,7 @@ function resItemDetail(response = ""){
 		$("#itemForm #disc_per").val("");
 		$("#itemForm #price").val("");
 		$("#itemForm #org_price").val("");
-		$("#itemForm #packing_qty").val("");
+		$("#itemForm #standard_qty").val("");
         $("#itemForm #hsn_code").val("");$("#itemForm #hsn_code").select2();
         $("#itemForm #gst_per").val(0);$("#itemForm #gst_per").select2(); 
     }

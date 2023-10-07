@@ -83,13 +83,6 @@ $(document).ready(function(){
             $(".item_name").html("Item already added.");
         } */
 
-		if(parseFloat(formData.qty) > 0 && parseInt(formData.packing_qty) > 0){
-			var totalBox = parseFloat(parseFloat(formData.qty) / parseFloat(formData.packing_qty));
-			if(!Number.isInteger(totalBox)){
-				$(".qty").html("Invalid qty against packing standard.");
-			}
-		}
-
         var errorCount = $('#itemForm .error:not(:empty)').length;
 
 		if (errorCount == 0) {
@@ -442,9 +435,9 @@ function resItemDetail(response = ""){
         $("#itemForm #unit_id").val(itemDetail.unit_id);$("#itemForm #unit_id").select2();
         $("#itemForm #unit_name").val(itemDetail.unit_name);
 		$("#itemForm #disc_per").val(itemDetail.defualt_disc);
-		$("#itemForm #price").val(itemDetail.price);
-		$("#itemForm #org_price").val(itemDetail.price);
-		$("#itemForm #packing_qty").val(itemDetail.packing_standard);
+		/* $("#itemForm #price").val(itemDetail.price);
+		$("#itemForm #org_price").val(itemDetail.price); */
+		$("#itemForm #standard_qty").val(itemDetail.packing_standard);
         $("#itemForm #hsn_code").val(itemDetail.hsn_code);$("#itemForm #hsn_code").select2();
         $("#itemForm #gst_per").val(parseFloat(itemDetail.gst_per).toFixed(0));$("#itemForm #gst_per").select2();
     }else{
@@ -456,7 +449,7 @@ function resItemDetail(response = ""){
 		$("#itemForm #disc_per").val("");
 		$("#itemForm #price").val("");
 		$("#itemForm #org_price").val("");
-		$("#itemForm #packing_qty").val("");
+		$("#itemForm #standard_qty").val("");
         $("#itemForm #hsn_code").val("");$("#itemForm #hsn_code").select2();
         $("#itemForm #gst_per").val(0);$("#itemForm #gst_per").select2(); 
     }
@@ -477,60 +470,5 @@ function resProformaInvoice(data,formId){
         }			
     }	
 }
-$('#barcode_scanner').on('keypress',function(e){
-	if(e.which == 13) {
- 		barcodeScan();
-	}
-});
-async function barcodeScan(formData=""){
-	if(formData ==""){
-		var formData = await getItemBybarcode();
-	}else{ 
-		if(formData == null) return false;
-		formData.stock_trans_id = formData.id;
-		formData.id = "";
-		formData.qty = 1;
-		formData.disc_per = (parseFloat(formData.disc_per) > 0)?formData.disc_per:0;
-		var amount = 0; var taxable_amount = 0; var disc_amt = 0; var igst_amt = 0;
-		var gst_amount = 0; var cgst_amt = 0; var sgst_amt = 0; var net_amount = 0; 
-		var gst_per = 0; var cgst_per = 0; var sgst_per = 0; var igst_per = 0;
 
-		formData.org_price = formData.sales_price;
-		if (formData.disc_per == "" && formData.disc_per == "0") {
-			taxable_amount = amount = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.price)).toFixed(2);
-		} else {
-			amount = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.price)).toFixed(2);
-			disc_amt = parseFloat((amount * parseFloat(formData.disc_per)) / 100).toFixed(2);
-			taxable_amount = parseFloat(amount - disc_amt).toFixed(2);
-		}
-
-		amount = parseFloat(parseFloat(amount) + parseFloat(formData.sales_price)).toFixed(2);
-		taxable_amount = parseFloat(parseFloat(taxable_amount) + parseFloat(formData.sales_price)).toFixed(2);
-
-		formData.gst_per = igst_per = parseFloat(formData.gst_per).toFixed(0);
-		formData.gst_amount = igst_amt = parseFloat((igst_per * taxable_amount) / 100).toFixed(2);
-
-		cgst_per = parseFloat(parseFloat(igst_per) / 2).toFixed(2);
-		sgst_per = parseFloat(parseFloat(igst_per) / 2).toFixed(2);
-
-		cgst_amt = parseFloat((cgst_per * taxable_amount) / 100).toFixed(2);
-		sgst_amt = parseFloat((sgst_per * taxable_amount) / 100).toFixed(2);
-
-		net_amount = parseFloat(parseFloat(taxable_amount) + parseFloat(igst_amt)).toFixed(2);
-		formData.gst_per = parseFloat(formData.gst_per);
-		formData.qty = parseFloat(formData.qty).toFixed(2);
-		formData.cgst_per = cgst_per;
-		formData.cgst_amount = cgst_amt;
-		formData.sgst_per = sgst_per;
-		formData.sgst_amount = sgst_amt;
-		formData.igst_per = igst_per;
-		formData.igst_amount = igst_amt;
-		formData.disc_amount = disc_amt;
-		formData.amount = amount;
-		formData.taxable_amount = taxable_amount;
-		formData.net_amount = net_amount;
-		formData.row_index = '';
-		AddRow(formData); 
-	}
-}
  

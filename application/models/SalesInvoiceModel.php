@@ -43,11 +43,8 @@ class SalesInvoiceModel extends MasterModel{
         try{
             $this->db->trans_begin();
 
-            $cahsEntryNew = false;
             if(empty($data['id'])):
-                $cahsEntryNew = true;
-                //$data['trans_no'] = $this->transMainModel->nextTransNo($data['entry_type']);
-                //$data['trans_number'] = $data['trans_prefix'].$data['trans_no'];
+                $data['trans_no'] = $this->transMainModel->nextTransNo($data['entry_type']);
             endif;
             $data['trans_number'] = $data['trans_prefix'].$data['trans_no'];
 
@@ -86,6 +83,7 @@ class SalesInvoiceModel extends MasterModel{
                 $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transMain,'description'=>"SI TERMS"]);
                 $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transMain,'description'=>"SI MASTER DETAILS"]);
                 $this->remove($this->stockTrans,['main_ref_id'=>$data['id'],'entry_type'=>$data['entry_type']]);
+                $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transChild,'description'=>"SI SERIAL DETAILS"]);
 
                 if($data['masterDetails']['i_col_1'] != $dataRow->bill_per):
                     $queryData = array();
@@ -170,26 +168,36 @@ class SalesInvoiceModel extends MasterModel{
                 $row['trans_main_id'] = $result['id'];
                 $row['gst_amount'] = $row['igst_amount'];
                 $row['is_delete'] = 0;
-
+                $serialData = $row['masterData'];unset($row['masterData']);
                 $itemTrans = $this->store($this->transChild,$row);
+
+                $serialData['id'] = "";
+                $serialData['table_name'] = $this->transChild;
+                $serialData['description'] = "SI SERIAL DETAILS";
+                $serialData['main_ref_id'] = $result['id'];
+                $serialData['child_ref_id'] = $itemTrans['id'];
+                $this->store($this->transDetails,$serialData);
 
                 if($row['stock_eff'] == 1):
                     $stockData = [
                         'id' => "",
                         'entry_type' => $data['entry_type'],
-                        'unique_id' => 0,
+                        'unique_id' => $serialData['t_col_1'],
                         'ref_date' => $data['trans_date'],
                         'ref_no' => $data['trans_number'],
                         'main_ref_id' => $result['id'],
                         'child_ref_id' => $itemTrans['id'],
-                        'location_id' => $this->RTD_STORE->id,
-                        'batch_no' => "GB",
+                        'location_id' => $serialData['i_col_1'],
+                        'batch_no' => $serialData['t_col_1'],
                         'party_id' => $data['party_id'],
                         'item_id' => $row['item_id'],
                         'p_or_m' => -1,
                         'qty' => $row['qty'],
-                        'size' => $row['packing_qty'],
-                        'price' => $row['price']
+                        'standard_qty' => $serialData['d_col_1'],
+                        'sales_price' => $row['taxable_amount'],
+                        'purity' => $serialData['d_col_2'],
+                        'gross_weight' => $row['gross_weight'],
+                        'net_weight' => $row['net_weight'],
                     ];
 
                     $this->store($this->stockTrans,$stockData);
@@ -218,10 +226,6 @@ class SalesInvoiceModel extends MasterModel{
             
             $data['id'] = $result['id'];
             $this->transMainModel->ledgerEffects($data,$expenseData);
-
-            if($masterDetails['i_col_1'] < 100):
-                $this->saveCashInvoice($result['id'],$cahsEntryNew);
-            endif;
 
             if ($this->db->trans_status() !== FALSE):
                 $this->db->trans_commit();
@@ -374,7 +378,8 @@ class SalesInvoiceModel extends MasterModel{
     public function getSalesInvoiceItems($data){
         $queryData = array();
         $queryData['tableName'] = $this->transChild;
-        $queryData['select'] = "trans_child.*";
+        $queryData['select'] = "trans_child.*,trans_details.i_col_1 as location_id,trans_details.t_col_1 as unique_id,trans_details.i_col_2 as stock_trans_id,trans_details.d_col_1 as standard_qty,trans_details.d_col_2 as purity";
+        $queryData['leftJoin']['trans_details'] = "trans_child.trans_main_id = trans_details.main_ref_id AND trans_details.child_ref_id = trans_child.id AND trans_details.description = 'SI SERIAL DETAILS' AND trans_details.table_name = '".$this->transChild."'";
         $queryData['where']['trans_child.trans_main_id'] = $data['id'];
         $result = $this->rows($queryData);
         return $result;
@@ -383,7 +388,9 @@ class SalesInvoiceModel extends MasterModel{
     public function getSalesInvoiceItem($data){
         $queryData = array();
         $queryData['tableName'] = $this->transChild;
-        $queryData['where']['id'] = $data['id'];
+        $queryData['select'] = "trans_child.*,trans_details.i_col_1 as location_id,trans_details.t_col_1 as unique_id,trans_details.i_col_2 as stock_trans_id,trans_details.d_col_1 as standard_qty,trans_details.d_col_2 as purity";
+        $queryData['leftJoin']['trans_details'] = "trans_child.trans_main_id = trans_details.main_ref_id AND trans_details.child_ref_id = trans_child.id AND trans_details.description = 'SI SERIAL DETAILS' AND trans_details.table_name = '".$this->transChild."'";
+        $queryData['where']['trans_child.trans_main_id'] = $data['id'];
         $result = $this->row($queryData);
         return $result;
     }
@@ -446,6 +453,7 @@ class SalesInvoiceModel extends MasterModel{
             $this->remove($this->transDetails,['main_ref_id'=>$id,'table_name'=>$this->transMain,'description'=>"SI MASTER DETAILS"]);
 
             $this->remove($this->stockTrans,['main_ref_id'=>$dataRow->id,'entry_type'=>$dataRow->entry_type]);
+            $this->remove($this->transDetails,['main_ref_id'=>$dataRow->id,'table_name'=>$this->transChild,'description'=>"SI SERIAL DETAILS"]);
 
             $result = $this->trash($this->transMain,['id'=>$id],'Sales Invoice');
 
