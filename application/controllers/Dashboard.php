@@ -15,6 +15,10 @@ class Dashboard extends MY_Controller{
 		//$this->data['lastSyncedAt'] = $this->biometric->getDeviceData()[0]->last_sync_at;
 		$this->data['lastSyncedAt'] = (!empty($this->data['lastSyncedAt'])) ? date('j F Y, g:i a',strtotime($this->data['lastSyncedAt'])) : "";
 	    $this->data['todayBirthdayList'] = array();//$this->employee->getEmpTodayBirthdayList();
+		
+		$queryData['tableName'] = "rates";  
+		$queryData['where']['date'] = date("Y-m-d"); 
+	    $this->data['today_rate'] = $this->masterModel->row($queryData);
         $this->load->view('dashboard',$this->data);
     }
 	

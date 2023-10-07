@@ -152,6 +152,12 @@
         
         
 <script>
+<?php if(empty($today_rate)) { ?>
+setTimeout(function(){
+	$(".rateTrg").trigger("click");
+}, 2000);
+
+<?php } ?>
 document.addEventListener('DOMContentLoaded', function() {
   var calendarEl = document.getElementById('calendar');
 
