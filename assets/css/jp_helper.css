@@ -2739,3 +2739,16 @@ span.multiselect-native-select select {
     line-height: 1;
     margin-right: 5px;
 }
+.powerBy span{
+    font-size: 12px;
+    font-weight: bold;
+}
+.powerBy {
+    background: #000;
+    color: #fff;
+    padding: 7px 10px;
+    text-align: center;
+    bottom: 0;
+    position: absolute;
+	width:100%
+}

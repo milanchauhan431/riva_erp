@@ -102,7 +102,7 @@ else:
 	define('DEVELOPMENT',0);
 endif;
 
-define('SITENAME','RIVA');
+define('SITENAME','RIVA ERP');
 define('MASTER_DB', SERVER_PREFIX.'riva_erp');
 define('POPUP_TITLE', 'RIVA');
 define('ISO_COMPANY_TITLE', 'RIVA');
