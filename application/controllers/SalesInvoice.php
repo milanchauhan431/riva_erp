@@ -54,8 +54,6 @@ class SalesInvoice extends MY_Controller{
             $errorMessage['party_id'] = "Party Name is required.";
         if(empty($data['sp_acc_id']))
             $errorMessage['sp_acc_id'] = "GST Type is required.";
-        if(empty($data['masterDetails']['i_col_1']))
-            $errorMessage['master_i_col_1'] = "Bill Per. is required.";
         if(empty($data['itemData'])):
             $errorMessage['itemData'] = "Item Details is required.";
         else:
@@ -95,6 +93,7 @@ class SalesInvoice extends MY_Controller{
         else:
             $data['vou_name_l'] = $this->data['entryData']->vou_name_long;
             $data['vou_name_s'] = $this->data['entryData']->vou_name_short;
+
 			$attachments = array();
             if(!empty($data['id']) && !empty($data['attachment'])):
                 $attachments = $data['attachment']; unset($data['attachment']);
@@ -113,7 +112,7 @@ class SalesInvoice extends MY_Controller{
                     $_FILES['userfile']['error']    = $_FILES['attachments']['error'][$key];
                     $_FILES['userfile']['size']     = $_FILES['attachments']['size'][$key];
 
-                    $imagePath = realpath(APPPATH . '../assets/uploads/inventory_img/');
+                    $imagePath = realpath(APPPATH . '../assets/uploads/sales_document/');
 
                     $fileName = preg_replace('/[^A-Za-z0-9]+/', '_', strtolower($fileName));
                     $config = ['file_name' => time()."_IR_".$fileName,'allowed_types' => 'jpg|jpeg|png|gif|JPG|JPEG|PNG','max_size' => 10240,'overwrite' => FALSE, 'upload_path' => $imagePath];                

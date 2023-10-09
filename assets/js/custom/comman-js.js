@@ -340,6 +340,7 @@ $(document).ready(function(){
 			window[resFunctionName]();
 		}
 	});
+
 	$(document).on('click','.btn-close,.close',function(){
 		zindex = zindex--;
 		var modal_id = $(this).data('modal_id');
@@ -365,6 +366,10 @@ $(document).ready(function(){
 		}
         $('label[for="' + inputId + '"]').html(fileName);
 	});
+
+	$(document).on('click','.removeImage',function(){
+        $(this).parent('div').remove();
+    });
 
 	//$("#print_dialog").modal();
 	$(document).on("click",".printDialog",function(){

@@ -137,6 +137,16 @@
                                         <input type="text" name="masterDetails[t_col_3]" id="master_t_col_3" class="form-control" value="<?=(!empty($dataRow->ship_address))?$dataRow->ship_address:""?>">
                                     </div>
 
+                                    <div class="col-md-3 form-group">
+                                        <label for="master_t_col_4">PAN NO.</label>
+                                        <input type="text" name="masterDetails[t_col_4]" id="master_t_col_4" class="form-control" value="<?=(!empty($dataRow->pan_no))?$dataRow->pan_no:""?>">
+                                    </div>
+
+                                    <div class="col-md-3 form-group">
+                                        <label for="master_t_col_5">Aadhar NO.</label>
+                                        <input type="text" name="masterDetails[t_col_5]" id="master_t_col_5" class="form-control" value="<?=(!empty($dataRow->aadhar_no))?$dataRow->aadhar_no:""?>">
+                                    </div>
+
                                     <div class="col-md-2 form-group exportData <?=(empty($dataRow))?"hidden":((!empty($dataRow->tax_class) && !in_array($dataRow->tax_class,["EXPORTGSTACC","EXPORTTFACC"]))?"hidden":"")?>">
                                         <label for="port_code">Port Code</label>
                                         <input type="text" name="port_code" id="port_code" class="form-control" value="<?=(!empty($dataRow->port_code))?$dataRow->port_code:""?>">
@@ -150,11 +160,6 @@
                                     <div class="col-md-2 form-group exportData <?=(empty($dataRow))?"hidden":((!empty($dataRow->tax_class) && !in_array($dataRow->tax_class,["EXPORTGSTACC","EXPORTTFACC"]))?"hidden":"")?>">
                                         <label for="ship_bill_date">Shipping Bill Date</label>
                                         <input type="date" name="ship_bill_date" id="ship_bill_date" class="form-control" value="<?=(!empty($dataRow->ship_bill_date))?$dataRow->ship_bill_date:""?>">
-                                    </div>
-
-                                    <div class="col-md-2 form-group">
-                                        <label for="bill_per">Bill (%)</label>
-                                        <input type="text" name="masterDetails[i_col_1]" id="master_i_col_1" class="form-control numericOnly" value="<?=(!empty($dataRow->bill_per))?$dataRow->bill_per:"100"?>">
                                     </div>
                                 </div>
 
@@ -222,6 +227,41 @@
                                         <div class="error term_id"></div>
                                     </div>
                                     <?php $this->load->view('includes/terms_form',['termsList'=>$termsList,'termsConditions'=>(!empty($dataRow->termsConditions)) ? $dataRow->termsConditions : array()])?>
+                                </div>
+
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <h4>Attechments :</h4>
+                                    </div>
+
+                                    <div class="col-md-4 form-group">
+                                        <label for="attechments">Attechments</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input multifiles" name="attachments[]" id="attachments" accept=".jpg, .jpeg, .png" multiple>
+                                                <label class="custom-file-label" for="attachments">Choose file</label>
+                                            </div>
+                                        </div>
+                                        <div class="error attachment_error"></div>
+                                    </div>
+
+                                    <div class="col-md-8"></div>
+
+                                    <?php 
+                                        if(!empty($dataRow->attachments)): 
+                                            $attachments = explode(",",$dataRow->attachments);
+                                            foreach($attachments as $file):
+                                    ?>
+                                        <div class="col-md-2 form-group text-center m-t-20">
+                                            <img src="<?=base_url("assets/uploads/sales_document/".$file)?>" class="img-zoom" alt="IMG"><br>
+                                            <button type="button" class="btn btn-outline-danger m-t-10 removeImage"><i class="ti-trash"></i> Remove</button>
+                                            <input type="hidden" name="attachment[]" value="<?=$file?>">
+                                        </div>
+                                    <?php 
+                                            endforeach;
+                                        endif; 
+                                    ?>
                                 </div>
                             </div>
                         </form>
@@ -326,42 +366,7 @@
                                 <label for="item_remark">Remark</label>
                                 <input type="text" name="item_remark" id="item_remark" class="form-control" value="" />
                             </div>                            
-                        </div>
-						
-						<hr>
-						<div class="row">
-							<div class="col-md-12 form-group">
-								<h4>Attechments :</h4>
-							</div>
-
-							<div class="col-md-4 form-group">
-								<label for="attechments">Attechments</label>
-								<div class="input-group">
-									<div class="custom-file">
-										<input type="file" class="custom-file-input multifiles" name="attachments[]" id="attachments" accept=".jpg, .jpeg, .png" multiple>
-										<label class="custom-file-label" for="attachments">Choose file</label>
-									</div>
-								</div>
-								<div class="error attachment_error"></div>
-							</div>
-
-							<div class="col-md-8"></div>
-
-							<?php 
-								if(!empty($dataRow->attachments)): 
-									$attachments = explode(",",$dataRow->attachments);
-									foreach($attachments as $file):
-							?>
-								<div class="col-md-2 form-group text-center m-t-20">
-									<img src="<?=base_url("assets/uploads/inventory_img/".$file)?>" class="img-zoom" alt="IMG"><br>
-									<button type="button" class="btn btn-outline-danger m-t-10 remove"><i class="ti-trash"></i> Remove</button>
-									<input type="hidden" name="attachment[]" value="<?=$file?>">
-								</div>
-							<?php 
-									endforeach;
-								endif; 
-							?>
-						</div>
+                        </div>						
                     </div>          
                 </form>
             </div>

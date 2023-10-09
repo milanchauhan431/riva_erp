@@ -366,7 +366,7 @@
             ?>
                 <div class="col-md-2 form-group text-center m-t-20">
                     <img src="<?=base_url("assets/uploads/inventory_img/".$file)?>" class="img-zoom" alt="IMG"><br>
-                    <button type="button" class="btn btn-outline-danger m-t-10 remove"><i class="ti-trash"></i> Remove</button>
+                    <button type="button" class="btn btn-outline-danger m-t-10 removeImage"><i class="ti-trash"></i> Remove</button>
                     <input type="hidden" name="attachment[]" value="<?=$file?>">
                 </div>
             <?php 
@@ -410,11 +410,7 @@ $(document).ready(function(){
             $("#salesPriceDiv").addClass("hidden");
             $("#remarkDiv").removeClass("col-md-8").addClass("col-md-10");
         }
-    });
-
-    $(document).on('click','.remove',function(){
-        $(this).parent('div').remove();
-    });
+    });    
 });
 
 function resItemDetail(response = ""){
