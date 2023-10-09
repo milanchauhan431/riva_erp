@@ -68,10 +68,10 @@ class SalesOrderModel extends MasterModel{
                     $this->trash($this->transChild,['id'=>$row->id]);
                 endforeach;
 
-                //$this->trash($this->transChild,['trans_main_id'=>$data['id']]);
                 $this->trash($this->transExpense,['trans_main_id'=>$data['id']]);
                 $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transMain,'description'=>"SO TERMS"]);
                 $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transMain,'description'=>"SO MASTER DETAILS"]);
+                $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transChild,'description'=>"SO SERIAL DETAILS"]);
             endif;
             
             $masterDetails = (!empty($data['masterDetails']))?$data['masterDetails']:array();
@@ -116,7 +116,15 @@ class SalesOrderModel extends MasterModel{
                 $row['entry_type'] = $data['entry_type'];
                 $row['trans_main_id'] = $result['id'];
                 $row['is_delete'] = 0;
-                $this->store($this->transChild,$row);
+                $serialData = $row['masterData'];unset($row['masterData']);
+                $itemTrans = $this->store($this->transChild,$row);
+
+                $serialData['id'] = "";
+                $serialData['table_name'] = $this->transChild;
+                $serialData['description'] = "SO SERIAL DETAILS";
+                $serialData['main_ref_id'] = $result['id'];
+                $serialData['child_ref_id'] = $itemTrans['id'];
+                $this->store($this->transDetails,$serialData);
 
                 if(!empty($row['ref_id'])):
                     $setData = array();
@@ -193,7 +201,8 @@ class SalesOrderModel extends MasterModel{
     public function getSalesOrderItems($data){
         $queryData = array();
         $queryData['tableName'] = $this->transChild;
-        $queryData['select'] = "trans_child.*,tmref.trans_number as ref_number";
+        $queryData['select'] = "trans_child.*,tmref.trans_number as ref_number,trans_details.i_col_1 as location_id,trans_details.t_col_1 as unique_id,trans_details.i_col_2 as stock_trans_id,trans_details.d_col_1 as standard_qty,trans_details.d_col_2 as purity,trans_details.t_col_2 as stock_category";
+        $queryData['leftJoin']['trans_details'] = "trans_child.trans_main_id = trans_details.main_ref_id AND trans_details.child_ref_id = trans_child.id AND trans_details.description = 'SO SERIAL DETAILS' AND trans_details.table_name = '".$this->transChild."'";
         $queryData['leftJoin']['trans_child as tcref'] = "tcref.id = trans_child.ref_id";
         $queryData['leftJoin']['trans_main as tmref'] = "tcref.trans_main_id = tmref.id";
         $queryData['where']['trans_child.trans_main_id'] = $data['id'];
@@ -204,7 +213,9 @@ class SalesOrderModel extends MasterModel{
     public function getSalesOrderItem($data){
         $queryData = array();
         $queryData['tableName'] = $this->transChild;
-        $queryData['where']['id'] = $data['id'];
+        $queryData['select'] = "trans_child.*,trans_details.i_col_1 as location_id,trans_details.t_col_1 as unique_id,trans_details.i_col_2 as stock_trans_id,trans_details.d_col_1 as standard_qty,trans_details.d_col_2 as purity,trans_details.t_col_2 as stock_category";
+        $queryData['leftJoin']['trans_details'] = "trans_child.trans_main_id = trans_details.main_ref_id AND trans_details.child_ref_id = trans_child.id AND trans_details.description = 'SO SERIAL DETAILS' AND trans_details.table_name = '".$this->transChild."'";
+        $queryData['where']['trans_child.id'] = $data['id'];
         $result = $this->row($queryData);
         return $result;
     }
@@ -237,10 +248,11 @@ class SalesOrderModel extends MasterModel{
                 endforeach;
             endif;
 
-            //$this->trash($this->transChild,['trans_main_id'=>$id]);
             $this->trash($this->transExpense,['trans_main_id'=>$id]);
             $this->remove($this->transDetails,['main_ref_id'=>$id,'table_name'=>$this->transMain,'description'=>"SO TERMS"]);
             $this->remove($this->transDetails,['main_ref_id'=>$id,'table_name'=>$this->transMain,'description'=>"SO MASTER DETAILS"]);
+            $this->remove($this->transDetails,['main_ref_id'=>$dataRow->id,'table_name'=>$this->transChild,'description'=>"SO SERIAL DETAILS"]);
+
             $result = $this->trash($this->transMain,['id'=>$id],'Sales Order');
 
             if ($this->db->trans_status() !== FALSE):

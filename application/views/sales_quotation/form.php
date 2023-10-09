@@ -151,6 +151,8 @@
                                                         <th>Item Name</th>
                                                         <th>HSN Code</th>
                                                         <th>Qty.</th>
+                                                        <th>G.W.</th>
+                                                        <th>N.W.</th>
                                                         <th>Unit</th>
                                                         <th>Price</th>
                                                         <th>Disc.</th>
@@ -165,7 +167,7 @@
                                                 </thead>
                                                 <tbody id="tempItem" class="temp_item">
                                                     <tr id="noData">
-                                                        <td colspan="15" class="text-center">No data available in table</td>
+                                                        <td colspan="17" class="text-center">No data available in table</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -224,6 +226,13 @@
 								<input type="hidden" name="item_code" id="item_code" value="" />
                                 <input type="hidden" name="item_id" id="item_id" value="0" />
                                 <input type="hidden" name="item_type" id="item_type" value="1" />
+
+                                <input type="hidden" name="org_price" id="org_price" class="org_price" value="" />
+                                <input type="hidden" name="stock_trans_id" id="stock_trans_id" value="" />
+                                <input type="hidden" name="location_id" id="location_id" value="" />
+                                <input type="hidden" name="standard_qty" id="standard_qty" value="" />
+                                <input type="hidden" name="purity" id="purity" value="" />
+                                <input type="hidden" name="stock_category" id="stock_category" value="" />
                             </div>
                             
 
@@ -271,14 +280,14 @@
                                 </select> 
                                 <input type="hidden" name="unit_name" id="unit_name" class="form-control" value="" />                       
                             </div>
-							<div class="col-md-4 form-group">
+							<div class="col-md-3 form-group">
                                 <label for="hsn_code">HSN Code</label>
                                 <select name="hsn_code" id="hsn_code" class="form-control select2">
                                     <option value="">Select HSN Code</option>
                                     <?=getHsnCodeListOption($hsnList)?>
                                 </select>
                             </div>
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-3 form-group">
                                 <label for="gst_per">GST Per.(%)</label>
                                 <select name="gst_per" id="gst_per" class="form-control select2">
                                     <?php
@@ -287,6 +296,14 @@
                                         endforeach;
                                     ?>
                                 </select>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="gross_weight">Gross Weight</label>
+                                <input type="text" name="gross_weight" id="gross_weight" class="form-control floatOnly req" value="0" />
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="net_weight">Net Weight</label>
+                                <input type="text" name="net_weight" id="net_weight" class="form-control floatOnly req" value="0" />
                             </div>
                             <div class="col-md-12 form-group">
                                 <label for="item_remark">Remark</label>

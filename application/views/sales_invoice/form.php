@@ -114,12 +114,25 @@
                                         <input type="date" name="doc_date" id="doc_date" class="form-control" value="<?=(!empty($dataRow->doc_date))?$dataRow->doc_date:getFyDate()?>">
                                     </div>
 
-                                    <div class="col-md-2 form-group">
+                                    <div class="col-md-2 form-group hidden">
 										<label for="apply_round">Apply Round Off</label>
                                         <select name="apply_round" id="apply_round" class="form-control">
 											<option value="1" <?= (!empty($dataRow) && $dataRow->apply_round == 1) ? "selected" : "" ?>>Yes</option>
 											<option value="0" <?= (!empty($dataRow) && $dataRow->apply_round == 0) ? "selected" : "" ?>>No</option>
 										</select>
+                                    </div>
+
+                                    <div class="col-md-2 form-group">
+                                        <label for="sales_executive">Sales Executive</label>
+                                        <select name="sales_executive" id="sales_executive" class="form-control select2" >
+                                            <option value="">Sales Executive</option>
+                                            <?php
+                                                foreach($salesExecutives as $row):
+                                                    $selected = (!empty($dataRow->sales_executive) && $dataRow->sales_executive == $row->id)?"selected":"";
+                                                    echo '<option value="'.$row->id.'" '.$selected.'>'.$row->emp_name.'</option>';
+                                                endforeach;
+                                            ?>
+                                        </select>
                                     </div>
                                     
                                     <div class="col-md-2 form-group">
@@ -296,12 +309,13 @@
 								<input type="hidden" name="item_code" id="item_code" value="" />
                                 <input type="hidden" name="item_type" id="item_type" value="1" />
                                 <input type="hidden" name="stock_eff" id="stock_eff" value="1" />
-                                <input type="hidden" name="org_price" id="org_price" class="org_price" value="" />
 
+                                <input type="hidden" name="org_price" id="org_price" class="org_price" value="" />
                                 <input type="hidden" name="stock_trans_id" id="stock_trans_id" value="" />
                                 <input type="hidden" name="location_id" id="location_id" value="" />
                                 <input type="hidden" name="standard_qty" id="standard_qty" value="" />
                                 <input type="hidden" name="purity" id="purity" value="" />
+                                <input type="hidden" name="stock_category" id="stock_category" value="" />
                             </div>
                             
 

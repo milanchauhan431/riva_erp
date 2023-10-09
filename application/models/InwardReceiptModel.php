@@ -73,7 +73,7 @@ class InwardReceiptModel extends MasterModel{
                     'item_id' => $data['item_id'],
                     'p_or_m' => 1,
                     'purity' => $data['purity'],
-                    'item_type' => $data['inward_type'],
+                    'stock_category' => $data['inward_type'],
                     'standard_qty' => $data['standard_qty'],
                     'gross_weight' => $data['gross_weight'],
                     'net_weight' => $data['net_weight'],

@@ -684,18 +684,18 @@ function getItemPriceByRate($itemDetail){
 	$CI =& get_instance(); 
 	$CompanyInfo = $CI->masterModel->getCompanyInfo();
 	$item_rate = 0;
-	if(in_array($itemDetail->item_type, array("Gold","Gold Items","Gold + Diamond Items"))){
+	if(in_array($itemDetail->stock_category, array("Gold","Gold Items","Gold + Diamond Items"))){
 		$item_rate = $CompanyInfo->gold_rate / 10; 
 	}
 	
-	if(in_array($itemDetail->item_type, array("Silver","Silver Items"))){
+	if(in_array($itemDetail->stock_category, array("Silver","Silver Items"))){
 		$item_rate = $CompanyInfo->silver_rate / 10; 
 	}
 	
-	if(in_array($itemDetail->item_type, array("Platinum Items","Platinum + Diamond Items"))){
+	if(in_array($itemDetail->stock_category, array("Platinum Items","Platinum + Diamond Items"))){
 		$item_rate = $CompanyInfo->platinum_rate / 10; 
 	}
-	if(in_array($itemDetail->item_type, array("Palladium"))){
+	if(in_array($itemDetail->stock_category, array("Palladium"))){
 		$item_rate = $CompanyInfo->palladium_rate / 10; 
 	}
 	$purity = $item_rate * $itemDetail->purity / 99.99;

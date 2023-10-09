@@ -73,11 +73,10 @@ class SalesQuotationModel extends MasterModel{
 
                     $this->trash($this->transChild,['id'=>$row->id]);
                 endforeach;
-
-                //$this->trash($this->transChild,['trans_main_id'=>$data['id']]);
                 $this->trash($this->transExpense,['trans_main_id'=>$data['id']]);
                 $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transMain,'description'=>"SQ TERMS"]);
                 $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transMain,'description'=>"SQ MASTER DETAILS"]);
+                $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transChild,'description'=>"SQ SERIAL DETAILS"]);
             endif;
             
             $masterDetails = (!empty($data['masterDetails']))?$data['masterDetails']:array();
@@ -122,7 +121,15 @@ class SalesQuotationModel extends MasterModel{
                 $row['entry_type'] = $data['entry_type'];
                 $row['trans_main_id'] = $result['id'];
                 $row['is_delete'] = 0;
-                $this->store($this->transChild,$row);
+                $serialData = $row['masterData'];unset($row['masterData']);
+                $itemTrans = $this->store($this->transChild,$row);
+
+                $serialData['id'] = "";
+                $serialData['table_name'] = $this->transChild;
+                $serialData['description'] = "SQ SERIAL DETAILS";
+                $serialData['main_ref_id'] = $result['id'];
+                $serialData['child_ref_id'] = $itemTrans['id'];
+                $this->store($this->transDetails,$serialData);
 
                 if(!empty($row['ref_id'])):
                     $setData = array();
@@ -221,6 +228,14 @@ class SalesQuotationModel extends MasterModel{
 
             $i=1;
             foreach($itemData as $row):
+                $serialData['i_col_1'] = $row->location_id;
+                $serialData['t_col_1'] = $row->unique_id;
+                $serialData['i_col_2'] = $row->stock_trans_id;
+                $serialData['d_col_1'] = $row->standard_qty;
+                $serialData['d_col_2'] = $row->purity;
+                $serialData['t_col_2'] = $row->stock_category;
+                unset($row->location_id,$row->unique_id,$row->stock_trans_id,$row->standard_qty,$row->purity,$row->stock_category);
+
                 $row = (array) $row;
                 $row['from_entry_type'] = $row['entry_type'];
                 $row['entry_type'] = "";
@@ -228,11 +243,18 @@ class SalesQuotationModel extends MasterModel{
                 $row['id'] = "";
                 $row['trans_main_id'] = $result['id'];
                 $row['is_delete'] = 0;
-                $this->store($this->transChild,$row);
+                $itemTrans = $this->store($this->transChild,$row);
+
+                $serialData['id'] = "";
+                $serialData['table_name'] = $this->transChild;
+                $serialData['description'] = "SQ SERIAL DETAILS";
+                $serialData['main_ref_id'] = $result['id'];
+                $serialData['child_ref_id'] = $itemTrans['id'];
+                $this->store($this->transDetails,$serialData);
             endforeach;
             
 
-            if ($this->db->trans_status() !== FALSE):
+            if($this->db->trans_status() !== FALSE):
                 $this->db->trans_commit();
                 return $result;
             endif;
@@ -296,7 +318,8 @@ class SalesQuotationModel extends MasterModel{
     public function getSalesQuotationItems($data){
         $queryData = array();
         $queryData['tableName'] = $this->transChild;
-        $queryData['select'] = "trans_child.*";
+        $queryData['select'] = "trans_child.*,trans_details.i_col_1 as location_id,trans_details.t_col_1 as unique_id,trans_details.i_col_2 as stock_trans_id,trans_details.d_col_1 as standard_qty,trans_details.d_col_2 as purity,trans_details.t_col_2 as stock_category";
+        $queryData['leftJoin']['trans_details'] = "trans_child.trans_main_id = trans_details.main_ref_id AND trans_details.child_ref_id = trans_child.id AND trans_details.description = 'SQ SERIAL DETAILS' AND trans_details.table_name = '".$this->transChild."'";
         $queryData['where']['trans_child.trans_main_id'] = $data['id'];
         $result = $this->rows($queryData);
         return $result;
@@ -305,7 +328,9 @@ class SalesQuotationModel extends MasterModel{
     public function getSalesQuotationItem($data){
         $queryData = array();
         $queryData['tableName'] = $this->transChild;
-        $queryData['where']['id'] = $data['id'];
+        $queryData['select'] = "trans_child.*,trans_details.i_col_1 as location_id,trans_details.t_col_1 as unique_id,trans_details.i_col_2 as stock_trans_id,trans_details.d_col_1 as standard_qty,trans_details.d_col_2 as purity,trans_details.t_col_2 as stock_category";
+        $queryData['leftJoin']['trans_details'] = "trans_child.trans_main_id = trans_details.main_ref_id AND trans_details.child_ref_id = trans_child.id AND trans_details.description = 'SQ SERIAL DETAILS' AND trans_details.table_name = '".$this->transChild."'";
+        $queryData['where']['trans_child.id'] = $data['id'];
         $result = $this->row($queryData);
         return $result;
     }
@@ -342,7 +367,9 @@ class SalesQuotationModel extends MasterModel{
             $this->trash($this->transExpense,['trans_main_id'=>$id]);
             $this->remove($this->transDetails,['main_ref_id'=>$id,'table_name'=>$this->transMain,'description'=>"SQ TERMS"]);
             $this->remove($this->transDetails,['main_ref_id'=>$id,'table_name'=>$this->transMain,'description'=>"SQ MASTER DETAILS"]);
-            $result = $this->trash($this->transMain,['id'=>$id],'Sales Order');
+            $this->remove($this->transDetails,['main_ref_id'=>$dataRow->id,'table_name'=>$this->transChild,'description'=>"SQ SERIAL DETAILS"]);
+
+            $result = $this->trash($this->transMain,['id'=>$id],'Sales Quotation');
 
             if ($this->db->trans_status() !== FALSE):
                 $this->db->trans_commit();

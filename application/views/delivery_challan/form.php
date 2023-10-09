@@ -18,8 +18,6 @@
                                         <input type="hidden" name="from_entry_type" id="from_entry_type" value="<?=(!empty($dataRow->from_entry_type))?$dataRow->from_entry_type:((!empty($from_entry_type))?$from_entry_type:"")?>">
                                         <input type="hidden" name="ref_id" id="ref_id" value="<?=(!empty($dataRow->ref_id))?$dataRow->ref_id:((!empty($ref_id))?$ref_id:"")?>">
 
-                                        
-
                                         <input type="hidden" name="party_name" id="party_name" value="<?=(!empty($dataRow->party_name))?$dataRow->party_name:""?>">
                                         <input type="hidden" name="gst_type" id="gst_type" value="<?=(!empty($dataRow->gst_type))?$dataRow->gst_type:""?>">
                                         <input type="hidden" name="party_state_code" id="party_state_code" value="<?=(!empty($dataRow->party_state_code))?$dataRow->party_state_code:""?>">
@@ -105,11 +103,24 @@
 									</div>
 
                                     <div class="col-md-3 form-group">
+                                        <label for="sales_executive">Sales Executive</label>
+                                        <select name="sales_executive" id="sales_executive" class="form-control select2" >
+                                            <option value="">Sales Executive</option>
+                                            <?php
+                                                foreach($salesExecutives as $row):
+                                                    $selected = (!empty($dataRow->sales_executive) && $dataRow->sales_executive == $row->id)?"selected":"";
+                                                    echo '<option value="'.$row->id.'" '.$selected.'>'.$row->emp_name.'</option>';
+                                                endforeach;
+                                            ?>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-2 form-group">
                                         <label for="doc_no">PO. No.</label>
                                         <input type="text" name="doc_no" id="doc_no" class="form-control" value="<?=(!empty($dataRow->doc_no))?$dataRow->doc_no:""?>">
                                     </div>
 
-                                    <div class="col-md-3 form-group">
+                                    <div class="col-md-2 form-group">
                                         <label for="doc_date">PO. Date</label>
                                         <input type="date" name="doc_date" id="doc_date" class="form-control" value="<?=(!empty($dataRow->doc_date))?$dataRow->doc_date:getFyDate()?>">
                                     </div>
@@ -127,7 +138,7 @@
                                         <input type="text" name="masterDetails[t_col_1]" id="master_t_col_1" class="form-control" value="<?=(!empty($dataRow->contact_person))?$dataRow->contact_person:""?>">
                                     </div>
 
-                                    <div class="col-md-3 form-group">
+                                    <div class="col-md-2 form-group">
                                         <label for="master_t_col_2">Contact No.</label>
                                         <input type="text" name="masterDetails[t_col_2]" id="master_t_col_2" class="form-control numericOnly" value="<?=(!empty($dataRow->contact_no))?$dataRow->contact_no:""?>">
                                     </div>
@@ -241,12 +252,13 @@
 								<input type="hidden" name="item_code" id="item_code" value="" />
                                 <input type="hidden" name="item_type" id="item_type" value="1" />
                                 <input type="hidden" name="stock_eff" id="stock_eff" value="1" />
-                                <input type="hidden" name="org_price" id="org_price" class="org_price" value="" />
 
+                                <input type="hidden" name="org_price" id="org_price" class="org_price" value="" />
                                 <input type="hidden" name="stock_trans_id" id="stock_trans_id" value="" />
                                 <input type="hidden" name="location_id" id="location_id" value="" />
                                 <input type="hidden" name="standard_qty" id="standard_qty" value="" />
                                 <input type="hidden" name="purity" id="purity" value="" />
+                                <input type="hidden" name="stock_category" id="stock_category" value="" />
                             </div>
                             
 

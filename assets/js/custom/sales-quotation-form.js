@@ -41,6 +41,12 @@ $(document).ready(function(){
         if (formData.price == "" || parseFloat(formData.price) == 0) {
             $(".price").html("Price is required.");
         }
+		if(formData.gross_weight == "" || parseInt(formData.gross_weight) == 0){
+			$(".gross_weight").html("Gross Weight is required.");
+		}
+		if(formData.net_weight == "" || parseInt(formData.net_weight) == 0){
+			$(".net_weight").html("Net Weight is required.");
+		}
 
         var errorCount = $('#itemForm .error:not(:empty)').length;
 
@@ -51,12 +57,15 @@ $(document).ready(function(){
             var gst_per = 0; var cgst_per = 0; var sgst_per = 0; var igst_per = 0;
 
             if (formData.disc_per == "" && formData.disc_per == "0") {
-                taxable_amount = amount = parseFloat(parseFloat(formData.qty) * parseFloat(formData.price)).toFixed(2);
+                taxable_amount = amount = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.price)).toFixed(2);
             } else {
-                amount = parseFloat(parseFloat(formData.qty) * parseFloat(formData.price)).toFixed(2);
+                amount = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.price)).toFixed(2);
                 disc_amt = parseFloat((amount * parseFloat(formData.disc_per)) / 100).toFixed(2);
                 taxable_amount = parseFloat(amount - disc_amt).toFixed(2);
             }
+
+			amount = parseFloat(parseFloat(amount) + parseFloat(formData.org_price)).toFixed(2);
+			taxable_amount = parseFloat(parseFloat(taxable_amount) + parseFloat(formData.org_price)).toFixed(2);
 
             formData.gst_per = igst_per = parseFloat(formData.gst_per).toFixed(0);
             formData.gst_amount = igst_amt = parseFloat((igst_per * taxable_amount) / 100).toFixed(2);
@@ -145,12 +154,12 @@ function AddRow(data) {
     var itemCodeInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][item_code]", value: data.item_code });
     var itemtypeInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][item_type]", value: data.item_type });
 	
-	
 	var stockTransIdInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][i_col_2]", value: data.stock_trans_id });
 	var locationInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][i_col_1]", value: data.location_id });
 	var uniqueIdInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][t_col_1]", value: data.unique_id });
 	var standardQtyInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][d_col_1]", value: data.standard_qty });
 	var purityInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][d_col_2]", value: data.purity });
+	var stockCategoryInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][t_col_2]", value: data.stock_category });
 	
     cell = $(row.insertCell(-1));
     cell.html(data.item_name);
@@ -167,6 +176,7 @@ function AddRow(data) {
     cell.append(uniqueIdInput);
     cell.append(standardQtyInput);
     cell.append(purityInput);
+    cell.append(stockCategoryInput);
 
     var hsnCodeInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][hsn_code]", value: data.hsn_code });
 	cell = $(row.insertCell(-1));
@@ -180,6 +190,16 @@ function AddRow(data) {
 	cell.append(qtyInput);
 	cell.append(qtyErrorDiv);
 
+	var grossWeightInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][gross_weight]", value: data.gross_weight });
+	cell = $(row.insertCell(-1));
+	cell.html(data.gross_weight);
+	cell.append(grossWeightInput);
+
+	var netWeightInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][net_weight]", value: data.net_weight });
+	cell = $(row.insertCell(-1));
+	cell.html(data.net_weight);
+	cell.append(netWeightInput);
+
     var unitIdInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][unit_id]", value: data.unit_id });
 	var unitNameInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][unit_name]", value: data.unit_name });
 	cell = $(row.insertCell(-1));
@@ -188,10 +208,12 @@ function AddRow(data) {
 	cell.append(unitNameInput);
 
     var priceInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][price]", value: data.price});
+	var orgPriceInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][org_price]", value: data.org_price});
 	var priceErrorDiv = $("<div></div>", { class: "error price" + countRow });
 	cell = $(row.insertCell(-1));
 	cell.html(data.price);
 	cell.append(priceInput);
+	cell.append(orgPriceInput);
 	cell.append(priceErrorDiv);
 
     var discPerInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][disc_per]", value: data.disc_per});
@@ -254,12 +276,12 @@ function AddRow(data) {
 	btnRemove.attr("type", "button");
 	btnRemove.attr("onclick", "Remove(this);");
 	btnRemove.attr("style", "margin-left:4px;");
-	btnRemove.attr("class", "btn btn-outline-danger waves-effect waves-light");
+	btnRemove.attr("class", "btn btn-sm btn-outline-danger waves-effect waves-light");
 
 	var btnEdit = $('<button><i class="ti-pencil-alt"></i></button>');
 	btnEdit.attr("type", "button");
 	btnEdit.attr("onclick", "Edit(" + JSON.stringify(data) + ",this);");
-	btnEdit.attr("class", "btn btn-outline-warning waves-effect waves-light");
+	btnEdit.attr("class", "btn btn-sm btn-outline-warning waves-effect waves-light");
 
 	cell.append(btnEdit);
 	cell.append(btnRemove);

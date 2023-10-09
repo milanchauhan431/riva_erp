@@ -204,8 +204,6 @@ class SalesQuotation extends MY_Controller{
 		$filePath = realpath(APPPATH . '../assets/uploads/sales_quotation/');
         $pdfFileName = $filePath.'/' . str_replace(["/","-"],"_",$dataRow->trans_number) . '.pdf';
         
-        /* $stylesheet = file_get_contents(base_url('assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css'));
-        $stylesheet = file_get_contents(base_url('assets/css/style.css?v=' . time())); */
         $stylesheet = file_get_contents(base_url('assets/css/pdf_style.css?v='.time()));
         $mpdf->WriteHTML($stylesheet, 1);
         $mpdf->SetDisplayMode('fullpage');
@@ -219,6 +217,7 @@ class SalesQuotation extends MY_Controller{
 		$mpdf->Output($pdfFileName, 'I');
 		
     }
+
     public function printQuotation($id,$pdf_type=''){
         $this->data['dataRow'] = $dataRow = $this->salesQuotation->getSalesQuotation(['id'=>$id,'itemList'=>1]);
         $this->data['partyData'] = $this->party->getParty(['id'=>$dataRow->party_id]);

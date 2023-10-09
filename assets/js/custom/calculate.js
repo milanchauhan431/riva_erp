@@ -376,6 +376,7 @@ async function barcodeDetails(barcode="",formData=""){
 			$("#itemForm #location_id").val("");
 			$("#itemForm #standard_qty").val("");
 			$("#itemForm #purity").val("");
+			$("#itemForm #stock_category").val("");
 			$("#itemForm #org_price").val("");
 			$("#itemForm #price").val("");
 			$("#itemForm #gross_weight").val("");
@@ -385,10 +386,11 @@ async function barcodeDetails(barcode="",formData=""){
 
 		$('#itemForm #qty').val(1);
 		$('#itemForm #unique_id').val(formData.unique_id);
-		$("#itemForm #stock_trans_id").val(formData.stock_trans_id);
+		$("#itemForm #stock_trans_id").val(formData.id);
 		$("#itemForm #location_id").val(formData.location_id);
 		$("#itemForm #standard_qty").val(formData.standard_qty);
 		$("#itemForm #purity").val(formData.purity);
+		$("#itemForm #stock_category").val(formData.stock_category);
 		$("#itemForm #org_price").val(formData.sales_price);
 		$("#itemForm #price").val(formData.price);
 		$("#itemForm #gross_weight").val(formData.gross_weight);

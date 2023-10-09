@@ -38,6 +38,12 @@ $(document).ready(function(){
         if (formData.qty == "" || parseFloat(formData.qty) == 0) {
             $(".qty").html("Qty is required.");
         }
+		if(formData.gross_weight == "" || parseInt(formData.gross_weight) == 0){
+			$(".gross_weight").html("Gross Weight is required.");
+		}
+		if(formData.net_weight == "" || parseInt(formData.net_weight) == 0){
+			$(".net_weight").html("Net Weight is required.");
+		}
 
         var errorCount = $('#itemForm .error:not(:empty)').length;
 
@@ -129,6 +135,16 @@ function AddRow(data) {
 	cell.append(qtyInput);
 	cell.append(qtyErrorDiv);
 
+	var grossWeightInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][gross_weight]", value: data.gross_weight });
+	cell = $(row.insertCell(-1));
+	cell.html(data.gross_weight);
+	cell.append(grossWeightInput);
+
+	var netWeightInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][net_weight]", value: data.net_weight });
+	cell = $(row.insertCell(-1));
+	cell.html(data.net_weight);
+	cell.append(netWeightInput);
+
     var unitIdInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][unit_id]", value: data.unit_id });
 	var unitNameInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][unit_name]", value: data.unit_name });
 	cell = $(row.insertCell(-1));
@@ -163,12 +179,12 @@ function AddRow(data) {
 	btnRemove.attr("type", "button");
 	btnRemove.attr("onclick", "Remove(this);");
 	btnRemove.attr("style", "margin-left:4px;");
-	btnRemove.attr("class", "btn btn-outline-danger waves-effect waves-light");
+	btnRemove.attr("class", "btn btn-sm btn-outline-danger waves-effect waves-light");
 
 	var btnEdit = $('<button><i class="ti-pencil-alt"></i></button>');
 	btnEdit.attr("type", "button");
 	btnEdit.attr("onclick", "Edit(" + JSON.stringify(data) + ",this);");
-	btnEdit.attr("class", "btn btn-outline-warning waves-effect waves-light");
+	btnEdit.attr("class", "btn btn-sm btn-outline-warning waves-effect waves-light");
 
 	cell.append(btnEdit);
 	cell.append(btnRemove);

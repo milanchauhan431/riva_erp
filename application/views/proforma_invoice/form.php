@@ -254,12 +254,13 @@
 								<input type="hidden" name="item_code" id="item_code" value="" />
                                 <input type="hidden" name="item_type" id="item_type" value="1" />
                                 <input type="hidden" name="stock_eff" id="stock_eff" value="1" />
-                                <input type="hidden" name="org_price" id="org_price" class="org_price" value="" />
-                                
+
+                                <input type="hidden" name="org_price" id="org_price" class="org_price" value="" />                                
                                 <input type="hidden" name="stock_trans_id" id="stock_trans_id" value="" />
                                 <input type="hidden" name="location_id" id="location_id" value="" />
                                 <input type="hidden" name="standard_qty" id="standard_qty" value="" />
                                 <input type="hidden" name="purity" id="purity" value="" />
+                                <input type="hidden" name="stock_category" id="stock_category" value="" />
                             </div>
                             
 

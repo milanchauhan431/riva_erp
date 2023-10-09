@@ -217,7 +217,8 @@ function AddRow(data) {
 	var uniqueIdInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][t_col_1]", value: data.unique_id });
 	var standardQtyInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][d_col_1]", value: data.standard_qty });
 	var purityInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][d_col_2]", value: data.purity });
-    cell = $(row.insertCell(-1));
+    var stockCategoryInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][t_col_2]", value: data.stock_category });
+	cell = $(row.insertCell(-1));
     cell.html(data.item_name);
     cell.append(idInput);
     cell.append(itemIdInput);
@@ -233,6 +234,7 @@ function AddRow(data) {
     cell.append(uniqueIdInput);
     cell.append(standardQtyInput);
     cell.append(purityInput);
+	cell.append(stockCategoryInput);
 
     var hsnCodeInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][hsn_code]", value: data.hsn_code });
 	cell = $(row.insertCell(-1));
@@ -334,12 +336,12 @@ function AddRow(data) {
 	btnRemove.attr("type", "button");
 	btnRemove.attr("onclick", "Remove(this);");
 	btnRemove.attr("style", "margin-left:4px;");
-	btnRemove.attr("class", "btn btn-outline-danger waves-effect waves-light");
+	btnRemove.attr("class", "btn btn-sm btn-outline-danger waves-effect waves-light");
 
 	var btnEdit = $('<button><i class="ti-pencil-alt"></i></button>');
 	btnEdit.attr("type", "button");
 	btnEdit.attr("onclick", "Edit(" + JSON.stringify(data) + ",this);");
-	btnEdit.attr("class", "btn btn-outline-warning waves-effect waves-light");
+	btnEdit.attr("class", "btn btn-sm btn-outline-warning waves-effect waves-light");
 
 	cell.append(btnEdit);
 	cell.append(btnRemove);

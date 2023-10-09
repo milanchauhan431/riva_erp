@@ -126,6 +126,8 @@
                                                         <th style="width:5%;">#</th>
                                                         <th>Item Name</th>
                                                         <th>Qty.</th>
+                                                        <th>G.W.</th>
+                                                        <th>N.W.</th>
                                                         <th>Unit</th>
                                                         <th>Remark</th>
                                                         <th class="text-center" style="width:10%;">Action</th>
@@ -229,6 +231,14 @@
                                     <?=getItemUnitListOption($unitList)?>
                                 </select> 
                                 <input type="hidden" name="unit_name" id="unit_name" class="form-control" value="" />                       
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="gross_weight">Gross Weight</label>
+                                <input type="text" name="gross_weight" id="gross_weight" class="form-control floatOnly req" value="0" />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="net_weight">Net Weight</label>
+                                <input type="text" name="net_weight" id="net_weight" class="form-control floatOnly req" value="0" />
                             </div>
                             <div class="col-md-12 form-group">
                                 <label for="item_remark">Remark</label>

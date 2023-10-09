@@ -40,6 +40,7 @@ class DeliveryChallan extends MY_Controller{
         $this->data['hsnList'] = $this->hsnModel->getHSNList();
         $this->data['salesAccounts'] = $this->party->getPartyList(['system_code'=>$this->salesTypeCodes]);
         $this->data['termsList'] = $this->terms->getTermsList(['type'=>'Sales']);
+        $this->data['salesExecutives'] = $this->employee->getEmployeeList();
         $this->load->view($this->form,$this->data);
     }
 
@@ -73,6 +74,7 @@ class DeliveryChallan extends MY_Controller{
         $this->data['hsnList'] = $this->hsnModel->getHSNList();
         $this->data['salesAccounts'] = $this->party->getPartyList(['system_code'=>$this->salesTypeCodes]);
         $this->data['termsList'] = $this->terms->getTermsList(['type'=>'Sales']);
+        $this->data['salesExecutives'] = $this->employee->getEmployeeList();
         $this->load->view($this->form,$this->data);
     }
 
