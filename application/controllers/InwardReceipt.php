@@ -152,8 +152,10 @@ class InwardReceipt extends MY_Controller{
 
             if(!empty($attachments)):
                 $data['attachments'] = implode(",",$attachments);
+            else:
+                $data['attachments'] = "";
             endif;
-
+            
             $this->printJson($this->inwardReceipt->save($data));
         endif;
     }
