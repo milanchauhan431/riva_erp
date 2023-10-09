@@ -57,11 +57,11 @@ class SalesInvoice extends MY_Controller{
         if(empty($data['itemData'])):
             $errorMessage['itemData'] = "Item Details is required.";
         else:
-            /* $bQty = array();
+            $bQty = array();
             foreach($data['itemData'] as $key => $row):
 
                 if($row['stock_eff'] == 1):
-                    $postData = ['location_id' => $this->RTD_STORE->id,'batch_no' => "GB",'item_id' => $row['item_id'],'stock_required'=>1,'single_row'=>1];
+                    $postData = ['location_id' => $row['masterData']['i_col_1'],'batch_no' => $row['masterData']['t_col_1'],'item_id' => $row['item_id'],'stock_required'=>1,'single_row'=>1];
                     
                     $stockData = $this->itemStock->getItemStockBatchWise($postData);  
                     
@@ -85,7 +85,7 @@ class SalesInvoice extends MY_Controller{
                         endif;
                     endif;
                 endif;
-            endforeach; */
+            endforeach;
         endif;
         
         if(!empty($errorMessage)):
