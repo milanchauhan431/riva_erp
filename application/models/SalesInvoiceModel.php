@@ -55,6 +55,7 @@ class SalesInvoiceModel extends MasterModel{
 
             if(!empty($data['id'])):
                 $dataRow = $this->getSalesInvoice(['id'=>$data['id'],'itemList'=>1]);
+                $data['rop_amount'] = ($dataRow->memo_type == $data['memo_type'])?$dataRow->rop_amount:0;
                 foreach($dataRow->itemList as $row):
                     if(!empty($row->ref_id)):
                         $setData = array();
@@ -89,6 +90,7 @@ class SalesInvoiceModel extends MasterModel{
             if($data['memo_type'] == "CASH"):
 				$cashAccData = $this->party->getParty(['system_code'=>"CASHACC"]);
 				$data['opp_acc_id'] = $cashAccData->id;
+                $data['rop_amount'] = $data['net_amount'];
 			else:
 				$data['opp_acc_id'] = $data['party_id'];
 			endif;
@@ -281,6 +283,10 @@ class SalesInvoiceModel extends MasterModel{
             $this->db->trans_begin();
 
             $dataRow = $this->getSalesInvoice(['id'=>$id,'itemList'=>1]);
+
+            if($dataRow->rop_amount > 0 && $dataRow->memo_type == "DEBIT"):
+                return ['status'=>2,'message'=>"Payment Received against this invoice. You can not delete it."];
+            endif;
 
             foreach($dataRow->itemList as $row):
                 if(!empty($row->ref_id)):
