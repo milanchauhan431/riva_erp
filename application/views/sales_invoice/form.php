@@ -243,7 +243,7 @@
         <div class="modal-content animated slideDown">
             <div class="modal-header" style="display:block;"><h4 class="modal-title">Add or Update Item</h4></div>
             <div class="modal-body">
-                <form id="itemForm">
+                <form id="itemForm" enctype="multipart/form-data">
                     <div class="col-md-12">
 
                         <div class="row form-group">
@@ -327,6 +327,41 @@
                                 <input type="text" name="item_remark" id="item_remark" class="form-control" value="" />
                             </div>                            
                         </div>
+						
+						<hr>
+						<div class="row">
+							<div class="col-md-12 form-group">
+								<h4>Attechments :</h4>
+							</div>
+
+							<div class="col-md-4 form-group">
+								<label for="attechments">Attechments</label>
+								<div class="input-group">
+									<div class="custom-file">
+										<input type="file" class="custom-file-input multifiles" name="attachments[]" id="attachments" accept=".jpg, .jpeg, .png" multiple>
+										<label class="custom-file-label" for="attachments">Choose file</label>
+									</div>
+								</div>
+								<div class="error attachment_error"></div>
+							</div>
+
+							<div class="col-md-8"></div>
+
+							<?php 
+								if(!empty($dataRow->attachments)): 
+									$attachments = explode(",",$dataRow->attachments);
+									foreach($attachments as $file):
+							?>
+								<div class="col-md-2 form-group text-center m-t-20">
+									<img src="<?=base_url("assets/uploads/inventory_img/".$file)?>" class="img-zoom" alt="IMG"><br>
+									<button type="button" class="btn btn-outline-danger m-t-10 remove"><i class="ti-trash"></i> Remove</button>
+									<input type="hidden" name="attachment[]" value="<?=$file?>">
+								</div>
+							<?php 
+									endforeach;
+								endif; 
+							?>
+						</div>
                     </div>          
                 </form>
             </div>

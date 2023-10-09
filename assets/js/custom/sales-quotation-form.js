@@ -144,6 +144,14 @@ function AddRow(data) {
 	var refIdInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][ref_id]", value: data.ref_id });
     var itemCodeInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][item_code]", value: data.item_code });
     var itemtypeInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][item_type]", value: data.item_type });
+	
+	
+	var stockTransIdInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][i_col_2]", value: data.stock_trans_id });
+	var locationInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][i_col_1]", value: data.location_id });
+	var uniqueIdInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][t_col_1]", value: data.unique_id });
+	var standardQtyInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][d_col_1]", value: data.standard_qty });
+	var purityInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][d_col_2]", value: data.purity });
+	
     cell = $(row.insertCell(-1));
     cell.html(data.item_name);
     cell.append(idInput);
@@ -153,6 +161,12 @@ function AddRow(data) {
     cell.append(refIdInput);
     cell.append(itemCodeInput);
     cell.append(itemtypeInput);
+	
+    cell.append(stockTransIdInput);
+    cell.append(locationInput);
+    cell.append(uniqueIdInput);
+    cell.append(standardQtyInput);
+    cell.append(purityInput);
 
     var hsnCodeInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][hsn_code]", value: data.hsn_code });
 	cell = $(row.insertCell(-1));

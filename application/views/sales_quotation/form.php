@@ -132,7 +132,10 @@
 
                                 <div class="col-md-12 row">
                                     <div class="col-md-6"><h4>Item Details : </h4></div>
-                                    <div class="col-md-6">
+                                   <div class="col-md-4">
+										<input type="text" id="barcode_scanner" class="form-control numericOnly float-right" value="" placeholder="Scan barcode"  >
+                                    </div>
+                                    <div class="col-md-2">
                                         <button type="button" class="btn btn-outline-success waves-effect float-right add-item"><i class="fa fa-plus"></i> Add Item</button>
                                     </div>
                                 </div>
@@ -243,19 +246,24 @@
                                     <?=getItemListOption($itemList)?>
                                 </select>
                             </div>
+							
                             <div class="col-md-4 form-group">
+                                <label for="unique_id">Barcode No.</label>
+                                <input type="text" name="unique_id" id="unique_id" class="form-control numericOnly" value="">
+                            </div>
+                            <div class="col-md-2 form-group">
                                 <label for="qty">Quantity</label>
                                 <input type="text" name="qty" id="qty" class="form-control floatOnly req" value="0">
                             </div>
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-2 form-group">
                                 <label for="disc_per">Disc. (%)</label>
                                 <input type="text" name="disc_per" id="disc_per" class="form-control floatOnly" value="0">
                             </div>
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-2 form-group">
                                 <label for="price">Price</label>
                                 <input type="text" name="price" id="price" class="form-control floatOnly req" value="0" />
                             </div>
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-2 form-group">
                                 <label for="unit_id">Unit</label>        
                                 <select name="unit_id" id="unit_id" class="form-control select2">
                                     <option value="">Select Unit</option>
