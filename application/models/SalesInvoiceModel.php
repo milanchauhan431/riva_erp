@@ -169,7 +169,7 @@ class SalesInvoiceModel extends MasterModel{
                         'batch_no' => $serialData['t_col_1'],
                         'party_id' => $data['party_id'],
                         'item_id' => $row['item_id'],
-                        'stock_category' => $row['t_col_2'],
+                        'stock_category' => $serialData['t_col_2'],
                         'p_or_m' => -1,
                         'qty' => $row['qty'],
                         'standard_qty' => $serialData['d_col_1'],
