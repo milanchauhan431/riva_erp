@@ -679,8 +679,24 @@ function getClarityListOptions($clarityList,$clarity_id = 0){
 
 	return $options;
 }
+
+/* function getItemMakingCharge($itemDetail){
+	$mcharge = $itemDetail->price * $itemDetail->mc_per_gm / 100;
+	$mcharge = $mcharge - getItemMakingChargeDiscount($itemDetail,$mcharge);
+	return sprintf("%.2f",$mcharge);
+}
+
+function getItemMakingChargeDiscount($itemDetail,$mcharge){
+	$mdc_per_gm = $mcharge * $itemDetail->mdc_per_gm / 100;
+	return sprintf("%.2f",$mdc_per_gm);;
+}
+
+function getItemOtherCharge($itemDetail){
+	$ocharge = $itemDetail->price * $itemDetail->oc_per_gm / 100;
+	return sprintf("%.2f",$ocharge);
+} */
 /* Get Item Price */
-function getItemPriceByRate($itemDetail){
+	function getItemPriceByRate($itemDetail){
 	$CI =& get_instance(); 
 	$CompanyInfo = $CI->masterModel->getCompanyInfo();
 	$item_rate = 0;
@@ -701,4 +717,3 @@ function getItemPriceByRate($itemDetail){
 	$purity = $item_rate * $itemDetail->purity / 99.99;
 	return sprintf("%.2f",$purity);
 }
-?>

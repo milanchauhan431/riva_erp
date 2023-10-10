@@ -355,8 +355,7 @@ function calculateSummaryAmount() {
 
 async function barcodeDetails(barcode="",formData=""){	
 	if(formData ==""){
-		var formData = await getItemBybarcode(barcode);
-		console.log(formData);
+		var formData = await getItemBybarcode(barcode); 
 	}else{ 
 		if(formData == null){
 			toastr.error("Sorry! Item not found or Out of stock.", 'Error', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
@@ -381,6 +380,9 @@ async function barcodeDetails(barcode="",formData=""){
 			$("#itemForm #price").val("");
 			$("#itemForm #gross_weight").val("");
 			$("#itemForm #net_weight").val("");
+			$("#itemForm #mc_per_gm").val("");
+			$("#itemForm #oc_per_gm").val("");
+			$("#itemForm #mdc_per_gm").val("");
 			return false;
 		}
 
@@ -395,6 +397,9 @@ async function barcodeDetails(barcode="",formData=""){
 		$("#itemForm #price").val(formData.price);
 		$("#itemForm #gross_weight").val(formData.gross_weight);
 		$("#itemForm #net_weight").val(formData.net_weight);
+		$("#itemForm #mc_per_gm").val(formData.mc_per_gm);
+		$("#itemForm #oc_per_gm").val(formData.oc_per_gm);
+		$("#itemForm #mdc_per_gm").val(formData.mdc_per_gm);
 	}
 }
 
@@ -420,6 +425,7 @@ async function barcodeScan(formData=""){
 		var amount = 0; var taxable_amount = 0; var disc_amt = 0; var igst_amt = 0;
 		var gst_amount = 0; var cgst_amt = 0; var sgst_amt = 0; var net_amount = 0; 
 		var gst_per = 0; var cgst_per = 0; var sgst_per = 0; var igst_per = 0;
+		var mackingChargeAmt = 0;var mcDiscAmt = 0;var otherChargeAmt = 0;
 
 		formData.org_price = formData.sales_price;
 		if (formData.disc_per == "" && formData.disc_per == "0") {
@@ -430,9 +436,20 @@ async function barcodeScan(formData=""){
 			taxable_amount = parseFloat(amount - disc_amt).toFixed(2);
 		}
 
-		amount = parseFloat(parseFloat(amount) + parseFloat(formData.sales_price)).toFixed(2);
-		taxable_amount = parseFloat(parseFloat(taxable_amount) + parseFloat(formData.sales_price)).toFixed(2);
+		mackingChargeAmt = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.mc_per_gm)).toFixed(2);
+		otherChargeAmt = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.oc_per_gm)).toFixed(2);
+		if (formData.mdc_per_gm != "" && formData.mdc_per_gm != "0") {
+			mcDiscAmt = parseFloat((parseFloat(mackingChargeAmt) * parseFloat(formData.mdc_per_gm)) / 100).toFixed(2);
+		}
 
+
+		amount = parseFloat(parseFloat(amount) + parseFloat(formData.sales_price) + (parseFloat(mackingChargeAmt) - parseFloat(mcDiscAmt) + parseFloat(otherChargeAmt))).toFixed(2);
+		taxable_amount = parseFloat(parseFloat(taxable_amount) + parseFloat(formData.sales_price) + (parseFloat(mackingChargeAmt) - parseFloat(mcDiscAmt) + parseFloat(otherChargeAmt))).toFixed(2);
+		
+		formData.making_charge = mackingChargeAmt;
+		formData.making_charge_dicount = mcDiscAmt;
+		formData.other_charge = otherChargeAmt;
+		
 		formData.gst_per = igst_per = parseFloat(formData.gst_per).toFixed(0);
 		formData.gst_amount = igst_amt = parseFloat((igst_per * taxable_amount) / 100).toFixed(2);
 

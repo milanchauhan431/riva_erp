@@ -111,9 +111,8 @@ function getProformaInvoiceData($data){
     $deleteButton = '<a class="btn btn-danger btn-delete permission-remove" href="javascript:void(0)" onclick="trash('.$deleteParam.');" datatip="Remove" flow="down"><i class="ti-trash"></i></a>';
 
   //  $print = '<a href="javascript:void(0)" class="btn btn-info btn-edit printDialog permission-approve1" datatip="Print Invoice" flow="down" data-id="'.$data->id.'" data-fn_name="printInvoice"><i class="fa fa-print"></i></a>';
-    $print = '<a href="javascript:void(0)" class="btn btn-info btn-edit printDialog permission-approve1" datatip="Print Invoice" flow="down" data-id="'.$data->id.'" data-fn_name="printRecipet"><i class="fa fa-print"></i></a>';
-    $print = '<a href="javascript:void(0)" class="btn btn-info btn-edit printDialog permission-approve1" datatip="Print Invoice" flow="down" data-id="'.$data->id.'" data-fn_name="printRecipet"><i class="fa fa-print"></i></a>';
-
+    $print = '<a href="'.base_url('proformaInvoice/printRecipet/'.$data->id).'" target="_blank" class="btn btn-info btn-edit permission-approve1" datatip="Print Invoice" flow="down" data-id="'.$data->id.'" data-fn_name="printRecipet"><i class="fa fa-print"></i></a>';
+   
     $unapprovedParam = "{'postData':{'id' : ".$data->id.",'is_approve':0},'modal_id' : 'modal-md', 'form_id' : 'reversalApproval', 'title' : 'Approval reversal','fnedit':'reversalApproval','fnsave':'saveReversalApproval'}";
     $unapprovedButton = '<a class="btn btn-danger btn-edit permission-approve" href="javascript:void(0)" datatip="Approval Reversal" flow="down" onclick="edit('.$unapprovedParam.');"><i class="ti-close"></i></a>';
 	

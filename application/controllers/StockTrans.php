@@ -39,6 +39,9 @@ class StockTrans extends MY_Controller{
         $itemDetail = $this->itemStock->getStockTrans($data);
 		if($itemDetail){
 			$itemDetail->price =  (float)getItemPriceByRate($itemDetail);
+           /*  $itemDetail->making_charge =  (float)getItemMakingCharge($itemDetail);
+            $itemDetail->other_charge =  (float)getItemOtherCharge($itemDetail);
+            $itemDetail->making_charge_discount =  (float)getItemMakingChargeDiscount($itemDetail, $itemDetail->making_charge); */
 		}
         $this->printJson(['status'=>1,'data'=>['itemDetail'=>$itemDetail]]);
     }

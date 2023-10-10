@@ -52,6 +52,7 @@
                         <th style="width:10%;">HSN/SAC</th>
                         <th style="width:100px;">Qty</th>
                         <th style="width:60px;">Rate<br><small>('.$partyData->currency.')</small></th>
+                        <th>Making<br>Charges(Rs.)</th>
                         <th style="width:60px;">Disc (%)</th>
                         <th style="width:60px;">GST <small>(%)</small></th>
                         <th style="width:110px;">Amount<br><small>('.$partyData->currency.')</small></th>
@@ -71,6 +72,7 @@
                                 echo '<td class="text-center">'.$row->hsn_code.'</td>';
                                 echo '<td class="text-center">'.floatVal($row->qty).' ('.$row->unit_name.')</td>';
                                 echo '<td class="text-right">'.floatVal($row->price).'</td>';
+                                echo '<td class="text-right">' . floatVal($row->making_charge - $row->making_charge_dicount) . '</td>';
                                 echo '<td class="text-right">'.floatVal($row->disc_per).'</td>';
                                 echo '<td class="text-center">'.$row->gst_per.'</td>';
                                 echo '<td class="text-right">'.$row->taxable_amount.'</td>';
@@ -99,6 +101,7 @@
                         for($j=1;$j<=$blankLines;$j++):
                             echo '<tr>
                                 <td style="border-top:none;border-bottom:none;">&nbsp;</td>
+                                <td style="border-top:none;border-bottom:none;"></td>
                                 <td style="border-top:none;border-bottom:none;"></td>
                                 <td style="border-top:none;border-bottom:none;"></td>
                                 <td style="border-top:none;border-bottom:none;"></td>
@@ -166,11 +169,11 @@
                     <th colspan="3" class="text-right">Total Qty.</th>
                     <th class="text-right"><?=sprintf('%.3f',$totalQty)?></th>
                     <th></th>
-                    <th colspan="2" class="text-right">Sub Total</th>
+                    <th colspan="3" class="text-right">Sub Total</th>
                     <th class="text-right"><?=sprintf('%.2f',$invData->taxable_amount)?></th>
                 </tr>
                 <tr>
-                    <th class="text-left" colspan="5" rowspan="<?=$rwspan?>">
+                    <th class="text-left" colspan="6" rowspan="<?=$rwspan?>">
                         <b>Bank Name : </b> <?=$companyData->company_bank_name?><br>
                         <b>A/c. No. : </b><?=$companyData->company_acc_no?><br>
                         <b>IFSC Code : </b><?=$companyData->company_ifsc_code?><br>
@@ -185,7 +188,7 @@
                 </tr>
                 <?=$beforExp.$taxHtml.$afterExp?>
                 <tr>
-                    <th class="text-left" colspan="5" rowspan="<?=$fixRwSpan?>">
+                    <th class="text-left" colspan="6" rowspan="<?=$fixRwSpan?>">
                         Amount In Words : <br><?=numToWordEnglish(sprintf('%.2f',$invData->net_amount))?>
                     </th>	
                     

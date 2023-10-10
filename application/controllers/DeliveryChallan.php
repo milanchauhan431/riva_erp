@@ -141,7 +141,7 @@ class DeliveryChallan extends MY_Controller{
 
         $inv_id = (!empty($id))?$id:$postData['id'];
 
-		$this->data['invData'] = $invData = $this->deliveryChallan->getdeliveryChallan(['id'=>$inv_id,'itemList'=>1]);
+		$this->data['dataRow'] = $invData = $this->deliveryChallan->getdeliveryChallan(['id'=>$inv_id,'itemList'=>1]);
 		$this->data['partyData'] = $this->party->getParty(['id'=>$invData->party_id]);
         $this->data['taxList'] = $this->taxMaster->getActiveTaxList(2);
         $this->data['expenseList'] = $this->expenseMaster->getActiveExpenseList(2);
@@ -156,7 +156,7 @@ class DeliveryChallan extends MY_Controller{
             ++$i;           
             $this->data['printType'] = $printType;
             $this->data['maxLinePP'] = (!empty($postData['max_lines']))?$postData['max_lines']:18;
-		    $pdfData .= $this->load->view('sales_invoice/print',$this->data,true);
+		    $pdfData .= $this->load->view('delivery_challan/print',$this->data,true);
             if($i != $countPT): $pdfData .= "<pagebreak>"; endif;
         endforeach;
             

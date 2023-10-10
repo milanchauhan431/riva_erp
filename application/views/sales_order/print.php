@@ -61,6 +61,8 @@
                         <th style="width:40px;">No.</th>
                         <th class="text-left">Item Description</th>
                         <th style="width:90px;">HSN/SAC</th>
+                        <th style="width:90px;">G.W.</th>
+                        <th style="width:90px;">N.W.</th>
                         <th style="width:100px;">Qty</th>
                         <th style="width:50px;">UOM</th>
                     </tr>
@@ -76,6 +78,8 @@
                                     echo '<td class="text-center">'.$i++.'</td>';
                                     echo '<td>'.$row->item_name.$indent.$delivery_date.$item_remark.'</td>';
                                     echo '<td class="text-center">'.$row->hsn_code.'</td>';
+                                    echo '<td class="text-center">'.$row->gross_weight.'</td>';
+                                    echo '<td class="text-center">'.$row->net_weight.'</td>';
                                     echo '<td class="text-right">'.$row->qty.'</td>';
                                     echo '<td class="text-center">'.$row->unit_name.'</td>';
                                 echo '</tr>';
@@ -84,12 +88,12 @@
                         endif;
                     ?>
                     <tr>
-                        <th colspan="3" class="text-right">Total Qty.</th>
+                        <th colspan="5" class="text-right">Total Qty.</th>
                         <th class="text-right"><?=sprintf('%.3f',$totalQty)?></th>
                         <th class="text-right"></th>
                     </tr>
                     <tr>
-                        <td colspan="5" class="text-left"><b>Note: </b> <?= $dataRow->remark ?></td>
+                        <td colspan="7" class="text-left"><b>Note: </b> <?= $dataRow->remark ?></td>
                     </tr>
                     
                 </table>

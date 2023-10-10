@@ -183,6 +183,7 @@
                                                         <th>N.W.</th>
                                                         <th>Unit</th>
                                                         <th>Price</th>
+                                                        <th>Making<br>Charges(Rs.)</th>
                                                         <th>Disc.</th>
                                                         <th class="igstCol">IGST</th>
                                                         <th class="cgstCol">CGST</th>
@@ -261,6 +262,11 @@
                                 <input type="hidden" name="standard_qty" id="standard_qty" value="" />
                                 <input type="hidden" name="purity" id="purity" value="" />
                                 <input type="hidden" name="stock_category" id="stock_category" value="" />
+                                 
+                                <!-- Making add -->
+                                <input type="hidden" name="mc_per_gm" id="mc_per_gm" value="" />
+                                <input type="hidden" name="mdc_per_gm" id="mdc_per_gm" value="" />
+                                <input type="hidden" name="oc_per_gm" id="oc_per_gm" value="" /> 
                             </div>
                             
 

@@ -55,6 +55,8 @@ $(document).ready(function(){
             var amount = 0; var taxable_amount = 0; var disc_amt = 0; var igst_amt = 0;
             var gst_amount = 0; var cgst_amt = 0; var sgst_amt = 0; var net_amount = 0; 
             var gst_per = 0; var cgst_per = 0; var sgst_per = 0; var igst_per = 0;
+			var mackingChargeAmt = 0; var mcDiscAmt = 0; var otherChargeAmt = 0;
+
 
             if (formData.disc_per == "" && formData.disc_per == "0") {
                 taxable_amount = amount = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.price)).toFixed(2);
@@ -64,9 +66,20 @@ $(document).ready(function(){
                 taxable_amount = parseFloat(amount - disc_amt).toFixed(2);
             }
 
-			amount = parseFloat(parseFloat(amount) + parseFloat(formData.org_price)).toFixed(2);
-			taxable_amount = parseFloat(parseFloat(taxable_amount) + parseFloat(formData.org_price)).toFixed(2);
+			 
+			// Making add
+			mackingChargeAmt = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.mc_per_gm)).toFixed(2);
+			otherChargeAmt = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.oc_per_gm)).toFixed(2);
+			if (formData.mdc_per_gm != "" && formData.mdc_per_gm != "0") {
+				mcDiscAmt = parseFloat((parseFloat(mackingChargeAmt) * parseFloat(formData.mdc_per_gm)) / 100).toFixed(2);
+			}
+			amount = parseFloat(parseFloat(amount) + parseFloat(formData.org_price) + (parseFloat(mackingChargeAmt) - parseFloat(mcDiscAmt) + parseFloat(otherChargeAmt))).toFixed(2);
+			taxable_amount = parseFloat(parseFloat(taxable_amount) + parseFloat(formData.org_price) + (parseFloat(mackingChargeAmt) - parseFloat(mcDiscAmt) + parseFloat(otherChargeAmt))).toFixed(2);
 
+			formData.making_charge = mackingChargeAmt;
+			formData.making_charge_dicount = mcDiscAmt;
+			formData.other_charge = otherChargeAmt;
+			// Making add end
             formData.gst_per = igst_per = parseFloat(formData.gst_per).toFixed(0);
             formData.gst_amount = igst_amt = parseFloat((igst_per * taxable_amount) / 100).toFixed(2);
 
@@ -216,6 +229,25 @@ function AddRow(data) {
 	cell.append(orgPriceInput);
 	cell.append(priceErrorDiv);
 
+	// Making add
+	var mcPerGmInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][mc_per_gm]", value: data.mc_per_gm });
+	var mcdPerGmInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][mdc_per_gm]", value: data.mdc_per_gm });
+	var ocPerGmInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][oc_per_gm]", value: data.oc_per_gm });
+	var makingChrageInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][making_charge]", value: data.making_charge });
+	var makingChrageDiscountInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][making_charge_dicount]", value: data.making_charge_dicount });
+	var otherChrageInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][other_charge]", value: data.other_charge });
+	var tmcAmt = parseFloat(parseFloat(data.making_charge) - parseFloat(data.making_charge_dicount)).toFixed(2);
+ 
+	cell = $(row.insertCell(-1));
+	cell.html(tmcAmt);
+	cell.append(makingChrageInput);
+	cell.append(makingChrageDiscountInput);
+	cell.append(otherChrageInput);
+	cell.append(mcPerGmInput);
+	cell.append(mcdPerGmInput);
+	cell.append(ocPerGmInput);
+
+	
     var discPerInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][disc_per]", value: data.disc_per});
 	var discAmtInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][disc_amount]", value: data.disc_amount });
 	cell = $(row.insertCell(-1));
