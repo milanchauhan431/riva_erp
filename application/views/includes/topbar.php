@@ -55,7 +55,7 @@
             <ul class="navbar-nav float-right">
                 <!-- Financial Years -->
                 <li class="nav-item mr-10">
-				Golds: <strong><?php echo $compamyInfoMaster->gold_rate?></strong> |
+				Gold: <strong><?php echo $compamyInfoMaster->gold_rate?></strong> |
 				</li>
                 <li class="nav-item mr-10">
 				Silver: <strong><?php echo $compamyInfoMaster->silver_rate?></strong> |
