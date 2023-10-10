@@ -15,7 +15,15 @@ class Dashboard extends MY_Controller{
 		//$this->data['lastSyncedAt'] = $this->biometric->getDeviceData()[0]->last_sync_at;
 		$this->data['lastSyncedAt'] = (!empty($this->data['lastSyncedAt'])) ? date('j F Y, g:i a',strtotime($this->data['lastSyncedAt'])) : "";
 	    $this->data['todayBirthdayList'] = array();//$this->employee->getEmpTodayBirthdayList();
-		
+
+		$queryStockData['tableName'] = "stock_transaction";  
+		$queryStockData['select'] = "stock_transaction.*,item_master.item_code,item_master.item_name,item_master.hsn_code,item_master.gst_per,item_master.unit_id,unit_master.unit_name";
+
+		$queryStockData['leftJoin']['item_master'] = "item_master.id = stock_transaction.item_id";
+        $queryStockData['leftJoin']['unit_master'] = "item_master.unit_id = unit_master.id";
+		$queryStockData['where']['stock_type'] = "NEW"; 
+	    $this->data['charge_data'] = $this->masterModel->rows($queryStockData); 
+
 		$queryData['tableName'] = "rates";  
 		$queryData['where']['date'] = date("Y-m-d"); 
 	    $this->data['today_rate'] = $this->masterModel->row($queryData);
