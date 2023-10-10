@@ -55,6 +55,17 @@ function getStoreDtHeader($page){
     $data['stockTrans'][] = ["name" => "Packing Standard"];
     $data['stockTrans'][] = ["name" => "Remark"];
 
+    /* Material Issue Header */
+    $data['materialIssue'][] = ["name" => "Action", "style" => "width:5%;", "textAlign" => "center"];
+    $data['materialIssue'][] = ["name" => "#", "style" => "width:5%;", "textAlign" => "center"];
+    $data['materialIssue'][] = ["name" => "Issue No."];
+    $data['materialIssue'][] = ["name"=> "Issue Date"];
+    $data['materialIssue'][] = ["name" => "Collected By"];
+    $data['materialIssue'][] = ["name" => "Sales Executive"];
+    $data['materialIssue'][] = ["name" => "Total Issue Qty"];
+    $data['materialIssue'][] = ["name" => "Total Return Qty"];
+    $data['materialIssue'][] = ["name" => "Total Sold Qty"];
+
     return tableHeader($data[$page]);
 }
 
@@ -144,4 +155,12 @@ function getStockTransData($data){
     return [$action,$data->sr_no,formatDate($data->ref_date),$data->item_code,$data->item_name,$data->qty,$data->size,$data->remark];
 }
 
+function getMaterialIssueData($data){
+    $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Recored'}";
+    $deleteButton = '<a class="btn btn-danger btn-delete permission-remove" href="javascript:void(0)" onclick="trash('.$deleteParam.');" datatip="Remove" flow="down"><i class="ti-trash"></i></a>';
+
+    $action = getActionButton($deleteButton);
+
+    return [$action,$data->sr_no,$data->trans_number,formatDate($data->trans_date),$data->collected_by_name,$data->sales_executive_name,$data->total_issue,$data->total_return,$data->total_sold];
+}
 ?>

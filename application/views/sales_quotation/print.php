@@ -9,10 +9,19 @@
 <body>
     <div class="row">
         <div class="col-12">
-            <table>
+            <table class="table table-bordered" style="margin-bottom:10px;">
                 <tr>
-                    <td>
+                    <!-- <td>
                         <img src="<?= $letter_head ?>" class="img">
+                    </td> -->
+                    <th class="text-center fs-30"> 
+                        <?=$companyData->company_name?>
+                    </th>                    
+                </tr>
+                <tr>
+                    <td class="text-center"> 
+                        <?=$companyData->company_address.', '.$companyData->company_city.' - '.$companyData->company_pincode?><br>
+                        Contact No. : <?=$companyData->company_contact.((!empty($companyData->company_phone))?" / ".$companyData->company_phone:"")?> Email : <?=$companyData->company_email?>
                     </td>
                 </tr>
             </table>
@@ -241,7 +250,7 @@
                 </table>
                 <table class="table top-table" style="margin-top:10px;border-top:1px solid #545454;">
                     <tr>
-                        <td style="width:25%;">PO No. & Date : <?= $dataRow->trans_number . ' [' . formatDate($dataRow->trans_date) . ']' ?></td>
+                        <td style="width:25%;">SQ No. & Date : <?= $dataRow->trans_number . ' [' . formatDate($dataRow->trans_date) . ']' ?></td>
                         <td style="width:25%;"></td>
                         <td style="width:25%;text-align:right;">Page No. {PAGENO}/{nbpg}</td>
                     </tr>

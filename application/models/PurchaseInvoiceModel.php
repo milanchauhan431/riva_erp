@@ -156,7 +156,7 @@ class PurchaseInvoiceModel extends MasterModel{
                 $row['is_delete'] = 0;
                 $itemTrans = $this->store($this->transChild,$row);
 
-                if($row['stock_eff'] == 1):
+                /* if($row['stock_eff'] == 1):
                     $stockData = [
                         'id' => "",
                         'entry_type' => $data['entry_type'],
@@ -175,7 +175,7 @@ class PurchaseInvoiceModel extends MasterModel{
                     ];
 
                     $this->store($this->stockTrans,$stockData);
-                endif;
+                endif; */
 
                 if(!empty($row['ref_id']) && $row['from_entry_type'] == 26):
                     $setData = array();

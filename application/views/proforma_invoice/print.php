@@ -51,8 +51,8 @@
                 if (!empty($invData->itemList)) :
                     foreach ($invData->itemList as $row) :
                         echo '<strong>Item:</strong> ' . $row->item_name . ' -  ' . $row->unique_id . '<br>';
-                        echo '<strong>HSN/SAC:</strong> ' . $row->hsn_code . '';
-                        echo '<strong>Qty:</strong> (' . $partyData->currency . ')' . floatVal($row->qty) . ' (' . $row->unit_name . ')<br>';
+                        echo '<strong>HSN/SAC:</strong> ' . $row->hsn_code . '<br>';
+                        echo '<strong>Qty:</strong> ' . floatVal($row->qty) . ' (' . $row->unit_name . ')<br>';
                         echo '<strong>Rate:</strong> ' . floatVal($row->price) . '<br>';
                         echo '<strong>Making Charge:</strong> ' . floatVal($row->making_charge - $row->making_charge_dicount) . '<br>';
                         echo '<strong>Disc (%):</strong> ' . floatVal($row->disc_per) . '<br>';

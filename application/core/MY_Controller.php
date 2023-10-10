@@ -95,6 +95,7 @@ class MY_Controller extends CI_Controller{
 
 		/* Store Model */
 		$this->load->model('StoreLocationModel','storeLocation');
+		$this->load->model('MaterialIssueModel','materialIssue');
 		$this->load->model('GateEntryModel','gateEntry');
 		$this->load->model('GateInwardModel','gateInward');
 
@@ -119,7 +120,7 @@ class MY_Controller extends CI_Controller{
 		$this->load->model("EstimateModel",'estimate');
 
 		$this->data['compamyInfoMaster'] = $this->masterModel->getCompanyInfo(); 
-		$this->setSessionVariables(["masterModel","dashboard","permission","terms","transport","hsnModel","materialGrade","itemCategory","brandMaster","sizeMaster","purity","fine","polish", "color", "clarity", "item","department","designation","employeeCategory","shiftModel","employee","party","transMainModel","taxMaster","expenseMaster","salesOrder","purchaseOrder","purchaseIndent","vehicleType","storeLocation","gateEntry","gateInward","salesInvoice","estimate","paymentVoucher","leads","salesEnquiry","salesQuotation","gstExpense","gstIncome","journalEntry","creditNote","debitNote","inwardReceipt","diamondQuality","proformaInvoice","deliveryChallan"]);
+		$this->setSessionVariables(["masterModel","dashboard","permission","terms","transport","hsnModel","materialGrade","itemCategory","brandMaster","sizeMaster","purity","fine","polish", "color", "clarity", "item","department","designation","employeeCategory","shiftModel","employee","party","transMainModel","taxMaster","expenseMaster","salesOrder","purchaseOrder","purchaseIndent","vehicleType","storeLocation","gateEntry","gateInward","salesInvoice","estimate","paymentVoucher","leads","salesEnquiry","salesQuotation","gstExpense","gstIncome","journalEntry","creditNote","debitNote","inwardReceipt","diamondQuality","proformaInvoice","deliveryChallan","materialIssue"]);
 	}
 
 	public function setSessionVariables($modelNames){
