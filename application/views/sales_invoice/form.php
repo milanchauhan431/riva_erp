@@ -181,7 +181,12 @@
                                 <div class="col-md-12 row">
                                     <div class="col-md-6"><h4>Item Details : </h4></div>
                                     <div class="col-md-4">
-										<input type="text" id="barcode_scanner" class="form-control numericOnly float-right" value="" placeholder="Scan barcode"  >
+                                        <div class="input-group">
+										    <input type="text" id="barcode_scanner" class="form-control numericOnly float-right" value="" placeholder="Scan barcode"  >
+                                            <div class="input-group-append">
+                                                <button type="button" id="barcode_search" class="btn btn-info"><i class="fa fa-search"></i></button>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-md-2">
                                         <button type="button" class="btn btn-outline-success waves-effect float-right add-item"><i class="fa fa-plus"></i> Add Item</button>
@@ -335,7 +340,12 @@
                             </div>
                             <div class="col-md-4 form-group">
                                 <label for="unique_id">Barcode No.</label>
-                                <input type="text" name="unique_id" id="unique_id" class="form-control numericOnly" value="">
+                                <div class="input-group">
+                                    <input type="text" name="unique_id" id="unique_id" class="form-control numericOnly" value="">
+                                    <div class="input-group-append">
+                                        <button type="button" id="unique_search" class="btn btn-info"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-2 form-group">
                                 <label for="qty">Quantity</label>
