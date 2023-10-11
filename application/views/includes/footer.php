@@ -1,5 +1,7 @@
 
-			<footer class="footer text-center"></footer>
+			<footer class="footer text-center">
+                
+            </footer>
 		</div>
 	</div>
 		<?php $this->load->view('includes/modal_md');?>
