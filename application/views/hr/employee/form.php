@@ -137,7 +137,7 @@
                 </select>
                 <input type="hidden" id="designationTitle" name="designationTitle" value="" />
             </div>
-            <div class="col-md-3 form-group">
+            <div class="col-md-3 form-group hidden">
                 <label for="emp_sys_desc_id">System Designation</label>
                 <select name="sysdescSelect" id="sysdescSelect" data-input_id="emp_sys_desc_id" class="form-control jp_multiselect" multiple="multiple">
                     <?php

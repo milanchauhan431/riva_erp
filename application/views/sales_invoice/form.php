@@ -330,7 +330,7 @@
                             </div>
                             
 
-                            <div class="col-md-12 form-group">
+                            <div class="col-md-12 form-group popupSelectBox">
 								<label for="item_id">Product Name</label>
                                 <input type="hidden" name="item_name" id="item_name" class="form-control" value="" />
                                 <select name="item_id" id="item_id" class="form-control select2 itemDetails itemOptions" data-res_function="resItemDetail">
