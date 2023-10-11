@@ -94,11 +94,20 @@ $(document).ready(function(){
 	   	}
 	});
 
+	$(document).on('click','#itemForm #unique_search',function(){
+		barcodeDetails($("#itemForm #unique_id").val());
+	});
+
 	$(document).on('keypress','#barcode_scanner',function(e){
 		if(e.which == 13) {
 			barcodeScan();
 		}
 	});
+
+	$(document).on('click','#barcode_search',function(){
+		barcodeScan();
+	});
+	
 });
 
 function gstin(){
