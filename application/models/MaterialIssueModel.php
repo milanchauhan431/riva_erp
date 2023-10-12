@@ -6,13 +6,24 @@ class MaterialIssueModel extends MasterModel{
 
     public function getDTRows($data){
         $data['tableName'] = $this->transMain;
-        $data['select'] = "trans_main.id,trans_main.trans_number,trans_main.trans_date,trans_main.vou_acc_id as collected_by,cb.emp_name as collected_by_name,trans_main.sales_executive,se.emp_name as sales_executive_name, trans_main.is_approve, tc.total_issue, tc.total_return, tc.total_sold";
+        $data['select'] = "trans_main.id,trans_main.trans_number,trans_main.trans_date,trans_main.vou_acc_id as collected_by,cb.emp_name as collected_by_name,trans_main.sales_executive,se.emp_name as sales_executive_name, trans_main.is_approve, trans_main.trans_status, tc.total_issue, tc.total_return, tc.total_sold";
 
         $data['leftJoin']['employee_master as cb'] = "cb.id = trans_main.vou_acc_id";
         $data['leftJoin']['employee_master as se'] = "se.id = trans_main.sales_executive";
-        $data['leftJoin']['(SELECT trans_main_id, SUM(IF(trans_status = 0,1,0)) as total_issue, SUM(IF(trans_status = 1,1,0)) as total_return, SUM(IF(trans_status = 2,1,0)) as total_sold FROM trans_child WHERE is_delete = 0 AND entry_type = '.$this->data['entryData']->id.' GROUP BY trans_main_id) as tc'] = "tc.trans_main_id = trans_main.id";
+        $data['leftJoin']['(SELECT trans_main_id, COUNT(id) as total_issue, SUM(IF(trans_status = 1,1,0)) as total_return, SUM(IF(trans_status = 2,1,0)) as total_sold FROM trans_child WHERE is_delete = 0 AND entry_type = '.$this->data['entryData']->id.' GROUP BY trans_main_id) as tc'] = "tc.trans_main_id = trans_main.id";
 
         $data['where']['trans_main.entry_type'] = $this->data['entryData']->id;
+
+        if($data['trans_status'] == 0):
+            $data['where']['trans_main.trans_status'] = $data['trans_status'];
+            $data['where']['trans_main.trans_date <='] = $this->endYearDate;
+        elseif($data['trans_status'] == 1):
+            $data['where']['trans_main.trans_status'] = $data['trans_status'];
+            $data['where']['trans_main.trans_date >='] = $this->startYearDate;
+            $data['where']['trans_main.trans_date <='] = $this->endYearDate;
+        endif;
+
+        $data['order_by']['trans_main.id'] = "DESC";
 
         $data['searchCol'][] = "";
         $data['searchCol'][] = "";
@@ -77,6 +88,15 @@ class MaterialIssueModel extends MasterModel{
         try{
             $this->db->trans_begin();
 
+            $queryData = array();
+            $queryData['tableName'] = $this->transMain;
+            $queryData['where'] = $id;
+            $issueData = $this->row($queryData);
+
+            if($issueData->is_approve > 0):
+                return ['status'=>0,'message'=>'Material Accepted BY Sales Executive. You can not reverse it.'];
+            endif;
+
             $transList = $this->getIssueItems(['id'=>$id]);
 
             foreach($transList as $row):
@@ -136,15 +156,53 @@ class MaterialIssueModel extends MasterModel{
 
     public function getIssueItemListForReturn($data){
         $itemList = $this->getIssueItems($data);
+        
 
         $itemData = array();
         foreach($itemList as $row):
-            $stock = $this->stockTrans->getStockTrans(['unique_id'=>$row->item_desc]);
-            $row->sold_status = (empty($stock))?"SOLD":"";
+            $stock = $this->itemStock->getStockTrans(['unique_id'=>$row->item_desc]);
+            $row->sold_status = (!empty($stock) && $stock->qty <= 0)?"SOLD":"";
             $itemData[] = $row;
         endforeach;
-
         return $itemData;
+    }
+
+    public function saveReturnMaterial($data){
+        try{
+            $this->db->trans_begin();
+            
+            foreach($data['itemData'] as $row):
+                $stData = array();
+                $stData = $row['stData']; unset($row['stData']);
+                
+                if(!isset($row['trans_status'])):
+                    $row['trans_status'] = ($row['item_remark'] == "SOLD")?2:0;
+                endif;
+
+                $this->store($this->transChild,$row);
+
+                if($row['trans_status'] == 1):
+                    $this->store($this->stockTrans,$stData);
+                endif;
+            endforeach;
+
+            $setData = array();
+            $setData['tableName'] = $this->transMain;
+            $setData['where']['id'] = $data['id'];
+            $setData['update']['trans_status'] = "(SELECT IF( COUNT(id) = SUM(IF(trans_status <> 0, 1, 0)) ,1 , 0 ) as trans_status FROM trans_child WHERE trans_main_id = ".$data['id']." AND is_delete = 0)";
+            $this->setValue($setData);
+
+            $result['status'] = 1;
+            $result['message'] = "Material Returned successfully.";
+
+            if ($this->db->trans_status() !== FALSE):
+                $this->db->trans_commit();
+                return $result;
+            endif;
+        }catch(\Throwable $e){
+            $this->db->trans_rollback();
+            return ['status'=>2,'message'=>"somthing is wrong. Error : ".$e->getMessage()];
+        }
     }
 }
 ?>

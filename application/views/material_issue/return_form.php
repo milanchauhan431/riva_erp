@@ -17,15 +17,37 @@
                     </thead>
                     <tbody>
                         <?php
-                            $i = 1;$totalGw = $totalNw = 0;
+                            $i = 0;$totalGw = $totalNw = 0;
                             foreach($issueItemList as $row):
-                                $checkBoxInput = '<input type="checkbox" id="return_checkbox'.$i.'" class="filled-in chk-col-success termCheck" data-rowid="'.$i.'" check="'.$checked.'" '.$checked.' />
+                                $i++;
+
+                                $checked = "checked";
+                                $checkBoxInput = '<input type="checkbox" name="itemData['.$i.'][trans_status]" id="return_checkbox'.$i.'" class="filled-in chk-col-success" data-rowid="'.$i.'" check="'.$checked.'" '.$checked.' value="1" />
                                 <label for="return_checkbox'.$i.'"></label>';
+
+                                if($row->sold_status == "SOLD"):
+                                    $checkBoxInput = "";
+                                endif;
+
+                                if($row->trans_status > 0):
+                                    $checkBoxInput = '<input type="hidden" name="itemData['.$i.'][trans_status]" value="'.$row->trans_status.'">';
+                                endif;
+
+                                if($row->sold_status != "SOLD" && $row->trans_status == 1):
+                                    $row->sold_status = "RETURN";
+                                endif;
+
                                 echo '<tr>
                                     <td style="width:10%;">
                                         '.$checkBoxInput.'
                                     </td>
-                                    <td>'.$row->item_name.'  <input type="hidden" name="itemData['.$id.'][id]" value="'.$row->id.'"></td>
+                                    <td>
+                                        '.$row->item_name.'
+                                        <input type="hidden" name="itemData['.$i.'][id]" value="'.$row->id.'">
+                                        <input type="hidden" name="itemData['.$i.'][item_remark]" value="'.$row->sold_status.'">
+                                        <input type="hidden" name="itemData['.$i.'][stData][id]" value="'.$row->ref_id.'">
+                                        <input type="hidden" name="itemData['.$i.'][stData][location_id]" value="'.$row->initiate_by.'">
+                                    </td>
                                     <td>'.$row->item_desc.'</td>
                                     <td>'.$row->gross_weight.'</td>
                                     <td>'.($row->gross_weight - $row->net_weight).'</td>
@@ -34,7 +56,7 @@
                                 </tr>';
                                 $totalGw += $row->gross_weight;
                                 $totalNw += $row->net_weight;
-                                $i++;
+                                
                             endforeach;
                         ?>
                     </tbody>
@@ -45,6 +67,7 @@
                             <th><?=$totalGw?></th>
                             <th><?=($totalGw - $totalNw)?></th>
                             <th><?=$totalNw?></th>
+                            <th></th>
                         </tr>
                     </tfoot>
                 </table>

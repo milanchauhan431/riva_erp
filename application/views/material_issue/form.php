@@ -81,12 +81,13 @@ async function issueScan(barcode=""){
         }).done(function(response){
             $('#issue_scanner').val("");
 
-            if(response == null){
+            var formData = response.data.itemDetail;
+            if(formData == null){
                 toastr.error("Sorry! Item not found or Out of stock.", 'Error', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
                 return false;
             }
             
-            var formData = response.data.itemDetail;
+            
             if(formData.stock_type == "FREEZE"){
                 toastr.error("Sorry! This item is already booked.", 'Error', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
                 return false;

@@ -18,8 +18,8 @@ class MaterialIssue extends MY_Controller{
         $this->load->view($this->indexPage,$this->data);
     }
 	
-    public function getDTRows(){
-        $data = $this->input->post();
+    public function getDTRows($status = 0){
+        $data = $this->input->post();$data['trans_status'] = $status;
         $result = $this->materialIssue->getDTRows($data);
         $sendData = array();$i=($data['start']+1);
         foreach($result['data'] as $row):          
@@ -105,6 +105,11 @@ class MaterialIssue extends MY_Controller{
         $this->data['id'] = $data['id'];
         $this->data['issueItemList'] = $this->materialIssue->getIssueItemListForReturn($data);
         $this->load->view($this->returnForm,$this->data);
+    }
+
+    public function saveReturnMaterial(){
+        $data = $this->input->post();
+        $this->printJson($this->materialIssue->saveReturnMaterial($data));
     }
 }
 ?>
