@@ -120,7 +120,7 @@
                         $rwspan++;
                     endif;
                 endforeach;
-                $fixRwSpan = (!empty($rwspan)) ? 3 : 0;
+                $fixRwSpan = (!empty($rwspan)) ? 4 : 0;
                 ?>
                 <tr>
                     <th colspan="4" class="text-right">Total Qty.</th>
@@ -139,15 +139,15 @@
                 </tr>
                 <?= $beforExp . $taxHtml . $afterExp ?>
                 <tr>
-                    <th class="text-left" colspan="4" rowspan="<?= $fixRwSpan ?>">
-                        Amount In Words : <br><?= numToWordEnglish(sprintf('%.2f', $invData->net_amount)) ?>
-                    </th>
-
                     <th colspan="4" class="text-right">Grand Total</th>
                     <th class="text-right" colspan="4"><?= sprintf('%.2f', $invData->net_amount) ?></th>
 
                 </tr>
+				<tr>
+                    <th colspan="4" class="text-right">Amount In Words</th>
+                    <th class="text-right" colspan="4"><?= numToWordEnglish(sprintf('%.2f', $invData->net_amount)) ?></th>
 
+                </tr> 
 
             </tbody>
         </table>
