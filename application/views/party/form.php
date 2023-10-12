@@ -112,9 +112,12 @@
                 <div class="error attachment_error"></div>
             </div>
 
-            <div class="col-md-3 form-group">
                 <?php
                 if (!empty($dataRow->attachments)) :
+                    ?>
+                    
+            <div class="col-md-3 form-group">
+                <?php
                     $attachments = explode(",", $dataRow->attachments);
                     foreach ($attachments as $file) :
                 ?>
@@ -123,9 +126,9 @@
 
                 <?php
                     endforeach;
+                    echo "</div>";
                 endif;
-                ?>
-            </div>
+                ?> 
             <div class="col-md-3 form-group">
                 <label for="currency">Currency</label>
                 <select name="currency" id="currency" class="form-control select2">
