@@ -1,38 +1,99 @@
 <?php
-class InwardReceipt extends MY_Controller{
+
+require 'vendor/autoload.php';
+
+class InwardReceipt extends MY_Controller
+{
     private $indexPage = "inward_receipt/index";
     private $form = "inward_receipt/form";
 
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
         $this->data['headData']->pageTitle = "Inward Receipt";
-		$this->data['headData']->controller = "inwardReceipt";
-		$this->data['headData']->pageUrl = "inwardReceipt";
-        $this->data['entryData'] = $this->transMainModel->getEntryType(['controller'=>'inwardReceipt']);
+        $this->data['headData']->controller = "inwardReceipt";
+        $this->data['headData']->pageUrl = "inwardReceipt";
+        $this->data['entryData'] = $this->transMainModel->getEntryType(['controller' => 'inwardReceipt']);
     }
 
-    public function index(){
+    public function index()
+    {
         $this->data['tableHeader'] = getPurchaseDtHeader($this->data['headData']->controller);
-        $this->load->view($this->indexPage,$this->data);
+        $this->load->view($this->indexPage, $this->data);
     }
-    public function reversalApproval(){ 
-		$data['pageTitle'] = "Approval reversal"; 
+    public function print_barcode()
+    {
+        // Create a new TSCPDF instance
+
+
+        $this->load->view("inward_receipt/print_barcode");
+    }
+    public function packedBoxSticker()
+    {
+
+        $logo = base_url('assets/images/logo.png');
+        $boxData = '';
+        $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [50, 12]   ]); // Landscap
+        $pdfFileName = 'pack' . '.pdf';
+        $stylesheet = file_get_contents(base_url('assets/css/pdf_style.css'));
+        $mpdf->WriteHTML($stylesheet, 1);
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->SetProtection(array('print'));
+
+
+        for ($i = 1; $i <= 1; $i++) {
+           /*  $boxData = '<table border="1" width="200mm">
+                <tr>
+                <td><barcode code="601494400839" type="C128A" size="1" text="1" /> <br> 601494400839</td>
+                <td width="">G.W:20<br>N.W:10<br>OC:24<br>VC:10</td>
+                <td width="">D.No:1234<br>PID:24563</td>
+                </tr>
+                 </table>'; */
+                 $boxData = '<div style="text-align:center;padding:0mm 0mm;">
+                 <table class="table item-list-pck" border="0" >  				
+                  <tr>
+                     <td class="text-center" >
+                         <barcode code="601494400839" type="C128A" size="1" text="1" /> <br> 601494400839s
+                     </td>
+                     <td  class="text-center" >
+                     G.W:20<br>N.W:10<br>OC:24<br>VC:10
+                     </td>
+                     <td  class="text-center" >
+                     D.No:1234<br>PID:24563 
+                     </td>
+                 </tr>
+                  </table></div>';
+             
+            $mpdf->AddPage('P', '', '', '', '', 0, 0, 1, 1, 1, 1);
+            $mpdf->WriteHTML($boxData);
+        }
+
+
+
+        $mpdf->Output($pdfFileName, 'I');
+    }
+    public function reversalApproval()
+    {
+        $data['pageTitle'] = "Approval reversal";
         $post = $this->input->post();
         $data['dataRow'] = $this->inwardReceipt->getInwardReceipt($post);
-        $this->load->view('inward_receipt/reversal',$data);
+        $this->load->view('inward_receipt/reversal', $data);
     }
 
-    public function saveReversalApproval(){  
+    public function saveReversalApproval()
+    {
         $post = $this->input->post();
-		$this->printJson($this->inwardReceipt->update($post)); 
-		
+        $this->printJson($this->inwardReceipt->update($post));
     }
 
-    public function getDTRows($status = 0){
-        $data = $this->input->post(); $data['status'] = $status;
+    public function getDTRows($status = 0)
+    {
+        $data = $this->input->post();
+        $data['status'] = $status;
         $result = $this->inwardReceipt->getDTRows($data);
-        $sendData = array();$i=($data['start']+1);
-        foreach($result['data'] as $row):
+        $sendData = array();
+        $i = ($data['start'] + 1);
+        foreach ($result['data'] as $row) :
             $row->sr_no = $i++;
             $sendData[] = getInwardReceiptData($row);
         endforeach;
@@ -40,13 +101,14 @@ class InwardReceipt extends MY_Controller{
         $this->printJson($result);
     }
 
-    public function addInward(){        
+    public function addInward()
+    {
         $this->data['entry_type'] = $this->data['entryData']->id;
         $this->data['trans_prefix'] = $this->data['entryData']->trans_prefix;
-        $this->data['trans_no'] = $this->transMainModel->getNextTransNo(['table_name'=>"inward_receipt"]);
-        $this->data['trans_number'] = $this->data['trans_prefix'].$this->data['trans_no'];
+        $this->data['trans_no'] = $this->transMainModel->getNextTransNo(['table_name' => "inward_receipt"]);
+        $this->data['trans_number'] = $this->data['trans_prefix'] . $this->data['trans_no'];
 
-        $this->data['partyList'] = $this->party->getPartyList(['party_category'=>"1,2,3"]);
+        $this->data['partyList'] = $this->party->getPartyList(['party_category' => "1,2,3"]);
         $this->data['itemList'] = $this->item->getItemList();
         $this->data['purityList'] = $this->purity->getPurityList();
         $this->data['diamondQualityList'] = $this->diamondQuality->getList();
@@ -55,59 +117,61 @@ class InwardReceipt extends MY_Controller{
         $this->data['colorList'] = $this->color->getColorList();
         $this->data['clarityList'] = $this->clarity->getClarityList();
 
-        $this->load->view($this->form,$this->data);
+        $this->load->view($this->form, $this->data);
     }
 
-    public function save(){
+    public function save()
+    {
         $data = $this->input->post();
         $errorMessage = array();
 
-        if(empty($data['trans_number']))
+        if (empty($data['trans_number']))
             $errorMessage['trans_number'] = "Inward No. is required.";
-        if(empty($data['trans_date']))
+        if (empty($data['trans_date']))
             $errorMessage['trans_date'] = "Inward Date is required.";
-        if(empty($data['party_id']))
+        if (empty($data['party_id']))
             $errorMessage['party_id'] = "Party Name is required.";
-        if(empty($data['item_id']))
+        if (empty($data['item_id']))
             $errorMessage['item_id'] = "Product Name is required.";
-        if(empty($data['inward_type']))
+        if (empty($data['inward_type']))
             $errorMessage['inward_type'] = "Inward Type is required.";
-        if(empty($data['order_type']))
+        if (empty($data['order_type']))
             $errorMessage['order_type'] = "Challan Type is required.";
-        if(empty($data['qty']))
+        if (empty($data['qty']))
             $errorMessage['qty'] = "Qty is required.";
-        if(empty($data['gross_weight']))
+        if (empty($data['gross_weight']))
             $errorMessage['gross_weight'] = "Gross Weight is required.";
-        if(empty($data['net_weight']))
+        if (empty($data['net_weight']))
             $errorMessage['net_weight'] = "Net Weight is required.";
 
-        if(empty($data['purchase_price']) && $data['order_type'] == "Regular")
+        if (empty($data['purchase_price']) && $data['order_type'] == "Regular")
             $errorMessage['purchase_price'] = "Purchase Price is required.";
 
-        if(!empty($data['approved_by']) && empty($data['location_id']))
+        if (!empty($data['approved_by']) && empty($data['location_id']))
             $errorMessage['location_id'] = "Location is required.";
 
-        if(in_array($data['inward_type'],["Gold + Diamond Items","Loos Diamond","Diamond Items","Lab Grown Diamond","Platinum + Diamond Items"])):
-            if(empty($data['sales_price']) && $data['order_type'] == "Regular")
+        if (in_array($data['inward_type'], ["Gold + Diamond Items", "Loos Diamond", "Diamond Items", "Lab Grown Diamond", "Platinum + Diamond Items"])) :
+            if (empty($data['sales_price']) && $data['order_type'] == "Regular")
                 $errorMessage['sales_price'] = "Sales Price is required.";
 
         endif;
 
-        if(!empty($errorMessage)):
-            $this->printJson(['status'=>0,'message'=>$errorMessage]);
-        else:
+        if (!empty($errorMessage)) :
+            $this->printJson(['status' => 0, 'message' => $errorMessage]);
+        else :
             $attachments = array();
-            if(!empty($data['id']) && !empty($data['attachment'])):
-                $attachments = $data['attachment']; unset($data['attachment']);
+            if (!empty($data['id']) && !empty($data['attachment'])) :
+                $attachments = $data['attachment'];
+                unset($data['attachment']);
             endif;
 
-            if(!empty($_FILES['attachments']['name'][0])):
+            if (!empty($_FILES['attachments']['name'][0])) :
                 $this->load->library('upload');
-                $this->load->library('image_lib'); 
+                $this->load->library('image_lib');
 
                 $errorMessage['attachment_error'] = "";
-                
-                foreach($_FILES['attachments']['name'] as $key => $fileName):
+
+                foreach ($_FILES['attachments']['name'] as $key => $fileName) :
                     $_FILES['userfile']['name']     = $fileName;
                     $_FILES['userfile']['type']     = $_FILES['attachments']['type'][$key];
                     $_FILES['userfile']['tmp_name'] = $_FILES['attachments']['tmp_name'][$key];
@@ -117,12 +181,12 @@ class InwardReceipt extends MY_Controller{
                     $imagePath = realpath(APPPATH . '../assets/uploads/inventory_img/');
 
                     $fileName = preg_replace('/[^A-Za-z0-9]+/', '_', strtolower($fileName));
-                    $config = ['file_name' => time()."_IR_".$fileName,'allowed_types' => 'jpg|jpeg|png|gif|JPG|JPEG|PNG','max_size' => 10240,'overwrite' => FALSE, 'upload_path' => $imagePath];                
+                    $config = ['file_name' => time() . "_IR_" . $fileName, 'allowed_types' => 'jpg|jpeg|png|gif|JPG|JPEG|PNG', 'max_size' => 10240, 'overwrite' => FALSE, 'upload_path' => $imagePath];
 
                     $this->upload->initialize($config);
-                    if(!$this->upload->do_upload()):
-                        $errorMessage['attachment_error'] .= $fileName." => ". $this->upload->display_errors();
-                    else:
+                    if (!$this->upload->do_upload()) :
+                        $errorMessage['attachment_error'] .= $fileName . " => " . $this->upload->display_errors();
+                    else :
                         $uploadData = $this->upload->data();
                         $attachments[] = $uploadData['file_name'];
 
@@ -134,42 +198,44 @@ class InwardReceipt extends MY_Controller{
                         $imgConfig['quality'] = "50%";
 
                         $this->image_lib->clear();
-                        $this->image_lib->initialize($imgConfig);                   
+                        $this->image_lib->initialize($imgConfig);
 
-                        if(!$this->image_lib->resize()):
-                            $errorMessage['attachment_error'] .= $fileName." => ". $this->image_lib->display_errors();
+                        if (!$this->image_lib->resize()) :
+                            $errorMessage['attachment_error'] .= $fileName . " => " . $this->image_lib->display_errors();
                         endif;
                     endif;
                 endforeach;
 
-                if(!empty($errorMessage['attachment_error'])):
-                    foreach($attachments as $file):
-                        if(file_exists($imagePath.'/'.$file)): unlink($imagePath.'/'.$file); endif;
+                if (!empty($errorMessage['attachment_error'])) :
+                    foreach ($attachments as $file) :
+                        if (file_exists($imagePath . '/' . $file)) : unlink($imagePath . '/' . $file);
+                        endif;
                     endforeach;
-                    $this->printJson(['status'=>0,'message'=>$errorMessage]);
-                endif;                
+                    $this->printJson(['status' => 0, 'message' => $errorMessage]);
+                endif;
             endif;
 
-            if(!empty($attachments)):
-                $data['attachments'] = implode(",",$attachments);
-            else:
+            if (!empty($attachments)) :
+                $data['attachments'] = implode(",", $attachments);
+            else :
                 $data['attachments'] = "";
             endif;
-            
+
             $this->printJson($this->inwardReceipt->save($data));
         endif;
     }
 
-    public function edit(){
+    public function edit()
+    {
         $data = $this->input->post();
-        if(!empty($data['is_approve'])):
+        if (!empty($data['is_approve'])) :
             $this->data['approved_by'] = $this->loginId;
-            $this->data['locationList'] = $this->storeLocation->getStoreLocationList(['final_location'=>1]);
+            $this->data['locationList'] = $this->storeLocation->getStoreLocationList(['final_location' => 1]);
         endif;
-        
+
         $this->data['dataRow'] = $this->inwardReceipt->getInwardReceipt($data);
 
-        $this->data['partyList'] = $this->party->getPartyList(['party_category'=>"1,2,3"]);
+        $this->data['partyList'] = $this->party->getPartyList(['party_category' => "1,2,3"]);
         $this->data['itemList'] = $this->item->getItemList();
         $this->data['purityList'] = $this->purity->getPurityList();
         $this->data['fineList'] = $this->fine->getFineList();
@@ -177,22 +243,23 @@ class InwardReceipt extends MY_Controller{
         $this->data['colorList'] = $this->color->getColorList();
         $this->data['clarityList'] = $this->clarity->getClarityList();
 
-        $this->load->view($this->form,$this->data);
+        $this->load->view($this->form, $this->data);
     }
 
-    public function delete(){
+    public function delete()
+    {
         $id = $this->input->post('id');
-        if(empty($id)):
-            $this->printJson(['status'=>0,'message'=>'Somthing went wrong...Please try again.']);
-        else:
+        if (empty($id)) :
+            $this->printJson(['status' => 0, 'message' => 'Somthing went wrong...Please try again.']);
+        else :
             $this->printJson($this->inwardReceipt->delete($id));
         endif;
     }
 
-    public function getPartyInwards(){
+    public function getPartyInwards()
+    {
         $data = $this->input->post();
         $this->data['orderItems'] = $this->inwardReceipt->getPendingInwardItems($data);
-        $this->load->view('purchase_invoice/create_invoice',$this->data);
+        $this->load->view('purchase_invoice/create_invoice', $this->data);
     }
 }
-?>
