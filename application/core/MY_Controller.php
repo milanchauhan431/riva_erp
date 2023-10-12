@@ -16,7 +16,7 @@ class MY_Controller extends CI_Controller{
 
 	public $partyCategory = [1=>'Customer',2=>'Supplier',3=>'Karigar',4=>'Ledger'];
 	public $suppliedType = [1=>'Goods',2=>'Services',3=>'Goods & Services'];
-	public $gstRegistrationTypes = [1=>'Registerd',2=>'Composition',3=>'Overseas',4=>'Un-Registerd'];
+	public $gstRegistrationTypes = [1=>'Registerd',2=>'Composition',3=>'Overseas',4=>'Un-Registerd',5=>"Consumer"];
 	public $automotiveArray = ["1" => 'Yes', "2" => "No"];
 	public $vendorTypes = ['Manufacture', 'Service'];
 

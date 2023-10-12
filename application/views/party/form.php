@@ -7,7 +7,7 @@
             <input type="hidden" name="supplied_types" value="<?= (!empty($dataRow->supplied_types)) ? $dataRow->supplied_types : "1" ?>" />
 
             <div class="col-md-6 form-group">
-                <label for="party_name">Customer/Company name</label>
+                <label for="party_name">Party Name</label>
                 <input type="text" name="party_name" class="form-control text-capitalize req" value="<?= (!empty($dataRow->party_name)) ? $dataRow->party_name : ""; ?>" />
             </div>
 
@@ -89,46 +89,7 @@
                 <label for="aadhar_no">Aadhar Number</label>
                 <input type="text" name="aadhar_no" class="form-control" value="<?= (!empty($dataRow->aadhar_no)) ? $dataRow->aadhar_no : "" ?>" />
             </div>
-
-
-            <div class="col-md-3 form-group">
-                <label for="date_of_birth">Date of birth</label>
-                <input type="date" name="date_of_birth" class="form-control" value="<?= (!empty($dataRow->date_of_birth)) ? $dataRow->date_of_birth : "" ?>" />
-            </div>
-
-
-            <div class="col-md-3 form-group">
-                <label for="anniversary_date">Anniversary Date</label>
-                <input type="date" name="anniversary_date" class="form-control" value="<?= (!empty($dataRow->anniversary_date)) ? $dataRow->anniversary_date : "" ?>" />
-            </div> 
-            <div class="col-md-3 form-group">
-                <label for="attechments">Attechments</label>
-                <div class="input-group">
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input multifiles" name="attachments[]" id="attachments" accept=".jpg, .jpeg, .png" >
-                        <label class="custom-file-label" for="attachments">Choose document</label>
-                    </div>
-                </div>
-                <div class="error attachment_error"></div>
-            </div>
-
-                <?php
-                if (!empty($dataRow->attachments)) :
-                    ?>
-                    
-            <div class="col-md-3 form-group">
-                <?php
-                    $attachments = explode(",", $dataRow->attachments);
-                    foreach ($attachments as $file) :
-                ?>
-                        <img src="<?= base_url("assets/uploads/parties/" . $file) ?>" class="img-zoom" alt="IMG"><br>
-                         <input type="hidden" name="attachment[]" value="<?= $file ?>">
-
-                <?php
-                    endforeach;
-                    echo "</div>";
-                endif;
-                ?> 
+            
             <div class="col-md-3 form-group">
                 <label for="currency">Currency</label>
                 <select name="currency" id="currency" class="form-control select2">
@@ -227,6 +188,45 @@
                 <label for="delivery_contact_person">Delivery Contact No.</label>
                 <input type="text" name="delivery_contact_no" id="delivery_contact_no" class="form-control numericOnly" value="<?= (!empty($dataRow->delivery_contact_no)) ? $dataRow->delivery_contact_no : "" ?>">
             </div> -->
+
+            <div class="col-md-3 form-group <?=(!empty($dataRow->party_category) && $dataRow->party_category != 1) ? "hidden" : ((!empty($party_category) && $party_category != 1) ? "hidden" : "")?>">
+                <label for="date_of_birth">Date of birth</label>
+                <input type="date" name="date_of_birth" class="form-control" value="<?= (!empty($dataRow->date_of_birth)) ? $dataRow->date_of_birth : "" ?>" />
+            </div>
+
+
+            <div class="col-md-3 form-group <?=(!empty($dataRow->party_category) && $dataRow->party_category != 1) ? "hidden" : ((!empty($party_category) && $party_category != 1) ? "hidden" : "")?>">
+                <label for="anniversary_date">Anniversary Date</label>
+                <input type="date" name="anniversary_date" class="form-control" value="<?= (!empty($dataRow->anniversary_date)) ? $dataRow->anniversary_date : "" ?>" />
+            </div> 
+            <div class="col-md-3 form-group">
+                <label for="attechments">Attechments</label>
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input multifiles" name="attachments[]" id="attachments" accept=".jpg, .jpeg, .png" >
+                        <label class="custom-file-label" for="attachments">Choose document</label>
+                    </div>
+                </div>
+                <div class="error attachment_error"></div>
+            </div>
+
+                <?php
+                if (!empty($dataRow->attachments)) :
+                    ?>
+                    
+            <div class="col-md-3 form-group">
+                <?php
+                    $attachments = explode(",", $dataRow->attachments);
+                    foreach ($attachments as $file) :
+                ?>
+                        <img src="<?= base_url("assets/uploads/parties/" . $file) ?>" class="img-zoom" alt="IMG"><br>
+                         <input type="hidden" name="attachment[]" value="<?= $file ?>">
+
+                <?php
+                    endforeach;
+                    echo "</div>";
+                endif;
+                ?> 
         </div>
     </div>
 </form>
