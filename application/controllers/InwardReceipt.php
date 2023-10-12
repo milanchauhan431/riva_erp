@@ -47,7 +47,7 @@ class InwardReceipt extends MY_Controller
                  <table class="" border="0" cellspacing="1" cellpadding="1">  				
                   <tr>
                      <td rowspan="2" class="text-center">
-                         <barcode code="'.$code->unique_id.'" type="C128C" size="1" text="'.$code->unique_id.'" />'.$code->purity.'K<br><b>'.$code->unique_id.'</b>
+                         <barcode code="'.$code->unique_id.'" type="C128A" size="1" />'.$code->purity.'K<br><b>'.$code->unique_id.'</b>
                      </td>
                      <td  class="text-left" style="padding-left:22px;padding-top:1px" >
                      '.$code->gross_weight.'<br>'.$code->net_weight.'
