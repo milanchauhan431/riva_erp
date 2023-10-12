@@ -146,7 +146,7 @@
                                     </div>
 
                                     <div class="col-md-6 form-group">
-                                        <label for="master_t_col_3">Ship To</label>
+                                        <label for="master_t_col_3">Address</label>
                                         <input type="text" name="masterDetails[t_col_3]" id="master_t_col_3" class="form-control" value="<?=(!empty($dataRow->ship_address))?$dataRow->ship_address:""?>">
                                     </div>
 

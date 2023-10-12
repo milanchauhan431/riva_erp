@@ -44,8 +44,34 @@
     <?php //echo $this->permission->getDashboardShortcut(); 
     ?>
     <div class="row">
+      <?php if($this->loginId != 1): ?>
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="m-b-0">Accept Material</h4>
+          </div>
+          <div class="card-body">
+            <div class="table table-responsive">
+              <table id="acceptMaterial" class="table table-bordered">
+                <thead class="thead-info">
+                  <tr>
+                    <th>Action</th>
+                    <th>Issue No.</th>
+                    <th>Issue Date</th>
+                    <th>Collected By</th>
+                    <th>Issue Qty.</th>
+                  </tr>
+                </thead>
+                <tbody id="acceptIssueMaterial"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <?php endif; ?>
+
       <div class="col-md-8">
-        <?php if ($charge_data) { ?>
+        <?php if ($charge_data > 0 && $this->loginId == 1) { ?>
           <div class="alert alert-info">
             <a href="<?php echo base_url() ?>makingCharge" class=""> <strong>Making Charge! </strong> Fill out your <?php echo count($charge_data); ?> pending Making Charge items. </a>
           </div>
@@ -153,12 +179,60 @@
 
 
 <script>
-  <?php if (empty($today_rate)) { ?>
+  <?php if (empty($today_rate) && $this->loginId == 1) { ?>
     setTimeout(function() {
       $(".rateTrg").trigger("click");
     }, 2000);
-
   <?php } ?>
+
+  var acceptMaterialTableOption = {
+    responsive: true,
+    "autoWidth" : false,
+    order:[],
+    "columnDefs": [
+      { type: 'natural', targets: 0 },
+      { orderable: false, targets: "_all" }, 
+      { className: "text-center", "targets": "_all" } 
+    ],
+    pageLength:25,
+    language: { search: "" },
+    lengthMenu: [
+      [ 10, 25, 50, 100, -1 ],[ '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
+    ],
+    dom: "<'row'<'col-sm-7'B><'col-sm-5'f>>" +"<'row'<'col-sm-12't>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+    buttons: [ 'pageLength', {text: 'Refresh',action: function (){loadIssueData();} }]
+  };
+  reportTable("acceptMaterial",acceptMaterialTableOption);
+
+  loadIssueData();
+
+  function loadIssueData(){
+    var issueTrans = {'postData':{},'table_id':"acceptMaterial",'tbody_id':'acceptIssueMaterial','tfoot_id':'','fnget':'loadIssueData','res_function':'initIssueTrans','controller':'materialIssue'};
+    getTransHtml(issueTrans);
+  }
+
+  function initIssueTrans(res){
+    $('#acceptMaterial').DataTable().clear().destroy();
+    $("#acceptMaterial #acceptIssueMaterial").html('');
+		$("#acceptMaterial #acceptIssueMaterial").html(res.tbodyData);
+    reportTable("acceptMaterial",acceptMaterialTableOption);
+  }
+
+  function resAcceptMatrial(response,formId){
+    if(response.status==1){
+        $('#'+formId)[0].reset(); closeModal(formId);loadIssueData();
+
+        toastr.success(response.message, 'Success', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
+      }else{
+        if(typeof response.message === "object"){
+          $(".error").html("");
+          $.each( response.message, function( key, value ) {$("."+key).html(value);});
+        }else{
+          toastr.error(response.message, 'Error', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
+        }			
+      }	
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 

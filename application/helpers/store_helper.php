@@ -65,6 +65,7 @@ function getStoreDtHeader($page){
     $data['materialIssue'][] = ["name" => "Total Issue Qty"];
     $data['materialIssue'][] = ["name" => "Total Return Qty"];
     $data['materialIssue'][] = ["name" => "Total Sold Qty"];
+    $data['materialIssue'][] = ["name" => "Pending Qty"];
 
     return tableHeader($data[$page]);
 }
@@ -159,8 +160,12 @@ function getMaterialIssueData($data){
     $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Recored'}";
     $deleteButton = '<a class="btn btn-danger btn-delete permission-remove" href="javascript:void(0)" onclick="trash('.$deleteParam.');" datatip="Remove" flow="down"><i class="ti-trash"></i></a>';
 
-    $action = getActionButton($deleteButton);
+    $returnParam = "{'postData':{'id' : ".$data->id."},'modal_id' : 'modal-xl', 'form_id' : 'returnMaterialForm','fnedit':'returnMaterial','controller':'materialIssue','fnsave':'saveReturnMaterial', 'title' : 'Return Material','res_function':'resReturnMatrial','js_store_fn':'confirmStore', 'confirm_msg':'Are you sure want to return this material ?'}";
+    $returnButton = '<a class="btn btn-success btn-edit" href="javascript:void(0)" datatip="Return" flow="down" onclick="edit('.$returnParam.');"><i class="fa fa-reply"></i></a>';
 
-    return [$action,$data->sr_no,$data->trans_number,formatDate($data->trans_date),$data->collected_by_name,$data->sales_executive_name,$data->total_issue,$data->total_return,$data->total_sold];
+    if($data->is_approve > 0):$deleteButton = ""; else: $returnButton = ""; endif;
+    $action = getActionButton($returnButton.$deleteButton);
+
+    return [$action,$data->sr_no,$data->trans_number,formatDate($data->trans_date),$data->collected_by_name,$data->sales_executive_name,$data->total_issue,$data->total_return,$data->total_sold,($data->total_issue - ($data->total_return+$data->total_sold))];
 }
 ?>
