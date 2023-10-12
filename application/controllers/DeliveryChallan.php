@@ -55,6 +55,7 @@ class DeliveryChallan extends MY_Controller{
         else:
             $bQty = array();
             foreach($data['itemData'] as $key => $row):
+                $serialNo = $row['masterData']['t_col_1'];
                 if($row['stock_eff'] == 1):
                     $postData = ['location_id' => $row['masterData']['i_col_1'],'batch_no' => $row['masterData']['t_col_1'],'item_id' => $row['item_id'],'stock_required'=>1,'single_row'=>1];
                     
@@ -66,16 +67,16 @@ class DeliveryChallan extends MY_Controller{
                         $stockQty = $stockQty + $oldItem->qty;
                     endif;
                     
-                    if(!isset($bQty[$row['item_id']])):
-                        $bQty[$row['item_id']] = $row['qty'] ;
+                    if(!isset($bQty[$serialNo])):
+                        $bQty[$serialNo] = $row['qty'] ;
                     else:
-                        $bQty[$row['item_id']] += $row['qty'];
+                        $bQty[$serialNo] += $row['qty'];
                     endif;
 
                     if(empty($stockQty)):
                         $errorMessage['qty'.$key] = "Stock not available.";
                     else:
-                        if($bQty[$row['item_id']] > $stockQty):
+                        if($bQty[$serialNo] > $stockQty):
                             $errorMessage['qty'.$key] = "Stock not available.";
                         endif;
                     endif;
