@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>Quotation</title>
+    <title>Estimate </title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url(); ?>assets/images/favicon.png">
 </head>

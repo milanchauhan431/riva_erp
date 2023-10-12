@@ -714,6 +714,6 @@ function getItemOtherCharge($itemDetail){
 	if(in_array($itemDetail->stock_category, array("Palladium"))){
 		$item_rate = $CompanyInfo->palladium_rate / 10; 
 	}
-	$purity = $item_rate * $itemDetail->purity / 99.99;
+	$purity = $item_rate * $itemDetail->purity / 24;
 	return sprintf("%.2f",$purity);
 }
