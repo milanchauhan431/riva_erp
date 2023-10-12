@@ -30,7 +30,7 @@
                 <input type="text" name="party_code" id="party_code" class="form-control" value="<?= (!empty($dataRow->party_code)) ? $dataRow->party_code : ""; ?>" />
             </div>
 
-            <div class="col-md-3 form-group">
+            <div class="col-md-3 form-group d-none">
                 <label for="sales_executive">Sales Executive</label>
                 <select name="sales_executive" id="sales_executive" class="form-control select2">
                     <option value="">Sales Executive</option>
