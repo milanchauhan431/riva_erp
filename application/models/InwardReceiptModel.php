@@ -83,8 +83,9 @@ class InwardReceiptModel extends MasterModel{
                 ];
 
                 for($i=1;$i<=$data['qty'];$i++):
-                    $stockTransData['unique_id'] = time().$i;
-                    $stockTransData['batch_no'] = time().$i;
+                     $random_numbers = mt_rand(1000000000,4000000000);
+                    $stockTransData['unique_id'] = $random_numbers;
+                    $stockTransData['batch_no'] = $random_numbers;
                     $stockTransData['qty'] = 1;
 
                     $this->store($this->stockTransaction,$stockTransData);
@@ -99,7 +100,7 @@ class InwardReceiptModel extends MasterModel{
             $this->db->trans_rollback();
             return ['status'=>2,'message'=>"somthing is wrong. Error : ".$e->getMessage()];
         }
-    }
+    } 
 	public function update($data){
         try{ 
             $this->db->trans_begin();
@@ -140,7 +141,11 @@ class InwardReceiptModel extends MasterModel{
         $queryData['leftJoin']['party_master'] = "party_master.id = stock_transaction.party_id";
         $queryData['leftJoin']['item_master'] = "item_master.id = stock_transaction.item_id";
 
-        $queryData['where']['stock_transaction.main_ref_id'] = $data['id'];
+        if(!empty($data['id']))
+            $queryData['where']['stock_transaction.main_ref_id'] = $data['id'];
+        if(!empty($data['trans_id']))
+            $queryData['where_in']['stock_transaction.id'] = $data['trans_id'];
+
         $queryData['where']['stock_transaction.p_or_m'] = 1;
         $queryData['where']['stock_transaction.entry_type'] = $this->data['entryData']->id;
 

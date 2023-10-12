@@ -85,6 +85,7 @@ function getPurchaseIndentData($data){
 function getInwardReceiptData($data){
     $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Inward Receipt'}";
     $editParam = "{'postData':{'id' : ".$data->id."},'modal_id' : 'modal-xxl', 'form_id' : 'editInward', 'title' : 'Update Inward Receipt'}";
+    $barcodeParam = "{'postData':{'id' : ".$data->id."},'modal_id' : 'print_barcode_modal', 'form_id' : 'printBarcode', 'title' : 'Print Barcode','fnedit':'loadBarcode','fnsave':'printBarcode'}";
     $approveParam = "{'postData':{'id' : ".$data->id.",'is_approve':1},'modal_id' : 'modal-xxl', 'form_id' : 'editInward', 'title' : 'Approve Inward Receipt'}";
     $unapprovedParam = "{'postData':{'id' : ".$data->id.",'is_approve':0},'modal_id' : 'modal-md', 'form_id' : 'editInward', 'title' : 'Approval reversal','fnedit':'reversalApproval','fnsave':'saveReversalApproval'}";
 
@@ -96,7 +97,8 @@ function getInwardReceiptData($data){
     $barcode ='';
     if(!empty($data->approved_by)):
         $approveButton = $editButton = $deleteButton = "";
-        $barcode = '<a class="btn btn-success permission-approve" href="'.base_url('inwardReceipt/getBarcode/'.$data->id).'" datatip="Print Barcode" flow="down" ><i class="fa fa-barcode"></i></a>'; 
+       // $barcode = '<a class="btn btn-success permission-approve" href="'.base_url('inwardReceipt/getBarcode/'.$data->id).'" datatip="Print Barcode" flow="down" ><i class="fa fa-barcode"></i></a>'; 
+       $barcode = '<a class="btn btn-warning btn-edit" href="javascript:void(0)" datatip="Barcode Print" flow="down" onclick="edit('.$barcodeParam.');"><i class="fa fa-barcode"></i></a>';
     else:
 		$unapprovedButton = '';
 	endif;
