@@ -97,9 +97,9 @@ class EmployeeModel extends MasterModel{
 
             $result =  $this->store($this->empMaster,$data,'Employee');
 
-            if($result['insert_id'] > 0):
+            /* if($result['insert_id'] > 0):
                 $this->store('emp_salary_detail',['id'=>'','emp_id'=>$result['insert_id']],'Employee Salary');
-            endif;
+            endif; */
             
             if ($this->db->trans_status() !== FALSE):
                 $this->db->trans_commit();

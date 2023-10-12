@@ -841,7 +841,7 @@ function getTransHtml(data){
 		},
 	}).done(function(res){
 		if(resFunctionName != ""){
-			window[resFunctionName](response);
+			window[resFunctionName](res);
 		}else{
 			$("#"+table_id+" #"+tbody_id).html('');
 			$("#"+table_id+" #"+tbody_id).html(res.tbodyData);

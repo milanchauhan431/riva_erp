@@ -97,11 +97,11 @@ $(document).ready(function(){
     });		
 });
 
-function closeModal(modalId){
+/* function closeModal(modalId){
     $("#"+ modalId).modal('hide');
     
     <?php if(!empty($printID)): ?>
         window.location = base_url + controller;
     <?php endif; ?>
-}		
+} */		
 </script>
