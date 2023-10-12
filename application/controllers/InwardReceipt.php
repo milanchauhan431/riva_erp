@@ -43,7 +43,7 @@ class InwardReceipt extends MY_Controller
         $dcode =$this->inwardReceipt->getInwardReceipt($data)->design_no;
         $codes = $this->inwardReceipt->getItemSerialNo($data);
         foreach($codes as $code){
-             $boxData = '<div style="text-align:center;padding:0mm; ">
+               $boxData = '<div style="text-align:center;padding:0mm; ">
                  <table class="" border="0" cellspacing="1" cellpadding="1">  				
                   <tr>
                      <td rowspan="2" class="text-center">

@@ -18,20 +18,18 @@
             <table>
                 <tr align="center">
                     <td>
-                        <p style="font-size:25px;font-weight:bold">RIVA</p>
+                        <p style="font-size:25px;font-weight:bold">Estimate</p>
                     </td>
                 </tr>
             </table>
-            <p class="fs-18 text-center">Estimate </p>
-             <p> <b>BILL TO</b><br>
+            <p> <b>BILL TO</b><br>
                 <b>M/S. <?= $dataRow->party_name ?></b><br>
                 <?= (!empty($dataRow->ship_address) ? $dataRow->ship_address . " - " . $dataRow->ship_pincode : '') ?><br>
             </p>
             <p>
-                <b>Qtn. No. : <?= $dataRow->trans_number ?></b><br>
-                <b> Rev No. :</b> <?= sprintf("%02d", $dataRow->quote_rev_no) ?> / <?= formatDate($dataRow->doc_date) ?><br>
-                <b>Qtn. Date</b> : <?= formatDate($dataRow->trans_date) ?><br>
-             </p>
+                <b>Est. No. : <?= $dataRow->trans_number ?></b><br>
+                <b>Est. Date</b> : <?= formatDate($dataRow->trans_date) ?><br>
+            </p>
 
             <h4>Item Details: </h4>
             <hr />
@@ -48,7 +46,7 @@
                         foreach ($dataRow->itemList as $row) :
                             echo '<strong>Item:</strong> ' . $row->item_name . ' -  ' . $row->unique_id . '<br>';
                             echo '<strong>HSN/SAC:</strong> ' . $row->hsn_code . '<br>';
-                            echo '<strong>Qty:</strong> '. floatVal($row->qty) . ' (' . $row->unit_name . ')<br>';
+                            echo '<strong>Qty:</strong> ' . floatVal($row->qty) . ' (' . $row->unit_name . ')<br>';
                             echo '<strong>Rate:</strong> ' . floatVal($row->price) . '<br>';
                             echo '<strong>Making Charge:</strong> ' . floatVal($row->making_charge - $row->making_charge_dicount) . '<br>';
                             echo '<strong>Disc (%):</strong> ' . floatVal($row->disc_per) . '<br>';
@@ -147,33 +145,9 @@
                         <th class="text-right" colspan="4"><?= sprintf('%.2f', $dataRow->net_amount) ?></th>
                     </tr>
                 </tbody>
-            </table> 
-            <h4>Terms & Conditions :-</h4>
-            <table class="table top-table" style="margin-top:10px;">
-                <?php
-                if (!empty($dataRow->termsConditions)) :
-                    foreach ($dataRow->termsConditions as $row) :
-                        echo '<tr>';
-                        /* echo '<th class="text-left fs-11" style="width:140px;">'.$row->term_title.'</th>'; */
-                        echo '<td class=" fs-11"><ul><li> ' . $row->condition . ' </li></ul></td>';
-                        echo '</tr>';
-                    endforeach;
-                endif;
-                ?>
             </table>
-
-            <htmlpagefooter name="lastpage">
-                <table class="table top-table" style="margin-top:10px;border-top:1px solid #545454;">
-                    <tr>
-                        <td style="width:50%;"></td>
-                        <td style="width:20%;"></td>
-                        <th class="text-center">For, <?= $companyData->company_name ?></th>
-                    </tr>
-
-                </table>
-
-            </htmlpagefooter>
-            <sethtmlpagefooter name="lastpage" value="on" />
+            <h4>Valid for today only</h4>
+             
         </div>
     </div>
 </body>
