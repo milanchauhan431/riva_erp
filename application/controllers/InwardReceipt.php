@@ -28,42 +28,44 @@ class InwardReceipt extends MY_Controller
 
         $this->load->view("inward_receipt/print_barcode");
     }
-    public function packedBoxSticker()
+    public function getBarcode($id)
     {
 
         $logo = base_url('assets/images/logo.png');
         $boxData = '';
-        $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [50, 12]   ]); // Landscap
+        $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [50, 12]]); // Landscap
         $pdfFileName = 'pack' . '.pdf';
         $stylesheet = file_get_contents(base_url('assets/css/pdf_style.css'));
         $mpdf->WriteHTML($stylesheet, 1);
         $mpdf->SetDisplayMode('fullpage');
         $mpdf->SetProtection(array('print'));
-
-
-        for ($i = 1; $i <= 1; $i++) {
-           /*  $boxData = '<table border="1" width="200mm">
-                <tr>
-                <td><barcode code="601494400839" type="C128A" size="1" text="1" /> <br> 601494400839</td>
-                <td width="">G.W:20<br>N.W:10<br>OC:24<br>VC:10</td>
-                <td width="">D.No:1234<br>PID:24563</td>
-                </tr>
-                 </table>'; */
-                 $boxData = '<div style="text-align:center;padding:0mm 0mm;">
-                 <table class="table item-list-pck" border="0" >  				
+        $data['id'] = $id;
+        $dcode =$this->inwardReceipt->getInwardReceipt($data)->design_no;
+        $codes = $this->inwardReceipt->getItemSerialNo($data);
+        foreach($codes as $code){
+             $boxData = '<div style="text-align:center;padding:0mm; ">
+                 <table class="" border="0" cellspacing="1" cellpadding="1">  				
                   <tr>
-                     <td class="text-center" >
-                         <barcode code="601494400839" type="C128A" size="1" text="1" /> <br> 601494400839s
+                     <td rowspan="2" class="text-center">
+                         <barcode code="'.$code->unique_id.'" type="C128C" size="1" text="'.$code->unique_id.'" />'.$code->purity.'K<br><b>'.$code->unique_id.'</b>
                      </td>
-                     <td  class="text-center" >
-                     G.W:20<br>N.W:10<br>OC:24<br>VC:10
+                     <td  class="text-left" style="padding-left:22px;padding-top:1px" >
+                     '.$code->gross_weight.'<br>'.$code->net_weight.'
                      </td>
-                     <td  class="text-center" >
-                     D.No:1234<br>PID:24563 
+                     <td  class="text-left" > 
+                     OC:'.$code->oc_per_gm * $code->net_weight.'<br>VC:'.$code->unique_id.'
                      </td>
                  </tr>
-                  </table></div>';
-             
+                <tr>
+                <td colspan="2" style="padding-left:22px;padding-top:1px" >
+                PID:'.$code->party_code.'-'.$code->unique_id.'
+                <br>
+                D.No:'.$dcode.'
+                </td> 
+                </tr>
+                  </table>
+                  </div>';
+
             $mpdf->AddPage('P', '', '', '', '', 0, 0, 1, 1, 1, 1);
             $mpdf->WriteHTML($boxData);
         }

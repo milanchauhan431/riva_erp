@@ -22,12 +22,8 @@
                     </td>
                 </tr>
             </table>
-            <p class="fs-18 text-center">Quotation</p>
-
-            <p class="fs-18 text-left">
-                GSTIN: <?= $companyData->company_gst_no ?>
-            </p>
-            <p> <b>BILL TO</b><br>
+            <p class="fs-18 text-center">Estimate </p>
+             <p> <b>BILL TO</b><br>
                 <b>M/S. <?= $dataRow->party_name ?></b><br>
                 <?= (!empty($dataRow->ship_address) ? $dataRow->ship_address . " - " . $dataRow->ship_pincode : '') ?><br>
             </p>
@@ -35,9 +31,7 @@
                 <b>Qtn. No. : <?= $dataRow->trans_number ?></b><br>
                 <b> Rev No. :</b> <?= sprintf("%02d", $dataRow->quote_rev_no) ?> / <?= formatDate($dataRow->doc_date) ?><br>
                 <b>Qtn. Date</b> : <?= formatDate($dataRow->trans_date) ?><br>
-                <!-- <b>Valid till</b> : <?= formatDate($dataRow->delivery_date) ?><br> -->
-                <b>GSTIN</b> : <?= (!empty($partyData->gstin)) ? $partyData->gstin : "" ?>
-            </p>
+             </p>
 
             <h4>Item Details: </h4>
             <hr />
@@ -153,15 +147,7 @@
                         <th class="text-right" colspan="4"><?= sprintf('%.2f', $dataRow->net_amount) ?></th>
                     </tr>
                 </tbody>
-            </table>
-            <p>
-                <b>Bank Name : </b> <?= $companyData->company_bank_name ?><br>
-                <b>A/c. No. : </b><?= $companyData->company_acc_no ?><br>
-                <b>IFSC Code : </b><?= $companyData->company_ifsc_code ?><br>
-                <b>Branch : </b><?= $companyData->company_bank_branch ?>
-                <hr>
-                <b>Note : </b> <?= $dataRow->remark ?>
-            </p>
+            </table> 
             <h4>Terms & Conditions :-</h4>
             <table class="table top-table" style="margin-top:10px;">
                 <?php

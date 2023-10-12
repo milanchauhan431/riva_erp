@@ -93,15 +93,16 @@ function getInwardReceiptData($data){
     $approveButton = '<a class="btn btn-success btn-edit permission-approve" href="javascript:void(0)" datatip="Approve Inward" flow="down" onclick="edit('.$approveParam.');"><i class="ti-check"></i></a>'; 
 	
 	$unapprovedButton = '<a class="btn btn-danger btn-edit permission-approve" href="javascript:void(0)" datatip="Approval reversal" flow="down" onclick="edit('.$unapprovedParam.');"><i class="ti-close"></i></a>';
-
+    $barcode ='';
     if(!empty($data->approved_by)):
         $approveButton = $editButton = $deleteButton = "";
+        $barcode = '<a class="btn btn-success permission-approve" href="'.base_url('inwardReceipt/getBarcode/'.$data->id).'" datatip="Print Barcode" flow="down" ><i class="fa fa-barcode"></i></a>'; 
     else:
 		$unapprovedButton = '';
 	endif;
 	
 
-    $action = getActionButton($unapprovedButton.$approveButton.$editButton.$deleteButton);
+    $action = getActionButton($unapprovedButton.$approveButton.$editButton.$deleteButton.$barcode);
 
     return [$action,$data->sr_no,$data->trans_number,formatDate($data->trans_date),$data->party_name,$data->item_name,$data->design_no,$data->qty,$data->gross_weight,$data->net_weight,$data->purchase_price,$data->sales_price,$data->remark];
 

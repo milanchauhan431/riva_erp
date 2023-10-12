@@ -15,7 +15,7 @@
                 </tr>
             </table>
         <?php endif; ?>
-        <p class="fs-18 text-center">Estimate</p>
+        <p class="fs-18 text-center">Proforma Invoice</p>
 
         <p class="fs-18 text-left">
             GSTIN: <?= $companyData->company_gst_no ?>

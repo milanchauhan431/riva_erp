@@ -133,6 +133,21 @@ class InwardReceiptModel extends MasterModel{
         }	
     }
 
+    public function getItemSerialNo($data){
+        $queryData = array();
+        $queryData['tableName'] = $this->stockTransaction;
+        $queryData['select'] = "stock_transaction.*,item_master.item_code,item_master.item_name,party_master.party_code,party_master.party_name";
+        $queryData['leftJoin']['party_master'] = "party_master.id = stock_transaction.party_id";
+        $queryData['leftJoin']['item_master'] = "item_master.id = stock_transaction.item_id";
+
+        $queryData['where']['stock_transaction.main_ref_id'] = $data['id'];
+        $queryData['where']['stock_transaction.p_or_m'] = 1;
+        $queryData['where']['stock_transaction.entry_type'] = $this->data['entryData']->id;
+
+        $result = $this->rows($queryData);
+        return $result;
+    }
+
     public function getPendingInwardItems($data){
         $queryData = array();
         $queryData['tableName'] = $this->inwardReceipt;
