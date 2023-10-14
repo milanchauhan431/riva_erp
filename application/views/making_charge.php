@@ -25,10 +25,12 @@
                                                 <th>G.W.</th>
                                                 <th>N.W.</th>
                                                 <th>Unit</th>
-                                                <th>Price</th>
-                                                <th>Making Charge</th>
-                                                <th>Other Charge</th>
+                                                <th>Purchase Price</th>
+                                                <th>Making Charge(%)</th>
                                                 <th>Making Charge Discount(%)</th>
+                                                <th>Other Charge</th>
+                                                <th>Verity Charge</th>
+                                                <th>Diamond Amount </th> 
                                             </tr>
                                         </thead>
                                         <tbody id="tempItem" class="temp_item">
@@ -39,11 +41,13 @@
                                                     <td><?php echo $row->qty; ?></td>
                                                     <td><?php echo $row->gross_weight; ?></td>
                                                     <td><?php echo $row->net_weight; ?></td>
-                                                    <td><?php echo $row->unit_name; ?></td>
-                                                    <td><?php echo $row->purchase_price; ?></td>
-                                                    <td><input type="text" name="mc_per_gm[<?php echo $row->id; ?>]" value="<?php echo $row->mc_per_gm; ?>"></td>
-                                                    <td><input type="text" name="oc_per_gm[<?php echo $row->id; ?>]" value="<?php echo $row->oc_per_gm; ?>"></td>
-                                                    <td><input type="text" name="mdc_per_gm[<?php echo $row->id; ?>]" value="<?php echo $row->mdc_per_gm; ?>"></td>
+                                                    <td><?php echo $row->unit_name; ?></td> 
+                                                    <td><input type="text" name="price[<?php echo $row->id; ?>]" value="<?php echo $row->price; ?>"></td>
+                                                    <td><input type="text" name="making_per[<?php echo $row->id; ?>]" value="<?php echo $row->making_per; ?>"></td>
+                                                    <td><input type="text" name="making_disc_per[<?php echo $row->id; ?>]" value="<?php echo $row->making_disc_per; ?>"></td>
+                                                    <td><input type="text" name="otc_amount[<?php echo $row->id; ?>]" value="<?php echo $row->otc_amount; ?>"></td>
+                                                    <td><input type="text" name="vrc_amount[<?php echo $row->id; ?>]" value="<?php echo $row->vrc_amount; ?>"></td>
+                                                    <td><input type="text" name="diamond_amount[<?php echo $row->id; ?>]" value="<?php echo $row->diamond_amount; ?>"></td>  
                                                 </tr>
                                             <?php } ?>
                                         </tbody>

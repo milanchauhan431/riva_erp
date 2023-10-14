@@ -39,50 +39,57 @@ class InwardReceipt extends MY_Controller
         $mpdf->WriteHTML($stylesheet, 1);
         $mpdf->SetDisplayMode('fullpage');
         $mpdf->SetProtection(array('print'));
-         
-        $dcode =$this->inwardReceipt->getInwardReceipt($data)->design_no;
-        $codes = $this->inwardReceipt->getItemSerialNo($data);
-        foreach($codes as $code){
-            if(in_array($code->stock_category, array("Gold","Gold Items","Gold + Diamond Items"))){
-                $stock_category = 1; 
-            }
-            
-            if(in_array($code->stock_category, array("Silver","Silver Items"))){
-                $stock_category = 2;
-            }
-            
-            if(in_array($code->stock_category, array("Platinum Items","Platinum + Diamond Items"))){
-                $stock_category = 3;
-            }
-            if(in_array($code->stock_category, array("Palladium"))){
-                $stock_category = 4;
-            }
-            if(in_array($code->stock_category, array("Lab Grown Diamond","Loos Diamond"))){
-                $stock_category = 5;
-            }
-               $boxData = '<div style="text-align:center;padding:0mm; ">
-                 <table class="" border="0" cellspacing="1" cellpadding="1">  				
-                  <tr>
-                     <td rowspan="2" class="text-center">
-                         <barcode code="'.$code->unique_id.'" type="C128C" size="1.2" />'.$code->purity.'K<br><b>'.$code->unique_id.'</b>
-                     </td>
-                     <td  class="text-left" style="padding-left:22px;padding-top:0px" >
-                     '.$code->gross_weight.'<br>'.$code->net_weight.'
-                     </td>
-                     <td  class="text-left" > 
-                     OC:'.$code->oc_per_gm * $code->net_weight.'
-                     </td>
-                 </tr>
-                <tr>
-                <td colspan="2" style="padding-left:22px;padding-top:1px" >
-                PID:'.$code->party_code.'-'.$code->unique_id.'
-                <br>
-                D.No:'.$dcode.'
-                </td> 
-                </tr>
-                  </table>
-                  </div>';
 
+        $dcode = $this->inwardReceipt->getInwardReceipt($data)->design_no;
+        $codes = $this->inwardReceipt->getItemSerialNo($data);
+        foreach ($codes as $code) {
+            if (in_array($code->stock_category, array("Gold", "Gold Items"))) {
+                $stock_category = 1;
+            }
+
+            if (in_array($code->stock_category, array("Silver", "Silver Items"))) {
+                $stock_category = 1;
+            }
+
+            if (in_array($code->stock_category, array("Platinum Items"))) {
+                $stock_category = 1;
+            }
+            if (in_array($code->stock_category, array("Palladium"))) {
+                $stock_category = 1;
+            }
+            if (in_array($code->stock_category, array("Lab Grown Diamond", "Loos Diamond", "Gold + Diamond Items", "Platinum + Diamond Items"))) {
+                $stock_category = 2;
+            } 
+            $boxData ='';
+             $boxData .= '
+            <div style="text-align:center;padding:0mm; ">
+            <table class="" border="0" cellspacing="0" cellpadding="0">  				
+            <tr>
+            <td rowspan="2" class="text-center">
+            <barcode code="' . $code->unique_id . '" type="C128C"  /><br><b>' . $code->unique_id . '</b><br>' . $code->purity . 'K/'.$code->making_per.'%
+            </td>
+            <td  class="text-left" style="padding-left:25px;padding-top:0px" >
+            ' . $code->gross_weight . '<br>' . $code->net_weight . '
+            </td>
+            <td  class="text-left" > 
+            OC:' . $code->otc_amount * $code->net_weight . '
+            <br>VC:' . $code->vrc_amount * $code->net_weight . '
+            </td>
+            </tr>
+            <tr>
+            <td colspan="2" style="padding-left:25px;" >';
+            if ($stock_category == 2) {
+                $boxData .= $code->diamond_carat.'/'.(int)$code->diamond_pcs.'pc &nbsp; &nbsp; '.$code->color.'<br>';
+            } else {
+                $boxData .= ' D.No:' . $dcode."<br>";
+            }
+            $boxData .= 'PID:' . $code->party_code . '-' . $code->unique_id . '
+            <br>
+            </td> 
+            </tr>
+            </table>
+            </div>';
+//  /echo $boxData; exit;
             $mpdf->AddPage('P', '', '', '', '', 0, 0, 1, 1, 1, 1);
             $mpdf->WriteHTML($boxData);
         }
@@ -91,14 +98,14 @@ class InwardReceipt extends MY_Controller
 
         $mpdf->Output($pdfFileName, 'I');
     }
-     
-    
+
+
     public function loadBarcode()
     {
         $data['pageTitle'] = "Print Barcode";
         $data = $this->input->post();
-        $data['dcode'] =$this->inwardReceipt->getInwardReceipt($data)->design_no;
-      
+        $data['dcode'] = $this->inwardReceipt->getInwardReceipt($data)->design_no;
+
         $data['dataRow']  = $this->inwardReceipt->getItemSerialNo($data);
         $this->load->view('inward_receipt/print_barcode', $data);
     }

@@ -83,7 +83,7 @@ class InwardReceiptModel extends MasterModel{
                 ];
 
                 for($i=1;$i<=$data['qty'];$i++):
-                     $random_numbers = mt_rand(1000000000,4000000000);
+                     $random_numbers = mt_rand(1000000000,9999999999);
                     $stockTransData['unique_id'] = $random_numbers;
                     $stockTransData['batch_no'] = $random_numbers;
                     $stockTransData['qty'] = 1;
@@ -137,9 +137,11 @@ class InwardReceiptModel extends MasterModel{
     public function getItemSerialNo($data){
         $queryData = array();
         $queryData['tableName'] = $this->stockTransaction;
-        $queryData['select'] = "stock_transaction.*,item_master.item_code,item_master.item_name,party_master.party_code,party_master.party_name";
+        $queryData['select'] = "stock_transaction.*,item_master.item_code,item_master.item_name,party_master.party_code,party_master.party_name,inward_receipt.diamond_pcs,inward_receipt.diamond_carat,color_master.color";
         $queryData['leftJoin']['party_master'] = "party_master.id = stock_transaction.party_id";
         $queryData['leftJoin']['item_master'] = "item_master.id = stock_transaction.item_id";
+        $queryData['leftJoin']['inward_receipt'] = "inward_receipt.id = stock_transaction.main_ref_id";
+        $queryData['leftJoin']['color_master'] = "color_master.id = inward_receipt.color_id";
 
         if(!empty($data['id']))
             $queryData['where']['stock_transaction.main_ref_id'] = $data['id'];

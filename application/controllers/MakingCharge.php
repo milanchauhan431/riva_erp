@@ -24,7 +24,15 @@ class MakingCharge extends MY_Controller{
         $array = $this->input->post('id');
         $errorMessage = array();
 		 foreach($array as $ids){ 
-			$this->masterModel->edit("stock_transaction",['id'=>$ids],['stock_type'=>"FRESH",'mc_per_gm'=>$data['mc_per_gm'][$ids],'oc_per_gm'=>$data['oc_per_gm'][$ids],'mdc_per_gm'=>$data['mdc_per_gm'][$ids]]);
+			$this->masterModel->edit("stock_transaction",['id'=>$ids],['stock_type'=>"FRESH",
+			'price'=>$data['price'][$ids],
+			'making_per'=>$data['making_per'][$ids],
+			'making_disc_per'=>$data['making_disc_per'][$ids],
+			'otc_amount'=>$data['otc_amount'][$ids],
+			'vrc_amount'=>$data['vrc_amount'][$ids],
+			'diamond_amount'=>$data['diamond_amount'][$ids]
+			]
+		);
 		 }
 		 $this->printJson(['status'=>1,'message'=>"Saved!"]);
 	}
