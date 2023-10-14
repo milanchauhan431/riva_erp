@@ -61,7 +61,7 @@
             <div class="col-md-3 form-group">
                 <label for="emp_category">Emp Category</label>
                 <select name="emp_category" id="emp_category" class="form-control select2">
-                    <option value="">Select Category</option>
+                    <option value="0">Select Category</option>
                     <?php
                         foreach($empCategoryList as $row):
                             $selected = (!empty($dataRow->emp_category) && $row->category == $dataRow->emp_category)?"selected":"";
@@ -127,7 +127,7 @@
             <div class="col-md-3 from-group">
                 <label for="emp_designation">Designation</label>
                 <select name="emp_designation" id="emp_designation" class="form-control select2 req">
-                    <option value="">Select Designation</option>
+                    <option value="0">Select Designation</option>
                     <?php
                         foreach($designationList as $row):
                             $selected = (!empty($dataRow->emp_designation) && $row->id == $dataRow->emp_designation)?"selected":"";
