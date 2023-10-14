@@ -19,9 +19,4 @@
             </ul>
         </nav>
     </div>
-	<!-- <div class="powerBy"> 
-		Developed By
-		<br>
-		<span><span class="text-danger">FINTER</span> BUSINESS SOLUTIONS LLP</span> 
-	</div> -->
 </aside>

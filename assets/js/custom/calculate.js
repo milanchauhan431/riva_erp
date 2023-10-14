@@ -389,9 +389,11 @@ async function barcodeDetails(barcode="",formData=""){
 			$("#itemForm #price").val("");
 			$("#itemForm #gross_weight").val("");
 			$("#itemForm #net_weight").val("");
-			$("#itemForm #mc_per_gm").val("");
-			$("#itemForm #oc_per_gm").val("");
-			$("#itemForm #mdc_per_gm").val("");
+			$("#itemForm #making_per").val("");
+			$("#itemForm #making_disc_per").val("");
+			$("#itemForm #other_charge").val("");
+			$("#itemForm #vrc_charge").val("");
+			$("#itemForm #diamond_amount").val("");
 			return false;
 		}
 
@@ -406,9 +408,11 @@ async function barcodeDetails(barcode="",formData=""){
 		$("#itemForm #price").val(formData.price);
 		$("#itemForm #gross_weight").val(formData.gross_weight);
 		$("#itemForm #net_weight").val(formData.net_weight);
-		$("#itemForm #mc_per_gm").val(formData.mc_per_gm);
-		$("#itemForm #oc_per_gm").val(formData.oc_per_gm);
-		$("#itemForm #mdc_per_gm").val(formData.mdc_per_gm);
+		$("#itemForm #making_per").val(formData.making_per);
+		$("#itemForm #making_disc_per").val(formData.making_disc_per);
+		$("#itemForm #other_charge").val(formData.otc_amount);
+		$("#itemForm #vrc_charge").val(formData.vrc_amount);
+		$("#itemForm #diamond_amount").val(formData.diamond_amount);
 	}
 }
 
@@ -434,30 +438,41 @@ async function barcodeScan(formData=""){
 		var amount = 0; var taxable_amount = 0; var disc_amt = 0; var igst_amt = 0;
 		var gst_amount = 0; var cgst_amt = 0; var sgst_amt = 0; var net_amount = 0; 
 		var gst_per = 0; var cgst_per = 0; var sgst_per = 0; var igst_per = 0;
-		var mackingChargeAmt = 0;var mcDiscAmt = 0;var otherChargeAmt = 0;
+		var mackingChargeAmt = 0;var mcDiscAmt = 0;var otherChargeAmt = 0; 
+		var varietyChargeAmt = 0; var diamondAmount = 0;
 
-		formData.org_price = formData.sales_price;
-		if (formData.disc_per == "" && formData.disc_per == "0") {
+		formData.org_price = 0;
+		/* if (formData.disc_per == "" && formData.disc_per == "0") {
 			taxable_amount = amount = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.price)).toFixed(2);
 		} else {
 			amount = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.price)).toFixed(2);
 			disc_amt = parseFloat((amount * parseFloat(formData.disc_per)) / 100).toFixed(2);
 			taxable_amount = parseFloat(amount - disc_amt).toFixed(2);
+		} */
+
+		taxable_amount = amount = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.price)).toFixed(2);		
+
+		mackingChargeAmt = parseFloat((parseFloat(amount) * parseFloat(formData.making_per))/100).toFixed(2);
+		if (formData.making_disc_per != "" && formData.making_disc_per != "0") {
+			mcDiscAmt = parseFloat((parseFloat(mackingChargeAmt) * parseFloat(formData.making_disc_per)) / 100).toFixed(2);
 		}
 
-		mackingChargeAmt = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.mc_per_gm)).toFixed(2);
-		otherChargeAmt = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.oc_per_gm)).toFixed(2);
-		if (formData.mdc_per_gm != "" && formData.mdc_per_gm != "0") {
-			mcDiscAmt = parseFloat((parseFloat(mackingChargeAmt) * parseFloat(formData.mdc_per_gm)) / 100).toFixed(2);
+		otherChargeAmt = parseFloat(formData.otc_amount).toFixed(2);
+		varietyChargeAmt = parseFloat(formData.vrc_amount).toFixed(2);
+		diamondAmount = parseFloat(formData.diamond_amount).toFixed(2);
+		
+
+		taxable_amount = parseFloat(parseFloat(amount) + (parseFloat(mackingChargeAmt) - parseFloat(mcDiscAmt)) + parseFloat(otherChargeAmt) + parseFloat(varietyChargeAmt) + parseFloat(diamondAmount)).toFixed(2);
+
+		if(formData.disc_amount != "" && parseFloat(formData.disc_amount) > 0){
+			taxable_amount = parseFloat(parseFloat(amount) - parseFloat(formData.disc_amount)).toFixed(2);
 		}
-
-
-		amount = parseFloat(parseFloat(amount) + parseFloat(formData.sales_price) + (parseFloat(mackingChargeAmt) - parseFloat(mcDiscAmt) + parseFloat(otherChargeAmt))).toFixed(2);
-		taxable_amount = parseFloat(parseFloat(taxable_amount) + parseFloat(formData.sales_price) + (parseFloat(mackingChargeAmt) - parseFloat(mcDiscAmt) + parseFloat(otherChargeAmt))).toFixed(2);
 		
 		formData.making_charge = mackingChargeAmt;
 		formData.making_charge_dicount = mcDiscAmt;
 		formData.other_charge = otherChargeAmt;
+		formData.vrc_charge = varietyChargeAmt;
+		formData.diamond_amount = diamondAmount;
 		
 		formData.gst_per = igst_per = parseFloat(formData.gst_per).toFixed(0);
 		formData.gst_amount = igst_amt = parseFloat((igst_per * taxable_amount) / 100).toFixed(2);
@@ -482,7 +497,7 @@ async function barcodeScan(formData=""){
 		formData.taxable_amount = taxable_amount;
 		formData.net_amount = net_amount;
 		formData.row_index = '';
-		formData.stock_eff = 1;
+		formData.stock_eff = $('#barcode_scanner').data("stock_effect");
 		AddRow(formData); 
 	}
 }

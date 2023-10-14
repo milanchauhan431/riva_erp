@@ -66,8 +66,8 @@
                         <th style="width:10%;">HSN/SAC</th>
                         <th style="width:100px;">Qty</th>
                         <th style="width:60px;">Rate<br><small>(<?= $partyData->currency ?>)</small></th>
-                        <th>Making<br>Charges(Rs.)</th>
-                        <th style="width:60px;">Disc (%)</th>
+                        <th>Making<br>Charges<br><small>(<?= $partyData->currency ?>)</small></th>
+                        <th style="width:60px;">Disc</th>
                         <th style="width:60px;">GST <small>(%)</small></th>
                         <th style="width:110px;">Amount<br><small>(<?= $partyData->currency ?>)</small></th>
                     </tr>
@@ -83,12 +83,23 @@
                         foreach ($dataRow->itemList as $row) :
                             echo '<tr>';
                             echo '<td class="text-center">' . $i++ . '</td>';
-                            echo '<td>' . $row->item_name . '</td>';
+                            echo '<td>';
+                                echo   '<b>'.$row->item_name . '</b><br>';
+                                if(!empty($row->other_charge)):
+                                    echo '<small>Other Charge :</small> ' . floatVal($row->other_charge) . '<br>';
+                                endif;
+                                if(!empty($row->vrc_charge)):
+                                    echo '<small>Variety Charge :</small> ' . floatVal($row->vrc_charge) . '<br>';
+                                endif;
+                                if(!empty($row->diamond_amount)):
+                                    echo '<small>Diamond Amount :</small> ' . floatVal($row->diamond_amount) . '<br>';
+                                endif;
+                            echo '</td>';
                             echo '<td class="text-center">' . $row->hsn_code . '</td>';
                             echo '<td class="text-center">' . floatVal($row->qty) . ' (' . $row->unit_name . ')</td>';
                             echo '<td class="text-right">' . floatVal($row->price) . '</td>';
                             echo '<td class="text-right">' . floatVal($row->making_charge - $row->making_charge_dicount) . '</td>';
-                            echo '<td class="text-right">' . floatVal($row->disc_per) . '</td>';
+                            echo '<td class="text-right">' . floatVal($row->disc_amount) . '</td>';
                             echo '<td class="text-center">' . $row->gst_per . '</td>';
                             echo '<td class="text-right">' . $row->taxable_amount . '</td>';
                             echo '</tr>';
@@ -159,12 +170,12 @@
                         if (!empty($taxAmt)) :
                             if ($rwspan == 0) :
                                 $taxHtml .= '<th colspan="2" class="text-right">' . $taxRow->name . ' @' . (($dataRow->gst_type == 1) ? floatVal($migst / 2) : $migst) . '%</th>
-                                        <td class="text-right">' . sprintf('%.2f', $taxAmt) . '</td>';
+                                <td class="text-right">' . sprintf('%.2f', $taxAmt) . '</td>';
                             else :
                                 $taxHtml .= '<tr>
-                                            <th colspan="2" class="text-right">' . $taxRow->name . ' @' . (($dataRow->gst_type == 1) ? floatVal($migst / 2) : $migst) . '%</th>
-                                            <td class="text-right">' . sprintf('%.2f', $taxAmt) . '</td>
-                                        </tr>';
+                                    <th colspan="2" class="text-right">' . $taxRow->name . ' @' . (($dataRow->gst_type == 1) ? floatVal($migst / 2) : $migst) . '%</th>
+                                    <td class="text-right">' . sprintf('%.2f', $taxAmt) . '</td>
+                                </tr>';
                             endif;
 
                             $rwspan++;

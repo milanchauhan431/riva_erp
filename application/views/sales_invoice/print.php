@@ -1,13 +1,22 @@
 <div class="row">
     <div class="col-12">
         <?php if(!empty($header_footer)): ?>
-        <table>
-            <tr>
-                <td>
-                    <img src="<?=$letter_head?>" class="img">
-                </td>
-            </tr>
-        </table>
+            <table class="table table-bordered" style="margin-bottom:10px;">
+                <tr>
+                    <!-- <td>
+                        <img src="<?= $letter_head ?>" class="img">
+                    </td> -->
+                    <th class="text-center fs-30"> 
+                        <?=$companyData->company_name?>
+                    </th>                    
+                </tr>
+                <tr>
+                    <td class="text-center"> 
+                        <?=$companyData->company_address.', '.$companyData->company_city.' - '.$companyData->company_pincode?><br>
+                        Contact No. : <?=$companyData->company_contact.((!empty($companyData->company_phone))?" / ".$companyData->company_phone:"")?> Email : <?=$companyData->company_email?>
+                    </td>
+                </tr>
+            </table>
         <?php endif; ?>
 
         <table class="table bg-light-grey">
@@ -26,7 +35,9 @@
                     <b>BILL TO</b><br>
                     <b><?=$invData->party_name?></b><br>
                     <?=(!empty($partyData->party_address) ? $partyData->party_address : '')?><br>
-                    <b>GSTIN : <?= $invData->gstin?> | STATE CODE: <?=substr($invData->gstin, 0, 2)?> | CITY : <?=$partyData->city_name?></b>
+                    <b><?= (!empty($invData->gstin) && $invData->gstin != "URP")?"GSTIN : ".$invData->gstin:""?>
+                    <?=(!empty($invData->gstin) && $invData->gstin != "URP")?" | STATE CODE: ".substr($invData->gstin, 0, 2)." | ":""?>
+                    <?=(!empty($partyData->city_name))?"CITY : ".$partyData->city_name:""?></b>
                 </td>
                 <td>
                     <b>Invoice No. : <?=$invData->trans_prefix . $invData->trans_no?></b>
@@ -52,8 +63,8 @@
                         <th style="width:10%;">HSN/SAC</th>
                         <th style="width:100px;">Qty</th>
                         <th style="width:60px;">Rate<br><small>('.$partyData->currency.')</small></th>
-                        <th>Making<br>Charges(Rs.)</th>
-                        <th style="width:60px;">Disc (%)</th>
+                        <th>Making<br>Charges<br><small>('.$partyData->currency.')</small></th>
+                        <th style="width:60px;">Disc.</th>
                         <th style="width:60px;">GST <small>(%)</small></th>
                         <th style="width:110px;">Amount<br><small>('.$partyData->currency.')</small></th>
                     </tr>
@@ -68,28 +79,26 @@
                         foreach($invData->itemList as $row):						
                             echo '<tr>';
                                 echo '<td class="text-center">'.$i++.'</td>';
-                                echo '<td>'.$row->item_name.'</td>';
+                                echo '<td>';
+                                echo   '<b>'.$row->item_name . '</b><br>';
+                                    if(!empty($row->other_charge)):
+                                        echo '<small>Other Charge :</small> ' . floatVal($row->other_charge) . '<br>';
+                                    endif;
+                                    if(!empty($row->vrc_charge)):
+                                        echo '<small>Variety Charge :</small> ' . floatVal($row->vrc_charge) . '<br>';
+                                    endif;
+                                    if(!empty($row->diamond_amount)):
+                                        echo '<small>Diamond Amount :</small> ' . floatVal($row->diamond_amount) . '<br>';
+                                    endif;
+                                echo '</td>';
                                 echo '<td class="text-center">'.$row->hsn_code.'</td>';
                                 echo '<td class="text-center">'.floatVal($row->qty).' ('.$row->unit_name.')</td>';
                                 echo '<td class="text-right">'.floatVal($row->price).'</td>';
                                 echo '<td class="text-right">' . floatVal($row->making_charge - $row->making_charge_dicount) . '</td>';
-                                echo '<td class="text-right">'.floatVal($row->disc_per).'</td>';
+                                echo '<td class="text-right">'.floatVal($row->disc_amount).'</td>';
                                 echo '<td class="text-center">'.$row->gst_per.'</td>';
                                 echo '<td class="text-right">'.$row->taxable_amount.'</td>';
                             echo '</tr>';
-
-                            if(($rowCount == $maxLinePP && $pageCount == 1) || ($rowCount == 20 && $pageCount != 1)): 
-                                echo '
-                                    </tbody></table>
-                                    <div class="text-right"><i>Continue to Next Page</i></div>
-                                    <pagebreak>
-                                    <table class="table item-list-bb" style="margin-top:10px;">
-                                        '.$thead.'
-                                    <tbody>'; 
-                                $rowCount = 0; // Reset the row count
-                                $pageCount++; // Increment the page count
-                            endif;
-                            $rowCount++;
                             
                             $totalQty += $row->qty;
                             if($row->gst_per > $migst){$migst=$row->gst_per;$mcgst=$row->cgst_per;$msgst=$row->sgst_per;}
@@ -169,7 +178,8 @@
                     <th colspan="3" class="text-right">Total Qty.</th>
                     <th class="text-right"><?=sprintf('%.3f',$totalQty)?></th>
                     <th></th>
-                    <th colspan="3" class="text-right">Sub Total</th>
+                    <th></th>
+                    <th colspan="2" class="text-right">Sub Total</th>
                     <th class="text-right"><?=sprintf('%.2f',$invData->taxable_amount)?></th>
                 </tr>
                 <tr>

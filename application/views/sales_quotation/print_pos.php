@@ -49,7 +49,10 @@
                             echo '<strong>Qty:</strong> ' . floatVal($row->qty) . ' (' . $row->unit_name . ')<br>';
                             echo '<strong>Rate:</strong> ' . floatVal($row->price) . '<br>';
                             echo '<strong>Making Charge:</strong> ' . floatVal($row->making_charge - $row->making_charge_dicount) . '<br>';
-                            echo '<strong>Disc (%):</strong> ' . floatVal($row->disc_per) . '<br>';
+                            echo '<strong>Disc :</strong> ' . floatVal($row->disc_amount) . '<br>';
+                            echo '<strong>Other Charge :</strong> ' . floatVal($row->other_charge) . '<br>';
+                            echo '<strong>Variety Charge :</strong> ' . floatVal($row->vrc_charge) . '<br>';
+                            echo '<strong>Diamond Amount :</strong> ' . floatVal($row->diamond_amount) . '<br>';
                             echo '<strong>GST(%):</strong> ' . $row->gst_per . '<br>';
                             echo '<strong>Amount (' . $partyData->currency . '):</strong> ' . $row->taxable_amount . '<br>';
                             echo '<hr />';
@@ -130,12 +133,7 @@
 
                     </tr>
                     <?= $beforExp . $taxHtml . $afterExp ?>
-                    <tr>
-                        <th class="text-left" colspan="4">
-                            Amount In Words
-                        </th>
-                        <td class="text-right" colspan="4"><?= numToWordEnglish(sprintf('%.2f', $dataRow->net_amount)) ?> </td>
-                    </tr>
+                    
                     <tr>
                         <th colspan="4" class="text-right">Round Off</th>
                         <td class="text-right" colspan="4"><?= sprintf('%.2f', $dataRow->round_off_amount) ?></td>
@@ -143,6 +141,12 @@
                     <tr>
                         <th colspan="4" class="text-right">Grand Total</th>
                         <th class="text-right" colspan="4"><?= sprintf('%.2f', $dataRow->net_amount) ?></th>
+                    </tr>
+                    <tr>
+                        <th class="text-right" colspan="4">
+                            Amount In Words
+                        </th>
+                        <td class="text-right" colspan="4"><?= numToWordEnglish(sprintf('%.2f', $dataRow->net_amount)) ?> </td>
                     </tr>
                 </tbody>
             </table>

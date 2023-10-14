@@ -2,6 +2,31 @@ $(document).ready(function(){
 	$(".ledgerColumn").hide();
 	$(".summary_desc").attr('style','width: 60%;');
 
+	$(document).on('click','.getPendingQuotation',function(){
+		var party_id = $('#party_id').val();
+		var party_name = $('#party_id :selected').text();
+		$('.party_id').html("");
+
+		if (party_id != "" || party_id != 0) {
+			$.ajax({
+				url: base_url + 'salesQuotation/getPartyQuotation',
+				type: 'post',
+				data: { party_id: party_id },
+				success: function (response) {
+					$("#modal-xl").modal();
+					$('#modal-xl .modal-body').html('');
+					$('#modal-xl .modal-title').html("Carete Invoice [ Party Name : "+party_name+" ]");
+					$('#modal-xl .modal-body').html(response);
+					$('#modal-xl .modal-body form').attr('id',"createOrderForm");
+					$('#modal-xl .modal-footer .btn-save').html('<i class="fa fa-check"></i> Create Invoice');
+					$("#modal-xl .modal-footer .btn-save").attr('onclick',"createOrder();");
+				}
+			});
+		} else {
+			$('.party_id').html("Party is required.");
+		}	
+	});
+
 	$(document).on('click','.getPendingOrders',function(){
 		var party_id = $('#party_id').val();
 		var party_name = $('#party_id :selected').text();
@@ -25,6 +50,56 @@ $(document).ready(function(){
 		} else {
 			$('.party_id').html("Party is required.");
 		}	
+	});
+
+	$(document).on('click', '.getPendingPI', function () {
+		var party_id = $('#party_id').val();
+		var party_name = $('#party_id :selected').text();
+		$('.party_id').html("");
+
+		if (party_id != "" || party_id != 0) {
+			$.ajax({
+				url: base_url + 'proformaInvoice/getPartyPI',
+				type: 'post',
+				data: { party_id: party_id },
+				success: function (response) {
+					$("#modal-xl").modal();
+					$('#modal-xl .modal-body').html('');
+					$('#modal-xl .modal-title').html("Carete Invoice [ Party Name : " + party_name + " ]");
+					$('#modal-xl .modal-body').html(response);
+					$('#modal-xl .modal-body form').attr('id', "createInvoiceForm");
+					$('#modal-xl .modal-footer .btn-save').html('<i class="fa fa-check"></i> Create Invoice');
+					$("#modal-xl .modal-footer .btn-save").attr('onclick', "createInvoice();");
+				}
+			});
+		} else {
+			$('.party_id').html("Party is required.");
+		}
+	});
+
+	$(document).on('click', '.getPendingChallan', function () {
+		var party_id = $('#party_id').val();
+		var party_name = $('#party_id :selected').text();
+		$('.party_id').html("");
+
+		if (party_id != "" || party_id != 0) {
+			$.ajax({
+				url: base_url + 'deliveryChallan/getPartyChallan',
+				type: 'post',
+				data: { party_id: party_id },
+				success: function (response) {
+					$("#modal-xl").modal();
+					$('#modal-xl .modal-body').html('');
+					$('#modal-xl .modal-title').html("Carete Challan [ Party Name : " + party_name + " ]");
+					$('#modal-xl .modal-body').html(response);
+					$('#modal-xl .modal-body form').attr('id', "createInvoiceForm");
+					$('#modal-xl .modal-footer .btn-save').html('<i class="fa fa-check"></i> Create Challan');
+					$("#modal-xl .modal-footer .btn-save").attr('onclick', "createInvoice();");
+				}
+			});
+		} else {
+			$('.party_id').html("Party is required.");
+		}
 	});
 
     $(document).on('click', '.add-item', function () {
@@ -91,35 +166,41 @@ $(document).ready(function(){
             var amount = 0; var taxable_amount = 0; var disc_amt = 0; var igst_amt = 0;
             var gst_amount = 0; var cgst_amt = 0; var sgst_amt = 0; var net_amount = 0; 
             var gst_per = 0; var cgst_per = 0; var sgst_per = 0; var igst_per = 0;
-			var mackingChargeAmt = 0; var mcDiscAmt = 0; var otherChargeAmt = 0;
+			var mackingChargeAmt = 0;var mcDiscAmt = 0;var otherChargeAmt = 0; 
+			var varietyChargeAmt = 0; var diamondAmount = 0;
 
-
-			formData.org_price = (formData.org_price != "" || parseFloat(formData.org_price) > 0)?formData.org_price:0;
-
-            if (formData.disc_per == "" && formData.disc_per == "0") {
+            /* if (formData.disc_per == "" && formData.disc_per == "0") {
                 taxable_amount = amount = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.price)).toFixed(2);
             } else {
                 amount = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.price)).toFixed(2);
                 disc_amt = parseFloat((amount * parseFloat(formData.disc_per)) / 100).toFixed(2);
                 taxable_amount = parseFloat(amount - disc_amt).toFixed(2);
-            }
+            } */
 
-			amount = parseFloat(parseFloat(amount) + parseFloat(formData.org_price)).toFixed(2);
-			taxable_amount = parseFloat(parseFloat(taxable_amount) + parseFloat(formData.org_price)).toFixed(2);
+			amount = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.price)).toFixed(2);		
 
-			// Making add
-			mackingChargeAmt = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.mc_per_gm)).toFixed(2);
-			otherChargeAmt = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.oc_per_gm)).toFixed(2);
-			if (formData.mdc_per_gm != "" && formData.mdc_per_gm != "0") {
-				mcDiscAmt = parseFloat((parseFloat(mackingChargeAmt) * parseFloat(formData.mdc_per_gm)) / 100).toFixed(2);
+			mackingChargeAmt = parseFloat((parseFloat(amount) * parseFloat(formData.making_per))/100).toFixed(2);
+			if (formData.making_disc_per != "" && formData.making_disc_per != "0") {
+				mcDiscAmt = parseFloat((parseFloat(mackingChargeAmt) * parseFloat(formData.making_disc_per)) / 100).toFixed(2);
 			}
-			amount = parseFloat(parseFloat(amount) + parseFloat(formData.org_price) + (parseFloat(mackingChargeAmt) - parseFloat(mcDiscAmt) + parseFloat(otherChargeAmt))).toFixed(2);
-			taxable_amount = parseFloat(parseFloat(taxable_amount) + parseFloat(formData.org_price) + (parseFloat(mackingChargeAmt) - parseFloat(mcDiscAmt) + parseFloat(otherChargeAmt))).toFixed(2);
 
+			otherChargeAmt = parseFloat(formData.other_charge).toFixed(2);
+			varietyChargeAmt = parseFloat(formData.vrc_charge).toFixed(2);
+			diamondAmount = parseFloat(formData.diamond_amount).toFixed(2);
+			
+
+			taxable_amount = parseFloat(parseFloat(amount) + (parseFloat(mackingChargeAmt) - parseFloat(mcDiscAmt)) + parseFloat(otherChargeAmt) + parseFloat(varietyChargeAmt) + parseFloat(diamondAmount)).toFixed(2);
+
+			if(formData.disc_amount != "" && parseFloat(formData.disc_amount) > 0){
+				taxable_amount = parseFloat(parseFloat(taxable_amount) - parseFloat(formData.disc_amount)).toFixed(2);
+			}
+			
 			formData.making_charge = mackingChargeAmt;
 			formData.making_charge_dicount = mcDiscAmt;
 			formData.other_charge = otherChargeAmt;
-			// Making add end
+			formData.vrc_charge = varietyChargeAmt;
+			formData.diamond_amount = diamondAmount;
+
             formData.gst_per = igst_per = parseFloat(formData.gst_per).toFixed(0);
             formData.gst_amount = igst_amt = parseFloat((igst_per * taxable_amount) / 100).toFixed(2);
 
@@ -139,7 +220,7 @@ $(document).ready(function(){
             formData.sgst_amount = sgst_amt;
             formData.igst_per = igst_per;
             formData.igst_amount = igst_amt;
-            formData.disc_amount = disc_amt;
+            //formData.disc_amount = disc_amt;
             formData.amount = amount;
             formData.taxable_amount = taxable_amount;
             formData.net_amount = net_amount;
@@ -303,28 +384,29 @@ function AddRow(data) {
 	cell.append(priceErrorDiv);
 
 	
-	// Making add
-	var mcPerGmInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][mc_per_gm]", value: data.mc_per_gm });
-	var mcdPerGmInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][mdc_per_gm]", value: data.mdc_per_gm });
-	var ocPerGmInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][oc_per_gm]", value: data.oc_per_gm });
+	var mcPerInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][making_per]", value: data.making_per });
+	var mcDiscPerInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][making_disc_per]", value: data.making_disc_per });
 	var makingChrageInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][making_charge]", value: data.making_charge });
 	var makingChrageDiscountInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][making_charge_dicount]", value: data.making_charge_dicount });
 	var otherChrageInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][other_charge]", value: data.other_charge });
-	var tmcAmt = parseFloat(parseFloat(data.making_charge) - parseFloat(data.making_charge_dicount)).toFixed(2);
- 
+	var vrChrageInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][vrc_charge]", value: data.vrc_charge });
+	var diamondAmtInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][diamond_amount]", value: data.diamond_amount });
+	var tmcAmt = parseFloat(parseFloat(data.making_charge) - parseFloat(data.making_charge_dicount)).toFixed(2); 
 	cell = $(row.insertCell(-1));
 	cell.html(tmcAmt);
+	cell.append(mcPerInput);
+	cell.append(mcDiscPerInput);
 	cell.append(makingChrageInput);
 	cell.append(makingChrageDiscountInput);
 	cell.append(otherChrageInput);
-	cell.append(mcPerGmInput);
-	cell.append(mcdPerGmInput);
-	cell.append(ocPerGmInput);
+	cell.append(vrChrageInput);
+	cell.append(diamondAmtInput);
 
+	
     var discPerInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][disc_per]", value: data.disc_per});
 	var discAmtInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][disc_amount]", value: data.disc_amount });
 	cell = $(row.insertCell(-1));
-	cell.html(data.disc_amount + '(' + data.disc_per + '%)');
+	cell.html(data.disc_amount);
 	cell.append(discPerInput);
 	cell.append(discAmtInput);
 

@@ -126,9 +126,10 @@ class ProformaInvoice extends MY_Controller{
 		$this->data['maxLinePP'] = 18;
         $pdfData = ""; 
  
-        echo $pdfData = $this->load->view('proforma_invoice/print',$this->data,true);
+        echo $pdfData = $this->load->view('proforma_invoice/print_pos',$this->data,true);
       
 	}
+
     public function printInvoice($id="",$type=""){
         $postData = $this->input->post();
         
@@ -189,5 +190,11 @@ class ProformaInvoice extends MY_Controller{
 		$mpdf->WriteHTML($pdfData);
 		$mpdf->Output($pdfFileName,'I');
 	}
+
+    public function getPartyPI(){
+        $data = $this->input->post();
+        $this->data['orderItems'] = $this->proformaInvoice->getPendingProformaItems($data);
+        $this->load->view('proforma_invoice/create_invoice',$this->data);
+    }
 }
 ?>

@@ -6,9 +6,8 @@
                     <thead class="thead-info">
                         <tr>
                             <th>#</th>
-                            <th>So. No.</th>
-                            <th>So. Date</th>
-                            <th>Po. No.</th>
+                            <th>PI. No.</th>
+                            <th>PI. Date</th>
                             <th>Item Name</th>
                             <th>Pending Qty.</th>
                         </tr>
@@ -22,13 +21,13 @@
                                 unset($row->id,$row->entry_type);
                                 $row->row_index = "";
                                 $row->entry_type = "";
+                                $row->stock_eff = 1;
                                 echo "<tr>
                                     <td class='text-center'>
                                         <input type='checkbox' id='md_checkbox_" . $i . "' class='filled-in chk-col-success orderItem' data-row='".json_encode($row)."' ><label for='md_checkbox_" . $i . "' class='mr-3 check" . $row->ref_id . "'></label>
                                     </td>
                                     <td>".$row->trans_number."</td>
                                     <td>".formatDate($row->trans_date)."</td>
-                                    <td>".$row->doc_no."</td>
                                     <td>".$row->item_name."</td>
                                     <td>".floatval($row->pending_qty)."</td>
                                 </tr>";

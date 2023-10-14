@@ -34,16 +34,16 @@ class SalesQuotationModel extends MasterModel{
 
         $data['searchCol'][] = "";
         $data['searchCol'][] = "";
-        $data['searchCol'][] = "trans_main.quote_rev_no";
+        //$data['searchCol'][] = "trans_main.quote_rev_no";
         $data['searchCol'][] = "trans_main.trans_number";
         $data['searchCol'][] = "DATE_FORMAT(trans_main.trans_date,'%d-%m-%Y')";
         $data['searchCol'][] = "trans_main.party_name";
         $data['searchCol'][] = "trans_child.item_name";
         $data['searchCol'][] = "trans_child.qty";
         $data['searchCol'][] = "trans_child.price";
-        $data['searchCol'][] = "employee_master.emp_name";
+        /* $data['searchCol'][] = "employee_master.emp_name";
         $data['searchCol'][] = "DATE_FORMAT(trans_main.approve_date,'%d-%m-%Y')";
-        $data['searchCol'][] = "trans_main.close_reason";
+        $data['searchCol'][] = "trans_main.close_reason"; */
 
         $columns =array(); foreach($data['searchCol'] as $row): $columns[] = $row; endforeach;
         if(isset($data['order'])){$data['order_by'][$columns[$data['order'][0]['column']]] = $data['order'][0]['dir'];}
@@ -384,11 +384,12 @@ class SalesQuotationModel extends MasterModel{
     public function getPendingQuotationItems($data){
         $queryData = array();
         $queryData['tableName'] = $this->transChild;
-        $queryData['select'] = "trans_child.*,trans_main.entry_type as main_entry_type,trans_main.trans_number,trans_main.trans_date,trans_main.doc_no";
+        $queryData['select'] = "trans_child.*,trans_details.i_col_1 as location_id,trans_details.t_col_1 as unique_id,trans_details.i_col_2 as stock_trans_id,trans_details.d_col_1 as standard_qty,trans_details.d_col_2 as purity,trans_details.t_col_2 as stock_category,trans_main.entry_type as main_entry_type,trans_main.trans_number,trans_main.trans_date,trans_main.doc_no";
+        $queryData['leftJoin']['trans_details'] = "trans_child.trans_main_id = trans_details.main_ref_id AND trans_details.child_ref_id = trans_child.id AND trans_details.description = 'SQ SERIAL DETAILS' AND trans_details.table_name = '".$this->transChild."'";
         $queryData['leftJoin']['trans_main'] = "trans_child.trans_main_id = trans_main.id";
         $queryData['where']['trans_main.party_id'] = $data['party_id'];
         $queryData['where']['trans_child.entry_type'] = $this->data['entryData']->id;
-        $queryData['where']['trans_child.confirm_status'] = 2;
+        //$queryData['where']['trans_child.confirm_status'] = 2;
         $queryData['where']['trans_child.trans_status'] = 0;
         return $this->rows($queryData);
     }

@@ -24,6 +24,7 @@ class MakingChargeModel extends MasterModel{
             $this->db->trans_begin();
 
             foreach($data['itemData'] as $row):
+                $row['stock_type'] = "FRESH";
                 $result = $this->store($this->stockTrans,$row);
             endforeach;
 

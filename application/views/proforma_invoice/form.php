@@ -60,8 +60,17 @@
 												</div>
 											</span>
 
-                                            <span class="float-right m-r-10">
-                                                <a class="text-primary font-bold waves-effect waves-dark getPendingOrders" href="javascript:void(0)">+ Sales Order</a>
+                                            <span class="dropdown float-right m-r-10">
+                                                <a class="text-primary font-bold waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" datatip="Progress" flow="down">+ Create PI</a>
+
+                                                <div class="dropdown-menu dropdown-menu-left user-dd animated flipInY" x-placement="start-left">
+													<div class="d-flex no-block align-items-center p-10 bg-primary text-white">ACTION</div>
+
+                                                    <a class="dropdown-item getPendingQuotation" href="javascript:void(0)">+ Sales Quotation</a>
+
+                                                    <a class="dropdown-item getPendingOrders" href="javascript:void(0)">+ Sales Order</a>
+
+                                                </div>
                                             </span>
 										</div>
                                         <select name="party_id" id="party_id" class="form-control select2 partyDetails partyOptions req" data-res_function="resPartyDetail" data-party_category="1">
@@ -162,7 +171,7 @@
                                     <div class="col-md-6"><h4>Item Details : </h4></div>
                                     <div class="col-md-4">
                                         <div class="input-group">
-										    <input type="text" id="barcode_scanner" class="form-control numericOnly float-right" value="" placeholder="Scan barcode"  >
+										    <input type="text" id="barcode_scanner" class="form-control numericOnly float-right" value="" placeholder="Scan barcode" data-stock_effect="0">
                                             <div class="input-group-append">
                                                 <button type="button" id="barcode_search" class="btn btn-info"><i class="fa fa-search"></i></button>
                                             </div>
@@ -177,7 +186,7 @@
                                     <div class="error itemData"></div>
                                     <div class="row form-group">
                                         <div class="table-responsive">
-                                            <table id="salesInvoiceItems" class="table table-striped table-borderless">
+                                            <table id="proformaInvoiceItems" class="table table-striped table-borderless">
                                                 <thead class="thead-info">
                                                     <tr>
                                                         <th style="width:5%;">#</th>
@@ -188,7 +197,7 @@
                                                         <th>N.W.</th>
                                                         <th>Unit</th>
                                                         <th>Price</th>
-                                                        <th>Making<br>Charges(Rs.)</th>
+                                                        <th>Making<br>Charge</th>
                                                         <th>Disc.</th>
                                                         <th class="igstCol">IGST</th>
                                                         <th class="cgstCol">CGST</th>
@@ -259,7 +268,7 @@
 								<input type="hidden" name="row_index" id="row_index" value="">
 								<input type="hidden" name="item_code" id="item_code" value="" />
                                 <input type="hidden" name="item_type" id="item_type" value="1" />
-                                <input type="hidden" name="stock_eff" id="stock_eff" value="1" />
+                                <input type="hidden" name="stock_eff" id="stock_eff" value="0" />
 
                                 <input type="hidden" name="org_price" id="org_price" class="org_price" value="" />                                
                                 <input type="hidden" name="stock_trans_id" id="stock_trans_id" value="" />
@@ -267,11 +276,7 @@
                                 <input type="hidden" name="standard_qty" id="standard_qty" value="" />
                                 <input type="hidden" name="purity" id="purity" value="" />
                                 <input type="hidden" name="stock_category" id="stock_category" value="" />
-                                 
-                                <!-- Making add -->
-                                <input type="hidden" name="mc_per_gm" id="mc_per_gm" value="" />
-                                <input type="hidden" name="mdc_per_gm" id="mdc_per_gm" value="" />
-                                <input type="hidden" name="oc_per_gm" id="oc_per_gm" value="" /> 
+                                <input type="hidden" name="disc_per" id="disc_per" value="0">
                             </div>
                             
 
@@ -297,8 +302,8 @@
                                 <input type="text" name="qty" id="qty" class="form-control floatOnly req" value="0">
                             </div>
                             <div class="col-md-2 form-group">
-                                <label for="disc_per">Disc. (%)</label>
-                                <input type="text" name="disc_per" id="disc_per" class="form-control floatOnly" value="0">
+                                <label for="disc_amount">Disc. Amount</label>
+                                <input type="text" name="disc_amount" id="disc_amount" class="form-control floatOnly" value="0">
                             </div>
                             <div class="col-md-2 form-group">
                                 <label for="price">Price</label>
@@ -337,10 +342,30 @@
                                 <label for="net_weight">Net Weight</label>
                                 <input type="text" name="net_weight" id="net_weight" class="form-control floatOnly req" value="0" />
                             </div>
-                            <div class="col-md-12 form-group">
+                            <div class="col-md-3 form-group">
+                                <label for="making_per">Making Charge (%)</label>
+                                <input type="text" name="making_per" id="making_per" class="form-control floatOnly" value="0" />
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="making_disc_per">Making Charge Disc.(%)</label>
+                                <input type="text" name="making_disc_per" id="making_disc_per" class="form-control floatOnly" value="0" />
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="other_charge">Other Charge</label>
+                                <input type="text" name="other_charge" id="other_charge" class="form-control floatOnly" value="0" />
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="vrc_charge">Variety Charge</label>
+                                <input type="text" name="vrc_charge" id="vrc_charge" class="form-control floatOnly" value="0" />
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="diamond_amount">Diamond Amount</label>
+                                <input type="text" name="diamond_amount" id="diamond_amount" class="form-control floatOnly" value="0" />
+                            </div>
+                            <div class="col-md-9 form-group">
                                 <label for="item_remark">Remark</label>
                                 <input type="text" name="item_remark" id="item_remark" class="form-control" value="" />
-                            </div>                            
+                            </div>                                  
                         </div>
                     </div>          
                 </form>

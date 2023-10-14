@@ -79,6 +79,7 @@ class StockTransModel extends MasterModel{
             $queryData['where']['stock_transaction.unique_id'] = $data['unique_id'];
 
         if(!empty($data['stock_required'])):
+            $queryData['where']['stock_transaction.stock_type'] = "FRESH";
             $queryData['having'][] = 'SUM(stock_transaction.qty * stock_transaction.p_or_m) > 0';
         endif;
         

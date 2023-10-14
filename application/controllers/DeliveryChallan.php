@@ -115,65 +115,45 @@ class DeliveryChallan extends MY_Controller{
         endif;
     }
 
-    public function printChallan($id="",$type=""){
-        $postData = $this->input->post();
+    public function printChallan($id,$pdf_type=''){
+        $this->data['dataRow'] = $dataRow = $this->salesOrder->getSalesOrder(['id'=>$id,'itemList'=>1]);
+        $this->data['partyData'] = $this->party->getParty(['id'=>$dataRow->party_id]);
+        $this->data['companyData'] = $companyData = $this->masterModel->getCompanyInfo();
         
-        $printTypes = array();
-        if(!empty($postData['original'])):
-            $printTypes[] = "ORIGINAL";
-        endif;
-
-        if(!empty($postData['duplicate'])):
-            $printTypes[] = "DUPLICATE";
-        endif;
-
-        if(!empty($postData['triplicate'])):
-            $printTypes[] = "TRIPLICATE";
-        endif;
-
-        if(!empty($postData['extra_copy'])):
-            for($i=1;$i<=$postData['extra_copy'];$i++):
-                $printTypes[] = "EXTRA COPY";
-            endfor;
-        endif;
-
-        $postData['header_footer'] = (!empty($postData['header_footer']))?1:0;
-        $this->data['header_footer'] = $postData['header_footer'];
-
-        $inv_id = (!empty($id))?$id:$postData['id'];
-
-		$this->data['dataRow'] = $invData = $this->deliveryChallan->getdeliveryChallan(['id'=>$inv_id,'itemList'=>1]);
-		$this->data['partyData'] = $this->party->getParty(['id'=>$invData->party_id]);
-        $this->data['taxList'] = $this->taxMaster->getActiveTaxList(2);
-        $this->data['expenseList'] = $this->expenseMaster->getActiveExpenseList(2);
-		$this->data['companyData'] = $companyData = $this->masterModel->getCompanyInfo();
-		$response="";
-		$logo=base_url('assets/images/logo.png');
-		$this->data['letter_head']=base_url('assets/images/letterhead-top.png');
-				
-        $pdfData = "";
-        $countPT = count($printTypes); $i=0;
-        foreach($printTypes as $printType):
-            ++$i;           
-            $this->data['printType'] = $printType;
-            $this->data['maxLinePP'] = (!empty($postData['max_lines']))?$postData['max_lines']:18;
-		    $pdfData .= $this->load->view('delivery_challan/print',$this->data,true);
-            if($i != $countPT): $pdfData .= "<pagebreak>"; endif;
-        endforeach;
-            
+        $logo = base_url('assets/images/logo.png');
+        $this->data['letter_head'] =  base_url('assets/images/letterhead-top.png');
+        
+        $pdfData = $this->load->view('delivery_challan/print', $this->data, true);        
+        
+        $htmlFooter = '<table class="table top-table" style="margin-top:10px;border-top:1px solid #545454;">
+            <tr>
+                <td style="width:25%;">SO. No. & Date : '.$dataRow->trans_number . ' [' . formatDate($dataRow->trans_date) . ']</td>
+                <td style="width:25%;"></td>
+                <td style="width:25%;text-align:right;">Page No. {PAGENO}/{nbpg}</td>
+            </tr>
+        </table>';
+        
 		$mpdf = new \Mpdf\Mpdf();
-		$pdfFileName = str_replace(["/","-"," "],"_",$invData->trans_number).'.pdf';
+		$filePath = realpath(APPPATH . '../assets/uploads/sales_quotation/');
+        $pdfFileName = $filePath.'/' . str_replace(["/","-"],"_",$dataRow->trans_number) . '.pdf';
         $stylesheet = file_get_contents(base_url('assets/css/pdf_style.css?v='.time()));
-		$mpdf->WriteHTML($stylesheet,1);
-		$mpdf->SetDisplayMode('fullpage');
-		$mpdf->SetWatermarkImage($logo,0.03,array(120,45));
-		$mpdf->showWatermarkImage = true;
-		$mpdf->SetProtection(array('print'));		
-		/* $mpdf->SetHTMLHeader($htmlHeader);
-		$mpdf->SetHTMLFooter($htmlFooter); */
-		$mpdf->AddPage('P','','','','',10,5,(($postData['header_footer'] == 1)?5:35),5,5,5,'','','','','','','','','','A4-P');
-		$mpdf->WriteHTML($pdfData);
-		$mpdf->Output($pdfFileName,'I');
-	}
+        $mpdf->WriteHTML($stylesheet, 1);
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->SetWatermarkImage($logo, 0.03, array(120, 120));
+        $mpdf->showWatermarkImage = true;
+        $mpdf->SetHTMLFooter($htmlFooter);
+		$mpdf->AddPage('P','','','','',10,5,5,15,5,5,'','','','','','','','','','A4-P');
+        $mpdf->WriteHTML($pdfData);
+		
+		ob_clean();
+		$mpdf->Output($pdfFileName, 'I');
+		
+    }
+
+    public function getPartyChallan(){
+        $data = $this->input->post();
+        $this->data['orderItems'] = $this->deliveryChallan->getPendingChallanItems($data);
+        $this->load->view('delivery_challan/create_invoice',$this->data);
+    }
 }
 ?>

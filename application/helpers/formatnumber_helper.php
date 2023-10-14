@@ -695,11 +695,12 @@ function getItemOtherCharge($itemDetail){
 	$ocharge = $itemDetail->price * $itemDetail->oc_per_gm / 100;
 	return sprintf("%.2f",$ocharge);
 } */
+
 /* Get Item Price */
-	function getItemPriceByRate($itemDetail){
+function getItemPriceByRate($itemDetail){
 	$CI =& get_instance(); 
 	$CompanyInfo = $CI->masterModel->getCompanyInfo();
-	$item_rate = 0;
+	$item_rate = 1;
 	if(in_array($itemDetail->stock_category, array("Gold","Gold Items","Gold + Diamond Items"))){
 		$item_rate = $CompanyInfo->gold_rate / 10; 
 	}

@@ -1,6 +1,6 @@
 
 			<footer class="footer text-center">
-                
+                Developed By <span><a href="https://finter.in" class="text-danger">FINTER</a> BUSINESS SOLUTIONS LLP</span>                 
             </footer>
 		</div>
 	</div>
