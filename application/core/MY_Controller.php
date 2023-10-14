@@ -57,6 +57,7 @@ class MY_Controller extends CI_Controller{
 		$this->load->model("HsnMasterModel","hsnModel");
 		$this->load->model("MaterialGradeModel","materialGrade");
 		$this->load->model("VehicleTypeModel","vehicleType");
+		$this->load->model('MakingChargeModel','makingCharge');
 
 		/* HR Models */
 		$this->load->model("hr/DepartmentModel","department");
@@ -111,7 +112,7 @@ class MY_Controller extends CI_Controller{
 		$this->load->model("ProformaInvoiceModel","proformaInvoice");
 
 		/* Store Report Model */
-		$this->load->model('report/StoreReportModel','storeReport');
+		$this->load->model('report/StoreReportModel','storeReport');		
 
 		/* Accounting Report Model */
 		$this->load->model('report/AccountingReportModel','accountReport');
@@ -120,7 +121,7 @@ class MY_Controller extends CI_Controller{
 		$this->load->model("EstimateModel",'estimate');
 
 		$this->data['compamyInfoMaster'] = $this->masterModel->getCompanyInfo(); 
-		$this->setSessionVariables(["masterModel","dashboard","permission","terms","transport","hsnModel","materialGrade","itemCategory","brandMaster","sizeMaster","purity","fine","polish", "color", "clarity", "item","department","designation","employeeCategory","shiftModel","employee","party","transMainModel","taxMaster","expenseMaster","salesOrder","purchaseOrder","purchaseIndent","vehicleType","storeLocation","gateEntry","gateInward","salesInvoice","estimate","paymentVoucher","leads","salesEnquiry","salesQuotation","gstExpense","gstIncome","journalEntry","creditNote","debitNote","inwardReceipt","diamondQuality","proformaInvoice","deliveryChallan","materialIssue"]);
+		$this->setSessionVariables(["masterModel","dashboard","permission","terms","transport","hsnModel","materialGrade","itemCategory","brandMaster","sizeMaster","purity","fine","polish", "color", "clarity", "item","department","designation","employeeCategory","shiftModel","employee","party","transMainModel","taxMaster","expenseMaster","salesOrder","purchaseOrder","purchaseIndent","vehicleType","storeLocation","gateEntry","gateInward","salesInvoice","estimate","paymentVoucher","leads","salesEnquiry","salesQuotation","gstExpense","gstIncome","journalEntry","creditNote","debitNote","inwardReceipt","diamondQuality","proformaInvoice","deliveryChallan","materialIssue","makingCharge"]);
 	}
 
 	public function setSessionVariables($modelNames){
