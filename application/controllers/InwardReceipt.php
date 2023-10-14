@@ -59,37 +59,41 @@ class InwardReceipt extends MY_Controller
             }
             if (in_array($code->stock_category, array("Lab Grown Diamond", "Loos Diamond", "Gold + Diamond Items", "Platinum + Diamond Items"))) {
                 $stock_category = 2;
-            } 
-            $boxData ='';
-             $boxData .= '
+            }
+            $boxData = '';
+            $boxData .= '
             <div style="text-align:center;padding:0mm; ">
-            <table class="" border="0" cellspacing="0" cellpadding="0">  				
-            <tr>
-            <td rowspan="2" class="text-center">
-            <barcode code="' . $code->unique_id . '" type="C128C"  /><br><b>' . $code->unique_id . '</b><br>' . $code->purity . 'K/'.$code->making_per.'%
-            </td>
-            <td  class="text-left" style="padding-left:25px;padding-top:0px" >
-            ' . $code->gross_weight . '<br>' . $code->net_weight . '
-            </td>
-            <td  class="text-left" > 
-            OC:' . $code->otc_amount * $code->net_weight . '
-            <br>VC:' . $code->vrc_amount * $code->net_weight . '
-            </td>
-            </tr>
-            <tr>
-            <td colspan="2" style="padding-left:25px;" >';
+                <table class="" border="0" cellspacing="0" cellpadding="0">  				
+                    <tr>
+                        <td rowspan="2" class="text-center">
+                            <br>
+                            <div>
+                            <barcode code="' . $code->unique_id . '" type="C128C" size="1.4" />
+                            </div>
+                             <b>' . $code->unique_id . '</b><br>' . $code->purity . 'K/' . $code->making_per . '%
+                        </td>
+                        <td  class="text-left" style="padding-left:75px;padding-top:0px" >
+                        ' . $code->gross_weight . '<br>' . $code->net_weight . '
+                        </td>
+                        <td  class="text-left" > 
+                            OC:' . $code->otc_amount * $code->net_weight . '
+                            <br>VC:' . $code->vrc_amount * $code->net_weight . '
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding-left:75px;" >';
             if ($stock_category == 2) {
-                $boxData .= $code->diamond_carat.'/'.(int)$code->diamond_pcs.'pc &nbsp; &nbsp; '.$code->color.'<br>';
+                $boxData .= $code->diamond_carat . '/' . (int)$code->diamond_pcs . 'pc &nbsp; &nbsp; ' . $code->color . '<br>';
             } else {
-                $boxData .= ' D.No:' . $dcode."<br>";
+                $boxData .= ' D.No:' . $dcode . "<br>";
             }
             $boxData .= 'PID:' . $code->party_code . '-' . $code->unique_id . '
-            <br>
-            </td> 
-            </tr>
-            </table>
+                            <br>
+                        </td> 
+                    </tr>
+                </table>
             </div>';
-//  /echo $boxData; exit;
+            //  /echo $boxData; exit;
             $mpdf->AddPage('P', '', '', '', '', 0, 0, 1, 1, 1, 1);
             $mpdf->WriteHTML($boxData);
         }
