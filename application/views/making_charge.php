@@ -26,7 +26,7 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="table table-responsive">
-                                        <table id="inwardCharge" class="table table-striped table-borderless">
+                                        <table id="inwardCharge" class="table table-bordered">
                                             <thead class="thead-info">
                                                 <tr>
                                                     <th style="width:5%;">#</th>
