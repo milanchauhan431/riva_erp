@@ -111,7 +111,10 @@
                 <input type="text" name="net_weight" id="net_weight" class="form-control floatOnly req" value="<?=(!empty($dataRow->net_weight))?$dataRow->net_weight:""?>">
             </div>
 
-            <div class="col-md-2 form-group">
+            <input type="hidden" name="purchase_price" id="purchase_price" value="<?=(!empty($dataRow->purchase_price))?$dataRow->purchase_price:""?>">
+            <input type="hidden" name="sales_price" id="sales_price" value="<?=(!empty($dataRow->purchase_price))?$dataRow->purchase_price:""?>">
+
+            <!-- <div class="col-md-2 form-group">
                 <label for="purchase_price">Purchase Price</label>
                 <input type="text" name="purchase_price" id="purchase_price" class="form-control floatOnly req" value="<?=(!empty($dataRow->purchase_price))?$dataRow->purchase_price:""?>">
             </div>
@@ -119,9 +122,9 @@
             <div class="col-md-2 form-group" id="salesPriceDiv">
                 <label for="sales_price">Sales Price</label>
                 <input type="text" name="sales_price" id="sales_price" class="form-control floatOnly" value="<?=(!empty($dataRow->sales_price))?$dataRow->sales_price:""?>">
-            </div>
+            </div> -->
 
-            <div class="col-md-8 form-group" id="remarkDiv">
+            <div class="col-md-12 form-group">
                 <label for="remark">Remark</label>
                 <input type="text" name="remark" id="remark" class="form-control" value="<?=(!empty($dataRow->remark))?$dataRow->remark:""?>">
             </div>
@@ -167,7 +170,7 @@
                 </select>
             </div>
 
-            <div id="fine_input" class="col-md-2 form-group">
+            <!-- <div id="fine_input" class="col-md-2 form-group">
                 <label for="fine_id">Fine</label>
                 <div class="float-right">                    
                     <span class="dropdown float-right m-r-5">
@@ -187,7 +190,7 @@
                     <option value="">Select Fine</option>
                     <?=getFineListOptions($fineList,((!empty($dataRow->fine_id))?$dataRow->fine_id:0))?>
                 </select>
-            </div>
+            </div> -->
 
             <div id="polish_input" class="col-md-2 form-group">
                 <label for="polish_id">Polish</label>
@@ -275,7 +278,7 @@
                 <input type="text" name="diamond_size_cut" id="diamond_size_cut" class="form-control" value="<?=(!empty($dataRow->diamond_size_cut))?$dataRow->diamond_size_cut:""?>">
             </div>
 
-            <div id="diamond_quality_input" class="col-md-2 form-group">
+            <!-- <div id="diamond_quality_input" class="col-md-2 form-group">
                 <label for="diamond_quality_id">Diamond Quality</label>
                 <div class="float-right">                    
                     <span class="dropdown float-right m-r-5">
@@ -295,7 +298,7 @@
                     <option value="">Select Diamond Quality</option>
                     <?=getDiamondQualityOptions($diamondQualityList,((!empty($dataRow->diamond_quality_id))?$dataRow->diamond_quality_id:0))?>
                 </select>
-            </div>
+            </div> -->
 
             <div class="col-md-2 form-group">
                 <label for="kundan_weight">Kundan Weight</label>
@@ -407,8 +410,6 @@ $(document).ready(function(){
             $("#purity_id,#fine_id,#polish_id,#color_id,#clarity_id,#sales_price").val("");
             $("#purity_id,#fine_id,#polish_id,#color_id,#clarity_id").select2();
             $("#purity_input,#fine_input,#polish_input,#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input,#diamond_quality_input").hide();
-            $("#salesPriceDiv").addClass("hidden");
-            $("#remarkDiv").removeClass("col-md-8").addClass("col-md-10");
         }
     });    
 });
