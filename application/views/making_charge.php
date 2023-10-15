@@ -51,7 +51,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="tempItem">
-                                                <tr><td colspan="12" class="text-center">No data available in table</td></tr>
+                                                <tr><td colspan="13" class="text-center">No data available in table</td></tr>
                                             </tbody>
                                         </table>
                                     </div>

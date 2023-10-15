@@ -65,7 +65,7 @@ class MakingCharge extends MY_Controller{
 			</tr>';
 		endforeach;
 
-		$tbody = (!empty($tbody))?$tbody:'<tr><td colspan="12" class="text-center">No data available in table</td></tr>';
+		$tbody = (!empty($tbody))?$tbody:'<tr><td colspan="13" class="text-center">No data available in table</td></tr>';
 
 		$this->printJson(['status'=>1,'tbodyData'=>$tbody]);
 	}
