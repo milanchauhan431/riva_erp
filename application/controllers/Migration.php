@@ -244,7 +244,7 @@ class Migration extends MY_Controller{
 
                 $stockTransData = [
                     'entry_type' => $row->entry_type,
-                    'ref_date' => $rowtrans_date,
+                    'ref_date' => $row->trans_date,
                     'ref_no' => $row->trans_number,
                     'main_ref_id' => $row->id,
                     'location_id' => 7,
