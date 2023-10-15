@@ -236,12 +236,12 @@ class Migration extends MY_Controller{
             $this->db->trans_begin();
 
             $this->db->where('approved_by',0);
-            $this->db->whete('is_delete',0);
+            $this->db->where('is_delete',0);
             $result = $this->db->get('inward_receipt')->result();
 
             foreach($result as $row):
                 $stockTransData = array();
-                
+
                 $stockTransData = [
                     'entry_type' => $row->entry_type,
                     'ref_date' => $rowtrans_date,
