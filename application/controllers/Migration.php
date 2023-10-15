@@ -234,11 +234,11 @@ class Migration extends MY_Controller{
     public function dimondAmount(){
         try{
     
-            $this->db->where('party_id',81);
+            $this->db->where('party_id',75);
             $result = $this->db->get('inward_receipt')->result();
             foreach($result as $row):
                 $this->db->where('main_ref_id',$row->id);;
-                $this->db->update('stock_transaction',['diamond_amount'=>$row->sales_price]);
+                $this->db->update('stock_transaction',['party_id'=>75]);
             endforeach;
 
     
