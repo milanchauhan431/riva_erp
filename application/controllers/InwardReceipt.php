@@ -63,32 +63,32 @@ class InwardReceipt extends MY_Controller
             $boxData = '';
             $boxData .= '
             <div style="text-align:center;padding:0mm; ">
-                <table class="" border="0" cellspacing="0" cellpadding="0">  				
+                <table class="" border="0" cellspacing="0" cellpadding="1">  				
                     <tr>
-                        <td rowspan="2" class="text-center">
-                            <br>
-                            <div>
-                            <barcode code="' . $code->unique_id . '" type="C128C" size="1.4" />
+                        <td rowspan="2" class="text-center" style="vertical-align: middle;">
+                            <div  class="barcode" >
+							
+                            <barcode code="' . $code->unique_id . '" type="C128C" size="1.6"/>
                             </div>
-                             <b>' . $code->unique_id . '</b><br>' . $code->purity . 'K/' . $code->making_per . '%
+                             <b class="fs-19">' . $code->unique_id . '<br>' . $code->purity . 'K/' . $code->making_per . '%</b>
                         </td>
-                        <td  class="text-left" style="padding-left:75px;padding-top:0px" >
-                        ' . $code->gross_weight . '<br>' . $code->net_weight . '
+                        <td  class="text-left fw-700 fs-19" style="padding-left:70px;padding-top:0px" >
+                       <b> ' . $code->gross_weight . '<br>' . $code->net_weight . '
                         </td>
-                        <td  class="text-left" > 
-                            OC:' . $code->otc_amount * $code->net_weight . '
-                            <br>VC:' . $code->vrc_amount * $code->net_weight . '
+                        <td  class="text-left fw-700 fs-19" > 
+                            <b>OC:' . $code->otc_amount * $code->net_weight . '
+                            <br>VC:' . $code->vrc_amount * $code->net_weight . '</b>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" style="padding-left:75px;" >';
+                        <td colspan="2" style="padding-left:70px;" class="fw-700 fs-19"><b>';
             if ($stock_category == 2) {
-                $boxData .= $code->diamond_carat . '/' . (int)$code->diamond_pcs . 'pc &nbsp; &nbsp; ' . $code->color . '<br>';
+                $boxData .= $code->diamond_carat . '/' . (int)$code->diamond_pcs . 'pc &nbsp; &nbsp; ' . $code->clarity. '<br>';
             } else {
                 $boxData .= ' D.No:' . $dcode . "<br>";
             }
             $boxData .= 'PID:' . $code->party_code . '-' . $code->unique_id . '
-                            <br>
+                          </b>  <br>
                         </td> 
                     </tr>
                 </table>

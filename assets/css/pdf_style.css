@@ -327,3 +327,6 @@
 	
 	.row-title{margin:2px auto;padding:5px;font-size:1rem;border-top:1px solid #555;color:#000;font-weight:bold;}
 }
+.barcode{
+	padding:1mm;
+}
