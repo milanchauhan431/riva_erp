@@ -238,7 +238,7 @@ function getProductData($data){
 
     $action = getActionButton($editButton.$deleteButton);
 
-    return [$action,$data->sr_no,$data->item_code,$data->item_name,$data->category_name,$data->unit_name,floatVal($data->price),$data->hsn_code,floatVal($data->gst_per),floatVal($data->defualt_disc)];
+    return [$action,$data->sr_no." (".$data->id.")",$data->item_code,$data->item_name,$data->category_name,$data->unit_name,floatVal($data->price),$data->hsn_code,floatVal($data->gst_per),floatVal($data->defualt_disc)];
 }
 
 function getPurityData($data){
