@@ -89,7 +89,7 @@ class InwardReceipt extends MY_Controller
             if ($stock_category == 2) {
                 $boxData .= $code->diamond_carat . '/' . (int)$code->diamond_pcs . 'pc &nbsp;  ' . $code->clarity. ' '.$code->color .'<br>';
             } else {
-                $boxData .= ' D.No:' . $dcode . '/'.$code->item_code.'<br>';
+                $boxData .=  $dcode . '/'.$code->item_code.'<br>';
             }
             $boxData .= 'PID:' . $code->party_code . '-' . $code->unique_id . '
                           </b>  <br>
