@@ -259,7 +259,7 @@ class Migration extends MY_Controller{
 
                 $stockTransData = [
                     'entry_type' => $row->entry_type,
-                    'ref_date' => $row->trans_date,
+                    'ref_date' => $row->trans_date, 
                     'ref_no' => $row->trans_number,
                     'main_ref_id' => $row->id,
                     'location_id' => 7,
@@ -271,6 +271,9 @@ class Migration extends MY_Controller{
                     'standard_qty' => $row->standard_qty,
                     'gross_weight' => $row->gross_weight,
                     'net_weight' => $row->net_weight,
+                    'macking_charge' => $row->macking_charge,
+                    'variety_charge' => $row->variety_charge,
+                    'other_charge' => $row->other_charge,
                     'stock_type' => "NEW",
                 ];
 
