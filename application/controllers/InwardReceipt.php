@@ -187,7 +187,7 @@ class InwardReceipt extends MY_Controller
                             <b> ' . $code->gross_weight . '<br>' . $code->net_weight . '
                             </td>
                             <td  class="text-left fw-700 fs-19" >';
-                            if ($stock_category != 2 && $stock_category_d == 3) {
+                            if ($stock_category != 2 && $stock_category_d != 3) {
                                 $boxData .= '  <b>OC:' . $code->otc_amount * $code->net_weight . '
                                 <br>VC:' . $code->vrc_amount * $code->net_weight . '</b>';
                             } else {
