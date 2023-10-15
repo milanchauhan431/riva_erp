@@ -72,9 +72,9 @@ class InwardReceipt extends MY_Controller
                             </div>
                             <b class="fs-19">' . $code->unique_id . '<br>' . $code->purity . 'K</b>';
                             if ($stock_category == 2) {
-                               $boxData .=  '/<b>' . $code->making_per . '%</b>';
-                            }else{
                                 $boxData .=  '/<b>' . $dcode . '%</b>';
+                            }else{
+                                $boxData .=  '/<b>' . $code->making_per . '%</b>';
                             }
                         $boxData .=  '</td>
                         <td  class="text-left fw-700 fs-19" style="padding-left:70px;padding-top:0px" >
