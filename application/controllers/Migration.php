@@ -240,6 +240,8 @@ class Migration extends MY_Controller{
             $result = $this->db->get('inward_receipt')->result();
 
             foreach($result as $row):
+                $stockTransData = array();
+                
                 $stockTransData = [
                     'entry_type' => $row->entry_type,
                     'ref_date' => $rowtrans_date,
