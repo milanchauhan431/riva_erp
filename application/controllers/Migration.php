@@ -235,14 +235,10 @@ class Migration extends MY_Controller{
         try{
     
             $this->db->where('party_id',81);
-            $result = $this->db->get('stock_transaction')->result();
-
+            $result = $this->db->get('inward_receipt')->result();
             foreach($result as $row):
-                $this->db->where('id',$row->main_ref_id);;
-                $in_result = $this->db->get('inward_receipt')->row();
-               
-                $this->db->where('id',$row->id);
-                $this->db->update('stock_transaction',['diamond_amount'=>$in_result->sales_price]);
+                $this->db->where('main_ref_id',$row->id);;
+                $this->db->update('stock_transaction',['diamond_amount'=>$row->sales_price]);
             endforeach;
 
     
