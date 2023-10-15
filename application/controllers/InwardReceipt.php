@@ -108,8 +108,11 @@ class InwardReceipt extends MY_Controller
     public function printMultiBarcode($form=0,$to=0){
         $queryData = array();
         $queryData['tableName'] = "inward_receipt";
-        $queryData['where']['id >='] = $form;
-        $queryData['where']['id <='] = $to;
+        /* $queryData['where']['id >='] = $form;
+        $queryData['where']['id <='] = $to; */
+        $queryData['where']['approved_by > '] = 0;
+        $queryData['start'] = $form;
+        $queryData['length'] = $to;
         $result =  $this->masterModel->rows($queryData);
 
         $logo = base_url('assets/images/logo.png');
