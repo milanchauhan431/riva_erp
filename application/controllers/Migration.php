@@ -271,9 +271,9 @@ class Migration extends MY_Controller{
                     'standard_qty' => $row->standard_qty,
                     'gross_weight' => $row->gross_weight,
                     'net_weight' => $row->net_weight,
-                    'macking_charge' => $row->macking_charge,
-                    'variety_charge' => $row->variety_charge,
-                    'other_charge' => $row->other_charge,
+                    'making_per' => $row->macking_charge,
+                    'otc_amount' => $row->variety_charge,
+                    'vrc_amount' => $row->other_charge,
                     'stock_type' => "NEW",
                 ];
 
