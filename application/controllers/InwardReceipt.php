@@ -166,7 +166,7 @@ class InwardReceipt extends MY_Controller
                 if (in_array($code->stock_category, array("Lab Grown Diamond", "Loos Diamond"))):
                     $stock_category_d = 3;
                 endif;
-    echo $code->stock_category; exit;
+    
                 $boxData = '';
                 $boxData .= '<div style="text-align:center;padding:0mm; ">
                     <table class="" border="0" cellspacing="0" cellpadding="1">  				
