@@ -140,6 +140,7 @@ class InwardReceipt extends MY_Controller
         foreach($result as $row):
             $dcode = $row->design_no;
             $codes = $this->inwardReceipt->getItemSerialNo(['id'=>$row->id]);
+            $stock_category_d  = 0;
             foreach ($codes as $code):
                 if (in_array($code->stock_category, array("Gold", "Gold Items"))):
                     $stock_category = 1;
@@ -162,7 +163,7 @@ class InwardReceipt extends MY_Controller
                 endif;
 
                 if (in_array($code->stock_category, array("Lab Grown Diamond", "Loos Diamond"))):
-                    $stock_category = 3;
+                    $stock_category_d = 3;
                 endif;
     
                 $boxData = '';
@@ -175,7 +176,7 @@ class InwardReceipt extends MY_Controller
                                 <barcode code="' . $code->unique_id . '" type="C128C" size="1.6"/>
                                 </div>
                                 <b class="fs-19">' . $code->unique_id . '<br>' . $code->purity . 'K</b>';
-                                if ($stock_category == 3) {
+                                if ($stock_category_d == 3) {
                                     $boxData .=  '/<b>' . $dcode . '</b>';
                                 }else{
                                     $boxData .=  '/<b>' . $code->making_per . '%</b>';
