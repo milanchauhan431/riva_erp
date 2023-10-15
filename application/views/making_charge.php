@@ -6,13 +6,18 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-md-9">
+                            <div class="col-md-6">
                                 <h4 class="card-title">Update Charges</h4>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <div class="input-group">
-                                    <input type="date" id="ref_id" class="form-control fyDates" value="">
-                                    <input type="text" id="party_id" class="form-control" value="">
+                                    <div style="width:50%;">
+                                        <select name="party_id" id="party_id" class="form-control select2">
+                                            <option value="">Select Party</option>
+                                            <?=getPartyListOption($partyList)?>
+                                        </select>
+                                    </div>
+                                    <input type="date" id="ref_date" class="form-control fyDates" value="">
                                     <div class="input-group-append">
                                         <button type="button" class="btn waves-effect waves-light btn-success float-right loadData" title="Load Data">
                                             <i class="fas fa-sync-alt"></i> Load
@@ -70,11 +75,11 @@
 <?php $this->load->view('includes/footer'); ?>
 <script>
 $(document).ready(function(){
-    var inwardTrans = {'postData':{'ref_date':$("#ref_id").val()},'table_id':"inwardCharge",'tbody_id':'tempItem','tfoot_id':'','fnget':'getApprovedInwardList'};
+    var inwardTrans = {'postData':{'ref_date':$("#ref_date").val()},'table_id':"inwardCharge",'tbody_id':'tempItem','tfoot_id':'','fnget':'getApprovedInwardList'};
     getTransHtml(inwardTrans);
 
     $(document).on('click','.loadData',function(){
-        var inwardTrans = {'postData':{'ref_date':$("#ref_id").val(), 'party_id':$("#party_id").val()},'table_id':"inwardCharge",'tbody_id':'tempItem','tfoot_id':'','fnget':'getApprovedInwardList'};
+        var inwardTrans = {'postData':{'ref_date':$("#ref_date").val(), 'party_id':$("#party_id").val()},'table_id':"inwardCharge",'tbody_id':'tempItem','tfoot_id':'','fnget':'getApprovedInwardList'};
         getTransHtml(inwardTrans);
     });
 });

@@ -8,6 +8,7 @@ class MakingCharge extends MY_Controller{
 	}
 	
 	public function index(){
+		$this->data['partyList'] = $this->party->getPartyList(['party_category'=>"2"]);
         $this->load->view('making_charge',$this->data);
     }
 	 

@@ -14,10 +14,11 @@ class MakingChargeModel extends MasterModel{
         else:
             $queryData['where']['stock_transaction.stock_type'] = "NEW"; 
         endif;
-        if(!empty($data['ref_date'])):
+
+        if(!empty($data['party_id'])):
 		    $queryData['where']['stock_transaction.party_id'] = $data['party_id']; 
-       
         endif;
+        
 	    $result = $this->masterModel->rows($queryData); 
         return $result;
     }
