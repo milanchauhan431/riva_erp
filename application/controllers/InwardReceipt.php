@@ -80,7 +80,7 @@ class InwardReceipt extends MY_Controller
                             $boxData .= '  <b>OC:' . $code->otc_amount * $code->net_weight . '
                             <br>VC:' . $code->vrc_amount * $code->net_weight . '</b>';
                         } else {
-                            $boxData .= '<b>' . $code->item_code.'</b>';
+                            $boxData .= '<b>'. $dcode . '<br>' . $code->item_code.'</b>';
                         }
                         $boxData .= ' </td>
                     </tr>
