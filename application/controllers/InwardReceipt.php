@@ -105,11 +105,14 @@ class InwardReceipt extends MY_Controller
         $mpdf->Output($pdfFileName, 'I');
     }
 
-    public function printMultiBarcode($form=0,$to=0){
+    public function printMultiBarcode($party_id=0,$form=0,$to=0){
         $queryData = array();
         $queryData['tableName'] = "inward_receipt";
-        /* $queryData['where']['id >='] = $form;
-        $queryData['where']['id <='] = $to; */
+        $queryData['select'] = "id,design_no,party_id";
+        
+        if(!empty($party_id))
+            $queryData['where']['party_id'] = $party_id;
+
         $queryData['where']['approved_by > '] = 0;
         $queryData['start'] = $form;
         $queryData['length'] = $to;
