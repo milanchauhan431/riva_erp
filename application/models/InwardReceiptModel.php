@@ -100,7 +100,8 @@ class InwardReceiptModel extends MasterModel{
             $this->db->trans_rollback();
             return ['status'=>2,'message'=>"somthing is wrong. Error : ".$e->getMessage()];
         }
-    } 
+    }
+     
 	public function update($data){
         try{ 
             $this->db->trans_begin();

@@ -21,15 +21,13 @@ class InwardReceipt extends MY_Controller
         $this->data['tableHeader'] = getPurchaseDtHeader($this->data['headData']->controller);
         $this->load->view($this->indexPage, $this->data);
     }
-    public function print_barcode()
-    {
+
+    public function print_barcode(){
         // Create a new TSCPDF instance
-
-
         $this->load->view("inward_receipt/print_barcode");
     }
-    public function printBarcode()
-    {
+
+    public function printBarcode(){
         $data = $this->input->post();
         $logo = base_url('assets/images/logo.png');
         $boxData = '';
@@ -42,38 +40,40 @@ class InwardReceipt extends MY_Controller
 
         $dcode = $this->inwardReceipt->getInwardReceipt($data)->design_no;
         $codes = $this->inwardReceipt->getItemSerialNo($data);
-        foreach ($codes as $code) {
-            if (in_array($code->stock_category, array("Gold", "Gold Items"))) {
+        foreach ($codes as $code):
+            if (in_array($code->stock_category, array("Gold", "Gold Items"))):
                 $stock_category = 1;
-            }
+            endif;
 
-            if (in_array($code->stock_category, array("Silver", "Silver Items"))) {
+            if (in_array($code->stock_category, array("Silver", "Silver Items"))):
                 $stock_category = 1;
-            }
+            endif;
 
-            if (in_array($code->stock_category, array("Platinum Items"))) {
+            if (in_array($code->stock_category, array("Platinum Items"))) :
                 $stock_category = 1;
-            }
-            if (in_array($code->stock_category, array("Palladium"))) {
+            endif;
+
+            if (in_array($code->stock_category, array("Palladium"))):
                 $stock_category = 1;
-            }
-            if (in_array($code->stock_category, array("Lab Grown Diamond", "Loos Diamond", "Gold + Diamond Items", "Platinum + Diamond Items"))) {
+            endif;
+
+            if (in_array($code->stock_category, array("Lab Grown Diamond", "Loos Diamond", "Gold + Diamond Items", "Platinum + Diamond Items"))):
                 $stock_category = 2;
-            }
+            endif;
+
             $boxData = '';
-            $boxData .= '
-            <div style="text-align:center;padding:0mm; ">
+            $boxData .= '<div style="text-align:center;padding:0mm; ">
                 <table class="" border="0" cellspacing="0" cellpadding="1">  				
                     <tr>
                         <td rowspan="2" class="text-center" style="vertical-align: middle;">
                             <div  class="barcode" >
-							
+                            
                             <barcode code="' . $code->unique_id . '" type="C128C" size="1.6"/>
                             </div>
-                             <b class="fs-19">' . $code->unique_id . '<br>' . $code->purity . 'K/' . $code->making_per . '%</b>
+                            <b class="fs-19">' . $code->unique_id . '<br>' . $code->purity . 'K/' . $code->making_per . '%</b>
                         </td>
                         <td  class="text-left fw-700 fs-19" style="padding-left:70px;padding-top:0px" >
-                       <b> ' . $code->gross_weight . '<br>' . $code->net_weight . '
+                    <b> ' . $code->gross_weight . '<br>' . $code->net_weight . '
                         </td>
                         <td  class="text-left fw-700 fs-19" > 
                             <b>OC:' . $code->otc_amount * $code->net_weight . '
@@ -82,27 +82,105 @@ class InwardReceipt extends MY_Controller
                     </tr>
                     <tr>
                         <td colspan="2" style="padding-left:70px;" class="fw-700 fs-19"><b>';
-            if ($stock_category == 2) {
-                $boxData .= $code->diamond_carat . '/' . (int)$code->diamond_pcs . 'pc &nbsp;  ' . $code->clarity. ' '.$code->color .'<br>';
-            } else {
-                $boxData .= ' D.No:' . $dcode . "<br>";
-            }
-            $boxData .= 'PID:' . $code->party_code . '-' . $code->unique_id . '
-                          </b>  <br>
+                            if ($stock_category == 2):
+                                $boxData .= $code->diamond_carat . '/' . (int)$code->diamond_pcs . 'pc &nbsp;  ' . $code->clarity. ' '.$code->color .'<br>';
+                            else:
+                                $boxData .= ' D.No:' . $dcode . "<br>";
+                            endif;
+                            $boxData .= 'PID:' . $code->party_code . '-' . $code->unique_id . '
+                            </b><br>
                         </td> 
                     </tr>
                 </table>
             </div>';
-            //  /echo $boxData; exit;
+            
             $mpdf->AddPage('P', '', '', '', '', 0, 0, 1, 1, 1, 1);
             $mpdf->WriteHTML($boxData);
-        }
-
-
+        endforeach;
 
         $mpdf->Output($pdfFileName, 'I');
     }
 
+    public function printMultiBarcode($form=0,$to=0){
+        $queryData = array();
+        $queryData['tableName'] = $this->inwardReceipt;
+        $queryData['where']['id >='] = $form;
+        $queryData['where']['id <='] = $to;
+        $result =  $this->masterModel->rows($queryData);
+
+        $logo = base_url('assets/images/logo.png');
+        $boxData = '';
+        $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [50, 12]]); // Landscap
+        $pdfFileName = 'pack' . '.pdf';
+        $stylesheet = file_get_contents(base_url('assets/css/pdf_style.css'));
+        $mpdf->WriteHTML($stylesheet, 1);
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->SetProtection(array('print'));
+
+        foreach($result as $row):
+            $dcode = $row->design_no;
+            $codes = $this->inwardReceipt->getItemSerialNo(['id'=>$row->id]);
+            foreach ($codes as $code):
+                if (in_array($code->stock_category, array("Gold", "Gold Items"))):
+                    $stock_category = 1;
+                endif;
+
+                if (in_array($code->stock_category, array("Silver", "Silver Items"))):
+                    $stock_category = 1;
+                endif;
+
+                if (in_array($code->stock_category, array("Platinum Items"))) :
+                    $stock_category = 1;
+                endif;
+
+                if (in_array($code->stock_category, array("Palladium"))):
+                    $stock_category = 1;
+                endif;
+
+                if (in_array($code->stock_category, array("Lab Grown Diamond", "Loos Diamond", "Gold + Diamond Items", "Platinum + Diamond Items"))):
+                    $stock_category = 2;
+                endif;
+
+                $boxData = '';
+                $boxData .= '<div style="text-align:center;padding:0mm; ">
+                    <table class="" border="0" cellspacing="0" cellpadding="1">  				
+                        <tr>
+                            <td rowspan="2" class="text-center" style="vertical-align: middle;">
+                                <div  class="barcode" >
+                                
+                                <barcode code="' . $code->unique_id . '" type="C128C" size="1.6"/>
+                                </div>
+                                <b class="fs-19">' . $code->unique_id . '<br>' . $code->purity . 'K/' . $code->making_per . '%</b>
+                            </td>
+                            <td  class="text-left fw-700 fs-19" style="padding-left:70px;padding-top:0px" >
+                        <b> ' . $code->gross_weight . '<br>' . $code->net_weight . '
+                            </td>
+                            <td  class="text-left fw-700 fs-19" > 
+                                <b>OC:' . $code->otc_amount * $code->net_weight . '
+                                <br>VC:' . $code->vrc_amount * $code->net_weight . '</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="padding-left:70px;" class="fw-700 fs-19"><b>';
+                                if ($stock_category == 2):
+                                    $boxData .= $code->diamond_carat . '/' . (int)$code->diamond_pcs . 'pc &nbsp;  ' . $code->clarity. ' '.$code->color .'<br>';
+                                else:
+                                    $boxData .= ' D.No:' . $dcode . "<br>";
+                                endif;
+                                $boxData .= 'PID:' . $code->party_code . '-' . $code->unique_id . '
+                                </b><br>
+                            </td> 
+                        </tr>
+                    </table>
+                </div>';
+                
+                $mpdf->AddPage('P', '', '', '', '', 0, 0, 1, 1, 1, 1);
+                $mpdf->WriteHTML($boxData);
+            endforeach;
+        endforeach;
+
+        $mpdf->Output($pdfFileName, 'I');
+    }
 
     public function loadBarcode()
     {
