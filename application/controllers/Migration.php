@@ -231,6 +231,25 @@ class Migration extends MY_Controller{
         }
     }
 
+    public function dimondAmount(){
+        try{
+    
+            $this->db->where('party_id',81);
+            $result = $this->db->get('stock_transaction')->result();
+
+            foreach($result as $row):
+                $this->db->where('id',$row->main_ref_id);;
+                $in_result = $this->db->get('inward_receipt')->row();
+               
+                $this->db->where('id',$row->id);
+                $this->db->update('stock_transaction',['diamond_amount'=>$in_result->sales_price]);
+            endforeach;
+
+    
+        }catch(\Throwable $e){ 
+            echo $e->getMessage();exit;
+        } 
+    }
     public function migrateInwardApproval(){
         try{
             $this->db->trans_begin();
