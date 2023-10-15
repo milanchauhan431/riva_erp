@@ -396,7 +396,7 @@ $(document).ready(function(){
             if($.inArray(type, ["Gold","Gold Items","Platinum Items","Palladium"]) >= 0){
                 $("#purity_input,#fine_input,#polish_input").show();                
                 $("#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input,#diamond_quality_input").hide();
-            }else if($.inArray(type, ["Gold + Diamond Items","Platinum + Diamond Items"]) >= 0){
+            }else if($.inArray(type, ["Gold + Diamond Items","Platinum + Diamond Items","Platinum + Gold + Diamond Items"]) >= 0){
                 $("#purity_input,#fine_input,#polish_input,#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input,#diamond_quality_input").show();
             }else if($.inArray(type, ["Silver","Silver Items"]) >= 0){
                 $("#polish_input").show();
