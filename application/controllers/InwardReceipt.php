@@ -75,7 +75,7 @@ class InwardReceipt extends MY_Controller
                             
                             <barcode code="' . $code->unique_id . '" type="C128C" size="1.6"/>
                             </div>
-                            <b class="fs-19">' . $code->stock_category.$code->unique_id . '<br>' . $code->purity . 'K</b>';
+                            <b class="fs-19">' . $code->unique_id . '<br>' . $code->purity . 'K</b>';
                             if ($stock_category == 3) {
                                 $boxData .=  '/<b>' . $dcode . '</b>';
                             }else{
@@ -161,6 +161,10 @@ class InwardReceipt extends MY_Controller
                     $stock_category = 2;
                 endif;
 
+                if (in_array($code->stock_category, array("Lab Grown Diamond", "Loos Diamond"))):
+                    $stock_category = 3;
+                endif;
+    
                 $boxData = '';
                 $boxData .= '<div style="text-align:center;padding:0mm; ">
                     <table class="" border="0" cellspacing="0" cellpadding="1">  				
@@ -170,15 +174,24 @@ class InwardReceipt extends MY_Controller
                                 
                                 <barcode code="' . $code->unique_id . '" type="C128C" size="1.6"/>
                                 </div>
-                                <b class="fs-19">' . $code->unique_id . '<br>' . $code->purity . 'K/' . $code->making_per . '%</b>
-                            </td>
+                                <b class="fs-19">' . $code->unique_id . '<br>' . $code->purity . 'K</b>';
+                                if ($stock_category == 3) {
+                                    $boxData .=  '/<b>' . $dcode . '</b>';
+                                }else{
+                                    $boxData .=  '/<b>' . $code->making_per . '%</b>';
+                                }
+                            $boxData .=  '</td>
                             <td  class="text-left fw-700 fs-19" style="padding-left:70px;padding-top:0px" >
-                        <b> ' . $code->gross_weight . '<br>' . $code->net_weight . '
+                            <b> ' . $code->gross_weight . '<br>' . $code->net_weight . '
                             </td>
-                            <td  class="text-left fw-700 fs-19" > 
-                                <b>OC:' . $code->otc_amount * $code->net_weight . '
-                                <br>VC:' . $code->vrc_amount * $code->net_weight . '</b>
-                            </td>
+                            <td  class="text-left fw-700 fs-19" >';
+                            if ($stock_category != 2) {
+                                $boxData .= '  <b>OC:' . $code->otc_amount * $code->net_weight . '
+                                <br>VC:' . $code->vrc_amount * $code->net_weight . '</b>';
+                            } else {
+                                $boxData .= '<b>'. $dcode . '<br>' . $code->item_code.'</b>';
+                            }
+                            $boxData .= ' </td>
                         </tr>
                         <tr>
                             <td colspan="2" style="padding-left:70px;" class="fw-700 fs-19"><b>';
