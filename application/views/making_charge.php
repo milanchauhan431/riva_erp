@@ -12,6 +12,7 @@
                             <div class="col-md-3">
                                 <div class="input-group">
                                     <input type="date" id="ref_id" class="form-control fyDates" value="">
+                                    <input type="text" id="party_id" class="form-control" value="">
                                     <div class="input-group-append">
                                         <button type="button" class="btn waves-effect waves-light btn-success float-right loadData" title="Load Data">
                                             <i class="fas fa-sync-alt"></i> Load
@@ -73,7 +74,7 @@ $(document).ready(function(){
     getTransHtml(inwardTrans);
 
     $(document).on('click','.loadData',function(){
-        var inwardTrans = {'postData':{'ref_date':$("#ref_id").val()},'table_id':"inwardCharge",'tbody_id':'tempItem','tfoot_id':'','fnget':'getApprovedInwardList'};
+        var inwardTrans = {'postData':{'ref_date':$("#ref_id").val(), 'party_id':$("#party_id").val()},'table_id':"inwardCharge",'tbody_id':'tempItem','tfoot_id':'','fnget':'getApprovedInwardList'};
         getTransHtml(inwardTrans);
     });
 });
