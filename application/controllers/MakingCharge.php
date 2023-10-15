@@ -38,6 +38,7 @@ class MakingCharge extends MY_Controller{
 					'.$row->item_name.'
 					<input type="hidden" name="itemData['.$row->id.'][id]" value="'.$row->id.'">
 				</td>
+				<td>'.$row->ref_no.'</td>
 				<td>'.$row->qty.'</td>
 				<td>'.$row->gross_weight.'</td>
 				<td>'.$row->net_weight.'</td>

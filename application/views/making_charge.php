@@ -31,6 +31,7 @@
                                                 <tr>
                                                     <th style="width:5%;">#</th>
                                                     <th>Item Name</th>
+                                                    <th>Ref</th>
                                                     <th>Qty.</th>
                                                     <th>G.W.</th>
                                                     <th>N.W.</th>
