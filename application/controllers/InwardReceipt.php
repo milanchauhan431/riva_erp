@@ -70,10 +70,15 @@ class InwardReceipt extends MY_Controller
                             
                             <barcode code="' . $code->unique_id . '" type="C128C" size="1.6"/>
                             </div>
-                            <b class="fs-19">' . $code->unique_id . '<br>' . $code->purity . 'K/' . $code->making_per . '%</b>
-                        </td>
+                            <b class="fs-19">' . $code->unique_id . '<br>' . $code->purity . 'K</b>';
+                            if ($stock_category == 2) {
+                               $boxData .=  '/<b>' . $code->making_per . '%</b>';
+                            }else{
+                                $boxData .=  '/<b>' . $dcode . '%</b>';
+                            }
+                        $boxData .=  '</td>
                         <td  class="text-left fw-700 fs-19" style="padding-left:70px;padding-top:0px" >
-                    <b> ' . $code->gross_weight . '<br>' . $code->net_weight . '
+                        <b> ' . $code->gross_weight . '<br>' . $code->net_weight . '
                         </td>
                         <td  class="text-left fw-700 fs-19" >';
                         if ($stock_category != 2) {
