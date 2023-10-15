@@ -75,17 +75,21 @@ class InwardReceipt extends MY_Controller
                         <td  class="text-left fw-700 fs-19" style="padding-left:70px;padding-top:0px" >
                        <b> ' . $code->gross_weight . '<br>' . $code->net_weight . '
                         </td>
-                        <td  class="text-left fw-700 fs-19" > 
-                            <b>OC:' . $code->otc_amount * $code->net_weight . '
-                            <br>VC:' . $code->vrc_amount * $code->net_weight . '</b>
-                        </td>
+                        <td  class="text-left fw-700 fs-19" >';
+                        if ($stock_category != 2) {
+                            $boxData .= '  <b>OC:' . $code->otc_amount * $code->net_weight . '
+                            <br>VC:' . $code->vrc_amount * $code->net_weight . '</b>';
+                        } else {
+                            $boxData .= '<b>' . $code->item_code.'</b>';
+                        }
+                        $boxData .= ' </td>
                     </tr>
                     <tr>
                         <td colspan="2" style="padding-left:70px;" class="fw-700 fs-19"><b>';
             if ($stock_category == 2) {
                 $boxData .= $code->diamond_carat . '/' . (int)$code->diamond_pcs . 'pc &nbsp;  ' . $code->clarity. ' '.$code->color .'<br>';
             } else {
-                $boxData .= ' D.No:' . $dcode . "<br>";
+                $boxData .= ' D.No:' . $dcode . '/'.$code->item_code.'<br>';
             }
             $boxData .= 'PID:' . $code->party_code . '-' . $code->unique_id . '
                           </b>  <br>
