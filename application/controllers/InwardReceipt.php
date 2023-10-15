@@ -61,6 +61,11 @@ class InwardReceipt extends MY_Controller
                 $stock_category = 2;
             endif;
 
+
+            if (in_array($code->stock_category, array("Lab Grown Diamond", "Loos Diamond"))):
+                $stock_category = 3;
+            endif;
+
             $boxData = '';
             $boxData .= '<div style="text-align:center;padding:0mm; ">
                 <table class="" border="0" cellspacing="0" cellpadding="1">  				
@@ -71,7 +76,7 @@ class InwardReceipt extends MY_Controller
                             <barcode code="' . $code->unique_id . '" type="C128C" size="1.6"/>
                             </div>
                             <b class="fs-19">' . $code->unique_id . '<br>' . $code->purity . 'K</b>';
-                            if ($stock_category == 2) {
+                            if ($stock_category == 3) {
                                 $boxData .=  '/<b>' . $dcode . '%</b>';
                             }else{
                                 $boxData .=  '/<b>' . $code->making_per . '%</b>';
