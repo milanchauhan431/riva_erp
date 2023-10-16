@@ -378,7 +378,7 @@ function AddRow(data) {
     var orgPriceInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][org_price]", value: data.org_price});
 	var priceErrorDiv = $("<div></div>", { class: "error price" + countRow });
 	cell = $(row.insertCell(-1));
-	cell.html(data.price);
+	cell.html(data.price==0?'-':data.price);
 	cell.append(priceInput);
 	cell.append(orgPriceInput);
 	cell.append(priceErrorDiv);
