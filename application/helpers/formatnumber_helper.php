@@ -725,7 +725,7 @@ function getItemPriceByRate($itemDetail){
 	if(in_array($itemDetail->stock_category, array("Platinum + Gold + Diamond Items"))){
 		$item_rate = 0;
 		$item_rate += $CompanyInfo->platinum_rate / 10; 
-		$item_rate += $CompanyInfo->gold_rate / 10; 
+	//	$item_rate += $CompanyInfo->gold_rate / 10; 
 		$purity = $item_rate * $itemDetail->purity / 24;
 	}
 	if (in_array($itemDetail->stock_category, array("Lab Grown Diamond", "Loos Diamond"))){
