@@ -448,10 +448,10 @@ function AddRow(data) {
 
 	var netAmtInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][net_amount]", value: data.net_amount });
 	cell = $(row.insertCell(-1));
-	cell.html(data.net_amount + data.gold_platinum_price);
+	cell.html(data.net_amount);
 	cell.append(netAmtInput);
 	cell.attr("class", "netAmtCol");
-console.log(data);
+
     var itemRemarkInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][item_remark]", value: data.item_remark});
 	cell = $(row.insertCell(-1));
 	cell.html(data.item_remark);
