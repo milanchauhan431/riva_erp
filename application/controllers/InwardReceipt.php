@@ -75,7 +75,7 @@ class InwardReceipt extends MY_Controller
                             
                             <barcode code="' . $code->unique_id . '" type="C128C" size="1.6"/>
                             </div>
-                            <b class="fs-19">' . $code->unique_id . '<br>' . $code->purity . 'K</b>';
+                            <b class="fs-19">' . $code->unique_id . '<br>PT-950</b>';
                             if ($stock_category_d == 3) {
                                 $boxData .=  '/<b>' . $dcode . '</b>';
                             }else{
