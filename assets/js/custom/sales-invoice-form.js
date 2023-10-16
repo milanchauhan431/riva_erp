@@ -391,7 +391,7 @@ function AddRow(data) {
 	var otherChrageInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][other_charge]", value: data.other_charge });
 	var vrChrageInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][vrc_charge]", value: data.vrc_charge });
 	var diamondAmtInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][diamond_amount]", value: data.diamond_amount });
-	var tmcAmt = parseFloat(parseFloat(data.making_charge) - parseFloat(data.making_charge_dicount)).toFixed(2); 
+	var tmcAmt = parseFloat(parseFloat(data.making_charge) - parseFloat(data.making_charge_dicount) + parseFloat(data.gold_platinum_price)).toFixed(2); 
 	cell = $(row.insertCell(-1));
 	cell.html(tmcAmt);
 	cell.append(mcPerInput);
