@@ -186,7 +186,7 @@ function AddRow(data) {
 	
     cell = $(row.insertCell(-1));
     
-    cell.html(data.item_name + ((parseFloat(data.gold_platinum_price) > 0)?"<br><small>Gold/Platinum Amount : "+data.gold_platinum_price + "</small>":""));
+    cell.html(data.item_name + ((parseFloat(data.gold_platinum_price) > 0)?"<br><small>Gold Amount : "+data.gold_platinum_price + "</small>":""));
     cell.append(idInput);
     cell.append(itemIdInput);
     cell.append(itemNameInput);

@@ -82,7 +82,7 @@
                                 echo '<td>';
                                 echo   '<b>'.$row->item_name . '</b><br>';
                                     if(!empty($row->gold_platinum_price)):
-                                        echo '<small>Gold/Platinum Amount :</small> ' . floatVal($row->gold_platinum_price) . '<br>';
+                                        echo '<small>Gold Amount :</small> ' . floatVal($row->gold_platinum_price) . '<br>';
                                     endif;
                                     if(!empty($row->other_charge)):
                                         echo '<small>Other Charge :</small> ' . floatVal($row->other_charge) . '<br>';

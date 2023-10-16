@@ -276,7 +276,7 @@ function AddRow(data) {
 	var purityInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][masterData][d_col_2]", value: data.purity });
 	var stockCategoryInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][masterData][t_col_2]", value: data.stock_category });
 	cell = $(row.insertCell(-1));
-	cell.html(data.item_name + ((parseFloat(data.gold_platinum_price) > 0)?"<br><small>Gold/Platinum Amount : "+data.gold_platinum_price + "</small>":""));
+	cell.html(data.item_name + ((parseFloat(data.gold_platinum_price) > 0)?"<br><small>Gold Amount : "+data.gold_platinum_price + "</small>":""));
 	cell.append(idInput);
 	cell.append(itemIdInput);
 	cell.append(itemNameInput);
