@@ -117,6 +117,7 @@ class InwardReceipt extends MY_Controller
                     </table>
                 </div>';
                 
+                echo $boxData; exit;
                 $mpdf->AddPage('P', '', '', '', '', 0, 0, 1, 1, 1, 1);
                 $mpdf->WriteHTML($boxData);
             endforeach;
@@ -222,7 +223,6 @@ class InwardReceipt extends MY_Controller
                         </tr>
                     </table>
                 </div>';
-                echo $boxData; exit;
                 $mpdf->AddPage('P', '', '', '', '', 0, 0, 1, 1, 1, 1);
                 $mpdf->WriteHTML($boxData);
             endforeach;
