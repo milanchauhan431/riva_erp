@@ -734,3 +734,15 @@ function getItemPriceByRate($itemDetail){
 
 	return sprintf("%.2f",$purity);
 }
+function getPltinumPriceByGn($itemDetail){
+	$CI =& get_instance(); 
+	$CompanyInfo = $CI->masterModel->getCompanyInfo();
+	$item_rate = 0;
+	
+	$item_rate = $CompanyInfo->gold_rate / 10; 
+	$gold_gn = $itemDetail->gross_weight - $itemDetail->net_weight; 
+	
+	$purity = $item_rate * 18 / 24;
+	$gold_rate = $gold_gn * $purity;
+	return sprintf("%.2f",$gold_rate);
+}
