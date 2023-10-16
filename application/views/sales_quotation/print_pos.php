@@ -48,6 +48,9 @@
                             echo '<strong>HSN/SAC:</strong> ' . $row->hsn_code . '<br>';
                             echo '<strong>Qty:</strong> ' . floatVal($row->qty) . ' (' . $row->unit_name . ')<br>';
                             echo '<strong>Rate:</strong> ' . floatVal($row->price) . '<br>';
+                            if(!empty($row->gold_platinum_price)):
+                                echo '<strong>Gold/Platinum Amount :</strong> ' . floatVal($row->gold_platinum_price) . '<br>';
+                            endif;
                             echo '<strong>Making Charge:</strong> ' . floatVal($row->making_charge - $row->making_charge_dicount) . '<br>';
                             echo '<strong>Disc :</strong> ' . floatVal($row->disc_amount) . '<br>';
                             echo '<strong>Other Charge :</strong> ' . floatVal($row->other_charge) . '<br>';
