@@ -26,7 +26,7 @@
                         <td style="width:33%;" class="fs-18 text-left">
                             GSTIN: <?=$companyData->company_gst_no?>
                         </td>
-                        <td style="width:33%;" class="fs-18 text-center">Payment Voucher</td>
+                        <td style="width:33%;" class="fs-18 text-center">Receipt Voucher</td>
                         <td style="width:33%;" class="fs-18 text-right"><?=$printType?></td>
                     </tr>
                 </table>
