@@ -70,54 +70,7 @@ class InwardReceipt extends MY_Controller
                     $stock_category_d = 3;
                 endif;
     
-                $boxData = '';
-                $boxData .= '<div style="text-align:center;padding:0mm; ">
-                    <table class="" border="0" cellspacing="0" cellpadding="1">  				
-                        <tr>
-                            <td rowspan="2" class="text-center" style="vertical-align: middle;">
-                                <div  class="barcode" >
-                                
-                                <barcode code="' . $code->unique_id . '" type="C128C" size="1.6"/>
-                                </div>
-                                <b class="fs-19">' . $code->unique_id . '<br>' . $code->purity . 'K</b>';
-                                if ($stock_category_d == 3) {
-                                    $boxData .=  '/<b>' . $dcode . '</b>';
-                                }else{
-                                    $boxData .=  '/<b>' . $code->making_per . '%</b>';
-                                }
-                            $boxData .=  '</td>
-                            <td  class="text-left fw-700 fs-19" style="padding-left:70px;padding-top:0px" >
-                            <b> ' . $code->gross_weight . '<br>' . $code->net_weight . '
-                            </td>
-                            <td  class="text-left fw-700 fs-19" >';
-                            if ($stock_category != 2) {
-                                $boxData .= '  <b>OC:' . $code->otc_amount  . '
-                                <br>VC:' . $code->vrc_amount   . '</b>';
-                            } else {
-                                if ($stock_category_d == 3) {
-                                    $boxData .= '<b>'. $code->item_code.'</b>';
-                                }else{
-                                    $boxData .= '<b>'. $dcode . '<br>' . $code->item_code.'</b>';
-                                }
-                              
-                            }
-                            $boxData .= ' </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="padding-left:70px;" class="fw-700 fs-19"><b>';
-                                if ($stock_category == 2):
-                                    $boxData .= $code->diamond_carat . '/' . (int)$code->diamond_pcs . 'pc &nbsp;  ' . $code->clarity. ' '.$code->color .'<br>';
-                                else:
-                                    $boxData .=  $dcode . '-'.$code->item_code.'<br>';
-                                endif;
-                                $boxData .= 'PID:' . $code->party_code . '-' . $code->unique_id . '
-                                </b><br>
-                            </td> 
-                        </tr>
-                    </table>
-                </div>';
-                
-                echo $boxData; exit;
+             
                 $mpdf->AddPage('P', '', '', '', '', 0, 0, 1, 1, 1, 1);
                 $mpdf->WriteHTML($boxData);
             endforeach;
