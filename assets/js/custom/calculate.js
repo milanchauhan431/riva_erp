@@ -413,6 +413,13 @@ async function barcodeDetails(barcode="",formData=""){
 		$("#itemForm #other_charge").val(formData.otc_amount);
 		$("#itemForm #vrc_charge").val(formData.vrc_amount);
 		$("#itemForm #diamond_amount").val(formData.diamond_amount);
+		if(parseFloat(formData.gold_platinum_price) > 0){
+			$("#itemForm #gold_platinum_price_div").show();
+			$("#itemForm #gold_platinum_price").val(formData.gold_platinum_price);
+		}else{
+			$("#itemForm #gold_platinum_price_div").hide();
+			$("#itemForm #gold_platinum_price").val("");
+		}
 	}
 }
 
