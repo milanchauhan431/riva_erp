@@ -81,6 +81,9 @@
                                 echo '<td class="text-center">'.$i++.'</td>';
                                 echo '<td>';
                                 echo   '<b>'.$row->item_name . '</b><br>';
+                                    if(!empty($row->gold_platinum_price)):
+                                        echo '<small>Gold/Platinum Amount :</small> ' . floatVal($row->gold_platinum_price) . '<br>';
+                                    endif;
                                     if(!empty($row->other_charge)):
                                         echo '<small>Other Charge :</small> ' . floatVal($row->other_charge) . '<br>';
                                     endif;
@@ -90,6 +93,7 @@
                                     if(!empty($row->diamond_amount)):
                                         echo '<small>Diamond Amount :</small> ' . floatVal($row->diamond_amount) . '<br>';
                                     endif;
+                                    
                                 echo '</td>';
                                 echo '<td class="text-center">'.$row->hsn_code.'</td>';
                                 echo '<td class="text-center">'.floatVal($row->qty).' ('.$row->unit_name.')</td>';
