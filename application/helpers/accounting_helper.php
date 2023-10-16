@@ -189,7 +189,7 @@ function getPaymentVoucher($data){
     $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Voucher'}";
     $editParam = "{'postData':{'id' : ".$data->id."}, 'modal_id' : 'modal-lg', 'form_id' : 'editVoucher', 'title' : 'Update Voucher'}";
 
-    $printBtn = '<a class="btn btn-success btn-edit permission-approve1" href="'.base_url('paymentVoucher/printVoucher/'.$data->id).'" target="_blank" datatip="Print" flow="down"><i class="fas fa-print" ></i></a>';
+    $printBtn = '<a class="btn btn-info btn-edit permission-approve1" href="'.base_url('paymentVoucher/printVoucher/'.$data->id).'" target="_blank" datatip="Print" flow="down"><i class="fas fa-print" ></i></a>';
     
     if($data->trans_status == 0): 
         $editButton = '<a class="btn btn-success btn-edit permission-modify" href="javascript:void(0)" datatip="Edit" flow="down" onclick="edit('.$editParam.');"><i class="ti-pencil-alt" ></i></a>';

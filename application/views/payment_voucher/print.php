@@ -71,6 +71,7 @@
                     </tr>
                 </table>
                 
+                <?php if(!empty($dataRow->invoiceRef)): ?>
                 <table class="table item-list-bb" style="margin-top:10px;">
                     <tr>
                         <th class="text-center" colspan="5">Invoice Details</th>
@@ -105,6 +106,7 @@
                         <th class="text-right"><?=sprintf('%.2f',$totalDueAmt)?></th>
                     </tr>
                 </table>
+                <?php endif; ?>
 		                
                 <table class="table top-table" style="margin-top:10px;border-top:1px solid #545454;border-bottom:1px solid #545454;">
                     <tr>
