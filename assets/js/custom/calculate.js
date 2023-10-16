@@ -483,7 +483,7 @@ async function barcodeScan(formData=""){
 		cgst_amt = parseFloat((cgst_per * taxable_amount) / 100).toFixed(2);
 		sgst_amt = parseFloat((sgst_per * taxable_amount) / 100).toFixed(2);
 
-		net_amount = parseFloat(parseFloat(taxable_amount) + parseFloat(igst_amt) + parseFloat(formData.gold_platinum_price)).toFixed(2);
+		net_amount = parseFloat(parseFloat(taxable_amount) + parseFloat(igst_amt)).toFixed(2);
 		formData.gst_per = parseFloat(formData.gst_per);
 		formData.qty = parseFloat(formData.qty).toFixed(2);
 		formData.cgst_per = cgst_per;
