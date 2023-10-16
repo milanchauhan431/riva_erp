@@ -188,6 +188,8 @@ function getPaymentVoucher($data){
 
     $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Voucher'}";
     $editParam = "{'postData':{'id' : ".$data->id."}, 'modal_id' : 'modal-lg', 'form_id' : 'editVoucher', 'title' : 'Update Voucher'}";
+
+    $printBtn = '<a class="btn btn-success btn-edit permission-approve1" href="'.base_url('paymentVoucher/printVoucher/'.$data->id).'" target="_blank" datatip="Print" flow="down"><i class="fas fa-print" ></i></a>';
     
     if($data->trans_status == 0): 
         $editButton = '<a class="btn btn-success btn-edit permission-modify" href="javascript:void(0)" datatip="Edit" flow="down" onclick="edit('.$editParam.');"><i class="ti-pencil-alt" ></i></a>';
@@ -195,11 +197,7 @@ function getPaymentVoucher($data){
         $deleteButton = '<a class="btn btn-danger btn-delete permission-remove" href="javascript:void(0)" onclick="trash('.$deleteParam.');" datatip="Remove" flow="down"><i class="ti-trash"></i></a>';
     endif;
 
-    $printVoucher = '';
-    /* if($data->vou_name_s == "BCRct"){
-        $printVoucher = '<a href="javascript:void(0)" class="btn btn-info btn-edit printPaymentVoucher" datatip="Print Voucher" flow="down" data-id="'.$data->id.'" data-function="voucher_pdf"><i class="fa fa-print"></i></a>';
-    } */
-    $action = getActionButton($printVoucher.$editButton.$deleteButton);
+    $action = getActionButton($printBtn.$editButton.$deleteButton);
     return [$action,$data->sr_no,$data->trans_number,formatDate($data->trans_date),$data->opp_acc_name,$data->vou_acc_name,$data->net_amount,$data->doc_no,$data->doc_date,$data->remark];
 }
 ?>

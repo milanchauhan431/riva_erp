@@ -171,11 +171,32 @@ class PaymentVoucherModel extends MasterModel{
 	public function getVoucher($id){
         $data['tableName'] = $this->transMain;
 		$data['select'] = "trans_main.*,party_master.party_name, reference.trans_no as inv_no, reference.trans_prefix as inv_prefix, reference.trans_date as inv_date";
-		$data['join']['party_master'] = "party_master.id = trans_main.party_id";
+		$data['leftJoin']['party_master'] = "party_master.id = trans_main.party_id";
 		$data['leftJoin']['trans_main as reference'] = "reference.id = trans_main.ref_id";
         $data['where']['trans_main.id'] = $id;
         return $this->row($data);
-    }  
+    }
+    
+    public function getVoucherDetails($id){
+        $queryData = array();
+        $queryData['tableName'] = $this->transMain;
+		$queryData['select'] = "trans_main.*,party_master.party_name,employee_master.emp_name as created_name";
+		$queryData['leftJoin']['party_master'] = "party_master.id = trans_main.party_id";
+		$queryData['leftJoin']['employee_master'] = "employee_master.id = trans_main.created_by";
+        $queryData['where']['trans_main.id'] = $id;
+        $result =  $this->row($queryData);
+
+        $queryData = array();
+        $queryData['tableName'] = $this->transDetails;
+        $queryData['select'] = "trans_details.id,trans_details.d_col_1 as adjust_amount,trans_main.trans_number,trans_main.trans_date,trans_main.net_amount";
+        $queryData['leftJoin']['trans_main'] = "trans_details.i_col_1 = trans_main.id";
+        $queryData['where']['trans_details.table_name'] = $this->transMain;
+        $queryData['where']['trans_details.description'] = "PAYMENT BILL WISE DETAILS";
+        $queryData['where']['trans_details.main_ref_id'] = $id;
+        $result->invoiceRef = $this->rows($queryData);
+
+        return $result;
+    }
 
 	public function delete($id){
 		try{

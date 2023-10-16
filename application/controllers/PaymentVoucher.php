@@ -192,5 +192,36 @@ class PaymentVoucher extends MY_Controller{
             $this->printJson($this->paymentVoucher->saveBankReconciliation($data));
         endif;
     }
+
+	public function printVoucher($id){
+		$this->data['dataRow'] = $dataRow = $this->paymentVoucher->getVoucherDetails($id);
+        $this->data['partyData'] = $this->party->getParty(['id'=>$dataRow->party_id]);
+        $this->data['companyData'] = $companyData = $this->masterModel->getCompanyInfo();
+        
+        $logo = base_url('assets/images/logo.png');
+        $this->data['letter_head'] =  base_url('assets/images/letterhead-top.png');
+        $pdfData = "";
+
+		$this->data['printType'] = "Original";
+        $pdfData .= $this->load->view('payment_voucher/print', $this->data, true);  
+		
+		$this->data['printType'] = "Duplicate";
+        $pdfData .= $this->load->view('payment_voucher/print', $this->data, true);  
+
+		$mpdf = new \Mpdf\Mpdf();
+		$filePath = realpath(APPPATH . '../assets/uploads/sales_quotation/');
+        $pdfFileName = $filePath.'/' . str_replace(["/","-"],"_",$dataRow->trans_number) . '.pdf';
+        $stylesheet = file_get_contents(base_url('assets/css/pdf_style.css?v='.time()));
+        $mpdf->WriteHTML($stylesheet, 1);
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->SetWatermarkImage($logo, 0.03, array(120, 120));
+        $mpdf->showWatermarkImage = true;
+        
+		$mpdf->AddPage('P','','','','',10,5,5,15,5,5,'','','','','','','','','','A4-P');
+        $mpdf->WriteHTML($pdfData);
+		
+		ob_clean();
+		$mpdf->Output($pdfFileName, 'I');
+	}
 }
 ?>
