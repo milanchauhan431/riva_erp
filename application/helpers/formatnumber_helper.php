@@ -729,7 +729,7 @@ function getItemPriceByRate($itemDetail){
 		$purity = $item_rate * $itemDetail->purity / 24;
 	}
 	if (in_array($itemDetail->stock_category, array("Lab Grown Diamond", "Loos Diamond"))){
-		$purity = $itemDetail->diamond_amount;
+		$purity = 0;
 	}
 
 	return sprintf("%.2f",$purity);
