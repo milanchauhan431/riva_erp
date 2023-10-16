@@ -187,6 +187,8 @@ $(document).ready(function(){
 			otherChargeAmt = parseFloat(formData.other_charge).toFixed(2);
 			varietyChargeAmt = parseFloat(formData.vrc_charge).toFixed(2);
 			diamondAmount = parseFloat(formData.diamond_amount).toFixed(2);
+			
+			//GP
 			gold_platinum_price = parseFloat(formData.gold_platinum_price).toFixed(2);
 			
 
@@ -392,6 +394,7 @@ function AddRow(data) {
 	var otherChrageInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][other_charge]", value: data.other_charge });
 	var vrChrageInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][vrc_charge]", value: data.vrc_charge });
 	var diamondAmtInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][diamond_amount]", value: data.diamond_amount });
+	//GP
 	var gpAmtInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][gold_platinum_price]", value: data.gold_platinum_price });
 	var tmcAmt = parseFloat(parseFloat(data.making_charge) - parseFloat(data.making_charge_dicount)).toFixed(2); 
 	cell = $(row.insertCell(-1));
@@ -403,6 +406,7 @@ function AddRow(data) {
 	cell.append(otherChrageInput);
 	cell.append(vrChrageInput);
 	cell.append(diamondAmtInput);
+	//GP
 	cell.append(gpAmtInput);
 
 	
@@ -502,13 +506,14 @@ function Edit(data, button) {
 		$("#itemForm #" + key).val(value);
 	});
 
+	//GP
 	if(parseFloat(data.gold_platinum_price) > 0){
 		$("#itemForm #gold_platinum_price_div").show();
 	}else{
 		$("#itemForm #gold_platinum_price_div").hide();
 		$("#itemForm #gold_platinum_price").val("");
 	}
-
+	//
 	//$("#itemForm #price").val(data.org_price);
 	$("#itemForm .select2").select2();
 	$("#itemForm #row_index").val(row_index);
