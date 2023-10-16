@@ -4,7 +4,7 @@
             <table id="summaryTable" class="table">
                 <thead class="thead-info">
                     <tr>
-                        <th class="summary_desc" style="width: 30%;">Descrtiption</th>
+                        <th class="summary_desc" style="width: 30%;">Description</th>
                         <th class="ledgerColumn" style="width: 30%;">Ledger</th>
                         <th style="width: 10%;">Percentage</th>
                         <th style="width: 10%;">Amount</th>
