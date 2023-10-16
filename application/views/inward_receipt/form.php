@@ -323,7 +323,7 @@
             </div>
 
             <div class="col-md-3 form-group">
-                <label for="macking_charge">Macking Charge</label>
+                <label for="macking_charge">Making Charge</label>
                 <input type="text" name="macking_charge" id="macking_charge" class="form-control floatOnly" value="<?=(!empty($dataRow->macking_charge))?$dataRow->macking_charge:""?>">
             </div>
 

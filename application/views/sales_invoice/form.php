@@ -220,7 +220,7 @@
                                                         <th>N.W.</th>
                                                         <th>Unit</th>
                                                         <th>Price</th>
-                                                        <th>Macking<br>Charge</th>
+                                                        <th>Making<br>Charge</th>
                                                         <th>Disc.</th>
                                                         <th class="igstCol">IGST</th>
                                                         <th class="cgstCol">CGST</th>
