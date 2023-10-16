@@ -189,6 +189,7 @@
                 <tr>
                     <th class="text-left" colspan="6" rowspan="<?=$rwspan?>">
                         <b>Bank Name : </b> <?=$companyData->company_bank_name?><br>
+                        <b>Account Name : </b> <?=$companyData->company_acc_name?><br>
                         <b>A/c. No. : </b><?=$companyData->company_acc_no?><br>
                         <b>IFSC Code : </b><?=$companyData->company_ifsc_code?><br>
                         <b>Branch : </b><?=$companyData->company_bank_branch?>
