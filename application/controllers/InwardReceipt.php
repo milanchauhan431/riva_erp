@@ -88,8 +88,8 @@ class InwardReceipt extends MY_Controller
                         </td>
                         <td  class="text-left fw-700 fs-19" >';
                         if ($stock_category != 2) {
-                            $boxData .= '  <b>OC:' . $code->otc_amount * $code->net_weight . '
-                            <br>VC:' . $code->vrc_amount * $code->net_weight . '</b>';
+                            $boxData .= '  <b>OC:' . $code->otc_amount  . '
+                            <br>VC:' . $code->vrc_amount . '</b>';
                         } else {
                             $boxData .= '<b>'. $dcode . '<br>' . $code->item_code.'</b>';
                         }
@@ -188,8 +188,8 @@ class InwardReceipt extends MY_Controller
                             </td>
                             <td  class="text-left fw-700 fs-19" >';
                             if ($stock_category != 2) {
-                                $boxData .= '  <b>OC:' . $code->otc_amount * $code->net_weight . '
-                                <br>VC:' . $code->vrc_amount * $code->net_weight . '</b>';
+                                $boxData .= '  <b>OC:' . $code->otc_amount  . '
+                                <br>VC:' . $code->vrc_amount   . '</b>';
                             } else {
                                 if ($stock_category_d == 3) {
                                     $boxData .= '<b>'. $code->item_code.'</b>';
