@@ -28,7 +28,7 @@
 								</div>
 								<div class="custom-control custom-checkbox">
 									<input type="checkbox" name="header_footer" id="header_footer" class="filled-in chk-col-success" value="1" checked>
-									<label for="header_footer">Header/Footer</label>
+									<label for="header_footer">Without Letterhead</label>
 								</div>
 							</div>
 							<div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
