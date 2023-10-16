@@ -71,7 +71,7 @@
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="filled-in chk-col-success" value="lsRememberMe" id="rememberMe" onclick="lsRememberMe();">
                                             <label class="" for="rememberMe">Remember me</label>
-                                            <a href="javascript:void(0)" id="to-recover" class="text-dark float-right"><i class="fa fa-lock m-r-5"></i> Forgot password?</a>
+                                        <!--     <a href="javascript:void(0)" id="to-recover" class="text-dark float-right"><i class="fa fa-lock m-r-5"></i> Forgot password?</a> -->
                                         </div>
                                     </div>
                                 </div>
