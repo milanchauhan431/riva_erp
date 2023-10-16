@@ -501,6 +501,14 @@ function Edit(data, button) {
 	$.each(data, function (key, value) {
 		$("#itemForm #" + key).val(value);
 	});
+
+	if(parseFloat(data.gold_platinum_price) > 0){
+		$("#itemForm #gold_platinum_price_div").show();
+	}else{
+		$("#itemForm #gold_platinum_price_div").hide();
+		$("#itemForm #gold_platinum_price").val("");
+	}
+
 	//$("#itemForm #price").val(data.org_price);
 	$("#itemForm .select2").select2();
 	$("#itemForm #row_index").val(row_index);
