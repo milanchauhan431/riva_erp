@@ -61,42 +61,50 @@
                         <th style="width:40px;">No.</th>
                         <th class="text-left">Description of Goods</th>
                         <th style="width:10%;">HSN/SAC</th>
-                        <th style="width:100px;">Qty</th>
-                        <th style="width:60px;">Rate<br><small>('.$partyData->currency.')</small></th>
+                        <th style="width:40px;">Qty</th>
+                        <th style="width:40px;">G.W.</th>
+                        <th style="width:40px;">S.W.</th>
+                        <th style="width:40px;">N.W.</th>
+                        <th style="width:40px;">Rate<br><small>('.$partyData->currency.')</small></th>
                         <th>Making<br>Charges<br><small>('.$partyData->currency.')</small></th>
-                        <th style="width:60px;">Disc.</th>
-                        <th style="width:60px;">GST <small>(%)</small></th>
-                        <th style="width:110px;">Amount<br><small>('.$partyData->currency.')</small></th>
+                        <th style="width:50px;">Disc.</th>
+                        <th style="width:50px;">GST <small>(%)</small></th>
+                        <th style="width:80px;">Amount<br><small>('.$partyData->currency.')</small></th>
                     </tr>
                 </thead>';
                 echo $thead;
             ?>
             <tbody>
                 <?php
-                    $i=1;$totalQty = 0;$migst=0;$mcgst=0;$msgst=0;
+                    $i=1;$totalQty = $totalGW = $totalNW = 0;$migst=0;$mcgst=0;$msgst=0;
                     $rowCount = 1;$pageCount = 1;
                     if(!empty($invData->itemList)):
                         foreach($invData->itemList as $row):						
                             echo '<tr>';
                                 echo '<td class="text-center">'.$i++.'</td>';
                                 echo '<td>';
-                                echo   '<b>'.$row->item_name . '</b><br>';
+                                    echo   '<b>'.$row->item_name . '</b><br>';
+                                    echo   '<small>Serial No. : '.$row->unique_id . '</small><br>';
+
                                     if(!empty($row->gold_platinum_price)):
-                                        echo '<small>Gold Amount :</small> ' . floatVal($row->gold_platinum_price) . '<br>';
+                                        echo '<small>Gold Amount : ' . floatVal($row->gold_platinum_price) . '</small><br>';
                                     endif;
                                     if(!empty($row->other_charge)):
-                                        echo '<small>Other Charge :</small> ' . floatVal($row->other_charge) . '<br>';
+                                        echo '<small>Other Charge : ' . floatVal($row->other_charge) . '</small><br>';
                                     endif;
                                     if(!empty($row->vrc_charge)):
-                                        echo '<small>Variety Charge :</small> ' . floatVal($row->vrc_charge) . '<br>';
+                                        echo '<small>Variety Charge : ' . floatVal($row->vrc_charge) . '</small><br>';
                                     endif;
                                     if(!empty($row->diamond_amount)):
-                                        echo '<small>Diamond Amount :</small> ' . floatVal($row->diamond_amount) . '<br>';
+                                        echo '<small>Diamond Amount : ' . floatVal($row->diamond_amount) . '</small><br>';
                                     endif;
                                     
                                 echo '</td>';
                                 echo '<td class="text-center">'.$row->hsn_code.'</td>';
                                 echo '<td class="text-center">'.floatVal($row->qty).' ('.$row->unit_name.')</td>';
+                                echo '<td class="text-right">'.($row->gross_weight).'</td>';
+                                echo '<td class="text-right">'.sprintf('%.3f',($row->gross_weight - $row->net_weight)).'</td>';
+                                echo '<td class="text-right">'.($row->net_weight).'</td>';
                                 echo '<td class="text-right">'.floatVal($row->price).'</td>';
                                 echo '<td class="text-right">' . floatVal($row->making_charge - $row->making_charge_dicount) . '</td>';
                                 echo '<td class="text-right">'.floatVal($row->disc_amount).'</td>';
@@ -105,6 +113,8 @@
                             echo '</tr>';
                             
                             $totalQty += $row->qty;
+                            $totalGW += $row->gross_weight;
+                            $totalNW += $row->net_weight;
                             if($row->gst_per > $migst){$migst=$row->gst_per;$mcgst=$row->cgst_per;$msgst=$row->sgst_per;}
                         endforeach;
                     endif;
@@ -114,6 +124,9 @@
                         for($j=1;$j<=$blankLines;$j++):
                             echo '<tr>
                                 <td style="border-top:none;border-bottom:none;">&nbsp;</td>
+                                <td style="border-top:none;border-bottom:none;"></td>
+                                <td style="border-top:none;border-bottom:none;"></td>
+                                <td style="border-top:none;border-bottom:none;"></td>
                                 <td style="border-top:none;border-bottom:none;"></td>
                                 <td style="border-top:none;border-bottom:none;"></td>
                                 <td style="border-top:none;border-bottom:none;"></td>
@@ -181,13 +194,16 @@
                 <tr>
                     <th colspan="3" class="text-right">Total Qty.</th>
                     <th class="text-right"><?=sprintf('%.3f',$totalQty)?></th>
+                    <th class="text-right"><?=sprintf('%.3f',$totalGW)?></th>
+                    <th class="text-right"><?=sprintf('%.3f',($totalGW - $totalNW))?></th>
+                    <th class="text-right"><?=sprintf('%.3f',$totalNW)?></th>
                     <th></th>
                     <th></th>
                     <th colspan="2" class="text-right">Sub Total</th>
                     <th class="text-right"><?=sprintf('%.2f',$invData->taxable_amount)?></th>
                 </tr>
                 <tr>
-                    <th class="text-left" colspan="6" rowspan="<?=$rwspan?>">
+                    <th class="text-left" colspan="9" rowspan="<?=$rwspan?>">
                         <b>Bank Name : </b> <?=$companyData->company_bank_name?><br>
                         <b>Account Name : </b> <?=$companyData->company_acc_name?><br>
                         <b>A/c. No. : </b><?=$companyData->company_acc_no?><br>
@@ -203,7 +219,7 @@
                 </tr>
                 <?=$beforExp.$taxHtml.$afterExp?>
                 <tr>
-                    <th class="text-left" colspan="6" rowspan="<?=$fixRwSpan?>">
+                    <th class="text-left" colspan="9" rowspan="<?=$fixRwSpan?>">
                         Amount In Words : <br><?=numToWordEnglish(sprintf('%.2f',$invData->net_amount))?>
                     </th>	
                     
@@ -225,8 +241,13 @@
                 <?php endif; ?>
             </tbody>
         </table>
-        <h4>Terms & Conditions :-</h4>
+        
         <table class="table top-table" style="margin-top:10px;">
+            <tr>
+                <th class="text-left">
+                    <h4>Terms & Conditions :-</h4>
+                </th>
+            </tr>
             <?php
                 if(!empty($invData->termsConditions)):
                     foreach($invData->termsConditions as $row):
