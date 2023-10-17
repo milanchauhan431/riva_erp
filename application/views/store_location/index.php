@@ -16,7 +16,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id='storeLocationTable' class="table table-bordered ssTable" data-url='/getDTRows/<?=$parent_id?>'></table>
+                            <table id='storeLocationTable' class="table table-bordered ssTable ssTable-cf" data-url='/getDTRows/<?=$parent_id?>' data-ninput="[0,1]"></table>
                         </div>
                     </div>
                 </div>

@@ -26,7 +26,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id='purchaseOrderTable' class="table table-bordered ssTable" data-url='/getDTRows'></table>
+                            <table id='purchaseOrderTable' class="table table-bordered ssTable ssTable-cf" data-url='/getDTRows'></table>
                         </div>
                     </div>
                 </div>

@@ -26,7 +26,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id='paymentVoucherTable' class="table table-bordered ssTable" data-url='/getDtRows'></table>
+                            <table id='paymentVoucherTable' class="table table-bordered ssTable ssTable-cf" data-url='/getDtRows'></table>
                         </div>
                     </div>
                 </div>

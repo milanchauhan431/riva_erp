@@ -26,7 +26,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id='employeeTable' class="table table-bordered ssTable bt-switch1" data-url="/getDTRows"></table>
+                            <table id='employeeTable' class="table table-bordered ssTable ssTable-cf bt-switch1" data-url="/getDTRows" data-ninput="[0,1]"></table>
                         </div>
                     </div>
                 </div>

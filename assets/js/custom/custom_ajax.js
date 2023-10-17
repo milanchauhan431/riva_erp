@@ -125,7 +125,7 @@ function ssDatatable(ele,tableHeaders,tableOptions,dataSet={}){
 							{ className: "text-right", "targets": textAlign.right }
 						],
 		dom: "<'row'<'col-sm-7'B><'col-sm-5'f>>" +"<'row'<'col-sm-12't>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-		buttons: [ 'pageLength', 'excel', {className:'nav-tab-refresh',text: 'Refresh',action: function(){initTable();} }],
+		buttons: [ 'pageLength', 'excel', {className:'nav-tab-refresh',text: 'Refresh',action: function(){ $(".columnSearchInput").val(""); initTable();} }],
 		exportOptions: {
 			columns: "thead th:not(.noExport)"
 		},
@@ -153,7 +153,7 @@ function ssDatatable(ele,tableHeaders,tableOptions,dataSet={}){
 			if(jQuery.inArray(index, ignorCols) != -1) {$(this).html( '' );}
 			else{
 				if((jQuery.inArray(-1, ignorCols) != -1) && index == lastIndex){$(this).html( '' );}
-				else{$(this).html( '<input type="text" class="form-control-sm" style="width:100%;"/>' );}
+				else{$(this).html( '<input type="text" class="form-control-sm columnSearchInput" style="width:100%;"/>' );}
 			}			
 		    if(jQuery.inArray(index, selectIndex)!= -1) {$(this).html( selectBox[i] );i++;}
 		});
@@ -173,8 +173,12 @@ function ssDatatable(ele,tableHeaders,tableOptions,dataSet={}){
 	/* setTimeout(function(){ ssTable.columns.adjust().draw();}, 10);
 	$('.page-wrapper').resizer(function() { ssTable.columns.adjust().draw(); }); */
 	
-    
+    var state = ssTable.state.loaded();console.log(state);
 	$('.ssTable-cf thead tr:eq(1) th').each( function (i) {
+		if ( state ) {
+			var colSearch = state.columns[i].search;
+			if ( colSearch.search ) {$('.ssTable-cf thead tr:eq(1) th:eq('+i+') input').val( colSearch.search );}
+		}
 		$( 'input', this ).on( 'keyup', function () {
 			if ( ssTable.column(i).search() !== this.value ) {ssTable.column(i).search( this.value ).draw();}
 		});

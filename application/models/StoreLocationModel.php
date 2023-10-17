@@ -11,7 +11,7 @@ class StoreLocationModel extends MasterModel{
         $data['searchCol'][] = "";
         $data['searchCol'][] = "store_name";
         $data['searchCol'][] = "location";
-        $data['serachCol'][] = "remark";
+        $data['searchCol'][] = "remark";
 
 		$columns =array(); foreach($data['searchCol'] as $row): $columns[] = $row; endforeach;
 		if(isset($data['order'])){$data['order_by'][$columns[$data['order'][0]['column']]] = $data['order'][0]['dir'];}

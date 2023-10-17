@@ -9,6 +9,7 @@ class TermsModel extends MasterModel{
         $data['searchCol'][] = "";
         $data['searchCol'][] = "";
         $data['searchCol'][] = "title";
+        $data['searchCol'][] = "";
         $data['searchCol'][] = "conditions";
 
 		$columns =array(); foreach($data['searchCol'] as $row): $columns[] = $row; endforeach;

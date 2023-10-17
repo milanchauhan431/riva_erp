@@ -16,7 +16,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id='partyTable' class="table table-bordered ssTable" data-url='/getDTRows/<?=$party_category?>'></table>
+                            <table id='partyTable' class="table table-bordered ssTable ssTable-cf" data-url='/getDTRows/<?=$party_category?>'></table>
                         </div>
                     </div>
                 </div>

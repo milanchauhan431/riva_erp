@@ -15,7 +15,11 @@ class TaxMasterModel extends MasterModel{
         $data['searchCol'][] = "";
         $data['searchCol'][] = "";
         $data['searchCol'][] = "name";
+        $data['searchCol'][] = "(CASE WHEN tax_master.tax_type =1 THEN 'Purchase' WHEN tax_master.tax_type =2 THEN 'Sales' ELSE '' END)";
+        $data['searchCol'][] = "(CASE WHEN tax_master.calculation_type = 0 THEN 'Total Qty' WHEN tax_master.calculation_type = 1 THEN 'Basic Amount' WHEN tax_master.calculation_type = 2 THEN 'Net Amount' ELSE ''  END)";
         $data['searchCol'][] = "acc_name";
+        $data['searchCol'][] = "(CASE WHEN tax_master.is_active =1 THEN 'Active' WHEN tax_master.is_active =0 THEN 'Inactive' ELSE '' END)";
+        $data['searchCol'][] = "(CASE WHEN tax_master.add_or_deduct =1 THEN 'Add' WHEN tax_master.add_or_deduct =-1 THEN 'Deduct' ELSE '' END)";
        
 		$columns =array(); foreach($data['searchCol'] as $row): $columns[] = $row; endforeach;
 

@@ -14,8 +14,8 @@ class ExpenseMasterModel extends MasterModel{
         $data['searchCol'][] = "exp_name";
         $data['searchCol'][] = "entry_name";
         $data['searchCol'][] = "seq";
-        $data['searchCol'][] = "party_master.party_name";
         $data['searchCol'][] = "(CASE WHEN expense_master.calc_type =1 THEN 'Fixed' WHEN expense_master.calc_type =2 THEN 'Percentage' WHEN expense_master.calc_type =3 THEN 'Cumulative' ELSE '' END)";
+        $data['searchCol'][] = "party_master.party_name";
         $data['searchCol'][] = "(CASE WHEN expense_master.is_active =1 THEN 'Active' WHEN expense_master.is_active =0 THEN 'Inactive' ELSE '' END)";
         $data['searchCol'][] = "(CASE WHEN expense_master.add_or_deduct = 1 THEN 'Add' WHEN expense_master.add_or_deduct = -1 THEN 'Deduct' ELSE '' END)";
        

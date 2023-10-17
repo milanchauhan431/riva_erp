@@ -29,11 +29,12 @@ class MaterialIssueModel extends MasterModel{
         $data['searchCol'][] = "";
         $data['searchCol'][] = "trans_main.trans_number";
         $data['searchCol'][] = "DATE_FORMAT(trans_number.trans_date,'%d-%m-%Y')";
-        $data['serachCol'][] = "cb.emp_name";
-        $data['serachCol'][] = "se.emp_name";
-        $data['searchCol'][] = "";
-        $data['searchCol'][] = "";
-        $data['searchCol'][] = "";
+        $data['searchCol'][] = "cb.emp_name";
+        $data['searchCol'][] = "se.emp_name";
+        $data['searchCol'][] = "tc.total_issue";
+        $data['searchCol'][] = "tc.total_return";
+        $data['searchCol'][] = "tc.total_sold";
+        $data['searchCol'][] = "(tc.total_issue-tc.total_return-tc.total_sold)";
 
 		$columns =array(); foreach($data['searchCol'] as $row): $columns[] = $row; endforeach;
 		if(isset($data['order'])){$data['order_by'][$columns[$data['order'][0]['column']]] = $data['order'][0]['dir'];}
