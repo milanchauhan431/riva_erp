@@ -246,7 +246,7 @@ class InwardReceipt extends MY_Controller
     public function saveReversalApproval()
     {
         $post = $this->input->post();
-        $this->printJson($this->inwardReceipt->update($post));
+        $this->printJson($this->inwardReceipt->reversalApproval($post));
     }
 
     public function getDTRows($status = 0)

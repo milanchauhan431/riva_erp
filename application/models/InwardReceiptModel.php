@@ -102,13 +102,32 @@ class InwardReceiptModel extends MasterModel{
         }
     }
      
-	public function update($data){
+	public function reversalApproval($data){
         try{ 
             $this->db->trans_begin();
+
+            $barcodeDetails = $this->getItemSerialNo($data);
+
+            $serialNo = [];
+            foreach($barcodeDetails as $row):
+                $postData = ['batch_no' => $row->unique_id,'item_id' => $row->item_id,'stock_required'=>1,'single_row'=>1];
+                $stockData = $this->itemStock->getItemStockBatchWise($postData);
+
+                if(empty($stockData)):
+                    $serialNo[] = $row->unique_id;
+                endif;
+            endforeach;
+
+            if(!empty($serialNo)):
+                return ['status' => 0, 'message' => "Some serial no item sold. you can not revers this approval. Serial No. : ".implode(", ",$serialNo)];
+            endif;
+
 			$data['approved_by']=0;
 			$data['approved_at']=NULL;
 			$result = $this->store($this->inwardReceipt,$data);	
+            
 			$this->remove($this->stockTransaction,['entry_type'=>$data['entry_type'],'main_ref_id'=>$data['id']]);
+
 		    if ($this->db->trans_status() !== FALSE):
                 $this->db->trans_commit();
                 return $result;
