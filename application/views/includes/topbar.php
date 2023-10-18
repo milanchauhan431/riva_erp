@@ -63,7 +63,7 @@
                 <li class="nav-item mr-10">
 				Platinum<small>24k</small>: <strong><?php echo $compamyInfoMaster->platinum_rate?></strong> |
 				</li>
-                <li class="nav-item mr-10">
+                <li class="nav-item mr-10 d-none">
 				Palladium<small>24k</small>: <strong><?php echo $compamyInfoMaster->palladium_rate?></strong>
 				</li>
 			</ul>	
