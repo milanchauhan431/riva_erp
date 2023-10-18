@@ -90,7 +90,7 @@ define('FIREBASE_API_KEY','');
 define("LIVE_LINK","https://riva.toxscube.com/");
 
 define('HOST_NAME','localhost');
-if($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['HTTP_HOST'] == '192.168.1.2'):
+if($_SERVER['HTTP_HOST'] == 'localhost'):
 	define('SERVER_PREFIX','');
 	define('USER_NAME','root');
 	define('PASSWORD','');
