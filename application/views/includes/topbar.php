@@ -55,16 +55,16 @@
             <ul class="navbar-nav float-right">
                 <!-- Financial Years -->
                 <li class="nav-item mr-10">
-				Gold: <strong><?php echo $compamyInfoMaster->gold_rate?></strong> |
+				Gold<small>24k</small>: <strong><?php echo $compamyInfoMaster->gold_rate?></strong> |
 				</li>
                 <li class="nav-item mr-10">
-				Silver: <strong><?php echo $compamyInfoMaster->silver_rate?></strong> |
+				Silver<small>1kg</small>: <strong><?php echo $compamyInfoMaster->silver_rate?></strong> |
 				</li>
                 <li class="nav-item mr-10">
-				Platinum: <strong><?php echo $compamyInfoMaster->platinum_rate?></strong> |
+				Platinum<small>24k</small>: <strong><?php echo $compamyInfoMaster->platinum_rate?></strong> |
 				</li>
                 <li class="nav-item mr-10">
-				Palladium: <strong><?php echo $compamyInfoMaster->palladium_rate?></strong>
+				Palladium<small>24k</small>: <strong><?php echo $compamyInfoMaster->palladium_rate?></strong>
 				</li>
 			</ul>	
 			<ul class="navbar-nav float-right">
