@@ -55,16 +55,16 @@
             <ul class="navbar-nav float-right">
                 <!-- Financial Years -->
                 <li class="nav-item mr-10">
-				Gold<small>24k</small>: <strong><?php echo $compamyInfoMaster->gold_rate?></strong> |
+				Gold-24k: <strong><?php echo $compamyInfoMaster->gold_rate?></strong> |
 				</li>
                 <li class="nav-item mr-10">
-				Silver<small>1kg</small>: <strong><?php echo $compamyInfoMaster->silver_rate?></strong> |
+				Silver-1kg</small>: <strong><?php echo $compamyInfoMaster->silver_rate?></strong> |
 				</li>
                 <li class="nav-item mr-10">
-				Platinum<small>24k</small>: <strong><?php echo $compamyInfoMaster->platinum_rate?></strong> |
+				Platinum-24k: <strong><?php echo $compamyInfoMaster->platinum_rate?></strong> |
 				</li>
                 <li class="nav-item mr-10 d-none">
-				Palladium<small>24k</small>: <strong><?php echo $compamyInfoMaster->palladium_rate?></strong>
+				Palladium-24k: <strong><?php echo $compamyInfoMaster->palladium_rate?></strong>
 				</li>
 			</ul>	
 			<ul class="navbar-nav float-right">
@@ -347,7 +347,7 @@
                         <a class="dropdown-item" href="<?=base_url("hr/employees/empProfile/".$this->session->userdata('loginId'))?>"><i class="ti-user m-r-5 m-l-5"></i> My Profile</a>
 
                         <?php if($this->session->userdata('loginId') == 1): ?>
-                        <a class="dropdown-item addNew press-add-btn rateTrg" href="javascript:void(0)" data-button="both" data-modal_id="modal-md" data-function="loadRate" data-controller="CompanyInfo" data-fnsave="saveRate" data-savebtn_text="<i class='fa fa-check'></i> Submit" data-form_title="Change rate 10 Grams"><i class="ti-wallet m-r-5 m-l-5"></i> Change Rate</a>
+                        <a class="dropdown-item addNew press-add-btn rateTrg" href="javascript:void(0)" data-button="both" data-modal_id="modal-md" data-function="loadRate" data-controller="CompanyInfo" data-fnsave="saveRate" data-savebtn_text="<i class='fa fa-check'></i> Submit" data-form_title="Change rate"><i class="ti-wallet m-r-5 m-l-5"></i> Change Rate</a>
                         <?php endif; ?>
 
                         <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#change-psw"><i class="ti-key m-r-5 m-l-5"></i> Change Password</a>
