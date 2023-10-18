@@ -173,7 +173,7 @@ function ssDatatable(ele,tableHeaders,tableOptions,dataSet={}){
 	/* setTimeout(function(){ ssTable.columns.adjust().draw();}, 10);
 	$('.page-wrapper').resizer(function() { ssTable.columns.adjust().draw(); }); */
 	
-    var state = ssTable.state.loaded();console.log(state);
+    var state = ssTable.state.loaded();
 	$('.ssTable-cf thead tr:eq(1) th').each( function (i) {
 		if ( state ) {
 			var colSearch = state.columns[i].search;

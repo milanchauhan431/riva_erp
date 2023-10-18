@@ -347,7 +347,7 @@
                         <a class="dropdown-item" href="<?=base_url("hr/employees/empProfile/".$this->session->userdata('loginId'))?>"><i class="ti-user m-r-5 m-l-5"></i> My Profile</a>
 
                         <?php if($this->session->userdata('loginId') == 1): ?>
-                        <a class="dropdown-item addNew press-add-btn rateTrg" href="javascript:void(0)" data-button="both" data-modal_id="modal-md" data-function="loadRate" data-controller="CompanyInfo" data-fnsave="saveRate" data-savebtn_text="<i class='fa fa-check'></i> Submit" data-form_title="Change rate"><i class="ti-wallet m-r-5 m-l-5"></i> Change Rate</a>
+                        <a class="dropdown-item addNew press-add-btn rateTrg" href="javascript:void(0)" data-button="both" data-modal_id="modal-md" data-function="loadRate" data-controller="CompanyInfo" data-fnsave="saveRate" data-savebtn_text="<i class='fa fa-check'></i> Submit" data-res_function="resChangeRate" data-js_store_fn="customStore" data-form_title="Change rate"><i class="ti-wallet m-r-5 m-l-5"></i> Change Rate</a>
                         <?php endif; ?>
 
                         <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#change-psw"><i class="ti-key m-r-5 m-l-5"></i> Change Password</a>

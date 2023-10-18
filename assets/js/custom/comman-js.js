@@ -1323,3 +1323,20 @@ function getItemBybarcode(barcode=""){
 		 
 	}
 }
+
+function resChangeRate(response,formId){
+	if(response.status==1){
+        $('#'+formId)[0].reset();closeModal(formId);
+		console.log("okok");
+        toastr.success(response.message, 'Success', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
+
+		window.location.reload();
+    }else{
+        if(typeof response.message === "object"){
+            $(".error").html("");
+            $.each( response.message, function( key, value ) {$("."+key).html(value);});
+        }else{
+            toastr.error(response.message, 'Error', { "showMethod": "slideDown", "hideMethod": "slideUp", "closeButton": true, positionClass: 'toastr toast-bottom-center', containerId: 'toast-bottom-center', "progressBar": true });
+        }			
+    }
+}
