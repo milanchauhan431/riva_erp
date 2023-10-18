@@ -1,3 +1,4 @@
+var itemCount = 0;
 $(document).ready(function(){
 	$(".ledgerColumn").hide();
 	$(".summary_desc").attr('style','width: 60%;');
@@ -169,20 +170,20 @@ function AddRow(data) {
 	cell.html(countRow);
 	cell.attr("style", "width:5%;");
 
-    var idInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][id]", value: data.id });
-    var itemIdInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][item_id]", class:"item_id", value: data.item_id });
-	var itemNameInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][item_name]", value: data.item_name });
-    var formEnteryTypeInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][from_entry_type]", value: data.from_entry_type });
-	var refIdInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][ref_id]", value: data.ref_id });
-    var itemCodeInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][item_code]", value: data.item_code });
-    var itemtypeInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][item_type]", value: data.item_type });
+    var idInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][id]", value: data.id });
+    var itemIdInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][item_id]", class:"item_id", value: data.item_id });
+	var itemNameInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][item_name]", value: data.item_name });
+    var formEnteryTypeInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][from_entry_type]", value: data.from_entry_type });
+	var refIdInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][ref_id]", value: data.ref_id });
+    var itemCodeInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][item_code]", value: data.item_code });
+    var itemtypeInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][item_type]", value: data.item_type });
 	
-	var stockTransIdInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][i_col_2]", value: data.stock_trans_id });
-	var locationInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][i_col_1]", value: data.location_id });
-	var uniqueIdInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][t_col_1]", value: data.unique_id });
-	var standardQtyInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][d_col_1]", value: data.standard_qty });
-	var purityInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][d_col_2]", value: data.purity });
-	var stockCategoryInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][masterData][t_col_2]", value: data.stock_category });
+	var stockTransIdInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][masterData][i_col_2]", value: data.stock_trans_id });
+	var locationInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][masterData][i_col_1]", value: data.location_id });
+	var uniqueIdInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][masterData][t_col_1]", value: data.unique_id });
+	var standardQtyInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][masterData][d_col_1]", value: data.standard_qty });
+	var purityInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][masterData][d_col_2]", value: data.purity });
+	var stockCategoryInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][masterData][t_col_2]", value: data.stock_category });
 	
     cell = $(row.insertCell(-1));
     
@@ -202,38 +203,38 @@ function AddRow(data) {
     cell.append(purityInput);
     cell.append(stockCategoryInput);
 
-    var hsnCodeInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][hsn_code]", value: data.hsn_code });
+    var hsnCodeInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][hsn_code]", value: data.hsn_code });
 	cell = $(row.insertCell(-1));
 	cell.html(data.hsn_code);
 	cell.append(hsnCodeInput);
 
-    var qtyInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][qty]", class:"item_qty", value: data.qty });
-	var qtyErrorDiv = $("<div></div>", { class: "error qty" + countRow });
+    var qtyInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][qty]", class:"item_qty", value: data.qty });
+	var qtyErrorDiv = $("<div></div>", { class: "error qty" + itemCount });
 	cell = $(row.insertCell(-1));
 	cell.html(data.qty);
 	cell.append(qtyInput);
 	cell.append(qtyErrorDiv);
 
-	var grossWeightInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][gross_weight]", value: data.gross_weight });
+	var grossWeightInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][gross_weight]", value: data.gross_weight });
 	cell = $(row.insertCell(-1));
 	cell.html(data.gross_weight);
 	cell.append(grossWeightInput);
 
-	var netWeightInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][net_weight]", value: data.net_weight });
+	var netWeightInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][net_weight]", value: data.net_weight });
 	cell = $(row.insertCell(-1));
 	cell.html(data.net_weight);
 	cell.append(netWeightInput);
 
-    var unitIdInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][unit_id]", value: data.unit_id });
-	var unitNameInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][unit_name]", value: data.unit_name });
+    var unitIdInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][unit_id]", value: data.unit_id });
+	var unitNameInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][unit_name]", value: data.unit_name });
 	cell = $(row.insertCell(-1));
 	cell.html(data.unit_name);
 	cell.append(unitIdInput);
 	cell.append(unitNameInput);
 
-    var priceInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][price]", value: data.price});
-	var orgPriceInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][org_price]", value: data.org_price});
-	var priceErrorDiv = $("<div></div>", { class: "error price" + countRow });
+    var priceInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][price]", value: data.price});
+	var orgPriceInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][org_price]", value: data.org_price});
+	var priceErrorDiv = $("<div></div>", { class: "error price" + itemCount });
 	cell = $(row.insertCell(-1));
 	cell.html(data.price);
 	cell.append(priceInput);
@@ -241,15 +242,15 @@ function AddRow(data) {
 	cell.append(priceErrorDiv);
 
 	// Making add
-	var mcPerInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][making_per]", value: data.making_per });
-	var mcDiscPerInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][making_disc_per]", value: data.making_disc_per });
-	var makingChrageInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][making_charge]", value: data.making_charge });
-	var makingChrageDiscountInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][making_charge_dicount]", value: data.making_charge_dicount });
-	var otherChrageInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][other_charge]", value: data.other_charge });
-	var vrChrageInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][vrc_charge]", value: data.vrc_charge });
-	var diamondAmtInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][diamond_amount]", value: data.diamond_amount });
+	var mcPerInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][making_per]", value: data.making_per });
+	var mcDiscPerInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][making_disc_per]", value: data.making_disc_per });
+	var makingChrageInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][making_charge]", value: data.making_charge });
+	var makingChrageDiscountInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][making_charge_dicount]", value: data.making_charge_dicount });
+	var otherChrageInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][other_charge]", value: data.other_charge });
+	var vrChrageInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][vrc_charge]", value: data.vrc_charge });
+	var diamondAmtInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][diamond_amount]", value: data.diamond_amount });
 	var tmcAmt = parseFloat(parseFloat(data.making_charge) - parseFloat(data.making_charge_dicount)).toFixed(2);
-	var gpAmtInput = $("<input/>", { type: "hidden", name: "itemData[" + countRow + "][gold_platinum_price]", value: data.gold_platinum_price });
+	var gpAmtInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][gold_platinum_price]", value: data.gold_platinum_price });
 	cell = $(row.insertCell(-1));
 	cell.html(tmcAmt);
 	cell.append(mcPerInput);
@@ -262,33 +263,33 @@ function AddRow(data) {
 	cell.append(gpAmtInput);
 
 	
-    var discPerInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][disc_per]", value: data.disc_per});
-	var discAmtInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][disc_amount]", value: data.disc_amount });
+    var discPerInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][disc_per]", value: data.disc_per});
+	var discAmtInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][disc_amount]", value: data.disc_amount });
 	cell = $(row.insertCell(-1));
 	cell.html(data.disc_amount);
 	cell.append(discPerInput);
 	cell.append(discAmtInput);
 
-    var cgstPerInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][cgst_per]", value: data.cgst_per });
-	var cgstAmtInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][cgst_amount]", class:'cgst_amount', value: data.cgst_amount });
+    var cgstPerInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][cgst_per]", value: data.cgst_per });
+	var cgstAmtInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][cgst_amount]", class:'cgst_amount', value: data.cgst_amount });
 	cell = $(row.insertCell(-1));
 	cell.html(data.cgst_amount + '(' + data.cgst_per + '%)');
 	cell.append(cgstPerInput);
 	cell.append(cgstAmtInput);
 	cell.attr("class", "cgstCol");
 
-	var sgstPerInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][sgst_per]", value: data.sgst_per });
-	var sgstAmtInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][sgst_amount]", class:"sgst_amount", value: data.sgst_amount });
+	var sgstPerInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][sgst_per]", value: data.sgst_per });
+	var sgstAmtInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][sgst_amount]", class:"sgst_amount", value: data.sgst_amount });
 	cell = $(row.insertCell(-1));
 	cell.html(data.sgst_amount + '(' + data.sgst_per + '%)');
 	cell.append(sgstPerInput);
 	cell.append(sgstAmtInput);
 	cell.attr("class", "sgstCol");
 
-	var gstPerInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][gst_per]", class:"gst_per", value: data.gst_per });
-	var igstPerInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][igst_per]", value: data.igst_per });
-	var gstAmtInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][gst_amount]", class:"gst_amount", value: data.gst_amount });
-	var igstAmtInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][igst_amount]", class:"igst_amount", value: data.igst_amount });
+	var gstPerInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][gst_per]", class:"gst_per", value: data.gst_per });
+	var igstPerInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][igst_per]", value: data.igst_per });
+	var gstAmtInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][gst_amount]", class:"gst_amount", value: data.gst_amount });
+	var igstAmtInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][igst_amount]", class:"igst_amount", value: data.igst_amount });
 	cell = $(row.insertCell(-1));
 	cell.html(data.igst_amount + '(' + data.igst_per + '%)');
 	cell.append(gstPerInput);
@@ -297,21 +298,21 @@ function AddRow(data) {
 	cell.append(igstAmtInput);
 	cell.attr("class", "igstCol");
 
-    var amountInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][amount]", class:"amount", value: data.amount });
-    var taxableAmountInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][taxable_amount]", class:"taxable_amount", value: data.taxable_amount });
+    var amountInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][amount]", class:"amount", value: data.amount });
+    var taxableAmountInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][taxable_amount]", class:"taxable_amount", value: data.taxable_amount });
 	cell = $(row.insertCell(-1));
 	cell.html(data.taxable_amount);
 	cell.append(amountInput);
 	cell.append(taxableAmountInput);
 	cell.attr("class", "amountCol");
 
-	var netAmtInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][net_amount]", value: data.net_amount });
+	var netAmtInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][net_amount]", value: data.net_amount });
 	cell = $(row.insertCell(-1));
 	cell.html(data.net_amount);
 	cell.append(netAmtInput);
 	cell.attr("class", "netAmtCol");
 
-    var itemRemarkInput = $("<input/>", { type: "hidden", name: "itemData["+countRow+"][item_remark]", value: data.item_remark});
+    var itemRemarkInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][item_remark]", value: data.item_remark});
 	cell = $(row.insertCell(-1));
 	cell.html(data.item_remark);
 	cell.append(itemRemarkInput);
@@ -347,6 +348,7 @@ function AddRow(data) {
 	}
 
     claculateColumn();
+	itemCount++;
 }
 
 function Edit(data, button) {
