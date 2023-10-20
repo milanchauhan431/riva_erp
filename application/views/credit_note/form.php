@@ -107,6 +107,9 @@
 
                                     <div class="col-md-2 form-group">
                                         <label for="doc_no">Inv. No.</label>
+                                        <div class="float-right" id="invItemLink">
+                                            <a class="text-primary font-bold waves-effect waves-dark getInvoiceItem" href="javascript:void(0)">+ Add Item</a>
+										</div>
                                         <input type="text" name="doc_no" id="doc_no" class="form-control" value="<?=(!empty($dataRow->doc_no))?$dataRow->doc_no:""?>">
                                     </div>
 
@@ -115,7 +118,7 @@
                                         <input type="text" name="doc_date" id="doc_date" class="form-control" value="<?=(!empty($dataRow->doc_date))?$dataRow->doc_date:""?>">
                                     </div>
 
-                                    <div class="col-md-2 form-group">
+                                    <div class="col-md-2 form-group hidden">
 										<label for="apply_round">Apply Round Off</label>
                                         <select name="apply_round" id="apply_round" class="form-control">
 											<option value="1" <?= (!empty($dataRow) && $dataRow->apply_round == 1) ? "selected" : "" ?>>Yes</option>
@@ -144,8 +147,11 @@
                                                         <th>Item Name</th>
                                                         <th>HSN Code</th>
                                                         <th>Qty.</th>
+                                                        <th>G.W.</th>
+                                                        <th>N.W.</th>
                                                         <th>Unit</th>
                                                         <th>Price</th>
+                                                        <th>Making<br>Charge</th>
                                                         <th>Disc.</th>
                                                         <th class="igstCol">IGST</th>
                                                         <th class="cgstCol">CGST</th>
@@ -158,7 +164,7 @@
                                                 </thead>
                                                 <tbody id="tempItem" class="temp_item">
                                                     <tr id="noData">
-                                                        <td colspan="15" class="text-center">No data available in table</td>
+                                                        <td colspan="17" class="text-center">No data available in table</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -206,7 +212,7 @@
         <div class="modal-content animated slideDown">
             <div class="modal-header" style="display:block;"><h4 class="modal-title">Add or Update Item</h4></div>
             <div class="modal-body">
-                <form id="itemForm">
+                <form id="itemForm" enctype="multipart/form-data">
                     <div class="col-md-12">
 
                         <div class="row form-group">
@@ -217,14 +223,21 @@
                                 
 								<input type="hidden" name="row_index" id="row_index" value="">
 								<input type="hidden" name="item_code" id="item_code" value="" />
-                                <input type="hidden" name="item_id" id="item_id" value="0" />
                                 <input type="hidden" name="item_type" id="item_type" value="1" />
                                 <input type="hidden" name="stock_eff" id="stock_eff" value="1" />
+
                                 <input type="hidden" name="org_price" id="org_price" class="org_price" value="" />
+                                <input type="hidden" name="stock_trans_id" id="stock_trans_id" value="" />
+                                <input type="hidden" name="location_id" id="location_id" value="" />
+                                <input type="hidden" name="standard_qty" id="standard_qty" value="" />
+                                <input type="hidden" name="purity" id="purity" value="" />
+                                <input type="hidden" name="stock_category" id="stock_category" value="" />
+
+                                <input type="hidden" name="disc_per" id="disc_per" value="0">
                             </div>
                             
 
-                            <div class="col-md-12 form-group">
+                            <div class="col-md-12 form-group popupSelectBox">
 								<label for="item_id">Product Name</label>
                                 <input type="hidden" name="item_name" id="item_name" class="form-control" value="" />
                                 <select name="item_id" id="item_id" class="form-control select2 itemDetails itemOptions" data-res_function="resItemDetail">
@@ -232,23 +245,28 @@
                                     <?=getItemListOption($itemList)?>
                                 </select>
                             </div>
-                            <div class="col-md-3 form-group">
+                            <div class="col-md-4 form-group">
+                                <label for="unique_id">Barcode No.</label>
+                                <div class="input-group">
+                                    <input type="text" name="unique_id" id="unique_id" class="form-control numericOnly" value="">
+                                    <div class="input-group-append">
+                                        <button type="button" id="unique_search" class="btn btn-info"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 form-group">
                                 <label for="qty">Quantity</label>
                                 <input type="text" name="qty" id="qty" class="form-control floatOnly req" value="0">
                             </div>
-                            <div class="col-md-3 form-group">
-                                <label for="packing_qty">Packing Standard</label>
-                                <input type="text" name="packing_qty" id="packing_qty" class="form-control" value="" readonly>
+                            <div class="col-md-2 form-group">
+                                <label for="disc_amount">Disc. Amount</label>
+                                <input type="text" name="disc_amount" id="disc_amount" class="form-control floatOnly" value="0">
                             </div>
-                            <div class="col-md-3 form-group">
-                                <label for="disc_per">Disc. (%)</label>
-                                <input type="text" name="disc_per" id="disc_per" class="form-control floatOnly" value="0">
-                            </div>
-                            <div class="col-md-3 form-group">
+                            <div class="col-md-2 form-group">
                                 <label for="price">Price</label>
                                 <input type="text" name="price" id="price" class="form-control floatOnly req" value="0" />
                             </div>
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-2 form-group">
                                 <label for="unit_id">Unit</label>        
                                 <select name="unit_id" id="unit_id" class="form-control select2">
                                     <option value="">Select Unit</option>
@@ -256,14 +274,14 @@
                                 </select> 
                                 <input type="hidden" name="unit_name" id="unit_name" class="form-control" value="" />                       
                             </div>
-							<div class="col-md-4 form-group">
+							<div class="col-md-3 form-group">
                                 <label for="hsn_code">HSN Code</label>
                                 <select name="hsn_code" id="hsn_code" class="form-control select2">
                                     <option value="">Select HSN Code</option>
                                     <?=getHsnCodeListOption($hsnList)?>
                                 </select>
                             </div>
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-3 form-group">
                                 <label for="gst_per">GST Per.(%)</label>
                                 <select name="gst_per" id="gst_per" class="form-control select2">
                                     <?php
@@ -273,11 +291,43 @@
                                     ?>
                                 </select>
                             </div>
+                            <div class="col-md-3 form-group">
+                                <label for="gross_weight">Gross Weight</label>
+                                <input type="text" name="gross_weight" id="gross_weight" class="form-control floatOnly req" value="0" />
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="net_weight">Net Weight</label>
+                                <input type="text" name="net_weight" id="net_weight" class="form-control floatOnly req" value="0" />
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="making_per">Making Charge (%)</label>
+                                <input type="text" name="making_per" id="making_per" class="form-control floatOnly" value="0" />
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="making_disc_per">Making Charge Disc.(%)</label>
+                                <input type="text" name="making_disc_per" id="making_disc_per" class="form-control floatOnly" value="0" />
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="other_charge">Other Charge</label>
+                                <input type="text" name="other_charge" id="other_charge" class="form-control floatOnly" value="0" />
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="vrc_charge">Variety Charge</label>
+                                <input type="text" name="vrc_charge" id="vrc_charge" class="form-control floatOnly" value="0" />
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <label for="diamond_amount">Diamond Amount</label>
+                                <input type="text" name="diamond_amount" id="diamond_amount" class="form-control floatOnly" value="0" />
+                            </div>
+                            <div class="col-md-3 form-group hidden" id="gold_platinum_price_div">
+                                <label for="gold_platinum_price">Gold/Platinum Amount</label>
+                                <input type="text" name="gold_platinum_price" id="gold_platinum_price" class="form-control floatOnly" value="0" />
+                            </div>
                             <div class="col-md-12 form-group">
                                 <label for="item_remark">Remark</label>
                                 <input type="text" name="item_remark" id="item_remark" class="form-control" value="" />
-                            </div>                            
-                        </div>
+                            </div>                         
+                        </div>						
                     </div>          
                 </form>
             </div>
