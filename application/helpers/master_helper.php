@@ -100,6 +100,10 @@ function getMasterDtHeader($page){
     $data['purity'][] = ["name"=>"Action","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"];
     $data['purity'][] = ["name"=>"#","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"]; 
     $data['purity'][] = ["name"=>"Purity"];
+    $data['purity'][] = ["name"=>"Gold"];
+    $data['purity'][] = ["name"=>"Silver"];
+    $data['purity'][] = ["name"=>"Platinum"];
+    $data['purity'][] = ["name"=>"Palladium"];
     $data['purity'][] = ["name"=>"Remark"];
 
     /* Fine Header */
@@ -250,7 +254,7 @@ function getPurityData($data){
 
     $action = getActionButton($editButton.$deleteButton);
 
-    return [$action,$data->sr_no,$data->purity,$data->remark];
+    return [$action,$data->sr_no,$data->purity,$data->gold_rate,$data->silver_rate,$data->platinum_rate,$data->palladium_rate,$data->remark];
 }
 
 function getFineData($data){
