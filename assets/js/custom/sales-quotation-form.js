@@ -78,7 +78,10 @@ $(document).ready(function(){
 			varietyChargeAmt = parseFloat(formData.vrc_charge).toFixed(2);
 			diamondAmount = parseFloat(formData.diamond_amount).toFixed(2);
 			
-			gold_platinum_price = parseFloat(formData.gold_platinum_price).toFixed(2);
+			if(parseFloat(formData.gold_platinum_price) > 0){
+				gold_platinum_price = parseFloat(formData.gold_platinum_price).toFixed(2);
+			}
+			
 			taxable_amount = parseFloat(parseFloat(amount) + (parseFloat(mackingChargeAmt) - parseFloat(mcDiscAmt)) + parseFloat(otherChargeAmt) + parseFloat(varietyChargeAmt) + parseFloat(diamondAmount)).toFixed(2);
 
 			if(formData.disc_amount != "" && parseFloat(formData.disc_amount) > 0){

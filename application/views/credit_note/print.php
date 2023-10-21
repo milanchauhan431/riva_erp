@@ -24,7 +24,7 @@
                 <td style="width:33%;" class="fs-18 text-left">
                     GSTIN: <?=$companyData->company_gst_no?>
                 </td>
-                <td style="width:33%;" class="fs-18 text-center"><?=$invData->order_type?></td>
+                <td style="width:33%;" class="fs-18 text-center"><?=($invData->order_type == "Sales Return")?"Sales Return":"Credit Note"?></td>
                 <td style="width:33%;" class="fs-18 text-right"><?=$printType?></td>
             </tr>
         </table>
