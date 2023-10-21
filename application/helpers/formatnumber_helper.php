@@ -702,7 +702,7 @@ function getItemPriceByRate($itemDetail){
 	$data["purity"] = $itemDetail->purity;
 	$getpurity = $CI->purity->getPurity($itemDetail->purity);
 	$item_rate = 0;
-	return $getpurity;
+	print_r($getpurity); exit;
 	if(in_array($itemDetail->stock_category, array("Gold","Gold Items","Gold + Diamond Items"))){
 		$item_rate = $getpurity->gold_rate / 10;  
 	}
