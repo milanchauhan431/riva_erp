@@ -699,47 +699,43 @@ function getItemOtherCharge($itemDetail){
 /* Get Item Price */
 function getItemPriceByRate($itemDetail){
 	$CI =& get_instance(); 
-	$CompanyInfo = $CI->masterModel->getCompanyInfo();
-	$item_rate = 1;
-
+	$data["purity"] = $itemDetail->purity;
+	$getpurity = $CI->purity->getPurity($itemDetail->purity);
+	$item_rate = 0;
+	
 	if(in_array($itemDetail->stock_category, array("Gold","Gold Items","Gold + Diamond Items"))){
-		$item_rate = $CompanyInfo->gold_rate / 10; 
-		$purity = $item_rate * $itemDetail->purity / 24;
+		$item_rate = $getpurity->gold_rate / 10;  
 	}
 	
 	if(in_array($itemDetail->stock_category, array("Silver","Silver Items"))){
-		$item_rate = $CompanyInfo->silver_rate / 10; 
-		$purity = $item_rate * $itemDetail->purity / 24;
+		$item_rate = $getpurity->silver_rate / 10;  
 	}
 	
 	if(in_array($itemDetail->stock_category, array("Platinum Items","Platinum + Diamond Items"))){
-		$item_rate = $CompanyInfo->platinum_rate / 10; 
-		$purity = $item_rate * $itemDetail->purity / 24;
+		$item_rate = $getpurity->platinum_rate / 10;  
 	}
 
 	if(in_array($itemDetail->stock_category, array("Palladium"))){
-		$item_rate = $CompanyInfo->palladium_rate / 10; 
-		$purity = $item_rate * $itemDetail->purity / 24;
+		$item_rate = $getpurity->palladium_rate / 10;  
 	}
 
 	if(in_array($itemDetail->stock_category, array("Platinum + Gold + Diamond Items"))){
-		$item_rate = 0;
-		$item_rate += $CompanyInfo->platinum_rate / 10; 
-	//	$item_rate += $CompanyInfo->gold_rate / 10; 
-		$purity = $item_rate * $itemDetail->purity / 24;
+		$item_rate = $getpurity->platinum_rate / 10;   
 	}
 	if (in_array($itemDetail->stock_category, array("Lab Grown Diamond", "Loos Diamond"))){
-		$purity = 0;
+		$item_rate = 0;
 	}
 
-	return sprintf("%.2f",$purity);
+	return sprintf("%.2f",$item_rate);
 }
 function getPltinumPriceByGn($itemDetail){
 	$CI =& get_instance(); 
-	$CompanyInfo = $CI->masterModel->getCompanyInfo();
+	
+	$data["purity"] = $itemDetail->purity;
+	$getpurity = $CI->purity->getPurity($itemDetail->purity);
 	$item_rate = 0;
 	
-	$item_rate = $CompanyInfo->gold_rate / 10; 
+	$item_rate = $getpurity->gold_rate / 10; 
 	$gold_gn = $itemDetail->gross_weight - $itemDetail->net_weight; 
 	
 	$purity = $item_rate * 18 / 24;
