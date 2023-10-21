@@ -18,7 +18,12 @@ class PurityModel extends MasterModel{
     }
 
     public function getPurity($data){
-        $queryData['where']['id'] = $data['id'];
+        if(!empty($data['id'])):
+            $queryData['where']['id'] = $data['id'];
+        endif;
+        if(!empty($data['purity'])):
+            $queryData['where']['purity'] = $data['purity'];
+        endif;
         $queryData['tableName'] = $this->purity;
         return $this->row($queryData);
     }
@@ -26,6 +31,11 @@ class PurityModel extends MasterModel{
     public function save($data){
         try{
             $this->db->trans_begin();
+
+            if($this->checkDuplicate($data) > 0):
+                $errorMessage['purity'] = "Purity is duplicate.";
+                return ['status'=>0,'message'=>$errorMessage];
+            endif;
 
             $result = $this->store($this->purity,$data,'Purity');
 
@@ -37,6 +47,18 @@ class PurityModel extends MasterModel{
             $this->db->trans_rollback();
             return ['status'=>2,'message'=>"somthing is wrong. Error : ".$e->getMessage()];
         }	
+    }
+
+    public function checkDuplicate($data){
+        $queryData['tableName'] = $this->purity;
+
+        if(!empty($data['purity']))
+            $queryData['where']['purity'] = $data['purity'];
+        if(!empty($data['id']))
+            $queryData['where']['id !='] = $data['id'];
+
+        $queryData['resultType'] = "numRows";
+        return $this->specificRow($queryData);
     }
 
     public function delete($id){
