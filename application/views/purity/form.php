@@ -9,19 +9,19 @@
             </div>
 			
             <div class="col-md-12 form-group">
-                <label for="purity">Gold</label>
+                <label for="purity">Gold 10grm</label>
                 <input type="text" name="gold_rate" id="gold_rate" class="form-control" value="<?=(!empty($dataRow->gold_rate))?$dataRow->gold_rate:""?>">
             </div>
             <div class="col-md-12 form-group">
-                <label for="purity">Platinum</label>
+                <label for="purity">Platinum 10grm</label>
                 <input type="text" name="platinum_rate" id="platinum_rate" class="form-control" value="<?=(!empty($dataRow->platinum_rate))?$dataRow->platinum_rate:""?>">
             </div>
             <div class="col-md-12 form-group">
-                <label for="purity">Silver</label>
+                <label for="purity">Silver 10grm</label>
                 <input type="text" name="silver_rate" id="silver_rate" class="form-control" value="<?=(!empty($dataRow->silver_rate))?$dataRow->silver_rate:""?>">
             </div>
             <div class="col-md-12 form-group">
-                <label for="purity">Palladium</label>
+                <label for="purity">Palladium 10grm</label>
                 <input type="text" name="palladium_rate" id="palladium_rate" class="form-control" value="<?=(!empty($dataRow->palladium_rate))?$dataRow->palladium_rate:""?>">
             </div>
 			
