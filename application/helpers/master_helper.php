@@ -100,10 +100,10 @@ function getMasterDtHeader($page){
     $data['purity'][] = ["name"=>"Action","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"];
     $data['purity'][] = ["name"=>"#","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"]; 
     $data['purity'][] = ["name"=>"Purity"];
-    $data['purity'][] = ["name"=>"Gold"];
-    $data['purity'][] = ["name"=>"Silver"];
-    $data['purity'][] = ["name"=>"Platinum"];
-    $data['purity'][] = ["name"=>"Palladium"];
+    $data['purity'][] = ["name"=>"Gold 10grm"];
+    $data['purity'][] = ["name"=>"Silver 10grm"];
+    $data['purity'][] = ["name"=>"Platinum 10grm"];
+    $data['purity'][] = ["name"=>"Palladium 10grm"];
     $data['purity'][] = ["name"=>"Remark"];
 
     /* Fine Header */
