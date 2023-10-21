@@ -18,7 +18,6 @@ class PurityModel extends MasterModel{
     }
 
     public function getPurity($data){
-		print_r($data);
         if(!empty($data['id'])):
             $queryData['where']['id'] = $data['id'];
         endif;
