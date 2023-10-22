@@ -75,6 +75,38 @@
           <div class="alert alert-info">
             <a href="<?php echo base_url() ?>makingCharge" class=""> <strong>Making Charge! </strong> Fill out your <?php echo count($charge_data); ?> pending Making Charge items. </a>
           </div>
+		   <div class="card">
+			  <div class="card-header">
+			  <div class="row">
+			  <div class="col-md-6"><h4 class="m-b-0">Today Rate Update</h4></div>
+				<div class="col-md-6"><a href="<?=base_url('purity')?>" class="btn waves-effect waves-light btn-outline-primary float-right" >Update Rate</a></div>
+			  </div>
+			  </div>
+			  <div class="card-body">
+				 <table id="" class="table table-bordered">
+					<thead class="thead-info">
+					  <tr>
+						<th>Purity</th>
+						<th>Gold 10grm</th>
+						<th>Silver 10grm</th>
+						<th>Platinum 10grm</th>
+						<th>Palladium 10grm</th>
+					  </tr>
+					</thead>
+					<tbody id="">
+					<?php foreach($today_rate as $rate){ ?>
+					<tr>
+						<td><?php echo $rate->purity ?></td>
+						<td><?php echo $rate->gold_rate ?></td>
+						<td><?php echo $rate->silver_rate ?></td>
+						<td><?php echo $rate->palladium_rate ?></td>
+						<td><?php echo $rate->platinum_rate ?></td>
+					</tr>
+					<?php } ?>
+					</tbody>
+				  </table>
+				</div>
+			</div> 
         <?php } ?>
         <div class="row">
           <div class="col-lg-12">

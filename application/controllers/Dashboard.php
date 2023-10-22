@@ -25,8 +25,9 @@ class Dashboard extends MY_Controller{
 	    $this->data['charge_data'] = $this->masterModel->rows($queryStockData); 
 
 		$queryData['tableName'] = "rates";  
-		$queryData['where']['date'] = date("Y-m-d"); 
-	    $this->data['today_rate'] = $this->masterModel->row($queryData);
+		$queryData['where']['date'] = date("Y-m-d");  
+		$queryData['order_by']['id'] = "DESC";
+	    $this->data['today_rate'] = $this->masterModel->rows($queryData);
         $this->load->view('dashboard',$this->data);
     }
 	

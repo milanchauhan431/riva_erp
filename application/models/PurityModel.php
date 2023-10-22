@@ -41,6 +41,14 @@ class PurityModel extends MasterModel{
 
             if ($this->db->trans_status() !== FALSE):
                 $this->db->trans_commit();
+				$masterDetails['purity'] = $data['purity'];
+				$masterDetails['gold_rate'] = $data['gold_rate'];
+				$masterDetails['silver_rate'] = $data['silver_rate'];
+				$masterDetails['platinum_rate'] = $data['platinum_rate'];
+				$masterDetails['palladium_rate'] = $data['palladium_rate'];
+				$masterDetails['date'] = date("Y-m-d");  
+				$masterDetails['id'] = "";
+				$this->masterModel->store("rates",$masterDetails);
                 return $result;
             endif;
         }catch(\Throwable $e){
