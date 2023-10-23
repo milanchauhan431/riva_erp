@@ -155,6 +155,7 @@ class CreditNoteModel extends MasterModel{
                         'purity' => $serialData['d_col_2'],
                         'gross_weight' => $row['gross_weight'],
                         'net_weight' => $row['net_weight'],
+                        'gold_weight' => $row['gold_weight'],
                     ];
 
                     $this->store($this->stockTrans,$stockData);
