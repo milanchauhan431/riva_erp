@@ -304,6 +304,7 @@ function AddRow(data) {
 	var tmcAmt = parseFloat(parseFloat(data.making_charge) - parseFloat(data.making_charge_dicount)).toFixed(2);
  	//GP
  	var gpAmtInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][gold_platinum_price]", value: data.gold_platinum_price });
+ 	var gpWgInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][gold_weight]", value: data.gold_weight });
 	cell = $(row.insertCell(-1));
 	cell.html(tmcAmt);
 	cell.append(mcPerInput);

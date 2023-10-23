@@ -416,9 +416,11 @@ async function barcodeDetails(barcode="",formData=""){
 		if(parseFloat(formData.gold_platinum_price) > 0){
 			$("#itemForm #gold_platinum_price_div").show();
 			$("#itemForm #gold_platinum_price").val(formData.gold_platinum_price);
+			$("#itemForm #gold_weight").val(formData.gold_weight);
 		}else{
 			$("#itemForm #gold_platinum_price_div").hide();
-			$("#itemForm #gold_platinum_price").val("");
+			$("#itemForm #gold_platinum_price").val(0);
+			$("#itemForm #gold_weight").val(0);
 		}
 	}
 }
