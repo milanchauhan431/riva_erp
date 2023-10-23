@@ -234,6 +234,7 @@
                                 <input type="hidden" name="stock_category" id="stock_category" value="" />
 
                                 <input type="hidden" name="disc_per" id="disc_per" value="0">
+                                <input type="hidden" name="gold_weight" id="gold_weight" value="0">
                             </div>
                             
 

@@ -254,6 +254,7 @@ function AddRow(data) {
 	var diamondAmtInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][diamond_amount]", value: data.diamond_amount });
 	var tmcAmt = parseFloat(parseFloat(data.making_charge) - parseFloat(data.making_charge_dicount)).toFixed(2);
 	var gpAmtInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][gold_platinum_price]", value: data.gold_platinum_price });
+ 	var gpWgInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][gold_weight]", value: data.gold_weight });
 	cell = $(row.insertCell(-1));
 	cell.html(tmcAmt);
 	cell.append(mcPerInput);
@@ -264,6 +265,7 @@ function AddRow(data) {
 	cell.append(vrChrageInput);
 	cell.append(diamondAmtInput);
 	cell.append(gpAmtInput);
+	cell.append(gpWgInput);
 
 	
     var discPerInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][disc_per]", value: data.disc_per});

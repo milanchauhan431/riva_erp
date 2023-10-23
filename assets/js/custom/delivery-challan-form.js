@@ -336,6 +336,7 @@ function AddRow(data) {
 	var diamondAmtInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][diamond_amount]", value: data.diamond_amount });
 	
 	var gpAmtInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][gold_platinum_price]", value: data.gold_platinum_price });
+ 	var gpWgInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][gold_weight]", value: data.gold_weight });
 	cell = $(row.insertCell(-1));
 	cell.html(data.net_weight);
 	cell.append(netWeightInput);
@@ -348,6 +349,7 @@ function AddRow(data) {
 	cell.append(diamondAmtInput);
 	//GP
 	cell.append(gpAmtInput);
+	cell.append(gpWgInput);
 
     var unitIdInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][unit_id]", value: data.unit_id });
 	var unitNameInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][unit_name]", value: data.unit_name });
