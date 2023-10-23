@@ -315,6 +315,7 @@ function AddRow(data) {
 	cell.append(vrChrageInput);
 	cell.append(diamondAmtInput);
 	cell.append(gpAmtInput);
+	cell.append(gpWgInput);
 
 	
     var discPerInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][disc_per]", value: data.disc_per});
