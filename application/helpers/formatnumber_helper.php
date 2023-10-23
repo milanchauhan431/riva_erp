@@ -735,7 +735,7 @@ function getPltinumPriceByGn($itemDetail){
 	$item_rate = 0;
 	
 	$item_rate = $getpurity->gold_rate / 10; 
-	$gold_gn = $itemDetail->gross_weight - $itemDetail->net_weight; 
+	$gold_gn = $itemDetail->gold_weight; 
 	
 	$gold_rate = $gold_gn * $item_rate;
 	return sprintf("%.2f",$gold_rate);
