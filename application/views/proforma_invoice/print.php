@@ -84,6 +84,9 @@
                                     if(!empty($row->gold_platinum_price)):
                                         echo '<small>Gold Amount :</small> ' . floatVal($row->gold_platinum_price) . '<br>';
                                     endif;
+									if(!empty($row->gold_weight)):
+                                        echo '<small>Gold Weight : ' . floatVal($row->gold_weight) . '</small><br>';
+                                    endif;
                                     if(!empty($row->other_charge)):
                                         echo '<small>Other Charge :</small> ' . floatVal($row->other_charge) . '<br>';
                                     endif;
