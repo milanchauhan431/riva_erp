@@ -730,8 +730,8 @@ function getItemPriceByRate($itemDetail){
 function getPltinumPriceByGn($itemDetail){
 	$CI =& get_instance(); 
 	if(in_array($itemDetail->stock_category, array("Platinum + Gold + Diamond Items"))){
-	$data["purity"] = $itemDetail->purity;
-	$getpurity = $CI->purity->getPurity($itemDetail->purity);
+	$data["purity"] = (int)$itemDetail->purity;
+	$getpurity = $CI->purity->getPurity($data);
 	$item_rate = 0;
 	
 	$item_rate = $getpurity->gold_rate / 10; 
