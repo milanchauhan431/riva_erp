@@ -699,7 +699,7 @@ function getItemOtherCharge($itemDetail){
 /* Get Item Price */
 function getItemPriceByRate($itemDetail){
 	$CI =& get_instance(); 
-	$data["purity"] = (int)$itemDetail->purity;
+	$data["purity"] = $itemDetail->purity;
 	$getpurity = $CI->purity->getPurity($data);
 	$item_rate = 0; 
 	if(in_array($itemDetail->stock_category, array("Gold","Gold Items","Gold + Diamond Items"))){
@@ -730,7 +730,7 @@ function getItemPriceByRate($itemDetail){
 function getPltinumPriceByGn($itemDetail){
 	$CI =& get_instance(); 
 	if(in_array($itemDetail->stock_category, array("Platinum + Gold + Diamond Items"))){
-	$data["purity"] = (int)$itemDetail->purity;
+	$data["purity"] = $itemDetail->purity;
 	$getpurity = $CI->purity->getPurity($data);
 	$item_rate = 0;
 	
