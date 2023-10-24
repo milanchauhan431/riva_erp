@@ -78,7 +78,7 @@
 		   <div class="card">
 			  <div class="card-header">
 			  <div class="row">
-			  <div class="col-md-6"><h4 class="m-b-0">Current Rate Update (Last update <?php echo $today_rate[0]->updated_at ?>)</h4></div>
+			  <div class="col-md-6"><h4 class="m-b-0">Current Rate Update (Last update <?php echo  date("d-m-Y h:i:s A",strtotime($today_rate[0]->updated_at)); ?>)</h4></div>
 				<div class="col-md-6"><a href="<?=base_url('purity')?>" class="btn waves-effect waves-light btn-outline-primary float-right" >Update Rate</a></div>
 			  </div>
 			  </div>
