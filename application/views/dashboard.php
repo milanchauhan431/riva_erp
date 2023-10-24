@@ -97,10 +97,10 @@
 					<?php foreach($today_rate as $rate){ ?>
 					<tr>
 						<td><?php echo $rate->purity ?></td>
-						<td><?php echo $rate->gold_rate ?></td>
-						<td><?php echo $rate->silver_rate ?></td>
-						<td><?php echo $rate->platinum_rate ?></td>
-						<td><?php echo $rate->palladium_rate ?></td>
+						<td><?php echo floatVal($rate->gold_rate); ?></td>
+						<td><?php echo floatVal($rate->silver_rate); ?></td>
+						<td><?php echo floatVal($rate->platinum_rate); ?></td>
+						<td><?php echo floatVal($rate->palladium_rate); ?></td>
 					</tr>
 					<?php } ?>
 					</tbody>
