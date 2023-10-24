@@ -41,7 +41,7 @@ class MY_Controller extends CI_Controller{
 	
 	public function __construct(){
 		parent::__construct();
-		//echo '<br><br><hr><h1 style="text-align:center;color:red;">We are sorry!<br>Your ERP is Updating New Features</h1><hr><h2 style="text-align:center;color:green;">Thanks For Co-operate</h1>';exit;
+		echo '<br><br><hr><h1 style="text-align:center;color:red;">We are sorry!<br>Your ERP is Updating New Features</h1><hr><h2 style="text-align:center;color:green;">Thanks For Co-operate</h1>';exit;
 		$this->isLoggedin();
 		$this->data['headData'] = new StdClass;
 		$this->load->library('form_validation');

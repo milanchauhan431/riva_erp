@@ -1,5 +1,5 @@
 <?php
-class Migration extends MY_Controller{
+class Migration extends CI_Controller{
     public function __construct(){
         parent::__construct();
     }
