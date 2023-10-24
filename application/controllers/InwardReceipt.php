@@ -382,8 +382,8 @@ class InwardReceipt extends MY_Controller
             else :
                 $data['attachments'] = "";
             endif;
-			$data['gold_weight'] = $data['gross_weight'] - $data['net_weight'] - $data['kundan_weight'] 
-			- $data['stone_weight'] - $data['moti_weight']-  $data['diamond_weight'];
+			$data['gold_weight'] = round(($data['gross_weight'] - $data['net_weight'] - $data['kundan_weight'] 
+			- $data['stone_weight'] - $data['moti_weight']-  $data['diamond_weight']),3);
             $this->printJson($this->inwardReceipt->save($data));
         endif;
     }

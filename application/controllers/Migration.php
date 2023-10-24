@@ -246,6 +246,7 @@ class Migration extends MY_Controller{
             echo $e->getMessage();exit;
         } 
     }
+
     public function migrateInwardApproval(){
         try{
             $this->db->trans_begin();
@@ -293,6 +294,76 @@ class Migration extends MY_Controller{
             if($this->db->trans_status() !== FALSE):
                 $this->db->trans_commit();
                 echo "Inward approved Successfully.";
+            endif;
+        }catch(\Throwable $e){
+            $this->db->trans_rollback();
+            echo $e->getMessage();exit;
+        } 
+    }
+
+    public function migrateGoldWeight(){
+        try{
+            $this->db->trans_begin();
+
+            $this->db->where('is_delete',0);
+            $result = $this->db->get('inward_receipt')->result();
+
+            foreach($result as $row):
+                $gold_weight = 0;
+                $gold_weight = round(($row->gross_weight - $row->kundan_weight - $row->stone_weight - $row->moti_weight-  $row->diamond_weight - $row->net_weight),3);
+
+                /* if($gold_weight < 0 ):
+                    print_r($gold_weight);print_r(",");
+                endif; */
+
+                if($gold_weight > 0):
+                    //print_r($gold_weight);print_r("<br><br>");
+
+                    $this->db->reset_query();
+                    $this->db->where('id',$row->id);
+                    $this->db->update('inward_receipt',['gold_weight'=>$gold_weight]);
+
+                    $this->db->reset_query();
+                    $this->db->where('entry_type',$row->entry_type);
+                    $this->db->where('ref_no',$row->trans_number);
+                    $this->db->where('main_ref_id',$row->id);
+                    $this->db->where('is_delete',0);
+                    $stockTrans = $this->db->get('stock_transaction')->result();
+
+                    foreach($stockTrans as $st):
+                        $this->db->reset_query();
+                        $this->db->where('unique_id',$st->unique_id);
+                        $this->db->update('stock_transaction',['gold_weight'=>$gold_weight]);
+
+                        //print_r("unique_id : ".$st->unique_id);print_r("<br><br>");
+
+                        $this->db->reset_query();
+                        $this->db->select('trans_child.id,trans_details.t_col_1 as unique_id');
+                        $this->db->join("trans_details", "trans_child.trans_main_id = trans_details.main_ref_id AND trans_details.child_ref_id = trans_child.id AND trans_details.table_name = 'trans_child'");
+                        $this->db->where('trans_details.t_col_1',$st->unique_id);
+                        $this->db->where('trans_child.is_delete',0);
+                        $transChild = $this->db->get('trans_child')->result();
+
+                        if(!empty($transChild)):
+                            $transIds = [];
+                            $transIds = array_column($transChild,'id');
+                            //print_r("transIds : ");print_r($transIds);print_r("<br><br>");
+
+                            $this->db->reset_query();
+                            $this->db->where_in('id',$transIds);
+                            $this->db->update('trans_child',['gold_weight'=>$gold_weight]);
+                        endif;
+                    endforeach;
+                    //print_r("<hr>");
+                endif;
+            endforeach;//exit;
+
+
+
+
+            if($this->db->trans_status() !== FALSE):
+                $this->db->trans_commit();
+                echo "Gold Weight updated Successfully.";
             endif;
         }catch(\Throwable $e){
             $this->db->trans_rollback();
