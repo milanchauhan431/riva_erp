@@ -247,7 +247,7 @@ class Migration extends CI_Controller{
         } 
     }
 
-    public function migrateInwardApproval(){
+    /* public function migrateInwardApproval(){
         try{
             $this->db->trans_begin();
 
@@ -299,9 +299,9 @@ class Migration extends CI_Controller{
             $this->db->trans_rollback();
             echo $e->getMessage();exit;
         } 
-    }
+    } */
 
-    public function migrateGoldWeight(){
+    /* public function migrateGoldWeight(){
         try{
             $this->db->trans_begin();
 
@@ -311,10 +311,6 @@ class Migration extends CI_Controller{
             foreach($result as $row):
                 $gold_weight = 0;
                 $gold_weight = round(($row->gross_weight - $row->kundan_weight - $row->stone_weight - $row->moti_weight-  $row->diamond_weight - $row->net_weight),3);
-
-                /* if($gold_weight < 0 ):
-                    print_r($gold_weight);print_r(",");
-                endif; */
 
                 if($gold_weight > 0):
                     //print_r($gold_weight);print_r("<br><br>");
@@ -356,19 +352,19 @@ class Migration extends CI_Controller{
                     endforeach;
                     //print_r("<hr>");
                 endif;
-            endforeach;//exit;
+            endforeach;exit;
 
 
 
 
             if($this->db->trans_status() !== FALSE):
                 $this->db->trans_commit();
-                echo "Gold Weight updated Successfully.";
+                //echo "Gold Weight updated Successfully.";
             endif;
         }catch(\Throwable $e){
             $this->db->trans_rollback();
             echo $e->getMessage();exit;
         } 
-    }
+    } */
 }
 ?>
