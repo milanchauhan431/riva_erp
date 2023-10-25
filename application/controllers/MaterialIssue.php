@@ -4,6 +4,7 @@ class MaterialIssue extends MY_Controller{
     private $issueForm = "material_issue/form";
     private $acceptForm = "material_issue/accept_form";
     private $returnForm = "material_issue/return_form";
+    private $salesReturnForm = "material_issue/sales_return_form";
     
 	public function __construct(){
 		parent::__construct();
@@ -110,6 +111,26 @@ class MaterialIssue extends MY_Controller{
     public function saveReturnMaterial(){
         $data = $this->input->post();
         $this->printJson($this->materialIssue->saveReturnMaterial($data));
+    }
+
+    public function salesReturn(){
+        $this->data['locationList'] = $this->storeLocation->getStoreLocationList(['final_location'=>1]);
+        $this->data['returnItemList'] = $this->materialIssue->getSalesReturnItems();
+        $this->load->view($this->salesReturnForm,$this->data);
+    }
+
+    public function saveSalesReturnMaterial(){
+        $data = $this->input->post();
+        $errorMessage = array();
+
+        if(empty($data['location_id']))
+            $errorMessage['location_id'] = "Store Location is required.";
+
+        if(!empty($errorMessage)):
+            $this->printJson(['status'=>0,'message'=>$errorMessage]);
+        else:
+            $this->printJson($this->materialIssue->saveSalesReturnMaterial($data));
+        endif;
     }
 }
 ?>

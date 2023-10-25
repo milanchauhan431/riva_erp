@@ -254,7 +254,7 @@ $(document).ready(function(){
 
 	$(document).on('change','#unit_id',function(){
 		$("#unit_name").val("");
-		if($(this).val()){ $("#unit_name").val($("#unit_id :selected").text()); }
+		if($(this).val()){ $("#unit_name").val($("#unit_id :selected").data('unit')); }
 	});
 
 	$(document).on('change','#hsn_code',function(){
@@ -535,7 +535,7 @@ function Remove(button) {
 	});
 	var countTR = $('#'+tableId+' tbody tr:last').index() + 1;
 	if (countTR == 0) {
-		$("#tempItem").html('<tr id="noData"><td colspan="15" align="center">No data available in table</td></tr>');
+		$("#tempItem").html('<tr id="noData"><td colspan="17" align="center">No data available in table</td></tr>');
 	}
 
 	claculateColumn();

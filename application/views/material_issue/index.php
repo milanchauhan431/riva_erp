@@ -21,6 +21,8 @@
                             </div>
                             <div class="col-md-5">
                                 <button type="button" class="btn waves-effect waves-light btn-outline-primary float-right addNew permission-write press-add-btn" data-button="both" data-modal_id="modal-xl" data-function="addIssue" data-form_title="Issue Items" ><i class="fa fa-plus"></i> Issue Item</button>
+
+                                <button type="button" class="btn waves-effect waves-light btn-outline-warning float-right addNew permission-write press-add-btn" data-button="both" data-modal_id="modal-xl" data-function="salesReturn" data-form_title="Sales Return Items" data-fnsave="saveSalesReturnMaterial" ><i class="fa fa-plus"></i> Sales Return</button>
                             </div>
                         </div>
                     </div>

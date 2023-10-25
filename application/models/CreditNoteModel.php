@@ -156,6 +156,7 @@ class CreditNoteModel extends MasterModel{
                         'gross_weight' => $row['gross_weight'],
                         'net_weight' => $row['net_weight'],
                         'gold_weight' => $row['gold_weight'],
+                        'stock_type' => "RETURN"
                     ];
 
                     $this->store($this->stockTrans,$stockData);

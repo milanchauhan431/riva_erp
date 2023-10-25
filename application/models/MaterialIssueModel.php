@@ -205,5 +205,41 @@ class MaterialIssueModel extends MasterModel{
             return ['status'=>2,'message'=>"somthing is wrong. Error : ".$e->getMessage()];
         }
     }
+
+    public function getSalesReturnItems(){
+        $queryData = array();
+        $queryData['tableName'] = $this->stockTrans;
+        $queryData['select'] = "stock_transaction.*,item_master.item_code,item_master.item_name";
+        $queryData['leftJoin']['item_master'] = "stock_transaction.item_id = item_master.id";
+        $queryData['where']['stock_transaction.stock_type'] = "RETURN";
+        $result = $this->rows($queryData);
+        return $result;
+    }
+
+    public function saveSalesReturnMaterial($data){
+        try{
+            $this->db->trans_begin();
+            
+            foreach($data['itemData'] as $row):
+                if(isset($row['trans_status']) && $row['trans_status'] == 1):
+                    unset($row['trans_status']);
+                    $row['location_id'] = $data['location_id'];
+                    $row['stock_type'] = "FRESH";
+                    $this->store($this->stockTrans,$row);
+                endif;
+            endforeach;
+
+            $result['status'] = 1;
+            $result['message'] = "Material Returned successfully.";
+
+            if ($this->db->trans_status() !== FALSE):
+                $this->db->trans_commit();
+                return $result;
+            endif;
+        }catch(\Throwable $e){
+            $this->db->trans_rollback();
+            return ['status'=>2,'message'=>"somthing is wrong. Error : ".$e->getMessage()];
+        }
+    }
 }
 ?>

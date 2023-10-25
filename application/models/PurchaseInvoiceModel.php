@@ -156,27 +156,6 @@ class PurchaseInvoiceModel extends MasterModel{
                 $row['is_delete'] = 0;
                 $itemTrans = $this->store($this->transChild,$row);
 
-                /* if($row['stock_eff'] == 1):
-                    $stockData = [
-                        'id' => "",
-                        'entry_type' => $data['entry_type'],
-                        'unique_id' => 0, //$this->transMainModel->getStockUniqueId(['location_id' => $this->RTD_STORE->id,'batch_no' => "GB",'item_id' => $row['item_id']]),
-                        'ref_date' => $data['trans_date'],
-                        'ref_no' => $data['trans_number'],
-                        'main_ref_id' => $result['id'],
-                        'child_ref_id' => $itemTrans['id'],
-                        'location_id' => $this->RTD_STORE->id,
-                        'batch_no' => "GB",
-                        'party_id' => $data['party_id'],
-                        'item_id' => $row['item_id'],
-                        'p_or_m' => 1,
-                        'qty' => $row['qty'],
-                        'price' => $row['price']
-                    ];
-
-                    $this->store($this->stockTrans,$stockData);
-                endif; */
-
                 if(!empty($row['ref_id']) && $row['from_entry_type'] == 26):
                     $setData = array();
                     $setData['tableName'] = "mir_transaction";
