@@ -24,7 +24,7 @@
                 <td style="width:33%;" class="fs-18 text-left">
                     GSTIN: <?=$companyData->company_gst_no?>
                 </td>
-                <td style="width:33%;" class="fs-18 text-center">Tax Invocie</td>
+                <td style="width:33%;" class="fs-18 text-center">Tax Invoice</td>
                 <td style="width:33%;" class="fs-18 text-right"><?=$printType?></td>
             </tr>
         </table>
@@ -79,7 +79,9 @@
                     $i=1;$totalQty = $totalGW = $totalNW = 0;$migst=0;$mcgst=0;$msgst=0;
                     $rowCount = 1;$pageCount = 1;
                     if(!empty($invData->itemList)):
-                        foreach($invData->itemList as $row):						
+                        foreach($invData->itemList as $row):
+                            $gold_weight = $row->gold_weight;
+                            $row->gold_weight = 0;
                             echo '<tr>';
                                 echo '<td class="text-center">'.$i++.'</td>';
                                 echo '<td>';
@@ -89,8 +91,9 @@
                                     if(!empty($row->gold_platinum_price) && $row->gold_platinum_price != 0 && !in_array($row->stock_category,["Lab Grown Diamond","Loos Diamond","Diamond Items"])):
                                         echo '<small>Gold Amount : ' . floatVal($row->gold_platinum_price) . '</small><br>';
                                     endif;
-                                    if(!empty($row->gold_weight) && $row->gold_weight > 0 && !in_array($row->stock_category,["Lab Grown Diamond","Loos Diamond","Diamond Items"])):
+                                    if(!empty($gold_weight) && $gold_weight > 0 && !in_array($row->stock_category,["Lab Grown Diamond","Loos Diamond","Diamond Items"])):
                                         echo '<small>Gold Weight : ' . floatVal($row->gold_weight) . '</small><br>';
+                                        $row->gold_weight = $gold_weight;
                                     endif;
                                     if(!empty($row->other_charge) && $row->other_charge > 0):
                                         echo '<small>Other Charge : ' . floatVal($row->other_charge) . '</small><br>';
