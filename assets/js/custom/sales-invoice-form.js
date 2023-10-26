@@ -143,7 +143,8 @@ $(document).ready(function(){
         if (formData.qty == "" || parseFloat(formData.qty) == 0) {
             $(".qty").html("Qty is required.");
         }
-        if (formData.price == "" || parseFloat(formData.price) == 0) {
+		
+        if (formData.price == "") {
             $(".price").html("Price is required.");
         }
 
