@@ -320,7 +320,7 @@
                                 <label for="diamond_amount">Diamond Amount</label>
                                 <input type="text" name="diamond_amount" id="diamond_amount" class="form-control floatOnly" value="0" />
                             </div>
-                            <div class="col-md-3 form-group hidden" id="gold_platinum_price_div">
+                            <div class="col-md-3 form-group">
                                 <label for="gold_platinum_price">Gold/Platinum Amount</label>
                                 <input type="text" name="gold_platinum_price" id="gold_platinum_price" class="form-control floatOnly" value="0" />
                             </div>

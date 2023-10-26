@@ -132,12 +132,12 @@
                                 <div class="col-md-12 row">
                                     <div class="col-md-6"><h4>Item Details : </h4></div>
                                     <div class="col-md-4">
-                                        <div class="input-group">
+                                        <!-- <div class="input-group">
 										    <input type="text" id="barcode_scanner" class="form-control numericOnly float-right" value="" placeholder="Scan barcode" data-stock_effect="0">
                                             <div class="input-group-append">
                                                 <button type="button" id="barcode_search" class="btn btn-info"><i class="fa fa-search"></i></button>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <div class="col-md-2">
                                         <button type="button" class="btn btn-outline-success waves-effect float-right add-item"><i class="fa fa-plus"></i> Add Item</button>
@@ -332,7 +332,7 @@
                                 <label for="diamond_amount">Diamond Amount</label>
                                 <input type="text" name="diamond_amount" id="diamond_amount" class="form-control floatOnly" value="0" />
                             </div>
-                            <div class="col-md-3 form-group hidden" id="gold_platinum_price_div">
+                            <div class="col-md-3 form-group">
                                 <label for="gold_platinum_price">Gold/Platinum Amount</label>
                                 <input type="text" name="gold_platinum_price" id="gold_platinum_price" class="form-control floatOnly" value="0" />
                             </div>
