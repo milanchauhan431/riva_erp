@@ -80,6 +80,7 @@
                     $rowCount = 1;$pageCount = 1;
                     if(!empty($invData->itemList)):
                         foreach($invData->itemList as $row):
+                            $gold_weight = 0;
                             $gold_weight = $row->gold_weight;
                             $row->gold_weight = 0;
                             echo '<tr>';
@@ -92,8 +93,8 @@
                                         echo '<small>Gold Amount : ' . floatVal($row->gold_platinum_price) . '</small><br>';
                                     endif;
                                     if(!empty($gold_weight) && $gold_weight > 0 && !in_array($row->stock_category,["Lab Grown Diamond","Loos Diamond","Diamond Items"])):
-                                        echo '<small>Gold Weight : ' . floatVal($row->gold_weight) . '</small><br>';
                                         $row->gold_weight = $gold_weight;
+                                        echo '<small>Gold Weight : ' . floatVal($row->gold_weight) . '</small><br>';
                                     endif;
                                     if(!empty($row->other_charge) && $row->other_charge > 0):
                                         echo '<small>Other Charge : ' . floatVal($row->other_charge) . '</small><br>';
