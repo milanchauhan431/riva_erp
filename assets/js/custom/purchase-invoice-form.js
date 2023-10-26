@@ -176,6 +176,7 @@ function createInvoice(){
 		row = $(this).data('row');
 		mainRefIds.push(row.id);
 		mainFromEntryType.push(row.from_entry_type);
+		row.making_per = 0;
 		AddRow(row);
 	}).get();
 
