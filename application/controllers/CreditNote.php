@@ -151,7 +151,7 @@ class CreditNote extends MY_Controller{
         foreach($printTypes as $printType):
             ++$i;
             $this->data['printType'] = $printType;
-            $this->data['maxLinePP'] = (!empty($postData['max_lines']))?$postData['max_lines']:18;
+            $this->data['maxLinePP'] = (!empty($postData['max_lines']))?$postData['max_lines']:10;
 		    $pdfData .= $this->load->view('credit_note/print',$this->data,true);
             if($i != $countPT): $pdfData .= "<pagebreak>"; endif;
         endforeach;
@@ -169,7 +169,7 @@ class CreditNote extends MY_Controller{
 		
 		/* $mpdf->SetHTMLHeader($htmlHeader);
 		$mpdf->SetHTMLFooter($htmlFooter); */
-		$mpdf->AddPage('P','','','','',10,5,(($postData['header_footer'] == 1)?5:35),5,5,5,'','','','','','','','','','A4-P');
+		$mpdf->AddPage('P','','','','',10,5,(($postData['header_footer'] == 1)?5:35),25,5,5,'','','','','','','','','','A4-P');
 		$mpdf->WriteHTML($pdfData);
 		$mpdf->Output($pdfFileName,'I');
     }

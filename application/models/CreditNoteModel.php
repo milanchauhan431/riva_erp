@@ -51,12 +51,25 @@ class CreditNoteModel extends MasterModel{
             endif;
 
             if(!empty($data['id'])):   
-                $vouData = $this->getCreditNote(['id'=>$data['id'],'itemList'=>0]);
+                $vouData = $this->getCreditNote(['id'=>$data['id'],'itemList'=>1]);
 
-                $this->trash($this->transChild,['trans_main_id'=>$data['id']]);
+                foreach($vouData->itemList as $row):
+                    if($row->stock_eff == 1 && !empty($row->ref_id)):
+                        $setData = array();
+                        $setData['tableName'] = $this->transChild;
+                        $setData['where']['id'] = $row->ref_id;
+                        $setData['set']['dispatch_qty'] = 'dispatch_qty, - '.$row->qty;
+                        $setData['update']['trans_status'] = "(CASE WHEN dispatch_qty >= qty THEN 1 ELSE 0 END)";
+                        $this->setValue($setData);
+                    endif;
+
+                    $this->trash($this->transChild,['id'=>$row->id]);
+                endforeach;
+
                 $this->trash($this->transExpense,['trans_main_id'=>$data['id']]);
                 $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transMain,'description'=>"CN TERMS"]);
                 $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transMain,'description'=>"CN MASTER DETAILS"]);
+                $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transChild,'description'=>"CN SERIAL DETAILS"]);
                 $this->remove($this->stockTrans,['main_ref_id'=>$data['id'],'entry_type'=>$data['entry_type']]);
 
                 if(!empty($vouData->ref_id)):
@@ -160,6 +173,15 @@ class CreditNoteModel extends MasterModel{
                     ];
 
                     $this->store($this->stockTrans,$stockData);
+
+                    if(!empty($row['ref_id'])):
+                        $setData = array();
+                        $setData['tableName'] = $this->transChild;
+                        $setData['where']['id'] = $row['ref_id'];
+                        $setData['set']['dispatch_qty'] = 'dispatch_qty, + '.$row['qty'];
+                        $setData['update']['trans_status'] = "(CASE WHEN dispatch_qty >= qty THEN 1 ELSE 0 END)";
+                        $this->setValue($setData);
+                    endif;
                 endif;
             endforeach;
 
@@ -225,7 +247,7 @@ class CreditNoteModel extends MasterModel{
         try{
             $this->db->trans_begin();
 
-            $vouData = $this->getCreditNote(['id'=>$id,'itemList'=>0]);
+            $vouData = $this->getCreditNote(['id'=>$id,'itemList'=>1]);
             if(!empty($vouData->ref_id)):
                 $setData = array();
                 $setData['tableName'] = $this->transMain;
@@ -234,15 +256,27 @@ class CreditNoteModel extends MasterModel{
                 $this->setValue($setData);
             endif;
 
+            foreach($vouData->itemList as $row):
+                if($row->stock_eff == 1 && !empty($row->ref_id)):
+                    $setData = array();
+                    $setData['tableName'] = $this->transChild;
+                    $setData['where']['id'] = $row->ref_id;
+                    $setData['set']['dispatch_qty'] = 'dispatch_qty, - '.$row->qty;
+                    $setData['update']['trans_status'] = "(CASE WHEN dispatch_qty >= qty THEN 1 ELSE 0 END)";
+                    $this->setValue($setData);
+                endif;
+
+                $this->trash($this->transChild,['id'=>$row->id]);
+            endforeach;
+
             $this->transMainModel->deleteLedgerTrans($id);
 
-            $this->trash($this->transChild,['trans_main_id'=>$id]);
             $this->trash($this->transExpense,['trans_main_id'=>$id]);
             
             $this->remove($this->transDetails,['main_ref_id'=>$id,'table_name'=>$this->transMain,'description'=>"CN TERMS"]);
             $this->remove($this->transDetails,['main_ref_id'=>$id,'table_name'=>$this->transMain,'description'=>"CN MASTER DETAILS"]);
             $this->remove($this->stockTrans,['main_ref_id'=>$id,'entry_type'=>$this->data['entryData']->id]);
-            
+            $this->remove($this->transDetails,['main_ref_id'=>$id,'table_name'=>$this->transChild,'description'=>"CN SERIAL DETAILS"]);
             $result = $this->trash($this->transMain,['id'=>$id],'Credit Note');
 
             if ($this->db->trans_status() !== FALSE):

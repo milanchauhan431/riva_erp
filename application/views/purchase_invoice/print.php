@@ -24,55 +24,31 @@
                 <td style="width:33%;" class="fs-18 text-left">
                     GSTIN: <?=$companyData->company_gst_no?>
                 </td>
-                <td style="width:33%;" class="fs-18 text-center"><?=($invData->order_type == "Purchase Return")?"Purchase Return":"Debit Note"?></td>
+                <td style="width:33%;" class="fs-18 text-center">Purchase Invocie</td>
                 <td style="width:33%;" class="fs-18 text-right"><?=$printType?></td>
             </tr>
         </table>
         
         <table class="table item-list-bb fs-22" style="margin-top:5px;">
-        <tr>
-                <td style="width:60%; vertical-align:top;" rowspan="5">
-                    <b>M/S. <?=$invData->party_name?></b><br>
+            <tr>
+                <td style="width:60%; vertical-align:top;" rowspan="3">
+                    <b>BILL TO</b><br>
+                    <b><?=$invData->party_name?></b><br>
                     <?=(!empty($partyData->party_address) ? $partyData->party_address : '')?><br>
-                    <b>GSTIN : <?= $invData->gstin?> | STATE CODE: <?=$invData->party_state_code?> | CITY : <?=$partyData->city_name?></b>
+                    <b><?= (!empty($invData->gstin) && $invData->gstin != "URP")?"GSTIN : ".$invData->gstin:""?>
+                    <?=(!empty($invData->gstin) && $invData->gstin != "URP")?" | STATE CODE: ".substr($invData->gstin, 0, 2)." | ":""?>
+                    <?=(!empty($partyData->city_name))?"CITY : ".$partyData->city_name:""?></b>
                 </td>
                 <td>
-                    <b>DN No.</b>
+                    <b>Invoice No. : <?=$invData->trans_prefix . $invData->trans_no?></b>
                 </td>
                 <td>
-                    <?=$invData->trans_number?>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <b>DN Date</b>
-                </td>
-                <td>
-                    <?=date('d/m/Y', strtotime($invData->trans_date))?>
+                    <b>Date : <?=date('d/m/Y', strtotime($invData->trans_date))?></b>
                 </td>
             </tr>
             <tr>
-                <td>
-                    <b>Memo Type</b>
-                </td>
-                <td>
-                    <?=$invData->memo_type?>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <b>Inv. No.</b>
-                </td>
-                <td>
-                    <?=$invData->doc_no?>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <b>Inv. Date</b>
-                </td>
-                <td>
-                    <?=$invData->doc_date?>
+                <td style="width:40%;" colspan="2">
+                    <b>Memo Type</b> : <?=$invData->memo_type?><br>
                 </td>
             </tr>
         </table>
@@ -106,12 +82,11 @@
                                 echo '<td class="text-center">'.$i++.'</td>';
                                 echo '<td>';
                                     echo   '<b>'.$row->item_name . '</b><br>';
-                                    echo   '<small>Serial No. : '.$row->unique_id . '</small><br>';
-
+                                    
                                     if(!empty($row->gold_platinum_price)):
                                         echo '<small>Gold Amount : ' . floatVal($row->gold_platinum_price) . '</small><br>';
-                                    endif;  
-									if(!empty($row->gold_weight)):
+                                    endif;
+                                    if(!empty($row->gold_weight)):
                                         echo '<small>Gold Weight : ' . floatVal($row->gold_weight) . '</small><br>';
                                     endif;
                                     if(!empty($row->other_charge)):

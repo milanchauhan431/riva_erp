@@ -1,5 +1,34 @@
 var itemCount = 0;
 $(document).ready(function(){
+	$(".ledgerColumn").hide();
+	$(".summary_desc").attr('style','width: 60%;');
+	$("#invItemLink").hide();
+
+	$(document).on('click','.getInvoiceItem',function(){
+		var ref_id = $('#ref_id').val();
+		var party_name = $('#party_id :selected').text();
+		$('.doc_no').html("");
+
+		if (ref_id != "" || ref_id != 0) {
+			$.ajax({
+				url: base_url + 'purchaseInvoice/getPartyInvoiceItems',
+				type: 'post',
+				data: { id : ref_id },
+				success: function (response) {
+					$("#modal-xl").modal();
+					$('#modal-xl .modal-body').html('');
+					$('#modal-xl .modal-title').html("Carete Invoice [ Party Name : "+party_name+" ]");
+					$('#modal-xl .modal-body').html(response);
+					$('#modal-xl .modal-body form').attr('id',"createCreditNoteForm");
+					$('#modal-xl .modal-footer .btn-save').html('<i class="fa fa-check"></i> Create Invoice');
+					$("#modal-xl .modal-footer .btn-save").attr('onclick',"createInvoice();");
+				}
+			});
+		} else {
+			$('.doc_no').html("Inv. No. is required.");
+		}	
+	});
+
     $(document).on("change",'#order_type',function(){
         var order_type = $(this).val();
 		$.ajax({ 
@@ -38,12 +67,19 @@ $(document).ready(function(){
                 $(".amountCol").show(); $(".netAmtCol").hide();
             }
             claculateColumn();
+
+			$(".ledgerColumn").hide();
+			$(".summary_desc").attr('style','width: 60%;');
         });
 
         if(order_type == "Purchase Return"){
             $('#itemForm #stock_eff').val("1");
+			$(".itemStockEff").val(1);
+			$("#barcode_scanner").data('stock_effect',1);
         }else{
             $('#itemForm #stock_eff').val("0");
+			$(".itemStockEff").val(0);
+			$("#barcode_scanner").data('stock_effect',0);
         }
     });
 
@@ -94,15 +130,12 @@ $(document).ready(function(){
             $(".price").html("Price is required.");
         }
 
-		if((formData.packing_qty == "" || parseInt(formData.packing_qty) == 0) && formData.item_type == 1){
-			$(".packing_qty").html("Packing standard is required.");
+		if(formData.gross_weight == "" || parseInt(formData.gross_weight) == 0){
+			$(".gross_weight").html("Gross Weight is required.");
 		}
 
-		if(parseFloat(formData.qty) > 0 && parseInt(formData.packing_qty) > 0){
-			var totalBox = parseFloat(parseFloat(formData.qty) / parseFloat(formData.packing_qty));
-			if(!Number.isInteger(totalBox)){
-				$(".qty").html("Invalid qty against packing standard.");
-			}
+		if(formData.net_weight == "" || parseInt(formData.net_weight) == 0){
+			$(".net_weight").html("Net Weight is required.");
 		}
 
         var errorCount = $('#itemForm .error:not(:empty)').length;
@@ -112,16 +145,35 @@ $(document).ready(function(){
             var amount = 0; var taxable_amount = 0; var disc_amt = 0; var igst_amt = 0;
             var gst_amount = 0; var cgst_amt = 0; var sgst_amt = 0; var net_amount = 0; 
             var gst_per = 0; var cgst_per = 0; var sgst_per = 0; var igst_per = 0;
+			var mackingChargeAmt = 0;var mcDiscAmt = 0;var otherChargeAmt = 0; 
+			var varietyChargeAmt = 0; var diamondAmount = 0; var gold_platinum_price = 0;
 
-			formData.org_price = (formData.org_price != "" || parseFloat(formData.org_price) > 0)?formData.org_price:0;
+			amount = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.price)).toFixed(2);		
 
-            if (formData.disc_per == "" && formData.disc_per == "0") {
-                taxable_amount = amount = parseFloat(parseFloat(formData.qty) * parseFloat(formData.price)).toFixed(2);
-            } else {
-                amount = parseFloat(parseFloat(formData.qty) * parseFloat(formData.price)).toFixed(2);
-                disc_amt = parseFloat((amount * parseFloat(formData.disc_per)) / 100).toFixed(2);
-                taxable_amount = parseFloat(amount - disc_amt).toFixed(2);
-            }
+			mackingChargeAmt = parseFloat((parseFloat(amount) * parseFloat(formData.making_per))/100).toFixed(2);
+			if (formData.making_disc_per != "" && formData.making_disc_per != "0") {
+				mcDiscAmt = parseFloat((parseFloat(mackingChargeAmt) * parseFloat(formData.making_disc_per)) / 100).toFixed(2);
+			}
+
+			otherChargeAmt = parseFloat(formData.other_charge).toFixed(2);
+			varietyChargeAmt = parseFloat(formData.vrc_charge).toFixed(2);
+			diamondAmount = parseFloat(formData.diamond_amount).toFixed(2);
+
+			if(parseFloat(formData.gold_platinum_price) > 0){
+				gold_platinum_price = parseFloat(formData.gold_platinum_price).toFixed(2);
+			}		
+
+			taxable_amount = parseFloat(parseFloat(amount) + (parseFloat(mackingChargeAmt) - parseFloat(mcDiscAmt)) + parseFloat(otherChargeAmt) + parseFloat(varietyChargeAmt) + parseFloat(diamondAmount) + parseFloat(gold_platinum_price)).toFixed(2);
+
+			if(formData.disc_amount != "" && parseFloat(formData.disc_amount) > 0){
+				taxable_amount = parseFloat(parseFloat(taxable_amount) - parseFloat(formData.disc_amount)).toFixed(2);
+			}
+			
+			formData.making_charge = mackingChargeAmt;
+			formData.making_charge_dicount = mcDiscAmt;
+			formData.other_charge = otherChargeAmt;
+			formData.vrc_charge = varietyChargeAmt;
+			formData.diamond_amount = diamondAmount;
 
             formData.gst_per = igst_per = parseFloat(formData.gst_per).toFixed(0);
             formData.gst_amount = igst_amt = parseFloat((igst_per * taxable_amount) / 100).toFixed(2);
@@ -175,14 +227,54 @@ $(document).ready(function(){
 
 	$(document).on('change','#unit_id',function(){
 		$("#unit_name").val("");
-		if($(this).val()){ $("#unit_name").val($("#unit_id :selected").text()); }	
+		if($(this).val()){ $("#unit_name").val($("#unit_id :selected").data('unit')); }	
 	});
 
 	$(document).on('change','#hsn_code',function(){
 		$("#gst_per").val(($("#hsn_code :selected").data('gst_per') || 0));
 		$("#gst_per").select2();
 	});
+
+	$('#doc_no').typeahead({
+		source: function(query, result){
+			$.ajax({
+				url:base_url + controller + '/getPartyInvoiceList',
+				method:"POST",
+				global:false,
+				data:{doc_no:query,party_id:$("#party_id :selected").val(),order_type:$("#order_type :selected").val()},
+				dataType:"json",
+				success:function(data){
+					result($.map(data, function(row){return {name:row.trans_number,id:row.id,doc_date:row.trans_date,entry_type:row.entry_type};}));
+					$("#saveDebitNote #doc_date").val("");
+					$("#saveDebitNote #ref_id").val("");
+					$("#saveDebitNote #from_entry_type").val("");
+					$("#invItemLink").hide();
+				}
+			});
+		},
+		updater: function(item) {
+            $("#saveDebitNote #doc_date").val(item.doc_date || "");
+			$("#saveDebitNote #ref_id").val(item.id || "");
+			$("#saveDebitNote #from_entry_type").val(item.entry_type || "");
+			$("#invItemLink").show();
+			return item;
+        }
+	});
 });
+
+function createInvoice(){	
+	$(".orderItem:checked").map(function() {
+		row = $(this).data('row');
+		row.qty = row.pending_qty;
+		row.gst_per = parseFloat(row.gst_per);
+		row.org_price = row.price;
+		
+		AddRow(row);
+	}).get();
+
+	$("#modal-xl").modal('hide');
+	$('#modal-xl .modal-body').html('');
+}
 
 function AddRow(data) {
     var tblName = "debitNoteItems";
@@ -215,10 +307,18 @@ function AddRow(data) {
 	var refIdInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][ref_id]", value: data.ref_id });
     var itemCodeInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][item_code]", value: data.item_code });
     var itemtypeInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][item_type]", value: data.item_type });
-	var stockEffInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][stock_eff]", value: data.stock_eff });
+	var stockEffInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][stock_eff]", class:'itemStockEff', value: data.stock_eff });
     var pormInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][p_or_m]", value: -1 });
+
+	var stockTransIdInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][masterData][i_col_2]", value: data.stock_trans_id });
+	var locationInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][masterData][i_col_1]", value: data.location_id });
+	var uniqueIdInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][masterData][t_col_1]", value: data.unique_id });
+	var standardQtyInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][masterData][d_col_1]", value: data.standard_qty });
+	var purityInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][masterData][d_col_2]", value: data.purity });
+	var stockCategoryInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][masterData][t_col_2]", value: data.stock_category });
+	var barcodeErrorDiv = $("<div></div>", { class: "error barcode" + itemCount });
     cell = $(row.insertCell(-1));
-    cell.html(data.item_name);
+    cell.html(data.item_name + ((parseFloat(data.gold_platinum_price) > 0)?"<br><small>Gold Amount : "+data.gold_platinum_price + "</small>":""));
     cell.append(idInput);
     cell.append(itemIdInput);
     cell.append(itemNameInput);
@@ -228,6 +328,14 @@ function AddRow(data) {
     cell.append(itemtypeInput);
 	cell.append(stockEffInput);
     cell.append(pormInput);
+
+	cell.append(stockTransIdInput);
+    cell.append(locationInput);
+    cell.append(uniqueIdInput);
+    cell.append(standardQtyInput);
+    cell.append(purityInput);
+	cell.append(stockCategoryInput);
+	cell.append(barcodeErrorDiv);
 
     var hsnCodeInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][hsn_code]", value: data.hsn_code });
 	cell = $(row.insertCell(-1));
@@ -242,6 +350,16 @@ function AddRow(data) {
 	cell.append(qtyInput);
 	cell.append(psInput);
 	cell.append(qtyErrorDiv);
+
+	var grossWeightInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][gross_weight]", value: data.gross_weight });
+	cell = $(row.insertCell(-1));
+	cell.html(data.gross_weight);
+	cell.append(grossWeightInput);
+
+	var netWeightInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][net_weight]", value: data.net_weight });
+	cell = $(row.insertCell(-1));
+	cell.html(data.net_weight);
+	cell.append(netWeightInput);
 
     var unitIdInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][unit_id]", value: data.unit_id });
 	var unitNameInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][unit_name]", value: data.unit_name });
@@ -258,6 +376,28 @@ function AddRow(data) {
 	cell.append(priceInput);
 	cell.append(orgPriceInput);
 	cell.append(priceErrorDiv);
+
+	var mcPerInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][making_per]", value: data.making_per });
+	var mcDiscPerInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][making_disc_per]", value: data.making_disc_per });
+	var makingChrageInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][making_charge]", value: data.making_charge });
+	var makingChrageDiscountInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][making_charge_dicount]", value: data.making_charge_dicount });
+	var otherChrageInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][other_charge]", value: data.other_charge });
+	var vrChrageInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][vrc_charge]", value: data.vrc_charge });
+	var diamondAmtInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][diamond_amount]", value: data.diamond_amount });
+	var gpAmtInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][gold_platinum_price]", value: data.gold_platinum_price });
+ 	var gpWgInput = $("<input/>", { type: "hidden", name: "itemData[" + itemCount + "][gold_weight]", value: data.gold_weight });
+	var tmcAmt = parseFloat(parseFloat(data.making_charge) - parseFloat(data.making_charge_dicount)).toFixed(2); 
+	cell = $(row.insertCell(-1));
+	cell.html(tmcAmt);
+	cell.append(mcPerInput);
+	cell.append(mcDiscPerInput);
+	cell.append(makingChrageInput);
+	cell.append(makingChrageDiscountInput);
+	cell.append(otherChrageInput);
+	cell.append(vrChrageInput);
+	cell.append(diamondAmtInput);
+	cell.append(gpAmtInput);
+	cell.append(gpWgInput);
 
     var discPerInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][disc_per]", value: data.disc_per});
 	var discAmtInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][disc_amount]", value: data.disc_amount });
@@ -319,12 +459,12 @@ function AddRow(data) {
 	btnRemove.attr("type", "button");
 	btnRemove.attr("onclick", "Remove(this);");
 	btnRemove.attr("style", "margin-left:4px;");
-	btnRemove.attr("class", "btn btn-outline-danger waves-effect waves-light");
+	btnRemove.attr("class", "btn btn-sm btn-outline-danger waves-effect waves-light");
 
 	var btnEdit = $('<button><i class="ti-pencil-alt"></i></button>');
 	btnEdit.attr("type", "button");
 	btnEdit.attr("onclick", "Edit(" + JSON.stringify(data) + ",this);");
-	btnEdit.attr("class", "btn btn-outline-warning waves-effect waves-light");
+	btnEdit.attr("class", "btn btn-sm btn-outline-warning waves-effect waves-light");
 
 	cell.append(btnEdit);
 	cell.append(btnRemove);
@@ -356,6 +496,13 @@ function Edit(data, button) {
 		$("#itemForm #" + key).val(value);
 	});
 
+	if(parseFloat(data.gold_platinum_price) > 0){
+		$("#itemForm #gold_platinum_price_div").show();
+	}else{
+		$("#itemForm #gold_platinum_price_div").hide();
+		$("#itemForm #gold_platinum_price").val("");
+	}
+
 	$("#itemForm .select2").select2();
 	$("#itemForm #row_index").val(row_index);
 }
@@ -371,7 +518,7 @@ function Remove(button) {
 	});
 	var countTR = $('#'+tableId+' tbody tr:last').index() + 1;
 	if (countTR == 0) {
-		$("#tempItem").html('<tr id="noData"><td colspan="15" align="center">No data available in table</td></tr>');
+		$("#tempItem").html('<tr id="noData"><td colspan="17" align="center">No data available in table</td></tr>');
 	}
 
 	claculateColumn();

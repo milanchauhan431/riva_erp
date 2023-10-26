@@ -50,12 +50,35 @@ class DebitNoteModel extends MasterModel{
                 $data['trans_number'] = $data['trans_prefix'].$data['trans_no'];
             endif;
 
-            if(!empty($data['id'])):                
-                $this->trash($this->transChild,['trans_main_id'=>$data['id']]);
+            if(!empty($data['id'])):     
+                $vouData = $this->getDebitNote(['id'=>$data['id'],'itemList'=>1]);
+
+                foreach($vouData->itemList as $row):
+                    if($row->stock_eff == 1 && !empty($row->ref_id)):
+                        $setData = array();
+                        $setData['tableName'] = $this->transChild;
+                        $setData['where']['id'] = $row->ref_id;
+                        $setData['set']['dispatch_qty'] = 'dispatch_qty, - '.$row->qty;
+                        $setData['update']['trans_status'] = "(CASE WHEN dispatch_qty >= qty THEN 1 ELSE 0 END)";
+                        $this->setValue($setData);
+                    endif;
+
+                    $this->trash($this->transChild,['id'=>$row->id]);
+                endforeach;
+                
                 $this->trash($this->transExpense,['trans_main_id'=>$data['id']]);
                 $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transMain,'description'=>"DN TERMS"]);
                 $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transMain,'description'=>"DN MASTER DETAILS"]);
+                $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transChild,'description'=>"DN SERIAL DETAILS"]);
                 $this->remove($this->stockTrans,['main_ref_id'=>$data['id'],'entry_type'=>$data['entry_type']]);
+
+                if(!empty($vouData->ref_id)):
+                    $setData = array();
+                    $setData['tableName'] = $this->transMain;
+                    $setData['where']['id'] = $vouData->ref_id;
+                    $setData['set']['rop_amount'] = 'rop_amount, - '.$vouData->net_amount;
+                    $this->setValue($setData);
+                endif;
             endif;
             
             if($data['memo_type'] == "CASH"):
@@ -114,31 +137,60 @@ class DebitNoteModel extends MasterModel{
                 $row['trans_main_id'] = $result['id'];
                 $row['gst_amount'] = $row['igst_amount'];
                 $row['is_delete'] = 0;
-
+                $serialData = $row['masterData'];unset($row['masterData']);
                 $itemTrans = $this->store($this->transChild,$row);
+
+                $serialData['id'] = "";
+                $serialData['table_name'] = $this->transChild;
+                $serialData['description'] = "DN SERIAL DETAILS";
+                $serialData['main_ref_id'] = $result['id'];
+                $serialData['child_ref_id'] = $itemTrans['id'];
+                $this->store($this->transDetails,$serialData);
 
                 if($row['stock_eff'] == 1):
                     $stockData = [
                         'id' => "",
                         'entry_type' => $data['entry_type'],
-                        'unique_id' => 0,
+                        'unique_id' => $serialData['t_col_1'],
                         'ref_date' => $data['trans_date'],
                         'ref_no' => $data['trans_number'],
                         'main_ref_id' => $result['id'],
                         'child_ref_id' => $itemTrans['id'],
-                        'location_id' => $this->RTD_STORE->id,
-                        'batch_no' => "GB",
+                        'location_id' => $serialData['i_col_1'],
+                        'batch_no' => $serialData['t_col_1'],
                         'party_id' => $data['party_id'],
                         'item_id' => $row['item_id'],
+                        'stock_category' => $serialData['t_col_2'],
                         'p_or_m' => -1,
                         'qty' => $row['qty'],
-                        'size' => $row['packing_qty'],
-                        'price' => $row['price']
+                        'standard_qty' => $serialData['d_col_1'],
+                        'sales_price' => $row['taxable_amount'],
+                        'purity' => $serialData['d_col_2'],
+                        'gross_weight' => $row['gross_weight'],
+                        'net_weight' => $row['net_weight'],
+                        'gold_weight' => $row['gold_weight'],
                     ];
 
                     $this->store($this->stockTrans,$stockData);
+
+                    if(!empty($row['ref_id'])):
+                        $setData = array();
+                        $setData['tableName'] = $this->transChild;
+                        $setData['where']['id'] = $row['ref_id'];
+                        $setData['set']['dispatch_qty'] = 'dispatch_qty, + '.$row['qty'];
+                        $setData['update']['trans_status'] = "(CASE WHEN dispatch_qty >= qty THEN 1 ELSE 0 END)";
+                        $this->setValue($setData);
+                    endif;
                 endif;
             endforeach;
+
+            if(!empty($data['ref_id'])):
+                $setData = array();
+                $setData['tableName'] = $this->transMain;
+                $setData['where']['id'] = $data['ref_id'];
+                $setData['set']['rop_amount'] = 'rop_amount, + '.$data['net_amount'];
+                $this->setValue($setData);
+            endif;
             
             $data['id'] = $result['id'];
             $this->transMainModel->ledgerEffects($data,$expenseData);
@@ -183,7 +235,8 @@ class DebitNoteModel extends MasterModel{
     public function getDebitNoteItems($data){
         $queryData = array();
         $queryData['tableName'] = $this->transChild;
-        $queryData['select'] = "trans_child.*";
+        $queryData['select'] = "trans_child.*,trans_details.i_col_1 as location_id,trans_details.t_col_1 as unique_id,trans_details.i_col_2 as stock_trans_id,trans_details.d_col_1 as standard_qty,trans_details.d_col_2 as purity,trans_details.t_col_2 as stock_category";
+        $queryData['leftJoin']['trans_details'] = "trans_child.trans_main_id = trans_details.main_ref_id AND trans_details.child_ref_id = trans_child.id AND trans_details.description = 'DN SERIAL DETAILS' AND trans_details.table_name = '".$this->transChild."'";
         $queryData['where']['trans_child.trans_main_id'] = $data['id'];
         $result = $this->rows($queryData);
         return $result;
@@ -192,7 +245,9 @@ class DebitNoteModel extends MasterModel{
     public function getDebitNoteItem($data){
         $queryData = array();
         $queryData['tableName'] = $this->transChild;
-        $queryData['where']['id'] = $data['id'];
+        $queryData['select'] = "trans_child.*,trans_details.i_col_1 as location_id,trans_details.t_col_1 as unique_id,trans_details.i_col_2 as stock_trans_id,trans_details.d_col_1 as standard_qty,trans_details.d_col_2 as purity,trans_details.t_col_2 as stock_category";
+        $queryData['leftJoin']['trans_details'] = "trans_child.trans_main_id = trans_details.main_ref_id AND trans_details.child_ref_id = trans_child.id AND trans_details.description = 'DN SERIAL DETAILS' AND trans_details.table_name = '".$this->transChild."'";
+        $queryData['where']['trans_child.id'] = $data['id'];
         $result = $this->row($queryData);
         return $result;
     }
@@ -201,14 +256,36 @@ class DebitNoteModel extends MasterModel{
         try{
             $this->db->trans_begin();
 
+            $vouData = $this->getDebitNote(['id'=>$id,'itemList'=>1]);
+            if(!empty($vouData->ref_id)):
+                $setData = array();
+                $setData['tableName'] = $this->transMain;
+                $setData['where']['id'] = $vouData->ref_id;
+                $setData['set']['rop_amount'] = 'rop_amount, - '.$vouData->net_amount;
+                $this->setValue($setData);
+            endif;
+
+            foreach($vouData->itemList as $row):
+                if($row->stock_eff == 1 && !empty($row->ref_id)):
+                    $setData = array();
+                    $setData['tableName'] = $this->transChild;
+                    $setData['where']['id'] = $row->ref_id;
+                    $setData['set']['dispatch_qty'] = 'dispatch_qty, - '.$row->qty;
+                    $setData['update']['trans_status'] = "(CASE WHEN dispatch_qty >= qty THEN 1 ELSE 0 END)";
+                    $this->setValue($setData);
+                endif;
+
+                $this->trash($this->transChild,['id'=>$row->id]);
+            endforeach;
+
             $this->transMainModel->deleteLedgerTrans($id);
 
-            $this->trash($this->transChild,['trans_main_id'=>$id]);
             $this->trash($this->transExpense,['trans_main_id'=>$id]);
             
             $this->remove($this->transDetails,['main_ref_id'=>$id,'table_name'=>$this->transMain,'description'=>"DN TERMS"]);
             $this->remove($this->transDetails,['main_ref_id'=>$id,'table_name'=>$this->transMain,'description'=>"DN MASTER DETAILS"]);
             $this->remove($this->stockTrans,['main_ref_id'=>$id,'entry_type'=>$this->data['entryData']->id]);
+            $this->remove($this->transDetails,['main_ref_id'=>$id,'table_name'=>$this->transChild,'description'=>"DN SERIAL DETAILS"]);
             
             $result = $this->trash($this->transMain,['id'=>$id],'Debit Note');
 

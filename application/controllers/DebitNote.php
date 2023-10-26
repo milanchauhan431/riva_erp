@@ -58,34 +58,33 @@ class DebitNote extends MY_Controller{
             $errorMessage['itemData'] = "Item Details is required.";
         else:
             foreach($data['itemData'] as $key => $row):
-                if(!empty(floatVal($row['qty'])) && !empty($row['size']) && $row['item_type'] == 1):
-                    if(is_int(($row['qty'] / $row['packing_qty'])) == false):
-                        $errorMessage['qty'.$key] = "Invalid qty against packing standard.";
-                    endif;
-                endif;
-
                 if($row['stock_eff'] == 1):
-                    $postData = ['location_id' => $this->RTD_STORE->id,'batch_no' => "GB",'item_id' => $row['item_id'],'stock_required'=>1,'single_row'=>1];
-                    
-                    $stockData = $this->itemStock->getItemStockBatchWise($postData);  
-                    
-                    $stockQty = (!empty($stockData->qty))?$stockData->qty:0;
-                    if(!empty($row['id'])):
-                        $oldItem = $this->debitNote->getDebitNoteItem(['id'=>$row['id']]);
-                        $stockQty = $stockQty + $oldItem->qty;
-                    endif;
-                    
-                    if(!isset($bQty[$row['item_id']])):
-                        $bQty[$row['item_id']] = $row['qty'] ;
+                    $serialNo = $row['masterData']['t_col_1'];
+                    if(empty($serialNo)):
+                        $errorMessage['barcode'.$key] = "Barcode No. is required.";
                     else:
-                        $bQty[$row['item_id']] += $row['qty'];
-                    endif;
-
-                    if(empty($stockQty)):
-                        $errorMessage['qty'.$key] = "Stock not available.";
-                    else:
-                        if($bQty[$row['item_id']] > $stockQty):
+                        $postData = ['location_id' => $row['masterData']['i_col_1'],'batch_no' => $row['masterData']['t_col_1'],'item_id' => $row['item_id'],'stock_required'=>1,'single_row'=>1];
+                    
+                        $stockData = $this->itemStock->getItemStockBatchWise($postData);  
+                        
+                        $stockQty = (!empty($stockData->qty))?$stockData->qty:0;
+                        if(!empty($row['id'])):
+                            $oldItem = $this->debitNote->getDebitNoteItem(['id'=>$row['id']]);
+                            $stockQty = $stockQty + $oldItem->qty;
+                        endif;
+                        
+                        if(!isset($bQty[$serialNo])):
+                            $bQty[$serialNo] = $row['qty'] ;
+                        else:
+                            $bQty[$serialNo] += $row['qty'];
+                        endif;
+    
+                        if(empty($stockQty)):
                             $errorMessage['qty'.$key] = "Stock not available.";
+                        else:
+                            if($bQty[$serialNo] > $stockQty):
+                                $errorMessage['qty'.$key] = "Stock not available.";
+                            endif;
                         endif;
                     endif;
                 endif;
@@ -184,7 +183,7 @@ class DebitNote extends MY_Controller{
         foreach($printTypes as $printType):
             ++$i;
             $this->data['printType'] = $printType;
-            $this->data['maxLinePP'] = (!empty($postData['max_lines']))?$postData['max_lines']:18;
+            $this->data['maxLinePP'] = (!empty($postData['max_lines']))?$postData['max_lines']:10;
 		    $pdfData .= $this->load->view('debit_note/print',$this->data,true);
             if($i != $countPT): $pdfData .= "<pagebreak>"; endif;
         endforeach;
@@ -200,7 +199,7 @@ class DebitNote extends MY_Controller{
 		
 		/* $mpdf->SetHTMLHeader($htmlHeader);
 		$mpdf->SetHTMLFooter($htmlFooter); */
-		$mpdf->AddPage('P','','','','',10,5,(($postData['header_footer'] == 1)?5:35),5,5,5,'','','','','','','','','','A4-P');
+		$mpdf->AddPage('P','','','','',10,5,(($postData['header_footer'] == 1)?5:35),25,5,5,'','','','','','','','','','A4-P');
 		$mpdf->WriteHTML($pdfData);
 		$mpdf->Output($pdfFileName,'I');
     }

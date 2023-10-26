@@ -31,26 +31,48 @@
         
         <table class="table item-list-bb fs-22" style="margin-top:5px;">
             <tr>
-                <td style="width:60%; vertical-align:top;" rowspan="3">
-                    <b>BILL TO</b><br>
-                    <b><?=$invData->party_name?></b><br>
+                <td style="width:60%; vertical-align:top;" rowspan="5">
+                    <b>M/S. <?=$invData->party_name?></b><br>
                     <?=(!empty($partyData->party_address) ? $partyData->party_address : '')?><br>
-                    <b><?= (!empty($invData->gstin) && $invData->gstin != "URP")?"GSTIN : ".$invData->gstin:""?>
-                    <?=(!empty($invData->gstin) && $invData->gstin != "URP")?" | STATE CODE: ".substr($invData->gstin, 0, 2)." | ":""?>
-                    <?=(!empty($partyData->city_name))?"CITY : ".$partyData->city_name:""?></b>
+                    <b>GSTIN : <?= $invData->gstin?> | STATE CODE: <?=$invData->party_state_code?> | CITY : <?=$partyData->city_name?></b>
                 </td>
                 <td>
-                    <b>Invoice No. : <?=$invData->trans_prefix . $invData->trans_no?></b>
+                    <b>CN No.</b>
                 </td>
                 <td>
-                    <b>Date : <?=date('d/m/Y', strtotime($invData->trans_date))?></b>
+                    <?=$invData->trans_number?>
                 </td>
             </tr>
             <tr>
-                <td style="width:40%;" colspan="2">
-                    <b>Memo Type</b> : <?=$invData->memo_type?><br>
-                    <b>P.O. No.</b> : <?=$invData->doc_no?><br>
-                    <b>Challan No</b> : <?=$invData->challan_no?>
+                <td>
+                    <b>CN Date</b>
+                </td>
+                <td>
+                    <?=date('d/m/Y', strtotime($invData->trans_date))?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Memo Type</b>
+                </td>
+                <td>
+                    <?=$invData->memo_type?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Inv. No.</b>
+                </td>
+                <td>
+                    <?=$invData->doc_no?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Inv. Date</b>
+                </td>
+                <td>
+                    <?=$invData->doc_date?>
                 </td>
             </tr>
         </table>
@@ -229,14 +251,13 @@
                     <?php if(empty($rwspan)): ?>
                         <th colspan="2" class="text-right">Grand Total</th>
                         <th class="text-right"><?=sprintf('%.2f',$invData->net_amount)?></th>
+                    <?php else: ?>
+                        <th colspan="2" class="text-right">Round Off</th>
+                        <td class="text-right"><?=sprintf('%.2f',$invData->round_off_amount)?></td>
                     <?php endif; ?>
                 </tr>
                 
                 <?php if(!empty($rwspan)): ?>
-                <tr>
-                    <th colspan="2" class="text-right">Round Off</th>
-                    <td class="text-right"><?=sprintf('%.2f',$invData->round_off_amount)?></td>
-                </tr>
                 <tr>
                     <th colspan="2" class="text-right">Grand Total</th>
                     <th class="text-right"><?=sprintf('%.2f',$invData->net_amount)?></th>

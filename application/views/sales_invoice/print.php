@@ -229,14 +229,13 @@
                     <?php if(empty($rwspan)): ?>
                         <th colspan="2" class="text-right">Grand Total</th>
                         <th class="text-right"><?=sprintf('%.2f',$invData->net_amount)?></th>
+                    <?php else: ?>
+                        <th colspan="2" class="text-right">Round Off</th>
+                        <td class="text-right"><?=sprintf('%.2f',$invData->round_off_amount)?></td>
                     <?php endif; ?>
                 </tr>
                 
                 <?php if(!empty($rwspan)): ?>
-                <tr>
-                    <th colspan="2" class="text-right">Round Off</th>
-                    <td class="text-right"><?=sprintf('%.2f',$invData->round_off_amount)?></td>
-                </tr>
                 <tr>
                     <th colspan="2" class="text-right">Grand Total</th>
                     <th class="text-right"><?=sprintf('%.2f',$invData->net_amount)?></th>
