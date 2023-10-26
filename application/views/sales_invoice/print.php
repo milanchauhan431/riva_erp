@@ -110,7 +110,7 @@
                                 echo '<td class="text-center">'.$row->hsn_code.'</td>';
                                 echo '<td class="text-center">'.floatVal($row->qty).' ('.$row->unit_name.')</td>';
                                 echo '<td class="text-right">'.($row->gross_weight).'</td>';
-                                echo '<td class="text-right">'.sprintf('%.3f',($row->gross_weight - $row->net_weight - $row->gold_weight)).'</td>';
+                                echo '<td class="text-right">'.sprintf('%.3f',round($row->gross_weight - $row->net_weight - $row->gold_weight,3)).'</td>';
                                 echo '<td class="text-right">'.($row->net_weight).'</td>';
                                 echo '<td class="text-right">'.floatVal($row->price).'</td>';
                                 echo '<td class="text-right">' . floatVal($row->making_charge - $row->making_charge_dicount) . '</td>';
