@@ -101,17 +101,21 @@
                     $i=1;$totalQty = $totalGW = $totalNW = 0;$migst=0;$mcgst=0;$msgst=0;
                     $rowCount = 1;$pageCount = 1;
                     if(!empty($invData->itemList)):
-                        foreach($invData->itemList as $row):						
+                        foreach($invData->itemList as $row):	
+                            $gold_weight = 0;
+                            $gold_weight = $row->gold_weight;
+                            $row->gold_weight = 0;					
                             echo '<tr>';
                                 echo '<td class="text-center">'.$i++.'</td>';
                                 echo '<td>';
                                     echo   '<b>'.$row->item_name . '</b><br>';
                                     echo   '<small>Serial No. : '.$row->unique_id . '</small><br>';
 
-                                     if(!empty($row->gold_platinum_price) && $row->gold_platinum_price != 0):
+                                    if(!empty($row->gold_platinum_price) && $row->gold_platinum_price != 0 && !in_array($row->stock_category,["Lab Grown Diamond","Loos Diamond","Diamond Items"])):
                                         echo '<small>Gold Amount : ' . floatVal($row->gold_platinum_price) . '</small><br>';
                                     endif;
-                                    if(!empty($row->gold_weight) && $row->gold_weight > 0):
+                                    if(!empty($gold_weight) && $gold_weight > 0 && !in_array($row->stock_category,["Lab Grown Diamond","Loos Diamond","Diamond Items"])):
+                                        $row->gold_weight = $gold_weight;
                                         echo '<small>Gold Weight : ' . floatVal($row->gold_weight) . '</small><br>';
                                     endif;
                                     if(!empty($row->other_charge) && $row->other_charge > 0):
@@ -128,7 +132,7 @@
                                 echo '<td class="text-center">'.$row->hsn_code.'</td>';
                                 echo '<td class="text-center">'.floatVal($row->qty).' ('.$row->unit_name.')</td>';
                                 echo '<td class="text-right">'.($row->gross_weight).'</td>';
-                                echo '<td class="text-right">'.sprintf('%.3f',($row->gross_weight - $row->net_weight - $row->gold_weight)).'</td>';
+                                echo '<td class="text-right">'.sprintf('%.3f',round($row->gross_weight - $row->net_weight - $row->gold_weight,3)).'</td>';
                                 echo '<td class="text-right">'.($row->net_weight).'</td>';
                                 echo '<td class="text-right">'.floatVal($row->price).'</td>';
                                 echo '<td class="text-right">' . floatVal($row->making_charge - $row->making_charge_dicount) . '</td>';

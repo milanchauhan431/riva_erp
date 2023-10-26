@@ -81,20 +81,30 @@
                     $msgst = 0;
                     if (!empty($dataRow->itemList)) :
                         foreach ($dataRow->itemList as $row) :
+                            $gold_weight = 0;
+                            $gold_weight = $row->gold_weight;
+                            $row->gold_weight = 0;
                             echo '<tr>';
                             echo '<td class="text-center">' . $i++ . '</td>';
                             echo '<td>';
                                 echo   '<b>'.$row->item_name . '</b><br>';
-                                if(!empty($row->gold_platinum_price)):
-                                    echo '<small>Gold Amount :</small> ' . floatVal($row->gold_platinum_price) . '<br>';
+                                echo   '<small>Serial No. : '.$row->unique_id . '</small><br>';
+
+                                if(!empty($row->gold_platinum_price) && $row->gold_platinum_price != 0 && !in_array($row->stock_category,["Lab Grown Diamond","Loos Diamond","Diamond Items"])):
+                                    echo '<small>Gold Amount : ' . floatVal($row->gold_platinum_price) . '</small><br>';
                                 endif;
-                                if(!empty($row->other_charge)):
+                                if(!empty($gold_weight) && $gold_weight > 0 && !in_array($row->stock_category,["Lab Grown Diamond","Loos Diamond","Diamond Items"])):
+                                    $row->gold_weight = $gold_weight;
+                                    echo '<small>Gold Weight : ' . floatVal($row->gold_weight) . '</small><br>';
+                                endif;
+
+                                if(!empty($row->other_charge) && $row->other_charge > 0):
                                     echo '<small>Other Charge :</small> ' . floatVal($row->other_charge) . '<br>';
                                 endif;
-                                if(!empty($row->vrc_charge)):
+                                if(!empty($row->vrc_charge) && $row->vrc_charge > 0):
                                     echo '<small>Variety Charge :</small> ' . floatVal($row->vrc_charge) . '<br>';
                                 endif;
-                                if(!empty($row->diamond_amount)):
+                                if(!empty($row->diamond_amount) && $row->diamond_amount > 0):
                                     echo '<small>Diamond Amount :</small> ' . floatVal($row->diamond_amount) . '<br>';
                                 endif;
                             echo '</td>';

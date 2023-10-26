@@ -82,13 +82,13 @@
                             $i=1;$totalQty = 0;
                             if(!empty($dataRow->itemList)):
                                 foreach($dataRow->itemList as $row):
-                                    $indent = (!empty($row->ref_id)) ? '<br>Reference No:'.$row->ref_number : '';
-                                    $delivery_date = (!empty($row->delivery_date)) ? '<br>Delivery Date :'.formatDate($row->delivery_date) : '';
-                                    $item_remark=(!empty($row->item_remark))?'<br><small>Remark:.'.$row->item_remark.'</small>':'';
                                     
                                     echo '<tr>';
                                         echo '<td class="text-center">'.$i++.'</td>';
-                                        echo '<td>'.$row->item_name.$indent.$delivery_date.$item_remark.'</td>';
+                                        echo '<td>
+                                            <b>'.$row->item_name . '</b><br>
+                                            <small>Serial No. : '.$row->unique_id . '</small><br>
+                                        </td>';
                                         echo '<td class="text-center">'.$row->hsn_code.'</td>';
                                         echo '<td class="text-center">'.$row->gross_weight.'</td>';
                                         echo '<td class="text-center">'.$row->net_weight.'</td>';
