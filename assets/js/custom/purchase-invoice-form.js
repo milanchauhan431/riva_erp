@@ -177,6 +177,8 @@ function createInvoice(){
 		mainRefIds.push(row.id);
 		mainFromEntryType.push(row.from_entry_type);
 		row.making_per = 0;
+		row.making_charge = 0;
+		row.making_charge_dicount = 0;
 		AddRow(row);
 	}).get();
 
