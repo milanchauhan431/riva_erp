@@ -108,19 +108,19 @@
                                     echo   '<b>'.$row->item_name . '</b><br>';
                                     echo   '<small>Serial No. : '.$row->unique_id . '</small><br>';
 
-                                    if(!empty($row->gold_platinum_price)):
+                                     if(!empty($row->gold_platinum_price) && $row->gold_platinum_price != 0):
                                         echo '<small>Gold Amount : ' . floatVal($row->gold_platinum_price) . '</small><br>';
-                                    endif;  
-									if(!empty($row->gold_weight)):
+                                    endif;
+                                    if(!empty($row->gold_weight) && $row->gold_weight > 0):
                                         echo '<small>Gold Weight : ' . floatVal($row->gold_weight) . '</small><br>';
                                     endif;
-                                    if(!empty($row->other_charge)):
+                                    if(!empty($row->other_charge) && $row->other_charge > 0):
                                         echo '<small>Other Charge : ' . floatVal($row->other_charge) . '</small><br>';
                                     endif;
-                                    if(!empty($row->vrc_charge)):
+                                    if(!empty($row->vrc_charge) && $row->vrc_charge > 0):
                                         echo '<small>Variety Charge : ' . floatVal($row->vrc_charge) . '</small><br>';
                                     endif;
-                                    if(!empty($row->diamond_amount)):
+                                    if(!empty($row->diamond_amount) && $row->diamond_amount > 0):
                                         echo '<small>Diamond Amount : ' . floatVal($row->diamond_amount) . '</small><br>';
                                     endif;
                                     
