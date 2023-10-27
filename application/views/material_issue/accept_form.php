@@ -15,8 +15,9 @@
                     </thead>
                     <tbody>
                         <?php
-                            $i = 1;$totalGw = $totalNw = 0;
+                            $i = 0;$totalGw = $totalNw = 0;
                             foreach($issueItemList as $row):
+                                $i++;
                                 echo '<tr>
                                     <td>'.$row->item_name.'  <input type="hidden" name="itemData['.$id.'][id]" value="'.$row->id.'"></td>
                                     <td>'.$row->item_desc.'</td>
@@ -25,8 +26,7 @@
                                     <td>'.$row->net_weight.'</td>
                                 </tr>';
                                 $totalGw += $row->gross_weight;
-                                $totalNw += $row->net_weight;
-                                $i++;
+                                $totalNw += $row->net_weight;                                
                             endforeach;
                         ?>
                     </tbody>
@@ -34,9 +34,9 @@
                         <tr>
                             <th>Total</th>
                             <th><?=$i?></th>
-                            <th><?=$totalGw?></th>
-                            <th><?=($totalGw - $totalNw)?></th>
-                            <th><?=$totalNw?></th>
+                            <th><?=sprintf('%.3f',round($totalGw,3))?></th>
+                            <th><?=sprintf('%.3f',round(($totalGw - $totalNw),3))?></th>
+                            <th><?=sprintf('%.3f',round($totalNw,3))?></th>
                         </tr>
                     </tfoot>
                 </table>

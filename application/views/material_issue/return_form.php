@@ -74,9 +74,9 @@
                             <tr>
                                 <th colspan="2">Total</th>
                                 <th><?=$i?></th>
-                                <th><?=$totalGw?></th>
-                                <th><?=($totalGw - $totalNw)?></th>
-                                <th><?=$totalNw?></th>
+                                <th><?=sprintf('%.3f',round($totalGw,3))?></th>
+                                <th><?=sprintf('%.3f',round(($totalGw - $totalNw),3))?></th>
+                                <th><?=sprintf('%.3f',round($totalNw,3))?></th>
                                 <th></th>
                             </tr>
                         </tfoot>

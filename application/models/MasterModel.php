@@ -964,5 +964,32 @@ class MasterModel extends CI_Model{
         endif;
         return false;
     }
+
+    /* 
+    * Created BY : Milan Chauhan
+    * Created AT : 27-10-2023
+    * Required Param : tableName => columnName (array) and id any special conditions
+    */
+    public function checkEntryReference($postData){
+        $queryData = array();
+        $queryData['tableName'] = $postData['table_name'];
+        $queryData['select'] = "COUNT(id),GROUP_CONCAT(DISTINCT(vou_name_l) SEPARATOR ', ') as entry_ref";
+
+        foreach($postData["where"] as $row):
+            $queryData['where'][$row['column_name']] = $row['column_value'];
+        endforeach;
+
+        foreach($postData["find"] as $row):
+            $queryData['customWhere'][] = "FIND_IN_SET(".$row['column_value'].",".$row['column_name'].") > 0";
+        endforeach;
+
+        $result = $this->row($queryData);
+
+        if(!empty($result)):
+            return ['status'=>0,'message' => 'Entry Ref. Found. You can not delete it. Vou Name : '.$result->entry_ref];
+        endif;
+
+        return ['status'=>1,'message' => 'Entry Ref. not found.'];
+    }
 }
 ?>

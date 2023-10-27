@@ -109,7 +109,6 @@
 <script src="<?=base_url()?>assets/extra-libs/comboSelect/jquery.combo.select.js"></script>
 
 <!-- Select2 js -->
-<!-- Select2 js -->
 <script src="<?=base_url()?>assets/extra-libs/select2/js/select2.full.min.js"></script>
 <script src="<?=base_url()?>assets/js/pages/multiselect/js/bootstrap-multiselect.js"></script>
 <script src="<?=base_url();?>assets/js/custom/jp-tagsinput.min.js"></script>

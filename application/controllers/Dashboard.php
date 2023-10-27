@@ -1,7 +1,7 @@
 <?php
 class Dashboard extends MY_Controller{
 
-	private $hbd_msg = 'The warmest wishes to a great member of our team. May your special day be full of happiness, fun and cheer!\r\n-APPLIED AUTO PARTS PVT LTD';
+	private $hbd_msg = '';
 	public function __construct()	{
 		parent::__construct();
 		$this->isLoggedin();

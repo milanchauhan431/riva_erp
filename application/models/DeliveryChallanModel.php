@@ -258,6 +258,14 @@ class DeliveryChallanModel extends MasterModel{
         try{
             $this->db->trans_begin();
 
+            $postData["table_name"] = $this->transMain;
+            $postData['where'] = [['column_name'=>'from_entry_type','column_value'=>$this->data['entryData']->id]];
+            $postData['find'] = [['column_name'=>'ref_id','column_value'=>$id]];
+            $checkRef = $this->checkEntryReference($postData);
+            if($checkRef['status'] == 0):
+                return $checkRef;
+            endif;
+
             $dataRow = $this->getDeliveryChallan(['id'=>$id,'itemList'=>1]);
             
             foreach($dataRow->itemList as $row):

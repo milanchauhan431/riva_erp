@@ -142,6 +142,14 @@ class SalesEnquiryModel extends MasterModel{
         try{
             $this->db->trans_begin();
 
+            $postData["table_name"] = $this->transMain;
+            $postData['where'] = [['column_name'=>'from_entry_type','column_value'=>$this->data['entryData']->id]];
+            $postData['find'] = [['column_name'=>'ref_id','column_value'=>$id]];
+            $checkRef = $this->checkEntryReference($postData);
+            if($checkRef['status'] == 0):
+                return $checkRef;
+            endif;
+
             $this->trash($this->transChild,['trans_main_id'=>$id]);
             $this->trash($this->transExpense,['trans_main_id'=>$id]);
             $this->remove($this->transDetails,['main_ref_id'=>$id,'table_name'=>$this->transMain,'description'=>"SE TERMS"]);
