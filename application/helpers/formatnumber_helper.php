@@ -721,12 +721,14 @@ function getItemPriceByRate($itemDetail){
 	if(in_array($itemDetail->stock_category, array("Platinum + Gold + Diamond Items"))){
 		$item_rate = $getpurity->platinum_rate / 10;   
 	}
-	if (in_array($itemDetail->stock_category, array("Lab Grown Diamond", "Loos Diamond"))){
+	if (in_array($itemDetail->stock_category, array("Lab Grown Diamond", "Loos Diamond","Diamond Items"))){
 		$item_rate = 0;
+		$item_rate = ($itemDetail->diamond_amount / $itemDetail->net_weight);
 	}
 
 	return sprintf("%.2f",$item_rate);
 }
+
 function getPltinumPriceByGn($itemDetail){
 	$CI =& get_instance(); 
 	if(in_array($itemDetail->stock_category, array("Platinum + Gold + Diamond Items"))){

@@ -40,9 +40,9 @@ class StockTrans extends MY_Controller{
 		if($itemDetail){
 			$itemDetail->price =  (float)getItemPriceByRate($itemDetail);
 			$itemDetail->gold_platinum_price =  (float)getPltinumPriceByGn($itemDetail);
-           /*  $itemDetail->making_charge =  (float)getItemMakingCharge($itemDetail);
-            $itemDetail->other_charge =  (float)getItemOtherCharge($itemDetail);
-            $itemDetail->making_charge_discount =  (float)getItemMakingChargeDiscount($itemDetail, $itemDetail->making_charge); */
+            if (in_array($itemDetail->stock_category, array("Lab Grown Diamond", "Loos Diamond","Diamond Items"))){
+                $itemDetail->diamond_amount = 0;
+            }
 		}
         $this->printJson(['status'=>1,'data'=>['itemDetail'=>$itemDetail]]);
     }
