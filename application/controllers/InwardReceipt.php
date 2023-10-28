@@ -40,6 +40,7 @@ class InwardReceipt extends MY_Controller
 
         $dcode = $this->inwardReceipt->getInwardReceipt($data)->design_no;
         $codes = $this->inwardReceipt->getItemSerialNo($data);
+        $stock_category  = 0;
         $stock_category_d  = 0;
         foreach ($codes as $code):
             if (in_array($code->stock_category, array("Gold", "Gold Items"))):

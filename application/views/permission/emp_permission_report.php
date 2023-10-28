@@ -17,7 +17,7 @@
                                     <ul class="nav nav-pills">
                                         <a href="<?= base_url($headData->controller) ?>" class="btn waves-effect waves-light btn-outline-primary  permission-write"> General Permission</a>
                                         <a href="<?= base_url($headData->controller . "/empPermissionReport/") ?>" class="btn waves-effect waves-light btn-outline-warning permission-write active"> Report Permission</a>
-                                        <button type="button" class="btn waves-effect waves-light btn-outline-success float-center permission-write" onclick="edit({'modal_id' : 'modal-md', 'form_id' : 'copyPermission','fnedit':'copyPermission','fnsave':'copyPermission', 'title' : 'Copy Permission','js_store_fn':'confirmStore'});">Copy Permission</button>
+                                       <!-- <button type="button" class="btn waves-effect waves-light btn-outline-success float-center permission-write" onclick="edit({'modal_id' : 'modal-md', 'form_id' : 'copyPermission','fnedit':'copyPermission','fnsave':'copyPermission', 'title' : 'Copy Permission','js_store_fn':'confirmStore'});">Copy Permission</button>-->
                                     </ul>
                                 </div>                                
                                 <div class="col-md-4">

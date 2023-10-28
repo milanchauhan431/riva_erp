@@ -344,7 +344,7 @@ document.addEventListener('DOMContentLoaded', function() {
             Swal.fire({
                 title: info.event.title,
                 //icon: 'info',
-                imageUrl: base_url + 'assets/images/favicon.svg',
+                imageUrl: base_url + 'assets/images/favicon.png',
                 html: '<p>' + info.event.extendedProps.description + '</p>',
                 showCloseButton: true,
                 showCancelButton: true,
