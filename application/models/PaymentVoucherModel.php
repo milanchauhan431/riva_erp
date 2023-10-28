@@ -18,6 +18,8 @@ class PaymentVoucherModel extends MasterModel{
         $data['where']['trans_main.trans_date >='] = $this->startYearDate;
         $data['where']['trans_main.trans_date <='] = $this->endYearDate;
 
+        $data['order_by']['trans_main.id'] = "DESC";
+        $data['order_by']['trans_main.trans_no'] = "DESC";
 		
         $data['searchCol'][] = "";
         $data['searchCol'][] = "";
