@@ -479,8 +479,8 @@ async function barcodeScan(formData=""){
 				goldMcDiscAmt = parseFloat((parseFloat(mackingChargeAmt) * parseFloat(formData.making_disc_per)) / 100).toFixed(2);
 			}
 
-			mackingChargeAmt += goldMackingChargeAmt;
-			mcDiscAmt += goldMcDiscAmt;
+			mackingChargeAmt = parseFloat(parseFloat(mackingChargeAmt) + parseFloat(goldMackingChargeAmt)).toFixed(2);
+			mcDiscAmt += parseFloat(parseFloat(mcDiscAmt) + parseFloat(goldMcDiscAmt)).toFixed(2);
 		}	
 
 		taxable_amount = parseFloat(parseFloat(amount) + (parseFloat(mackingChargeAmt) - parseFloat(mcDiscAmt)) + parseFloat(otherChargeAmt) + parseFloat(varietyChargeAmt) + parseFloat(diamondAmount) + parseFloat(gold_platinum_price)).toFixed(2);
