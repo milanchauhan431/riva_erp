@@ -197,14 +197,64 @@ class PaymentVoucherModel extends MasterModel{
         $queryData['where']['trans_main.id'] = $id;
         $result =  $this->row($queryData);
 
-        $queryData = array();
+        /* $queryData = array();
         $queryData['tableName'] = $this->transDetails;
-        $queryData['select'] = "trans_details.id,trans_details.d_col_1 as adjust_amount,trans_main.trans_number,trans_main.trans_date,trans_main.net_amount";
+        $queryData['select'] = "trans_details.id,trans_details.d_col_1 as adjust_amount,trans_main.trans_number,trans_main.trans_date,trans_main.net_amount,trans_main.rop_amount";
         $queryData['leftJoin']['trans_main'] = "trans_details.i_col_1 = trans_main.id";
         $queryData['where']['trans_details.table_name'] = $this->transMain;
         $queryData['where']['trans_details.description'] = "PAYMENT BILL WISE DETAILS";
         $queryData['where']['trans_details.main_ref_id'] = $id;
-        $result->invoiceRef = $this->rows($queryData);
+        $result->invoiceRef = $this->rows($queryData); */
+
+        $queryData = array();
+        $queryData['tableName'] = $this->transDetails;
+        $queryData['select'] = "trans_details.i_col_1,trans_main.trans_number,trans_main.trans_date,trans_main.net_amount,trans_main.vou_name_s";
+        $queryData['leftJoin']['trans_main'] = "trans_details.i_col_1 = trans_main.id";
+        $queryData['where']['trans_details.table_name'] = $this->transMain;
+        $queryData['where']['trans_details.description'] = "PAYMENT BILL WISE DETAILS";
+        $queryData['where']['trans_details.main_ref_id'] = $id;
+        $queryData['order_by']['trans_details.i_col_1'] = "ASC";
+        $queryData['order_by']['trans_main.trans_date'] = "ASC";
+        $invoiceRef = $this->rows($queryData);
+
+        $payments = array();
+        foreach($invoiceRef as $row):
+            $payments[$row->i_col_1] = [
+                'id' => $row->i_col_1,
+                'trans_number' => $row->trans_number,
+                'trans_date' => $row->trans_date,
+                'net_amount' => $row->net_amount,
+                'vou_name_s' => $row->vou_name_s
+            ];
+
+            $queryData = array();
+            $queryData['tableName'] = $this->transDetails;
+            $queryData['select'] = "trans_main.id,trans_main.vou_name_s,trans_main.trans_number,trans_main.trans_date,trans_main.net_amount";
+            $queryData['leftJoin']['trans_main'] = "trans_details.main_ref_id = trans_main.id";
+            $queryData['where']['trans_details.table_name'] = $this->transMain;
+            $queryData['where']['trans_details.description'] = "PAYMENT BILL WISE DETAILS";
+            $queryData['where']['trans_details.i_col_1'] = $row->i_col_1;
+            $queryData['where']['trans_details.main_ref_id <= '] = $id;
+            $queryData['order_by']['trans_main.id'] = "ASC";
+            $queryData['order_by']['trans_main.trans_date'] = "ASC";
+            $paymentRef = $this->rows($queryData);
+
+            foreach($paymentRef as $row):
+                $payments[$row->id] = [
+                    'id' => $row->id,
+                    'trans_number' => $row->trans_number,
+                    'trans_date' => $row->trans_date,
+                    'net_amount' => $row->net_amount,
+                    'vou_name_s' => $row->vou_name_s
+                ];
+            endforeach;
+        endforeach;
+
+        array_multisort(array_column($payments, 'id'), SORT_ASC, $payments);
+        //array_multisort(array_column($payments, 'trans_number'), SORT_ASC, $payments);
+
+        $result->invoiceRef = (!empty($payments))?(object)$payments:$payments;
+        //print_r($result->invoiceRef);exit;
 
         return $result;
     }

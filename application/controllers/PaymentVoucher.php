@@ -207,7 +207,7 @@ class PaymentVoucher extends MY_Controller{
 		
 		$this->data['printType'] = "Duplicate";
         $pdfData .= $this->load->view('payment_voucher/print', $this->data, true);  
-
+		//print_r($pdfData);exit;
 		$mpdf = new \Mpdf\Mpdf();
 		$filePath = realpath(APPPATH . '../assets/uploads/sales_quotation/');
         $pdfFileName = $filePath.'/' . str_replace(["/","-"],"_",$dataRow->trans_number) . '.pdf';

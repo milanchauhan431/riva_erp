@@ -97,7 +97,9 @@
 $(document).ready(function(){
 
     <?php if(!empty($dataRow->id)): ?>
-        $(".partyDetails").trigger('change');
+        setTimeout(function(){
+            $(".partyDetails").trigger('change');
+        },1000);
     <?php endif; ?>
 	
 	$(document).on("change","#vou_name_s",function(){       

@@ -74,37 +74,40 @@
                 <?php if(!empty($dataRow->invoiceRef)): ?>
                 <table class="table item-list-bb" style="margin-top:10px;">
                     <tr>
-                        <th class="text-center" colspan="5">Invoice Details</th>
+                        <th class="text-center" colspan="4">Invoice/Payment Details</th>
                     </tr>
                     <tr>
-                        <th class="text-left">Inv. No.</th>
-                        <th class="text-left">Inv. Date</th>
+                        <th class="text-left">Vou. No.</th>
+                        <th class="text-left">Vou. Date</th>
                         <th class="text-right">Net Amount</th>
-                        <th class="text-right">Received/Paid Amount</th>
                         <th class="text-right">Due Amount</th>
                     </tr>
                     <?php
-                        $totalAmt = $totalAdjAmt = $totalDueAmt = 0;
+                        $totalAmt = $totalPenAmt = $totalAdjAmt = $totalDueAmt = 0;
                         foreach($dataRow->invoiceRef as $row):
+                            $row = (object) $row;
+
+                            $totalDueAmt += (in_array($row->vou_name_s,['Sale','Purc']))?($row->net_amount):($row->net_amount * -1);
                             echo '<tr>
                                 <td>'.$row->trans_number.'</td>
                                 <td>'.formatDate($row->trans_date).'</td>
                                 <td class="text-right">'.$row->net_amount.'</td>
-                                <td class="text-right">'.$row->adjust_amount.'</td>
-                                <td class="text-right">'.($row->net_amount - $row->adjust_amount).'</td>
+                                <td class="text-right">'.$totalDueAmt.'</td>
                             </tr>';
 
-                            $totalAmt += $row->net_amount;
+                            /* $totalAmt += $row->net_amount;
+                            $totalPenAmt += ($row->net_amount - $row->rop_amount + $row->adjust_amount);
                             $totalAdjAmt += $row->adjust_amount;
-                            $totalDueAmt += ($row->net_amount - $row->adjust_amount);
+                            $totalDueAmt += ($row->net_amount - $row->rop_amount); */
                         endforeach;
                     ?>
-                    <tr>
+                    <!-- <tr>
                         <th colspan="2" class="text-right">Total Qty.</th>
                         <th class="text-right"><?=sprintf('%.2f',$totalAmt)?></th>
+                        <th class="text-right"><?=sprintf('%.2f',$totalPenAmt)?></th>
                         <th class="text-right"><?=sprintf('%.2f',$totalAdjAmt)?></th>
                         <th class="text-right"><?=sprintf('%.2f',$totalDueAmt)?></th>
-                    </tr>
+                    </tr> -->
                 </table>
                 <?php endif; ?>
 		                
