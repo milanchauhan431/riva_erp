@@ -449,6 +449,7 @@ async function barcodeScan(formData=""){
 		var gst_per = 0; var cgst_per = 0; var sgst_per = 0; var igst_per = 0;
 		var mackingChargeAmt = 0;var mcDiscAmt = 0;var otherChargeAmt = 0; 
 		var varietyChargeAmt = 0; var diamondAmount = 0; var gold_platinum_price = 0;
+		var goldMackingChargeAmt = 0; var goldMcDiscAmt = 0;
 
 		formData.org_price = 0;
 		/* if (formData.disc_per == "" && formData.disc_per == "0") {
@@ -469,8 +470,18 @@ async function barcodeScan(formData=""){
 		otherChargeAmt = parseFloat(formData.otc_amount).toFixed(2);
 		varietyChargeAmt = parseFloat(formData.vrc_amount).toFixed(2);
 		diamondAmount = parseFloat(formData.diamond_amount).toFixed(2);
-		gold_platinum_price = parseFloat(formData.gold_platinum_price).toFixed(2);
 		
+		if(parseFloat(formData.gold_platinum_price) > 0){
+			gold_platinum_price = parseFloat(formData.gold_platinum_price).toFixed(2);
+
+			goldMackingChargeAmt = parseFloat((parseFloat(gold_platinum_price) * parseFloat(formData.making_per))/100).toFixed(2);
+			if (formData.making_disc_per != "" && formData.making_disc_per != "0") {
+				goldMcDiscAmt = parseFloat((parseFloat(mackingChargeAmt) * parseFloat(formData.making_disc_per)) / 100).toFixed(2);
+			}
+
+			mackingChargeAmt += goldMackingChargeAmt;
+			mcDiscAmt += goldMcDiscAmt;
+		}	
 
 		taxable_amount = parseFloat(parseFloat(amount) + (parseFloat(mackingChargeAmt) - parseFloat(mcDiscAmt)) + parseFloat(otherChargeAmt) + parseFloat(varietyChargeAmt) + parseFloat(diamondAmount) + parseFloat(gold_platinum_price)).toFixed(2);
 
