@@ -75,7 +75,7 @@ $(document).ready(function(){
 
 // Datatable : Get Serverside Data
 function ssDatatable(ele,tableHeaders,tableOptions,dataSet={}){	
-	var textAlign ={}; //var srnoPosition = 1;
+	var textAlign ={}; 
 	if(tableHeaders.textAlign!=""){var textAlign = JSON.parse(tableHeaders.textAlign);}
 	
 	var orderableTarget =[0,1]; 
