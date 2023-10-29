@@ -17,7 +17,7 @@ class Migration extends CI_Controller{
         echo "success";exit;
     } */
 
-    public function defualtLedger(){
+    /* public function defualtLedger(){
         $accounts = [
             ['name' => 'Sales Account', 'group_name' => 'Sales Account', 'group_code' => 'SA', 'system_code' => 'SALESACC'],
             
@@ -196,13 +196,14 @@ class Migration extends CI_Controller{
             $this->db->trans_rollback();
             echo $e->getMessage();exit;
         }
-    }
+    } */
     
     public function updateLedgerClosingBalance(){
         try{
             $this->db->trans_begin();
 
             $partyData = $this->db->where('is_delete',0)->get("party_master")->result();
+
             foreach($partyData as $row):
                 //Set oprning balance as closing balance
                 $this->db->where('id',$row->id);
@@ -231,7 +232,7 @@ class Migration extends CI_Controller{
         }
     }
 
-    public function dimondAmount(){
+    /* public function dimondAmount(){
         try{
     
             $this->db->where('party_id',75);
@@ -245,7 +246,7 @@ class Migration extends CI_Controller{
         }catch(\Throwable $e){ 
             echo $e->getMessage();exit;
         } 
-    }
+    } */
 
     /* public function migrateInwardApproval(){
         try{
@@ -366,5 +367,59 @@ class Migration extends CI_Controller{
             echo $e->getMessage();exit;
         } 
     } */
+
+    public function clearItemStock(){
+        try{
+            $this->db->trans_begin();
+
+            $this->db->select('id,entry_type,trans_number,qty');
+            $this->db->where('is_delete',0);
+            $result = $this->db->get('inward_receipt')->result();
+
+            foreach($result as $row):
+                print_r("<hr>");
+                /* if(floatval($row->qty) > 1):
+                    print_r("IR No. : ".$row->trans_number." Qty. : ".$row->qty);print_r("<hr>");
+                endif; */
+                $this->db->select('id,unique_id,item_id');
+                $this->db->where('main_ref_id',$row->id);
+                $this->db->where('entry_type',$row->entry_type);
+                $this->db->where('p_or_m',1);
+                $stockTrans = $this->db->get('stock_transaction')->result();
+
+                $serialNo = [];
+                foreach($stockTrans as $trans):
+                    $this->db->select('SUM(qty * p_or_m) as qty');
+                    $this->db->where('batch_no',$trans->unique_id);
+                    $this->db->where('item_id',$trans->item_id);
+                    $this->db->having("SUM(qty * p_or_m) > 0");
+                    $this->db->group_by("unique_id");
+                    $itemStock = $this->db->get('stock_transaction')->row();
+
+                    if(empty($itemStock)):
+                        $serialNo[] = $trans->unique_id;
+                    else:
+                        print_r($trans->unique_id);print_r("<br>");
+                        //$this->db->where('id',$trans->id);
+                        //$this->db->update('stock_transaction',['is_delete'=>2]);
+                    endif;
+                endforeach;
+
+                if(empty($serialNo)):
+                    print_r($row->trans_number);print_r("<br>");
+                    //$this->db->where('id',$row->id);
+                    //$this->db->update('inward_receipt',['is_delete'=>2]);
+                endif;
+            endforeach;            
+
+            if($this->db->trans_status() !== FALSE):
+                //$this->db->trans_commit();
+                echo "Item Stock Cleared Successfully.";
+            endif;
+        }catch(\Throwable $e){
+            $this->db->trans_rollback();
+            echo $e->getMessage();exit;
+        } 
+    }
 }
 ?>
