@@ -373,6 +373,7 @@ class Migration extends CI_Controller{
             $this->db->trans_begin();
 
             $this->db->select('id,entry_type,trans_number,qty');
+			$this->db->where_in('inward_type',["Platinum Items","Platinum + Diamond Items","Platinum + Gold + Diamond Items"]);
             $this->db->where('is_delete',0);
             $result = $this->db->get('inward_receipt')->result();
 
@@ -399,21 +400,21 @@ class Migration extends CI_Controller{
                     if(empty($itemStock)):
                         $serialNo[] = $trans->unique_id;
                     else:
-                        print_r($trans->unique_id);print_r("<br>");
-                        //$this->db->where('id',$trans->id);
-                        //$this->db->update('stock_transaction',['is_delete'=>2]);
+                        //print_r($trans->unique_id);print_r("<br>");
+                        $this->db->where('id',$trans->id);
+                        $this->db->update('stock_transaction',['is_delete'=>2]);
                     endif;
                 endforeach;
 
                 if(empty($serialNo)):
-                    print_r($row->trans_number);print_r("<br>");
-                    //$this->db->where('id',$row->id);
-                    //$this->db->update('inward_receipt',['is_delete'=>2]);
+                    //print_r($row->trans_number);print_r("<br>");
+                    $this->db->where('id',$row->id);
+                    $this->db->update('inward_receipt',['is_delete'=>2]);
                 endif;
             endforeach;            
 
             if($this->db->trans_status() !== FALSE):
-                //$this->db->trans_commit();
+                $this->db->trans_commit();
                 echo "Item Stock Cleared Successfully.";
             endif;
         }catch(\Throwable $e){
