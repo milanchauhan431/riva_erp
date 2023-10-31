@@ -374,7 +374,7 @@ class Migration extends CI_Controller{
 
             $this->db->select("item_master.item_name,SUM((CASE WHEN stock_transaction.p_or_m = 1 THEN stock_transaction.qty ELSE 0 END)) as inward_qty, SUM((CASE WHEN stock_transaction.p_or_m = -1 THEN stock_transaction.qty ELSE 0 END)) as sold_qty, SUM(stock_transaction.qty * stock_transaction.p_or_m) as stock_qty");
             $this->db->join("item_master","stock_transaction.item_id = item_master.id","left");
-            $this->db->where_in('stock_transaction.stock_type',["Platinum Items","Platinum + Diamond Items","Platinum + Gold + Diamond Items"]);
+            $this->db->where_in('stock_transaction.stock_category',["Platinum Items","Platinum + Diamond Items","Platinum + Gold + Diamond Items"]);
             $this->db->where('stock_transaction.is_delete',0);
             $this->db->group_by("stock_transaction.item_id");
             $itemStock = $this->db->get('stock_transaction')->result();
@@ -426,15 +426,15 @@ class Migration extends CI_Controller{
                         $serialNo[] = $trans->unique_id;
                     else:
                         //print_r($trans->unique_id);print_r("<br>");
-                        $this->db->where('id',$trans->id);
-                        $this->db->update('stock_transaction',['is_delete'=>2]);
+                        //$this->db->where('id',$trans->id);
+                        //$this->db->update('stock_transaction',['is_delete'=>2]);
                     endif;
                 endforeach;
 
                 if(empty($serialNo)):
                     //print_r($row->trans_number);print_r("<br>");
-                    $this->db->where('id',$row->id);
-                    $this->db->update('inward_receipt',['is_delete'=>2]);
+                    //$this->db->where('id',$row->id);
+                    //$this->db->update('inward_receipt',['is_delete'=>2]);
                 endif;
             endforeach;            
 
