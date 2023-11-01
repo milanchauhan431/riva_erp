@@ -21,7 +21,7 @@ class StoreReport extends MY_Controller{
         foreach($result as $row):
             $tbody .= '<tr>
                 <td  class="text-center">'.$i++.'</td>
-                <td  class="text-left">'.$row->item_code.'</td>
+                <td  class="text-left">'.$row->item_code.'-'.$row->stock_category.'</td>
                 <td  class="text-left"><a href="'.base_url("reports/storeReport/locationWiseStockRegister/".$row->id).'" target="_blank">'.$row->item_name.'</a></td>
                 <td  class="text-right">'.floatVal($row->stock_qty).'</td>
                 <td  class="text-right">'.floatVal($row->gross_weight).'</td>
