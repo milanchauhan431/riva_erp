@@ -396,17 +396,17 @@ $(document).ready(function(){
             if($.inArray(type, ["Gold","Gold Items","Platinum Items","Palladium"]) >= 0){
                 $("#purity_input,#fine_input,#polish_input").show();                
                 $("#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input,#diamond_quality_input").hide();
-            }else if($.inArray(type, ["Gold + Diamond Items","Platinum + Diamond Items","Platinum + Gold + Diamond Items","Lab Grown Diamond + Gold Items"]) >= 0){
+            }else if($.inArray(type, ["Gold + Diamond Items","Platinum + Diamond Items","Platinum + Gold + Diamond Items"]) >= 0){
                 $("#purity_input,#fine_input,#polish_input,#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input,#diamond_quality_input").show();
 			}else if($.inArray(type, ["Lab Grown Diamond + Gold Items"]) >= 0){
 				$("#purity_input,#fine_input,#polish_input,#color_input,#clarity_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input,#diamond_quality_input").show();
+				$("#diamond_weight_input").hide();
             }else if($.inArray(type, ["Silver","Silver Items"]) >= 0){
                 $("#polish_input").show();
                 $("#purity_input,#fine_input,#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input,#diamond_quality_input").hide();
-            }
-            else if($.inArray(type, ["Loos Diamond","Diamond Items","Lab Grown Diamond"]) >= 0){
+            }else if($.inArray(type, ["Loos Diamond","Diamond Items","Lab Grown Diamond"]) >= 0){
                 $("#color_input,#clarity_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input,#diamond_quality_input").show();
-                $("#polish_input,#purity_input,#fine_input").hide();
+                $("#polish_input,#purity_input,#fine_input,#diamond_weight_input").hide();
             }
         }else{
             $("#purity_id,#fine_id,#polish_id,#color_id,#clarity_id,#sales_price").val("");
