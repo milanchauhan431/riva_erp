@@ -40,7 +40,7 @@ class StockTrans extends MY_Controller{
 		if($itemDetail){
 			$itemDetail->price =  (float)getItemPriceByRate($itemDetail);
 			$itemDetail->gold_platinum_price =  (float)getPltinumPriceByGn($itemDetail);
-            if (in_array($itemDetail->stock_category, array("Lab Grown Diamond", "Loos Diamond","Diamond Items"))){
+            if (in_array($itemDetail->stock_category, array("Lab Grown Diamond", "Loos Diamond","Diamond Items","Lab Grown Diamond + Gold Items"))){
                 $itemDetail->diamond_amount = 0;
             }
 		}
