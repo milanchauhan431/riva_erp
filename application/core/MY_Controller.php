@@ -37,7 +37,7 @@ class MY_Controller extends CI_Controller{
 	public $salesTypeCodes = ["'SALESGSTACC'","'SALESIGSTACC'","'SALESJOBGSTACC'","'SALESJOBIGSTACC'","'SALESTFACC'","'SALESEXEMPTEDTFACC'","'EXPORTGSTACC'","'EXPORTTFACC'","'SEZSGSTACC'","'SEZSTFACC'","'DEEMEDEXP'"];
 
 	//Inward Types
-	public $inwardTypes = ["Gold","Gold Items","Gold + Diamond Items","Silver","Silver Items","Loos Diamond","Diamond Items","Lab Grown Diamond","Platinum Items","Platinum + Diamond Items","Palladium","Platinum + Gold + Diamond Items"];
+	public $inwardTypes = ["Gold","Gold Items","Gold + Diamond Items","Silver","Silver Items","Loos Diamond","Diamond Items","Lab Grown Diamond","Lab Grown Diamond + Gold Items","Platinum Items","Platinum + Diamond Items","Palladium","Platinum + Gold + Diamond Items"];
 	
 	public function __construct(){
 		parent::__construct();

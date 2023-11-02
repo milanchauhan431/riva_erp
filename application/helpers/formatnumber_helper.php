@@ -721,7 +721,7 @@ function getItemPriceByRate($itemDetail){
 	if(in_array($itemDetail->stock_category, array("Platinum + Gold + Diamond Items"))){
 		$item_rate = $getpurity->platinum_rate / 10;   
 	}
-	if (in_array($itemDetail->stock_category, array("Lab Grown Diamond", "Loos Diamond","Diamond Items"))){
+	if (in_array($itemDetail->stock_category, array("Lab Grown Diamond", "Loos Diamond","Diamond Items","Lab Grown Diamond + Gold Items"))){
 		$item_rate = 0;
 		$item_rate = ($itemDetail->diamond_amount / $itemDetail->net_weight);
 	}
@@ -731,7 +731,7 @@ function getItemPriceByRate($itemDetail){
 
 function getPltinumPriceByGn($itemDetail){
 	$CI =& get_instance(); 
-	if(in_array($itemDetail->stock_category, array("Platinum + Gold + Diamond Items"))){
+	if(in_array($itemDetail->stock_category, array("Platinum + Gold + Diamond Items","Lab Grown Diamond + Gold Items"))){
 	$data["purity"] = $itemDetail->purity;
 	$getpurity = $CI->purity->getPurity($data);
 	$item_rate = 0;
