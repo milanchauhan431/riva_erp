@@ -393,7 +393,7 @@ $(document).ready(function(){
                 $("#purity_id,#fine_id,#polish_id,#color_id,#clarity_id").select2();
             }
 
-            if($.inArray(type, ["Gold","Gold Items","Platinum Items","Palladium"]) >= 0){
+            if($.inArray(type, ["Gold","Gold Items","Platinum Items","Palladium","Lab Grown Diamond + Gold Items"]) >= 0){
                 $("#purity_input,#fine_input,#polish_input").show();                
                 $("#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input,#diamond_quality_input").hide();
             }else if($.inArray(type, ["Gold + Diamond Items","Platinum + Diamond Items","Platinum + Gold + Diamond Items"]) >= 0){
