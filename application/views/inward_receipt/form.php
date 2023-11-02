@@ -384,7 +384,7 @@
 $(document).ready(function(){
     $("#purity_input,#fine_input,#polish_input,#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input,#diamond_quality_input").hide();
 
-    $("#inward_type").trigger("change");
+    setTimeout(function(){$("#inward_type").trigger("change");},500);
     $(document).on('change',"#inward_type",function(){
         var type = $(this).find(":selected").val();
         if(type != ""){
