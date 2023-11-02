@@ -405,7 +405,7 @@ $(document).ready(function(){
                 $("#purity_input,#fine_input,#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input,#diamond_quality_input").hide();
             }
             else if($.inArray(type, ["Loos Diamond","Diamond Items","Lab Grown Diamond"]) >= 0){
-                $("#color_input,#clarity_input,#diamond_weight_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input,#diamond_quality_input").show();
+                $("#color_input,#clarity_input,#diamond_carat_input,#diamond_pcs_input,#diamond_size_cut_input,#diamond_quality_input").show();
                 $("#polish_input,#purity_input,#fine_input").hide();
             }
         }else{
