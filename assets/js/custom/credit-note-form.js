@@ -146,6 +146,7 @@ $(document).ready(function(){
 			var mackingChargeAmt = 0;var mcDiscAmt = 0;var otherChargeAmt = 0; 
 			var varietyChargeAmt = 0; var diamondAmount = 0; var gold_platinum_price = 0;
 			var totalMcAmt = 0;
+			formData.making_per = formData.making_per || 0;
 
 			totalMcAmt = amount = parseFloat(parseFloat(formData.net_weight) * parseFloat(formData.price)).toFixed(2);		
 
@@ -159,9 +160,9 @@ $(document).ready(function(){
 				mcDiscAmt = parseFloat((parseFloat(mackingChargeAmt) * parseFloat(formData.making_disc_per)) / 100).toFixed(2);
 			}
 
-			otherChargeAmt = parseFloat(formData.other_charge).toFixed(2);
-			varietyChargeAmt = parseFloat(formData.vrc_charge).toFixed(2);
-			diamondAmount = parseFloat(formData.diamond_amount).toFixed(2);
+			otherChargeAmt = parseFloat((formData.other_charge || 0)).toFixed(2);
+			varietyChargeAmt = parseFloat((formData.vrc_charge || 0)).toFixed(2);
+			diamondAmount = parseFloat((formData.diamond_amount || 0)).toFixed(2);
 
 			taxable_amount = parseFloat(parseFloat(amount) + (parseFloat(mackingChargeAmt) - parseFloat(mcDiscAmt)) + parseFloat(otherChargeAmt) + parseFloat(varietyChargeAmt) + parseFloat(diamondAmount) + parseFloat(gold_platinum_price)).toFixed(2);
 

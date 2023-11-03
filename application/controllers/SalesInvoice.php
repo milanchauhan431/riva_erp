@@ -239,7 +239,7 @@ class SalesInvoice extends MY_Controller{
 		$mpdf->SetProtection(array('print'));		
 		/* $mpdf->SetHTMLHeader($htmlHeader);
 		$mpdf->SetHTMLFooter($htmlFooter); */
-		$mpdf->AddPage('P','','','','',10,5,(($postData['header_footer'] == 1)?5:20),(($postData['header_footer'] == 1)?5:40),5,5,'','','','','','','','','','A4-P');
+		$mpdf->AddPage('P','','','','',8,8,(($postData['header_footer'] == 1)?5:20),(($postData['header_footer'] == 1)?5:40),5,5,'','','','','','','','','','A4-P');
 		$mpdf->WriteHTML($pdfData);
 		$mpdf->Output($pdfFileName,'I');
 	}

@@ -134,7 +134,7 @@ class PurchaseInvoice extends MY_Controller{
         foreach($printTypes as $printType):
             ++$i;           
             $this->data['printType'] = $printType;
-            $this->data['maxLinePP'] = (!empty($postData['max_lines']))?$postData['max_lines']:18;
+            $this->data['maxLinePP'] = (!empty($postData['max_lines']))?$postData['max_lines']:(($postData['header_footer'] == 1)?18:10);
 		    $pdfData .= $this->load->view('purchase_invoice/print',$this->data,true);
             if($i != $countPT): $pdfData .= "<pagebreak>"; endif;
         endforeach;
@@ -147,9 +147,7 @@ class PurchaseInvoice extends MY_Controller{
 		$mpdf->SetWatermarkImage($logo,0.03,array(120,45));
 		$mpdf->showWatermarkImage = true;
 		$mpdf->SetProtection(array('print'));		
-		/* $mpdf->SetHTMLHeader($htmlHeader);
-		$mpdf->SetHTMLFooter($htmlFooter); */
-		$mpdf->AddPage('P','','','','',10,5,(($postData['header_footer'] == 1)?5:35),5,5,5,'','','','','','','','','','A4-P');
+		$mpdf->AddPage('P','','','','',8,8,(($postData['header_footer'] == 1)?5:20),(($postData['header_footer'] == 1)?5:40),5,5,'','','','','','','','','','A4-P');
 		$mpdf->WriteHTML($pdfData);
 		$mpdf->Output($pdfFileName,'I');
 	}

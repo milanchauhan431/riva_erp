@@ -284,22 +284,24 @@
             ?>
         </table>
 
-        <htmlpagefooter name="lastpage">
-            <table style="border-bottom:1px solid #545454;">
-                <tr>
-                    <th colspan="2" style="vertical-align:bottom;text-align:right;font-size:1rem;padding:5px 2px;">
-                        For, <?=$companyData->company_name?><br>
-                    </th>
-                </tr>
-                <tr>
-                    <td colspan="2" height="35"></td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="vertical-align:bottom;text-align:right;font-size:1rem;padding:5px 2px;"><b>Authorised Signature</b></td>
-                </tr>
-            </table>
+        <table style="border-bottom:1px solid #545454;margin-top:10px;">
+			<tr>
+				<th colspan="2" style="vertical-align:bottom;text-align:right;font-size:1rem;padding:5px 2px;">
+					For, <?=$companyData->company_name?><br>
+				</th>
+			</tr>
+			<tr>
+				<td colspan="2" height="35"></td>
+			</tr>
+			<tr>
+				<td colspan="2" style="vertical-align:bottom;text-align:right;font-size:1rem;padding:5px 2px;"><b>Authorised Signature</b></td>
+			</tr>
+		</table>
+
+        <!--<htmlpagefooter name="lastpage">
+            
         </htmlpagefooter>
-		<sethtmlpagefooter name="lastpage" value="on" />    
+		<sethtmlpagefooter name="lastpage" value="on" />-->    
     </div>
 </div>        
     
