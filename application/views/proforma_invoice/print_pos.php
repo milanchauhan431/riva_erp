@@ -197,6 +197,9 @@
 </div>
 
 <script>
-    window.print();
-    window.onafterprint = window.close;
+window.print();
+setTimeout(function () {
+    window.close(); // Replace this line with your own 'afterprint' logic.
+}, 2000);
+
 </script>
