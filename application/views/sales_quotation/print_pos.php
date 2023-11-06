@@ -163,7 +163,8 @@
 <script>
 setTimeout(function(){
 	  window.print();
+	  window.onafterprint = window.close;
 },2000)
   
-  //  window.onafterprint = window.close;
+  //  
 </script>
