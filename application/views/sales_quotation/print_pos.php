@@ -165,5 +165,5 @@ setTimeout(function(){
 	  window.print();
 },2000)
   
-    window.onafterprint = window.close;
+  //  window.onafterprint = window.close;
 </script>
