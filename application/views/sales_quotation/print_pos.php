@@ -161,10 +161,10 @@
 
 </html>
 <script>
-setTimeout(function(){
-	  window.print();
-	  window.onafterprint = window.close;
-},2000)
-  
-  //  
+
+window.print();
+setTimeout(function () {
+    window.close(); // Replace this line with your own 'afterprint' logic.
+}, 2000);
+
 </script>
