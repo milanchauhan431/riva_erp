@@ -161,6 +161,9 @@
 
 </html>
 <script>
-    window.print();
+setTimeout(function(){
+	  window.print();
+},2000)
+  
     window.onafterprint = window.close;
 </script>
