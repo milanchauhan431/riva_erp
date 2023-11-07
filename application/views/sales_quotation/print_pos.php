@@ -33,11 +33,8 @@
 
             <h4>Item Details: </h4>
             <hr />
-            <table class="table item-list-bb" style="margin-top:10px;">
-
-                <tbody>
-                    <?php
-                    $i = 1;
+			<?php 
+			    $i = 1;
                     $totalQty = 0;
                     $migst = 0;
                     $mcgst = 0;
@@ -68,6 +65,12 @@
                             }
                         endforeach;
                     endif;
+			?>
+            <table class="table item-list-bb" width="100%" style="margin-top:10px;">
+
+                <tbody> 
+                    <?php
+                
 
 
                     $rwspan = 0;
@@ -85,18 +88,16 @@
                         if (!empty($expAmt)) :
                             if ($row->position == 1) :
                                 if ($rwspan == 0) :
-                                    $beforExp .= '<th colspan="4" class="text-right">' . $row->exp_name . '</th>
-                                        <td class="text-right" colspan="4" >' . sprintf('%.2f', $expAmt) . '</td>';
+                                    $beforExp .= '<th class="text-left">' . $row->exp_name . ': ' . sprintf('%.2f', $expAmt) . '</th>
+                                       ';
                                 else :
                                     $beforExp .= '<tr>
-                                            <th colspan="4" class="text-right">' . $row->exp_name . '</th>
-                                            <td class="text-right" colspan="4" >' . sprintf('%.2f', $expAmt) . '</td>
+                                            <th class="text-left">' . $row->exp_name . ': ' . sprintf('%.2f', $expAmt) . '</th> 
                                         </tr>';
                                 endif;
                             else :
                                 $afterExp .= '<tr>
-                                        <th colspan="4" class="text-right">' . $row->exp_name . '</th>
-                                        <td class="text-right" colspan="4">  ' . sprintf('%.2f', $expAmt) . '</td>
+                                        <th class="text-left">' . $row->exp_name . ': ' . sprintf('%.2f', $expAmt) . '</th> 
                                     </tr>';
                             endif;
                             $rwspan++;
@@ -109,12 +110,12 @@
                         $taxAmt = floatVal($dataRow->{$taxRow->map_code . '_amount'});
                         if (!empty($taxAmt)) :
                             if ($rwspan == 0) :
-                                $taxHtml .= '<th colspan="4" class="text-right">' . $taxRow->name . ' @' . (($dataRow->gst_type == 1) ? floatVal($migst / 2) : $migst) . '%</th>
-                                    <td class="text-right" colspan="4" >' . sprintf('%.2f', $taxAmt) . '</td>';
+                                $taxHtml .= '<th class="text-left">' . $taxRow->name . ' @' . (($dataRow->gst_type == 1) ? floatVal($migst / 2) : $migst) . '%:' . sprintf('%.2f', $taxAmt) . '</th>
+                                   ';
                             else :
                                 $taxHtml .= '<tr>
-                                        <th colspan="4" class="text-right">' . $taxRow->name . ' @' . (($dataRow->gst_type == 1) ? floatVal($migst / 2) : $migst) . '%</th>
-                                        <td class="text-right" colspan="4" >' . sprintf('%.2f', $taxAmt) . '</td>
+                                        <th class="text-left">' . $taxRow->name . ' @' . (($dataRow->gst_type == 1) ? floatVal($migst / 2) : $migst) . '% : '.sprintf('%.2f', $taxAmt).'</th>
+                                   
                                     </tr>';
                             endif;
 
@@ -122,34 +123,29 @@
                         endif;
                     endforeach;
                     $fixRwSpan = (!empty($rwspan)) ? 3 : 0;
-                    ?>
+                    ?> 
                     <tr>
-                        <th colspan="4" class="text-right">Total Qty.</th>
-                        <th class="text-right" colspan="4"><?= sprintf('%.3f', $totalQty) ?></th>
+                        <th class="text-left">Total Qty.: <?= sprintf('%.3f', $totalQty) ?></th> 
 
                     </tr>
                     <tr>
-                        <th colspan="4" class="text-right">Sub Total</th>
-                        <th class="text-right" colspan="4"><?= sprintf('%.2f', $dataRow->taxable_amount) ?></th>
+                        <th class="text-left">Sub Total: <?= sprintf('%.2f', $dataRow->taxable_amount) ?></th> 
                     </tr>
                     <tr>
 
-                    </tr>
-                    <?= $beforExp . $taxHtml . $afterExp ?>
+                    </tr> 
                     
                     <tr>
-                        <th colspan="4" class="text-right">Round Off</th>
-                        <td class="text-right" colspan="4"><?= sprintf('%.2f', $dataRow->round_off_amount) ?></td>
+                        <th class="text-left">Round Off: <?= sprintf('%.2f', $dataRow->round_off_amount) ?></th> 
                     </tr>
                     <tr>
-                        <th colspan="4" class="text-right">Grand Total</th>
-                        <th class="text-right" colspan="4"><?= sprintf('%.2f', $dataRow->net_amount) ?></th>
+                        <th class="text-left">Grand Total: <?= sprintf('%.2f', $dataRow->net_amount) ?></th> 
                     </tr>
                     <tr>
-                        <th class="text-right" colspan="4">
-                            Amount In Words
-                        </th>
-                        <td class="text-right" colspan="4"><?= numToWordEnglish(sprintf('%.2f', $dataRow->net_amount)) ?> </td>
+                        <th class="text-left" >
+                            Amount In Words:<br>
+							<?= numToWordEnglish(sprintf('%.2f', $dataRow->net_amount)) ?>
+                        </th> 
                     </tr>
                 </tbody>
             </table>

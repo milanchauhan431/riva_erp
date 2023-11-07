@@ -226,20 +226,21 @@ class SalesQuotation extends MY_Controller{
         $this->data['companyData'] = $companyData = $this->masterModel->getCompanyInfo();
         
         $logo = base_url('assets/images/logo.png');
-        $this->data['letter_head'] =  base_url('assets/images/letterhead-top.png');
+      
+		$pdfData = $this->load->view('sales_quotation/print_pos',$this->data,true);
+		$mpdf = new \Mpdf\Mpdf();
+		$filePath = realpath(APPPATH . '../assets/uploads/sales_quotation/');
+        $pdfFileName = $filePath.'/' . str_replace(["/","-"],"_",$dataRow->trans_number) . '-print.pdf';
         
-        $pdfData = $this->load->view('sales_quotation/print_pos', $this->data, true);
         
-        
-        $htmlFooter = '<table class="table top-table" style="margin-top:10px;border-top:1px solid #545454;">
-            <tr>
-                <td style="width:25%;">Qtn. No. & Date : '.$dataRow->trans_number . ' [' . formatDate($dataRow->trans_date) . ']</td>
-                <td style="width:25%;"></td>
-                <td style="width:25%;text-align:right;">Page No. {PAGENO}/{nbpg}</td>
-            </tr>
-        </table>';
-		echo $pdfData = $this->load->view('sales_quotation/print_pos',$this->data,true);
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->SetWatermarkImage($logo, 0.03, array(120, 120));
+        $mpdf->showWatermarkImage = true; 
+		$mpdf->AddPage('P','','','','',7,5,5,5,3,3,'','','','','','','','','','A4-P');
+        $mpdf->WriteHTML($pdfData);
 		
+		ob_clean();
+		$mpdf->Output($pdfFileName, 'D');
     }
     
     public function getPartyQuotation(){
