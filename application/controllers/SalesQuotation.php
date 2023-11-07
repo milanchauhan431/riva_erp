@@ -230,7 +230,7 @@ class SalesQuotation extends MY_Controller{
 		$pdfData = $this->load->view('sales_quotation/print_pos',$this->data,true);
 		$mpdf = new \Mpdf\Mpdf();
 		$filePath = realpath(APPPATH . '../assets/uploads/sales_quotation/');
-        $pdfFileName = $filePath.'/' . str_replace(["/","-"],"_",$dataRow->trans_number) . '.pdf';
+        $pdfFileName =  str_replace(["/","-"],"_",$dataRow->trans_number) . '.pdf';
         
         
         $mpdf->SetDisplayMode('fullpage');
