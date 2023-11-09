@@ -228,19 +228,30 @@ class SalesQuotation extends MY_Controller{
         $logo = base_url('assets/images/logo.png');
       
 		$pdfData = $this->load->view('sales_quotation/print_pos',$this->data,true);
-		$mpdf = new \Mpdf\Mpdf();
+		$mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8' ]);
 		$filePath = realpath(APPPATH . '../assets/uploads/sales_quotation/');
         $pdfFileName =  str_replace(["/","-"],"_",$dataRow->trans_number) . '.pdf';
-        
-        
         $mpdf->SetDisplayMode('fullpage');
-        $mpdf->SetWatermarkImage($logo, 0.03, array(120, 120));
-        $mpdf->showWatermarkImage = true; 
-		$mpdf->AddPage('P','','','','',7,5,5,5,3,3,'','','','','','','','','','A4-P');
-        $mpdf->WriteHTML($pdfData);
+       	$mpdf->AddPage();
+        $mpdf->WriteHTML($pdfData); 
+		$y = $mpdf->y;
+
+		//echo $y; exit;
 		
-		ob_clean();
-		$mpdf->Output($pdfFileName, 'D');
+		$mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8' ]);
+		$filePath = realpath(APPPATH . '../assets/uploads/sales_quotation/'); 
+        
+        
+		$mpdf->SetDisplayMode('fullpage');
+		$mpdf->AddPage('P','','','','',1,0,0,0,1,1,'','','','','','','','','',[56, $y+10]);
+		//$mpdf->AddPage('P', '', '', '', '', 1, 1, 1, 1, 1, 1);
+        $mpdf->WriteHTML($pdfData); 
+		
+		
+		
+		
+		ob_clean(); 
+		$mpdf->Output($pdfFileName, 'I');
     }
     
     public function getPartyQuotation(){
