@@ -225,6 +225,9 @@
                                 <input type="hidden" name="stock_category" id="stock_category" value="" />
                                 <input type="hidden" name="disc_per" id="disc_per" value="0">
                                 <input type="hidden" name="gold_weight" id="gold_weight" value="0">
+                                <input type="hidden" name="color" id="color" value="">
+                                <input type="hidden" name="diamond_carat" id="diamond_carat" value="">
+                                <input type="hidden" name="diamond_pcs" id="diamond_pcs" value="0">
                             </div>
                             
 

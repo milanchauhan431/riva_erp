@@ -317,7 +317,10 @@ function AddRow(data) {
 	var standardQtyInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][masterData][d_col_1]", value: data.standard_qty });
 	var purityInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][masterData][d_col_2]", value: data.purity });
 	var stockCategoryInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][masterData][t_col_2]", value: data.stock_category });
-
+	var colorInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][masterData][t_col_3]", value: data.color });
+	var diamondCaratInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][masterData][t_col_4]", value: data.diamond_carat });
+	var diamondPcsInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][masterData][d_col_3]", value: data.diamond_pcs });
+	
     cell = $(row.insertCell(-1));
     cell.html(data.item_name + ((parseFloat(data.gold_platinum_price) > 0)?"<br><small>Gold Amount : "+data.gold_platinum_price + "</small>":""));
     cell.append(idInput);
@@ -336,6 +339,9 @@ function AddRow(data) {
     cell.append(standardQtyInput);
     cell.append(purityInput);
 	cell.append(stockCategoryInput);
+	cell.append(colorInput);
+    cell.append(diamondCaratInput);
+    cell.append(diamondPcsInput);
 
     var hsnCodeInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][hsn_code]", value: data.hsn_code });
 	cell = $(row.insertCell(-1));

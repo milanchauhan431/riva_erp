@@ -127,7 +127,15 @@
                                     if(!empty($row->diamond_amount) && $row->diamond_amount > 0):
                                         echo '<small>Diamond Amount : ' . floatVal($row->diamond_amount) . '</small><br>';
                                     endif;
-                                    
+                                    if(!empty($row->color)):
+                                        echo '<small>Diamond Color :</small> ' . $row->color . '<br>';
+                                    endif;
+                                    if(!empty($row->diamond_carat)):
+                                        echo '<small>Diamond Carat :</small> ' . $row->diamond_carat . '<br>';
+                                    endif;
+                                    if(!empty($row->diamond_pcs) && $row->diamond_pcs > 0):
+                                        echo '<small>Diamond Pcs. :</small> ' . floatVal($row->diamond_pcs) . '<br>';
+                                    endif;
                                 echo '</td>';
                                 echo '<td class="text-center">'.$row->hsn_code.'</td>';
                                 echo '<td class="text-center">'.floatVal($row->qty).' ('.$row->unit_name.')</td>';

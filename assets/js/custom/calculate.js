@@ -394,6 +394,9 @@ async function barcodeDetails(barcode="",formData=""){
 			$("#itemForm #other_charge").val("");
 			$("#itemForm #vrc_charge").val("");
 			$("#itemForm #diamond_amount").val("");
+			$("#itemForm #color").val("");
+			$("#itemForm #diamond_carat").val("");
+			$("#itemForm #diamond_pcs").val("");
 			return false;
 		}
 
@@ -413,6 +416,9 @@ async function barcodeDetails(barcode="",formData=""){
 		$("#itemForm #other_charge").val(formData.otc_amount);
 		$("#itemForm #vrc_charge").val(formData.vrc_amount);
 		$("#itemForm #diamond_amount").val(formData.diamond_amount);
+		$("#itemForm #color").val(formData.color);
+		$("#itemForm #diamond_carat").val(formData.diamond_carat);
+		$("#itemForm #diamond_pcs").val(formData.diamond_pcs);
 		if(parseFloat(formData.gold_platinum_price) > 0){
 			$("#itemForm #gold_platinum_price_div").show();
 			$("#itemForm #gold_platinum_price").val(formData.gold_platinum_price);

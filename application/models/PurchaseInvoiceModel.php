@@ -33,7 +33,6 @@ class PurchaseInvoiceModel extends MasterModel{
         return $this->pagingRows($data);
     }
 
-
     public function save($data){
         try{
             $this->db->trans_begin();
@@ -93,6 +92,7 @@ class PurchaseInvoiceModel extends MasterModel{
                 $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transMain,'description'=>"PURINV TERMS"]);
                 $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transMain,'description'=>"PURINV MASTER DETAILS"]);
                 $this->remove($this->stockTrans,['main_ref_id'=>$data['id'],'entry_type'=>$data['entry_type']]);
+                $this->remove($this->transDetails,['main_ref_id'=>$data['id'],'table_name'=>$this->transChild,'description'=>"PURINV SERIAL DETAILS"]);
             endif;
             
             if($data['memo_type'] == "CASH"):
@@ -154,7 +154,15 @@ class PurchaseInvoiceModel extends MasterModel{
                 $row['entry_type'] = $data['entry_type'];
                 $row['trans_main_id'] = $result['id'];
                 $row['is_delete'] = 0;
+                $serialData = $row['masterData'];unset($row['masterData']);
                 $itemTrans = $this->store($this->transChild,$row);
+
+                $serialData['id'] = "";
+                $serialData['table_name'] = $this->transChild;
+                $serialData['description'] = "PURINV SERIAL DETAILS";
+                $serialData['main_ref_id'] = $result['id'];
+                $serialData['child_ref_id'] = $itemTrans['id'];
+                $this->store($this->transDetails,$serialData);
 
                 if(!empty($row['ref_id']) && $row['from_entry_type'] == 26):
                     $setData = array();
@@ -255,7 +263,13 @@ class PurchaseInvoiceModel extends MasterModel{
     public function getPurchaseInvoiceItems($data){
         $queryData = array();
         $queryData['tableName'] = $this->transChild;
-        $queryData['select'] = "trans_child.*";
+        $queryData['select'] = "trans_child.*,";
+        $queryData['select'] .= "trans_details.d_col_3 as diamond_pcs,";
+        $queryData['select'] .= "trans_details.t_col_3 as color,";
+        $queryData['select'] .= "trans_details.t_col_4 as diamond_carat";
+
+        $queryData['leftJoin']['trans_details'] = "trans_child.trans_main_id = trans_details.main_ref_id AND trans_details.child_ref_id = trans_child.id AND trans_details.description = 'PURINV SERIAL DETAILS' AND trans_details.table_name = '".$this->transChild."'";
+
         $queryData['where']['trans_child.trans_main_id'] = $data['id'];
         $result = $this->rows($queryData);
         return $result;
@@ -264,7 +278,14 @@ class PurchaseInvoiceModel extends MasterModel{
     public function getPurchaseInvoiceItem($data){
         $queryData = array();
         $queryData['tableName'] = $this->transChild;
-        $queryData['where']['id'] = $data['id'];
+        $queryData['select'] = "trans_child.*,";
+        $queryData['select'] .= "trans_details.d_col_3 as diamond_pcs,";
+        $queryData['select'] .= "trans_details.t_col_3 as color,";
+        $queryData['select'] .= "trans_details.t_col_4 as diamond_carat";
+
+        $queryData['leftJoin']['trans_details'] = "trans_child.trans_main_id = trans_details.main_ref_id AND trans_details.child_ref_id = trans_child.id AND trans_details.description = 'PURINV SERIAL DETAILS' AND trans_details.table_name = '".$this->transChild."'";
+
+        $queryData['where']['trans_child.id'] = $data['id'];
         $result = $this->row($queryData);
         return $result;
     }
@@ -336,6 +357,8 @@ class PurchaseInvoiceModel extends MasterModel{
 
             $this->remove($this->stockTrans,['main_ref_id'=>$dataRow->id,'entry_type'=>$dataRow->entry_type]);
 
+            $this->remove($this->transDetails,['main_ref_id'=>$id,'table_name'=>$this->transChild,'description'=>"PURINV SERIAL DETAILS"]);
+
             $result = $this->trash($this->transMain,['id'=>$id],'Purchase Invoice');
 
             if ($this->db->trans_status() !== FALSE):
@@ -351,10 +374,21 @@ class PurchaseInvoiceModel extends MasterModel{
     public function getPendingInvoiceItems($data){
         $queryData = array();
         $queryData['tableName'] = $this->transChild;
-        $queryData['select'] = "trans_child.*,(trans_child.qty - trans_child.dispatch_qty) as pending_qty,trans_details.i_col_1 as location_id,trans_details.t_col_1 as unique_id,trans_details.i_col_2 as stock_trans_id,trans_details.d_col_1 as standard_qty,trans_details.d_col_2 as purity,trans_details.t_col_2 as stock_category,trans_main.entry_type as main_entry_type,trans_main.trans_number,trans_main.trans_date,trans_main.doc_no";
+        $queryData['select'] = "trans_child.*,(trans_child.qty - trans_child.dispatch_qty) as pending_qty,trans_main.entry_type as main_entry_type,trans_main.trans_number,trans_main.trans_date,trans_main.doc_no,";
+        $queryData['select'] .= "trans_details.i_col_1 as location_id,";
+        $queryData['select'] .= "trans_details.i_col_2 as stock_trans_id,";
+        $queryData['select'] .= "trans_details.d_col_1 as standard_qty,";
+        $queryData['select'] .= "trans_details.d_col_2 as purity,";
+        $queryData['select'] .= "trans_details.d_col_3 as diamond_pcs,";
+        $queryData['select'] .= "trans_details.t_col_1 as unique_id,";
+        $queryData['select'] .= "trans_details.t_col_2 as stock_category,";
+        $queryData['select'] .= "trans_details.t_col_3 as color,";
+        $queryData['select'] .= "trans_details.t_col_4 as diamond_carat";
+
         $queryData['leftJoin']['trans_main'] = "trans_child.trans_main_id = trans_main.id";
-        $queryData['leftJoin']['item_master'] = "trans_child.item_id = item_master.id";
+        //$queryData['leftJoin']['item_master'] = "trans_child.item_id = item_master.id";
         $queryData['leftJoin']['trans_details'] = "trans_child.trans_main_id = trans_details.main_ref_id AND trans_details.child_ref_id = trans_child.id AND trans_details.description = 'PURINV SERIAL DETAILS' AND trans_details.table_name = '".$this->transChild."'";
+
         $queryData['where']['trans_main.id'] = $data['id'];
         $queryData['where']['trans_child.entry_type'] = $this->data['entryData']->id;
         $queryData['where']['(trans_child.qty - trans_child.dispatch_qty) >'] = 0;

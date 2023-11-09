@@ -61,6 +61,12 @@ class InwardReceiptModel extends MasterModel{
             $result = $this->store($this->inwardReceipt,$data,'Inward Receipt');
 
             if(!empty($data['approved_by'])):
+                $colorName = "";
+                if(!empty($data['color_id'])):
+                    $colorData = $this->color->getColor(['id'=>$data['color_id']]);
+                    $colorName = $colorData->color;
+                endif;
+
                 $stockTransData = [
                     'id' => '',
                     'entry_type' => $data['entry_type'],
@@ -78,13 +84,16 @@ class InwardReceiptModel extends MasterModel{
                     'gross_weight' => $data['gross_weight'],
                     'gold_weight' => $data['gold_weight'],
                     'net_weight' => $data['net_weight'],
+                    'color' => $colorName,
+                    'diamond_pcs' => $data['diamond_pcs'],
+                    'diamond_carat' => $data['diamond_carat'],
                     /* 'purchase_price' => $data['purchase_price'],
                     'sales_price' => $data['sales_price'], */
                     'stock_type' => "NEW",
                 ];
 
                 for($i=1;$i<=$data['qty'];$i++):
-                     $random_numbers = mt_rand(1000000000,9999999999);
+                    $random_numbers = mt_rand(1000000000,9999999999);
                     $stockTransData['unique_id'] = $random_numbers;
                     $stockTransData['batch_no'] = $random_numbers;
                     $stockTransData['qty'] = 1;
@@ -120,7 +129,7 @@ class InwardReceiptModel extends MasterModel{
             endforeach;
 
             if(!empty($serialNo)):
-                return ['status' => 0, 'message' => "Some serial no item sold. you can not revers this approval. Serial No. : ".implode(", ",$serialNo)];
+                return ['status' => 0, 'message' => "Some serial no. item sold. you can not revers this approval. Serial No. : ".implode(", ",$serialNo)];
             endif;
 
 			$data['approved_by']=0;
@@ -180,9 +189,10 @@ class InwardReceiptModel extends MasterModel{
     public function getPendingInwardItems($data){
         $queryData = array();
         $queryData['tableName'] = $this->inwardReceipt;
-        $queryData['select'] = "inward_receipt.*,(inward_receipt.qty - inward_receipt.inv_qty) as pending_qty,inward_receipt.entry_type as main_entry_type,item_master.item_code,item_master.item_name,item_master.item_type,item_master.hsn_code,item_master.gst_per,unit_master.id as unit_id,unit_master.unit_name,'0' as stock_eff";
+        $queryData['select'] = "inward_receipt.*,(inward_receipt.qty - inward_receipt.inv_qty) as pending_qty,inward_receipt.entry_type as main_entry_type,item_master.item_code,item_master.item_name,item_master.item_type,item_master.hsn_code,item_master.gst_per,unit_master.id as unit_id,unit_master.unit_name,'0' as stock_eff,color_master.color";
         $queryData['leftJoin']['item_master'] = "item_master.id = inward_receipt.item_id";
         $queryData['leftJoin']['unit_master'] = "item_master.unit_id = unit_master.id";
+        $queryData['leftJoin']['color_master'] = "inward_receipt.color_id = color_master.id";
         $queryData['where']['inward_receipt.party_id'] = $data['party_id'];
         $queryData['where']['inward_receipt.entry_type'] = $this->data['entryData']->id;
         $queryData['where']['(inward_receipt.qty - inward_receipt.inv_qty) >'] = 0;

@@ -40,7 +40,6 @@ class DebitNoteModel extends MasterModel{
         return $this->pagingRows($data);
     }
 
-
     public function save($data){
         try{
             $this->db->trans_begin();
@@ -235,8 +234,19 @@ class DebitNoteModel extends MasterModel{
     public function getDebitNoteItems($data){
         $queryData = array();
         $queryData['tableName'] = $this->transChild;
-        $queryData['select'] = "trans_child.*,trans_details.i_col_1 as location_id,trans_details.t_col_1 as unique_id,trans_details.i_col_2 as stock_trans_id,trans_details.d_col_1 as standard_qty,trans_details.d_col_2 as purity,trans_details.t_col_2 as stock_category";
+        $queryData['select'] = "trans_child.*,";
+        $queryData['select'] .= "trans_details.i_col_1 as location_id,";
+        $queryData['select'] .= "trans_details.i_col_2 as stock_trans_id,";
+        $queryData['select'] .= "trans_details.d_col_1 as standard_qty,";
+        $queryData['select'] .= "trans_details.d_col_2 as purity,";
+        $queryData['select'] .= "trans_details.d_col_3 as diamond_pcs,";
+        $queryData['select'] .= "trans_details.t_col_1 as unique_id,";
+        $queryData['select'] .= "trans_details.t_col_2 as stock_category,";
+        $queryData['select'] .= "trans_details.t_col_3 as color,";
+        $queryData['select'] .= "trans_details.t_col_4 as diamond_carat";
+
         $queryData['leftJoin']['trans_details'] = "trans_child.trans_main_id = trans_details.main_ref_id AND trans_details.child_ref_id = trans_child.id AND trans_details.description = 'DN SERIAL DETAILS' AND trans_details.table_name = '".$this->transChild."'";
+
         $queryData['where']['trans_child.trans_main_id'] = $data['id'];
         $result = $this->rows($queryData);
         return $result;
@@ -245,8 +255,19 @@ class DebitNoteModel extends MasterModel{
     public function getDebitNoteItem($data){
         $queryData = array();
         $queryData['tableName'] = $this->transChild;
-        $queryData['select'] = "trans_child.*,trans_details.i_col_1 as location_id,trans_details.t_col_1 as unique_id,trans_details.i_col_2 as stock_trans_id,trans_details.d_col_1 as standard_qty,trans_details.d_col_2 as purity,trans_details.t_col_2 as stock_category";
+        $queryData['select'] = "trans_child.*,";
+        $queryData['select'] .= "trans_details.i_col_1 as location_id,";
+        $queryData['select'] .= "trans_details.i_col_2 as stock_trans_id,";
+        $queryData['select'] .= "trans_details.d_col_1 as standard_qty,";
+        $queryData['select'] .= "trans_details.d_col_2 as purity,";
+        $queryData['select'] .= "trans_details.d_col_3 as diamond_pcs,";
+        $queryData['select'] .= "trans_details.t_col_1 as unique_id,";
+        $queryData['select'] .= "trans_details.t_col_2 as stock_category,";
+        $queryData['select'] .= "trans_details.t_col_3 as color,";
+        $queryData['select'] .= "trans_details.t_col_4 as diamond_carat";
+
         $queryData['leftJoin']['trans_details'] = "trans_child.trans_main_id = trans_details.main_ref_id AND trans_details.child_ref_id = trans_child.id AND trans_details.description = 'DN SERIAL DETAILS' AND trans_details.table_name = '".$this->transChild."'";
+
         $queryData['where']['trans_child.id'] = $data['id'];
         $result = $this->row($queryData);
         return $result;

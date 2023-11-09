@@ -233,7 +233,10 @@ function AddRow(data) {
     var itemtypeInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][item_type]", value: data.item_type });
     var stockEffInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][stock_eff]", value: data.stock_eff });
     var pormInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][p_or_m]", value: 1 });
-    cell = $(row.insertCell(-1));
+    var colorInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][masterData][t_col_3]", value: data.color });
+	var diamondCaratInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][masterData][t_col_4]", value: data.diamond_carat });
+	var diamondPcsInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][masterData][d_col_3]", value: data.diamond_pcs });
+	cell = $(row.insertCell(-1));
     cell.html(data.item_name);
     cell.append(idInput);
     cell.append(itemIdInput);
@@ -244,6 +247,9 @@ function AddRow(data) {
     cell.append(itemtypeInput);
     cell.append(stockEffInput);
     cell.append(pormInput);
+	cell.append(colorInput);
+    cell.append(diamondCaratInput);
+    cell.append(diamondPcsInput);
 
     var hsnCodeInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][hsn_code]", value: data.hsn_code });
 	cell = $(row.insertCell(-1));
