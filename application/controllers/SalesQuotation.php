@@ -251,7 +251,7 @@ class SalesQuotation extends MY_Controller{
 		
 		
 		ob_clean(); 
-		$mpdf->Output($pdfFileName, 'I');
+		$mpdf->Output($pdfFileName, 'D');
     }
     
     public function getPartyQuotation(){
