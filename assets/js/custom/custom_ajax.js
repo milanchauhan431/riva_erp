@@ -73,6 +73,10 @@ $(document).ready(function(){
 	});
 });
 
+$(document).on('click','.sidebartoggler', function () {
+	setTimeout(function(){ initTable(); $(".refreshReportData").trigger('click'); },100);
+});
+
 // Datatable : Get Serverside Data
 function ssDatatable(ele,tableHeaders,tableOptions,dataSet={}){	
 	var textAlign ={}; 
@@ -170,8 +174,8 @@ function ssDatatable(ele,tableHeaders,tableOptions,dataSet={}){
 	$('#' + tableId +'_filter .form-control-sm').css("width","97%");
 	$('#' + tableId +'_filter .form-control-sm').attr("placeholder","Search.....");	
 	$(".dataTables_scroll").addClass("key-scroll");
-	/* setTimeout(function(){ ssTable.columns.adjust().draw();}, 10);
-	$('.page-wrapper').resizer(function() { ssTable.columns.adjust().draw(); }); */
+	//setTimeout(function(){ ssTable.columns.adjust().draw();}, 10);
+	//$('.page-wrapper').resizer(function() { ssTable.columns.adjust().draw(); });
 	
     var state = ssTable.state.loaded();
 	$('.ssTable-cf thead tr:eq(1) th').each( function (i) {
@@ -221,8 +225,8 @@ function reportTable(tableId = "reportTable",tableOptions = ""){
 	$('.btn-group>.btn:first-child').css("border-top-right-radius","0");
 	$('.btn-group>.btn:first-child').css("border-bottom-right-radius","0");
 
-	setTimeout(function(){ reportTable.columns.adjust().draw();}, 10);
-	$('.page-wrapper').resizer(function() { reportTable.columns.adjust().draw(); });
+	/* setTimeout(function(){ reportTable.columns.adjust().draw();}, 10);
+	$('.page-wrapper').resizer(function() { reportTable.columns.adjust().draw(); }); */
 
 	return reportTable;
 }
