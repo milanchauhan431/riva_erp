@@ -11,6 +11,12 @@
                             </div>
 							<div class="col-md-8"> 
 							    <div class="input-group ">
+                                    <div class="input-group-append" style="width:20%;">
+                                        <select id="report_type" name="report_type" class="form-control select2">
+                                            <option value="1">Bill Wise</option>
+                                            <option value="2">Item Wise</option>
+                                        </select>
+                                    </div>
 							        <select id="state_code" name="state_code" class="form-control single-select" style="width: 20%;">
 										<option value="">All States</option>
 										<option value="1">IntraState</option>
@@ -83,6 +89,7 @@ $(document).ready(function(){
     $(document).on('click','.loadData',function(e){
 		$(".error").html("");
 		var valid = 1;
+        var report_type = $("#report_type").val();
 		var state_code = $('#state_code').val();
         var from_date = $('#from_date').val();
 	    var to_date = $('#to_date').val();
@@ -92,8 +99,8 @@ $(document).ready(function(){
 
 		if(valid){
             $.ajax({
-                url: base_url + controller + '/getCreditNoteRegisterData',
-                data: {state_code:state_code,from_date:from_date,to_date:to_date,vou_name_s:["'D.N.'"]},
+                url: base_url + controller + '/getDebitNoteRegisterData',
+                data: {report_type:report_type,state_code:state_code,from_date:from_date,to_date:to_date,vou_name_s:["'D.N.'"]},
 				type: "POST",
 				dataType:'json',
 				success:function(data){

@@ -66,7 +66,6 @@ class AccountingReportModel extends MasterModel{
         return $ledgerBalance;
     }
 
-
     public function getRegisterData($data){
         $queryData['tableName'] = 'trans_main';
         $queryData['select'] = 'trans_main.id,trans_main.trans_number,trans_main.doc_no,trans_main.trans_date,trans_main.order_type,trans_main.party_name,trans_main.party_state_code,trans_main.doc_no,trans_main.gstin,trans_main.currency,trans_main.vou_name_s,trans_main.total_amount,trans_main.disc_amount,trans_main.taxable_amount,trans_main.cgst_amount,trans_main.sgst_amount,trans_main.igst_amount,trans_main.cess_amount,trans_main.gst_amount,(trans_main.net_amount - trans_main.taxable_amount - trans_main.gst_amount) as other_amount,trans_main.net_amount';
@@ -82,14 +81,42 @@ class AccountingReportModel extends MasterModel{
 
         if (!empty($data['state_code'])):
             if ($data['state_code'] == 1):
-                $queryData['where']['trans_main.party_state_code']=24;
+                $queryData['where_in']['trans_main.party_state_code']=[24,96];
             endif;
             if ($data['state_code'] == 2) :
-                $queryData['where']['trans_main.party_state_code !=']=24;
+                $queryData['where_not_in']['trans_main.party_state_code']=[24,96];
             endif;
         endif;
 
         $queryData['order_by']['trans_date']='ASC';
+        return $this->rows($queryData);
+    }
+
+    public function getRegisterDataItemWise($data){
+        $queryData['tableName'] = 'trans_child';
+        $queryData['select'] = 'trans_main.id,trans_main.trans_number,trans_main.doc_no,trans_main.trans_date,trans_main.order_type,trans_main.party_name,trans_main.party_state_code,trans_main.doc_no,trans_main.gstin,trans_main.currency,trans_main.vou_name_s,trans_child.item_name,trans_child.qty,trans_child.gross_weight,trans_child.net_weight,trans_child.price,trans_child.amount,trans_child.disc_amount,trans_child.taxable_amount,(CASE WHEN trans_main.gst_type = 1 THEN trans_child.cgst_amount ELSE 0 END) as cgst_amount,(CASE WHEN trans_main.gst_type = 1 THEN trans_child.sgst_amount ELSE 0 END) as sgst_amount,(CASE WHEN trans_main.gst_type = 2 THEN trans_child.igst_amount ELSE 0 END) as igst_amount,trans_child.cess_amount,trans_child.gst_amount,(trans_main.net_amount - trans_main.taxable_amount - trans_main.gst_amount) as other_amount,trans_main.net_amount';
+
+        $queryData['leftJoin']['trans_main'] = "trans_main.id = trans_child.trans_main_id";
+
+        $queryData['where_in']['trans_main.vou_name_s'] = $data['vou_name_s'];
+        $queryData['where']['trans_main.trans_date >='] = $data['from_date'];
+        $queryData['where']['trans_main.trans_date <='] = $data['to_date'];
+
+        if (!empty($data['party_id'])):
+            $queryData['where']['trans_main.party_id'] = $data['party_id'];
+        endif;
+
+        if (!empty($data['state_code'])):
+            if ($data['state_code'] == 1):
+                $queryData['where_in']['trans_main.party_state_code']=[24,96];
+            endif;
+            if ($data['state_code'] == 2) :
+                $queryData['where_not_in']['trans_main.party_state_code']=[24,96];
+            endif;
+        endif;
+
+        $queryData['order_by']['trans_main.trans_date']='ASC';
+        $queryData['order_by']['trans_main.id']='ASC';
         return $this->rows($queryData);
     }
 
