@@ -120,6 +120,34 @@ class AccountingReportModel extends MasterModel{
         return $this->rows($queryData);
     }
 
+    public function getHsnDetailData($data){
+        $decreaseEntryType = ($data['report'] == "Sale")?'"C.N."':'"D.N."';
+
+        $queryData = array();
+        $queryData['tableName'] = "trans_child";
+        $queryData['select'] = "trans_main.trans_number,trans_main.trans_date,trans_main.vou_name_s,trans_main.party_name,trans_child.item_name,trans_child.hsn_code,trans_child.gst_per,trans_child.unit_name,
+
+        IF(trans_main.vou_name_s = $decreaseEntryType,(trans_child.qty * -1),trans_child.qty) as qty,
+
+        IF(trans_main.vou_name_s = $decreaseEntryType,(trans_child.taxable_amount * -1),trans_child.taxable_amount) as taxable_amount,
+        (CASE WHEN trans_main.gst_type = 1 THEN IF(trans_main.vou_name_s = $decreaseEntryType,(trans_child.cgst_amount * -1),trans_child.cgst_amount) ELSE 0 END) as cgst_amount,
+        (CASE WHEN trans_main.gst_type = 1 THEN IF(trans_main.vou_name_s = $decreaseEntryType,(trans_child.sgst_amount * -1),trans_child.sgst_amount) ELSE 0 END) as sgst_amount,
+        (CASE WHEN trans_main.gst_type = 2 THEN IF(trans_main.vou_name_s = $decreaseEntryType,(trans_child.igst_amount * -1),trans_child.igst_amount) ELSE 0 END) as igst_amount,
+        IF(trans_main.vou_name_s = $decreaseEntryType,(trans_child.net_amount * -1),trans_child.net_amount) as net_amount";
+
+        $queryData['leftJoin']['trans_main'] = "trans_main.id = trans_child.trans_main_id";
+
+        $queryData['customWhere'][] = ($data['report'] == "Sale")?' (trans_main.vou_name_s IN ('.$data['vou_name_s'].') OR (trans_main.vou_name_s = "C.N." AND trans_main.order_type IN ("Decrease Sales","Sales Return") ) OR (trans_main.vou_name_s = "D.N." AND trans_main.order_type IN ("Increase Sales") ))':'  (trans_main.vou_name_s IN ('.$data['vou_name_s'].') OR (trans_main.vou_name_s = "C.N." AND trans_main.order_type IN ("Increase Purchase") ) OR (trans_main.vou_name_s = "D.N." AND trans_main.order_type IN ("Decrease Purchase","Purchase Return") ))';
+
+        $queryData['where']['trans_main.trans_date >='] = $data['from_date'];
+        $queryData['where']['trans_main.trans_date <='] = $data['to_date'];
+        $queryData['where']['trans_main.trans_status != '] = 3;
+        $queryData['where']['trans_child.hsn_code'] = $data['hsn_code'];
+
+        $result = $this->rows($queryData);
+        return $result;
+    }
+
     public function getOutstandingData($postData){
         $os_type = ($postData['os_type']=="R") ? '<' : '>';
 		$daysCondition = ',';$daysFields = '';
