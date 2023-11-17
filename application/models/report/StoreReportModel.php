@@ -47,5 +47,54 @@ class StoreReportModel extends MasterModel{
         $result = $this->rows($queryData);
         return $result;
     }
+
+    public function getItemHistoryData($data){
+        $queryData = array();
+        $queryData['tableName'] = $this->itemMaster;
+        $queryData['select'] = "item_master.id,item_master.item_code,item_master.item_name,ifnull(st.op_stock_qty,0) as op_stock_qty,ifnull(st.op_gross_weight,0) as op_gross_weight,ifnull(st.op_net_weight,0) as op_net_weight,ifnull(st.in_stock_qty,0) as in_stock_qty,ifnull(st.in_gross_weight,0) as in_gross_weight,ifnull(st.in_net_weight,0) as in_net_weight,ifnull(st.out_stock_qty,0) as out_stock_qty,ifnull(st.out_gross_weight,0) as out_gross_weight,ifnull(st.out_net_weight,0) as out_net_weight,ifnull(st.cl_stock_qty,0) as cl_stock_qty,ifnull(st.cl_gross_weight,0) as cl_gross_weight,ifnull(st.cl_net_weight,0) as cl_net_weight";
+
+        $queryData['leftJoin']['(SELECT 
+        item_id,
+        SUM((CASE WHEN ref_date < "'.$data['from_date'].'" THEN (qty * p_or_m) ELSE 0 END)) as op_stock_qty,
+        SUM((CASE WHEN ref_date < "'.$data['from_date'].'" THEN (gross_weight * p_or_m) ELSE 0 END)) as op_gross_weight,
+        SUM((CASE WHEN ref_date < "'.$data['from_date'].'" THEN (net_weight * p_or_m) ELSE 0 END)) as op_net_weight,
+        
+        SUM((CASE WHEN ref_date >= "'.$data['from_date'].'" AND ref_date <= "'.$data['to_date'].'" AND p_or_m = 1 THEN qty ELSE 0 END)) as in_stock_qty,
+        SUM((CASE WHEN ref_date >= "'.$data['from_date'].'" AND ref_date <= "'.$data['to_date'].'" AND p_or_m = 1 THEN gross_weight ELSE 0 END)) as in_gross_weight,
+        SUM((CASE WHEN ref_date >= "'.$data['from_date'].'" AND ref_date <= "'.$data['to_date'].'" AND p_or_m = 1 THEN net_weight ELSE 0 END)) as in_net_weight,
+        
+        SUM((CASE WHEN ref_date >= "'.$data['from_date'].'" AND ref_date <= "'.$data['to_date'].'" AND p_or_m = -1 THEN qty ELSE 0 END)) as out_stock_qty,
+        SUM((CASE WHEN ref_date >= "'.$data['from_date'].'" AND ref_date <= "'.$data['to_date'].'" AND p_or_m = -1 THEN gross_weight ELSE 0 END)) as out_gross_weight,
+        SUM((CASE WHEN ref_date >= "'.$data['from_date'].'" AND ref_date <= "'.$data['to_date'].'" AND p_or_m = -1 THEN net_weight ELSE 0 END)) as out_net_weight,
+        
+        SUM((CASE WHEN ref_date <= "'.$data['to_date'].'" THEN (qty * p_or_m) ELSE 0 END)) as cl_stock_qty,
+        SUM((CASE WHEN ref_date <= "'.$data['to_date'].'" THEN (gross_weight * p_or_m) ELSE 0 END)) as cl_gross_weight,
+        SUM((CASE WHEN ref_date <= "'.$data['to_date'].'" THEN (net_weight * p_or_m) ELSE 0 END)) as cl_net_weight 
+        FROM stock_transaction WHERE is_delete = 0 GROUP BY item_id) as st'] = "item_master.id = st.item_id";
+
+        if(!empty($data['item_id'])):
+            $queryData['where']['item_master.id'] = $data['item_id'];
+            $result = $this->row($queryData);
+        else:
+            $result = $this->rows($queryData);
+        endif;
+        return $result;
+    }
+
+    public function getItemHistoryDetailData($data){
+        $queryData = array();
+        $queryData['tableName'] = "stock_transaction";
+        $queryData['select'] = "stock_transaction.*,(CASE WHEN stock_transaction.p_or_m = 1 THEN stock_transaction.qty ELSE 0 END) as in_qty,(CASE WHEN stock_transaction.p_or_m = 1 THEN stock_transaction.gross_weight ELSE 0 END) as in_gross_weight,(CASE WHEN stock_transaction.p_or_m = 1 THEN stock_transaction.net_weight ELSE 0 END) as in_net_weight,(CASE WHEN stock_transaction.p_or_m = -1 THEN stock_transaction.qty ELSE 0 END) as out_qty,(CASE WHEN stock_transaction.p_or_m = -1 THEN stock_transaction.gross_weight ELSE 0 END) as out_gross_weight,(CASE WHEN stock_transaction.p_or_m = -1 THEN stock_transaction.net_weight ELSE 0 END) as out_net_weight,party_master.party_name,sub_menu_master.vou_name_long";
+
+        $queryData['leftJoin']['party_master'] = "party_master.id = stock_transaction.party_id";
+        $queryData['leftJoin']['sub_menu_master'] = "sub_menu_master.id = stock_transaction.entry_type";
+        
+        $queryData['where']['stock_transaction.item_id'] = $data['item_id'];
+        $queryData['where']['stock_transaction.ref_date >='] = $data['from_date'];
+        $queryData['where']['stock_transaction.ref_date <='] = $data['to_date'];
+
+        $result = $this->rows($queryData);
+        return $result;
+    }
 }
 ?>
