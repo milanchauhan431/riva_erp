@@ -86,13 +86,16 @@
                             echo '<tr>';
                                 echo '<td class="text-center">'.$i++.'</td>';
                                 echo '<td>';
-                                    echo   '<b>'.$row->item_name . '</b><br>';
-                                    echo   '<small>Serial No. : '.$row->unique_id . '</small><br>';
+                                    echo '<b>'.$row->item_name . '</b><br>';
+                                    echo '<small>Serial No. : '.$row->unique_id . '</small><br>';
 
-                                    if(!empty($row->gold_platinum_price) && $row->gold_platinum_price != 0 && !in_array($row->stock_category,["Lab Grown Diamond","Loos Diamond","Diamond Items"])):
+                                    if(in_array($row->stock_category,["Gold","Gold Items","Gold + Diamond Items","Lab Grown Diamond + Gold Items","Platinum + Gold + Diamond Items"])):
+                                        echo '<small>Gold Carat: ' . $row->purity . '</small><br>';
+                                    endif;
+                                    if(!empty($row->gold_platinum_price) && $row->gold_platinum_price != 0 && in_array($row->stock_category,["Lab Grown Diamond + Gold Items","Platinum + Gold + Diamond Items"])):
                                         echo '<small>Gold Amount : ' . floatVal($row->gold_platinum_price) . '</small><br>';
                                     endif;
-                                    if(!empty($gold_weight) && $gold_weight > 0 && !in_array($row->stock_category,["Lab Grown Diamond","Loos Diamond","Diamond Items"])):
+                                    if(!empty($gold_weight) && $gold_weight > 0 && in_array($row->stock_category,["Lab Grown Diamond + Gold Items","Platinum + Gold + Diamond Items"])):
                                         $row->gold_weight = $gold_weight;
                                         echo '<small>Gold Weight : ' . floatVal($row->gold_weight) . '</small><br>';
                                     endif;
