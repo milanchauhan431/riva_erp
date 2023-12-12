@@ -72,7 +72,7 @@ class PaymentVoucherModel extends MasterModel{
         if(empty($data['ref_id'])):
             $queryData['where']['(trans_main.net_amount - trans_main.rop_amount) >'] = 0;
         elseif(!empty($data['ref_id'])):
-            $queryData['cusomWhere'][] = "((trans_main.net_amount - trans_main.rop_amount) > 0 OR trans_main.id IN (".$data['ref_id']."))";
+            $queryData['customWhere'][] = "((trans_main.net_amount - trans_main.rop_amount) > 0 OR trans_main.id IN (".$data['ref_id']."))";
         endif;
 
         if(!empty($data['only_ref_id'])):

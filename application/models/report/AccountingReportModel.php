@@ -79,6 +79,10 @@ class AccountingReportModel extends MasterModel{
             $queryData['where']['trans_main.party_id'] = $data['party_id'];
         endif;
 
+        if(!empty($data['sales_executive'])):
+            $queryData['where']['trans_main.sales_executive'] = $data['sales_executive'];
+        endif;
+
         if (!empty($data['state_code'])):
             if ($data['state_code'] == 1):
                 $queryData['where_in']['trans_main.party_state_code']=[24,96];
@@ -104,6 +108,10 @@ class AccountingReportModel extends MasterModel{
 
         if (!empty($data['party_id'])):
             $queryData['where']['trans_main.party_id'] = $data['party_id'];
+        endif;
+
+        if(!empty($data['sales_executive'])):
+            $queryData['where']['trans_main.sales_executive'] = $data['sales_executive'];
         endif;
 
         if (!empty($data['state_code'])):

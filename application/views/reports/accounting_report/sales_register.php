@@ -6,18 +6,28 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <h4 class="card-title pageHeader"><?=$pageHeader?></h4>
                             </div>
-							<div class="col-md-8"> 
+							<div class="col-md-9"> 
 							    <div class="input-group ">
                                     <div class="input-group-append" style="width:20%;">
+                                        <select id="sales_executive" class="form-control select2" >
+                                            <option value="">Sales Executive</option>
+                                            <?php
+                                                foreach($salesExecutives as $row):
+                                                    echo '<option value="'.$row->id.'" >'.$row->emp_name.'</option>';
+                                                endforeach;
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="input-group-append" style="width:15%;">
                                         <select id="report_type" name="report_type" class="form-control select2">
                                             <option value="1">Bill Wise</option>
                                             <option value="2">Item Wise</option>
                                         </select>
                                     </div>
-                                    <div class="input-group-append" style="width:20%;">
+                                    <div class="input-group-append" style="width:15%;">
                                         <select id="state_code" name="state_code" class="form-control select2">
                                             <option value="">All States</option>
                                             <option value="1">IntraState</option>
@@ -90,6 +100,7 @@ $(document).ready(function(){
     $(document).on('click','.loadData',function(e){
 		$(".error").html("");
 		var valid = 1;
+        var sales_executive = $("#sales_executive").val();
         var report_type = $("#report_type").val();
 		var state_code = $('#state_code').val();
         var from_date = $('#from_date').val();
@@ -101,7 +112,7 @@ $(document).ready(function(){
 		if(valid){
             $.ajax({
                 url: base_url + controller + '/getSalesRegisterData',
-                data: {report_type:report_type,state_code:state_code,from_date:from_date,to_date:to_date,vou_name_s:["'Sale'"]},
+                data: {report_type:report_type,state_code:state_code,from_date:from_date,to_date:to_date,vou_name_s:["'Sale'"],sales_executive:sales_executive},
 				type: "POST",
 				dataType:'json',
 				success:function(data){

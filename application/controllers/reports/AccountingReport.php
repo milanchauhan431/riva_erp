@@ -14,6 +14,7 @@ class AccountingReport extends MY_Controller{
         $this->data['pageHeader'] = 'SALES REGISTER';
         $this->data['startDate'] = getFyDate(date("Y-m-01"));
         $this->data['endDate'] = getFyDate(date("Y-m-d"));
+        $this->data['salesExecutives'] = $this->employee->getEmployeeList();
         $this->load->view("reports/accounting_report/sales_register",$this->data);
     }
 
