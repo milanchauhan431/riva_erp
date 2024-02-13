@@ -148,11 +148,11 @@ $(document).ready(function(){
             $(".price").html("Price is required.");
         }
 
-		if(formData.gross_weight == "" || parseInt(formData.gross_weight) == 0){
+		if(formData.gross_weight == "" || parseFloat(formData.gross_weight) == 0){
 			$(".gross_weight").html("Gross Weight is required.");
 		}
 
-		if(formData.net_weight == "" || parseInt(formData.net_weight) == 0){
+		if(formData.net_weight == "" || parseFloat(formData.net_weight) == 0){
 			$(".net_weight").html("Net Weight is required.");
 		}
 
