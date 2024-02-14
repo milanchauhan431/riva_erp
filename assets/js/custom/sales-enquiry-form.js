@@ -114,6 +114,7 @@ function AddRow(data) {
     var formEnteryTypeInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][from_entry_type]", value: data.from_entry_type });
 	var refIdInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][ref_id]", value: data.ref_id });
     var itemCodeInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][item_code]", value: data.item_code });
+    var itemPurityInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][purity]", value: data.purity });
     var itemtypeInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][item_type]", value: data.item_type });
     var hsnCodeInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][hsn_code]", value: data.hsn_code });
     var gstPerInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][gst_per]", value: data.gst_per });
@@ -121,6 +122,7 @@ function AddRow(data) {
     cell.html(data.item_name);
     cell.append(idInput);
     cell.append(itemIdInput);
+    cell.append(itemPurityInput);
     cell.append(itemNameInput);
     cell.append(formEnteryTypeInput);
     cell.append(refIdInput);

@@ -281,6 +281,7 @@ function AddRow(data) {
 	var itemNameInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][item_name]", value: data.item_name });
     var formEnteryTypeInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][from_entry_type]", value: data.from_entry_type });
 	var refIdInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][ref_id]", value: data.ref_id });
+    var itemPurityInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][purity]", value: data.purity });
     var itemCodeInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][item_code]", value: data.item_code });
     var itemtypeInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][item_type]", value: data.item_type });
 	var stockEffInput = $("<input/>", { type: "hidden", name: "itemData["+itemCount+"][stock_eff]", value: data.stock_eff });
@@ -298,6 +299,7 @@ function AddRow(data) {
     cell.html(data.item_name + ((parseFloat(data.gold_platinum_price) > 0)?"<br><small>Gold Amount : "+data.gold_platinum_price + "</small>":""));
     cell.append(idInput);
     cell.append(itemIdInput);
+    cell.append(itemPurityInput);
     cell.append(itemNameInput);
     cell.append(formEnteryTypeInput);
     cell.append(refIdInput);
