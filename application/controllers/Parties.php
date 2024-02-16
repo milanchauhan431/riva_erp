@@ -150,14 +150,7 @@ class Parties extends MY_Controller{
             if (empty($data['party_pincode']))
                 $errorMessage['party_pincode'] = "Pincode is required.";
                 
-        endif;
-		if (empty($data['date_of_birth'])){
-			unset($data['date_of_birth']);
-		}
-
-		if (empty($data['anniversary_date'])){
-			unset($data['anniversary_date']);
-		}
+        endif;		
 
         if (!empty($errorMessage)) :
             $this->printJson(['status' => 0, 'message' => $errorMessage]);
@@ -224,6 +217,9 @@ class Parties extends MY_Controller{
                 $data['attachments'] = "";
             endif;
 
+            $data['date_of_birth'] = (!empty($data['date_of_birth']))?$data['date_of_birth']:NULL;
+            $data['anniversary_date'] = (!empty($data['anniversary_date']))?$data['anniversary_date']:NULL;
+            
             $data['party_name'] = ucwords($data['party_name']);
             $data['gstin'] = (!empty($data['gstin']))?strtoupper($data['gstin']):"";
             $this->printJson($this->party->save($data));
