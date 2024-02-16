@@ -33,7 +33,7 @@
             <div class="col-md-3 form-group d-none">
                 <label for="sales_executive">Sales Executive</label>
                 <select name="sales_executive" id="sales_executive" class="form-control select2">
-                    <option value="">Sales Executive</option>
+                    <option value="0">Sales Executive</option>
                     <?php
                     foreach ($salesExecutives as $row) :
                         $selected = (!empty($dataRow->sales_executive) && $dataRow->sales_executive == $row->id) ? "selected" : "";
