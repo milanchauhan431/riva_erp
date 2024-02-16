@@ -142,52 +142,6 @@
                 <label for="party_address">Address</label>
                 <textarea name="party_address" class="form-control req" rows="3"><?= (!empty($dataRow->party_address)) ? $dataRow->party_address : "" ?></textarea>
             </div>
-			<?php /*
-            <div class="col-md-3 form-group d-none">
-                <label for="delivery_country_id">Delivery Country</label>
-                <select name="delivery_country_id" id="delivery_country_id" class="form-control country_list select2" data-state_id="delivery_state_id" data-selected_state_id="<?= (!empty($dataRow->delivery_state_id)) ? $dataRow->delivery_state_id : "0" ?>">
-                    <option value="0">Select Country</option>
-                    <?php foreach ($countryData as $row) :
-                        $selected = (!empty($dataRow->delivery_country_id) && $dataRow->delivery_country_id == $row->id) ? "selected" : "";
-                    ?>
-                        <option value="<?= $row->id ?>" <?= $selected ?>><?= $row->name ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
-            <div class="col-md-3 form-group d-none">
-                <label for="delivery_state_id">Delivery State</label>
-                <select name="delivery_state_id" id="delivery_state_id" class="form-control state_list select2" data-city_id="delivery_city_id" data-selected_city_id="<?= (!empty($dataRow->delivery_city_id)) ? $dataRow->delivery_city_id : "0" ?>">
-                    <option value="0">Select State</option>
-                </select>
-            </div>
-
-            <div class="col-md-3 form-group d-none">
-                <label for="delivery_city_id">Select City</label>
-                <select name="delivery_city_id" id="delivery_city_id" class="form-control select2">
-                    <option value="0">Select City</option>
-                </select>
-            </div>
-
-            <div class="col-md-3 form-group d-none">
-                <label for="delivery_pincode">Delivery Pincode</label>
-                <input type="text" name="delivery_pincode" class="form-control" value="<?= (!empty($dataRow->delivery_pincode)) ? $dataRow->delivery_pincode : "" ?>" />
-            </div>
-
-            <div class="col-md-12 form-group d-none">
-                <label for="delivery_address">Delivery Address</label>
-                <textarea name="delivery_address" class="form-control" rows="3"><?= (!empty($dataRow->delivery_address)) ? $dataRow->delivery_address : "" ?></textarea>
-            </div>
-  */ ?>
-            <!-- <div class="col-md-4 form-group">
-                <label for="delivery_contact_person">Delivery Contact Person</label>
-                <input type="text" name="delivery_contact_person" id="delivery_contact_person" class="form-control text-capitalize" value="<?= (!empty($dataRow->delivery_contact_person)) ? $dataRow->delivery_contact_person : "" ?>">
-            </div>  
-            
-            <div class="col-md-4 form-group">
-                <label for="delivery_contact_person">Delivery Contact No.</label>
-                <input type="text" name="delivery_contact_no" id="delivery_contact_no" class="form-control numericOnly" value="<?= (!empty($dataRow->delivery_contact_no)) ? $dataRow->delivery_contact_no : "" ?>">
-            </div> -->
 
             <div class="col-md-3 form-group <?=(!empty($dataRow->party_category) && $dataRow->party_category != 1) ? "hidden" : ((!empty($party_category) && $party_category != 1) ? "hidden" : "")?>">
                 <label for="date_of_birth">Date of birth</label>
