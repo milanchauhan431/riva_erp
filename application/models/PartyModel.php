@@ -245,11 +245,13 @@ class PartyModel extends MasterModel{
         try {
 			$this->db->trans_begin();
 
+            $partyDetails = $this->getParty(['id'=>$data['party_id']]);
+
             $queryData['tableName'] = $this->transDetails;
             $queryData['where']['main_ref_id'] = $data['party_id'];
             $queryData['where']['table_name'] = $this->partyMaster;
             $queryData['where']['description'] = "PARTY GST DETAIL";
-            $queryData['where']['t_col_1'] = $data['gstin'];
+            $queryData['where']['t_col_1'] = $partyDetails->gstin;
             $gstData = $this->row($queryData);
 
             $postData = [
@@ -260,8 +262,8 @@ class PartyModel extends MasterModel{
                 't_col_1' => $data['gstin'],
                 't_col_2' => $data['party_address'],
 			    't_col_3' => $data['party_pincode'],
-                //'t_col_4' => $data['delivery_address'],
-               // 't_col_5' => $data['delivery_pincode']
+                /* 't_col_4' => $data['delivery_address'],
+                't_col_5' => $data['delivery_pincode'] */
             ];
 
             $result = $this->store($this->transDetails,$postData);
