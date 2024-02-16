@@ -155,6 +155,10 @@ class Parties extends MY_Controller{
 			unset($data['date_of_birth']);
 		}
 
+		if (empty($data['anniversary_date'])){
+			unset($data['anniversary_date']);
+		}
+
         if (!empty($errorMessage)) :
             $this->printJson(['status' => 0, 'message' => $errorMessage]);
         else :
