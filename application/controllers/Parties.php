@@ -121,12 +121,6 @@ class Parties extends MY_Controller{
         if (empty($data['party_category']))
             $errorMessage['party_category'] = "Party Category is required.";
 
-        /* if (empty($data['contact_person']))
-            $errorMessage['contact_person'] = "Contact Person is required.";
-
-        if (empty($data['party_mobile']))
-            $errorMessage['party_mobile'] = "Contact No. is required."; */
-
         if($data['party_category'] != 4):
        
             if (empty($data['supplied_types']))
