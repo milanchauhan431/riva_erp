@@ -60,7 +60,7 @@
 
             <div class="col-md-3 form-group">
                 <label for="credit_days">Credit Days</label>
-                <input type="text" name="credit_days" class="form-control numericOnly" value="<?= (!empty($dataRow->credit_days)) ? $dataRow->credit_days : "" ?>" />
+                <input type="text" name="credit_days" class="form-control numericOnly" value="<?= (!empty($dataRow->credit_days)) ? $dataRow->credit_days : "0" ?>" />
             </div>
 
             <div class="col-md-3 form-group">
