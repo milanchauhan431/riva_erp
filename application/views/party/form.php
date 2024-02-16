@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="row">
             <input type="hidden" name="id" id="id" value="<?= (!empty($dataRow->id)) ? $dataRow->id : ""; ?>" />
-            <input type="hidden" name="disc_per" value="<?= (!empty($dataRow->disc_per)) ? $dataRow->disc_per : "" ?>" />
+            <input type="hidden" name="disc_per" value="<?= (!empty($dataRow->disc_per)) ? $dataRow->disc_per : "0.00" ?>" />
             <input type="hidden" name="party_type" value="<?= (!empty($dataRow->party_type)) ? $dataRow->party_type : $party_type ?>" />
             <input type="hidden" name="supplied_types" value="<?= (!empty($dataRow->supplied_types)) ? $dataRow->supplied_types : "1" ?>" />
 
