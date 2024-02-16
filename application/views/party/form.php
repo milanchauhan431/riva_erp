@@ -146,7 +146,7 @@
             <div class="col-md-3 form-group d-none">
                 <label for="delivery_country_id">Delivery Country</label>
                 <select name="delivery_country_id" id="delivery_country_id" class="form-control country_list select2" data-state_id="delivery_state_id" data-selected_state_id="<?= (!empty($dataRow->delivery_state_id)) ? $dataRow->delivery_state_id : "0" ?>">
-                    <option value="">Select Country</option>
+                    <option value="0">Select Country</option>
                     <?php foreach ($countryData as $row) :
                         $selected = (!empty($dataRow->delivery_country_id) && $dataRow->delivery_country_id == $row->id) ? "selected" : "";
                     ?>
@@ -158,7 +158,7 @@
             <div class="col-md-3 form-group d-none">
                 <label for="delivery_state_id">Delivery State</label>
                 <select name="delivery_state_id" id="delivery_state_id" class="form-control state_list select2" data-city_id="delivery_city_id" data-selected_city_id="<?= (!empty($dataRow->delivery_city_id)) ? $dataRow->delivery_city_id : "0" ?>">
-                    <option value="">Select State</option>
+                    <option value="0">Select State</option>
                 </select>
             </div>
 
