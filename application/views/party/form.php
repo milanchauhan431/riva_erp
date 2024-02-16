@@ -142,7 +142,7 @@
                 <label for="party_address">Address</label>
                 <textarea name="party_address" class="form-control req" rows="3"><?= (!empty($dataRow->party_address)) ? $dataRow->party_address : "" ?></textarea>
             </div>
-
+			<?php /*
             <div class="col-md-3 form-group d-none">
                 <label for="delivery_country_id">Delivery Country</label>
                 <select name="delivery_country_id" id="delivery_country_id" class="form-control country_list select2" data-state_id="delivery_state_id" data-selected_state_id="<?= (!empty($dataRow->delivery_state_id)) ? $dataRow->delivery_state_id : "0" ?>">
@@ -178,7 +178,7 @@
                 <label for="delivery_address">Delivery Address</label>
                 <textarea name="delivery_address" class="form-control" rows="3"><?= (!empty($dataRow->delivery_address)) ? $dataRow->delivery_address : "" ?></textarea>
             </div>
-
+  */ ?>
             <!-- <div class="col-md-4 form-group">
                 <label for="delivery_contact_person">Delivery Contact Person</label>
                 <input type="text" name="delivery_contact_person" id="delivery_contact_person" class="form-control text-capitalize" value="<?= (!empty($dataRow->delivery_contact_person)) ? $dataRow->delivery_contact_person : "" ?>">
