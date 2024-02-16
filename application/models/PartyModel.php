@@ -260,8 +260,8 @@ class PartyModel extends MasterModel{
                 't_col_1' => $data['gstin'],
                 't_col_2' => $data['party_address'],
 			    't_col_3' => $data['party_pincode'],
-                't_col_4' => $data['delivery_address'],
-                't_col_5' => $data['delivery_pincode']
+                //'t_col_4' => $data['delivery_address'],
+               // 't_col_5' => $data['delivery_pincode']
             ];
 
             $result = $this->store($this->transDetails,$postData);

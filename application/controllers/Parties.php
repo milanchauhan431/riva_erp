@@ -151,7 +151,9 @@ class Parties extends MY_Controller{
                 $errorMessage['party_pincode'] = "Pincode is required.";
                 
         endif;
-
+		if (empty($data['date_of_birth']))
+			unset($data['date_of_birth']);
+		endif;
         if (!empty($errorMessage)) :
             $this->printJson(['status' => 0, 'message' => $errorMessage]);
         else :
