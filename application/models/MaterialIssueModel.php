@@ -28,7 +28,7 @@ class MaterialIssueModel extends MasterModel{
         $data['searchCol'][] = "";
         $data['searchCol'][] = "";
         $data['searchCol'][] = "trans_main.trans_number";
-        $data['searchCol'][] = "DATE_FORMAT(trans_number.trans_date,'%d-%m-%Y')";
+        $data['searchCol'][] = "DATE_FORMAT(trans_main.trans_date,'%d-%m-%Y')";
         $data['searchCol'][] = "cb.emp_name";
         $data['searchCol'][] = "se.emp_name";
         $data['searchCol'][] = "tc.total_issue";
