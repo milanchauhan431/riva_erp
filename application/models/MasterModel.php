@@ -973,7 +973,7 @@ class MasterModel extends CI_Model{
     public function checkEntryReference($postData){
         $queryData = array();
         $queryData['tableName'] = $postData['table_name'];
-        $queryData['select'] = "COUNT(id),GROUP_CONCAT(DISTINCT(vou_name_l) SEPARATOR ', ') as entry_ref";
+        $queryData['select'] = "COUNT(id) as count,GROUP_CONCAT(DISTINCT(vou_name_l) SEPARATOR ', ') as entry_ref";
 
         foreach($postData["where"] as $row):
             $queryData['where'][$row['column_name']] = $row['column_value'];
@@ -985,7 +985,7 @@ class MasterModel extends CI_Model{
 
         $result = $this->row($queryData);
 
-        if(!empty($result)):
+        if(!empty($result->count)):
             return ['status'=>0,'message' => 'Entry Ref. Found. You can not delete it. Vou Name : '.$result->entry_ref];
         endif;
 
