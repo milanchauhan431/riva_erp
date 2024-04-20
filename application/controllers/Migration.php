@@ -446,6 +446,9 @@ class Migration extends CI_Controller{
 
                     print_r("INW : ".$row->trans_number);print_r("<br>");
                     print_r("INW QTY. : ".$inwardQtyTrans->inw_qty);print_r("<br>");
+
+                    /* $this->db->where('id',$row->id);
+                    $this->db->update('inward_receipt',['qty'=>$inwardQtyTrans->inw_qty]); */
                 endif;
             endforeach;            
 
