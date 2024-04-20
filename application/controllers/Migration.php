@@ -419,13 +419,14 @@ class Migration extends CI_Controller{
                     $this->db->select('SUM(qty * p_or_m) as qty');
                     $this->db->where('batch_no',$trans->unique_id);
                     $this->db->where('item_id',$trans->item_id);
+                    $this->db->where('stock_type !=','RETURN');
                     $this->db->having("SUM(qty * p_or_m) > 0");
                     $this->db->group_by("unique_id");
                     $itemStock = $this->db->get('stock_transaction')->row();
 
-                    if(empty($itemStock)):
+                    if(empty($itemStock)): //out of stock
                         $serialNo[] = $trans->unique_id;
-                    else:
+                    else: // in stock
                         print_r($trans->unique_id);print_r("<br>");
                         /* $this->db->where('id',$trans->id);
                         $this->db->update('stock_transaction',['is_delete'=>2]); */
