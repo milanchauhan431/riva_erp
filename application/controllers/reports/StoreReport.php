@@ -24,8 +24,8 @@ class StoreReport extends MY_Controller{
                 <td  class="text-left">'.$row->item_code.'</td>
                 <td  class="text-left"><a href="'.base_url("reports/storeReport/locationWiseStockRegister/".$row->id).'" target="_blank">'.$row->item_name.'</a></td>
                 <td  class="text-right">'.floatVal($row->stock_qty).'</td>
-                <td  class="text-right">'.floatVal($row->gross_weight).'</td>
-                <td  class="text-right">'.floatVal($row->net_weight).'</td>
+                <td  class="text-right">'.floatVal(round($row->gross_weight,3)).'</td>
+                <td  class="text-right">'.floatVal(round($row->net_weight,3)).'</td>
             </tr>';
         endforeach;
 
@@ -53,13 +53,13 @@ class StoreReport extends MY_Controller{
                     <a href="'.base_url("reports/storeReport/serialNumberWiseStockRegister/".$row->item_id."/".$row->location_id).'">'.$row->location.'</a>
                 </td>
                 <td  class="text-right">'.floatVal($row->stock_qty).'</td>
-                <td  class="text-right">'.floatVal($row->gross_weight).'</td>
-                <td  class="text-right">'.floatVal($row->net_weight).'</td>
+                <td  class="text-right">'.floatVal(round($row->gross_weight)).'</td>
+                <td  class="text-right">'.floatVal(round($row->net_weight,3)).'</td>
             </tr>';
 
             $totalStock += $row->stock_qty;
-            $totalGrossWeight += $row->gross_weight;
-            $totalNetWeight += $row->net_weight;
+            $totalGrossWeight += round($row->gross_weight,3);
+            $totalNetWeight += round($row->net_weight,3);
         endforeach;
 
         $tfoot = '<tr>
@@ -93,13 +93,13 @@ class StoreReport extends MY_Controller{
                 <td  class="text-center">'.$i++.'</td>
                 <td  class="text-left">'.$row->unique_id.'</td>
                 <td  class="text-right">'.floatVal($row->stock_qty).'</td>
-                <td  class="text-right">'.floatVal($row->gross_weight).'</td>
-                <td  class="text-right">'.floatVal($row->net_weight).'</td>
+                <td  class="text-right">'.floatVal(round($row->gross_weight,3)).'</td>
+                <td  class="text-right">'.floatVal(round($row->net_weight,3)).'</td>
             </tr>';
 
             $totalStock += $row->stock_qty;
-            $totalGrossWeight += $row->gross_weight;
-            $totalNetWeight += $row->net_weight;
+            $totalGrossWeight += round($row->gross_weight,3);
+            $totalNetWeight += round($row->net_weight,3);
         endforeach;
 
         $tfoot = '<tr>
@@ -132,20 +132,20 @@ class StoreReport extends MY_Controller{
                 <td  class="text-left"><a href="'.base_url("reports/storeReport/itemHistoryDetail/".$row->id).'" target="_blank">'.$row->item_name.'</a></td>
 
                 <td  class="text-right">'.floatVal($row->op_stock_qty).'</td>
-                <td  class="text-right">'.floatVal($row->op_gross_weight).'</td>
-                <td  class="text-right">'.floatVal($row->op_net_weight).'</td>
+                <td  class="text-right">'.floatVal(round($row->op_gross_weight,3)).'</td>
+                <td  class="text-right">'.floatVal(round($row->op_net_weight,3)).'</td>
 
                 <td  class="text-right">'.floatVal($row->in_stock_qty).'</td>
-                <td  class="text-right">'.floatVal($row->in_gross_weight).'</td>
-                <td  class="text-right">'.floatVal($row->in_net_weight).'</td>
+                <td  class="text-right">'.floatVal(round($row->in_gross_weight,3)).'</td>
+                <td  class="text-right">'.floatVal(round($row->in_net_weight,3)).'</td>
 
                 <td  class="text-right">'.floatVal($row->out_stock_qty).'</td>
-                <td  class="text-right">'.floatVal($row->out_gross_weight).'</td>
-                <td  class="text-right">'.floatVal($row->out_net_weight).'</td>
+                <td  class="text-right">'.floatVal(round($row->out_gross_weight,3)).'</td>
+                <td  class="text-right">'.floatVal(round($row->out_net_weight,3)).'</td>
 
                 <td  class="text-right">'.floatVal($row->cl_stock_qty).'</td>
-                <td  class="text-right">'.floatVal($row->cl_gross_weight).'</td>
-                <td  class="text-right">'.floatVal($row->cl_net_weight).'</td>
+                <td  class="text-right">'.floatVal(round($row->cl_gross_weight,3)).'</td>
+                <td  class="text-right">'.floatVal(round($row->cl_net_weight,3)).'</td>
             </tr>';
         endforeach;
 
@@ -172,8 +172,8 @@ class StoreReport extends MY_Controller{
         <tr>
             <th class="text-right" colspan="11">Opening</th>
             <th>Qty. : '.$itemDetail->op_stock_qty.'</th>
-            <th>G.W. : '.$itemDetail->op_gross_weight.'</th>
-            <th>N.W. : '.$itemDetail->op_net_weight.'</th>
+            <th>G.W. : '.round($itemDetail->op_gross_weight,3).'</th>
+            <th>N.W. : '.round($itemDetail->op_net_weight,3).'</th>
         </tr>
         <tr>
             <th rowspan="2" class="text-center">#</th>
@@ -200,13 +200,13 @@ class StoreReport extends MY_Controller{
         </tr>';
 
         $balanceQty = $itemDetail->op_stock_qty;
-        $balanceGW = $itemDetail->op_gross_weight;
-        $balanceNW = $itemDetail->op_net_weight;
+        $balanceGW = round($itemDetail->op_gross_weight,3);
+        $balanceNW = round($itemDetail->op_net_weight,3);
         $tbody = '';$i=1;
         foreach($result as $row):
             $balanceQty += $row->qty * $row->p_or_m;
-            $balanceGW += $row->gross_weight * $row->p_or_m;
-            $balanceNW += $row->net_weight * $row->p_or_m;
+            $balanceGW += round(($row->gross_weight * $row->p_or_m),3);
+            $balanceNW += round(($row->net_weight * $row->p_or_m),3);
 
             $tbody .= '<tr>
                 <td  class="text-center">'.$i++.'</td>
@@ -216,30 +216,30 @@ class StoreReport extends MY_Controller{
                 <td  class="text-left">'.$row->unique_id.'</td>
 
                 <td  class="text-right">'.floatVal($row->in_qty).'</td>
-                <td  class="text-right">'.floatVal($row->in_gross_weight).'</td>
-                <td  class="text-right">'.floatVal($row->in_net_weight).'</td>
+                <td  class="text-right">'.floatVal(round($row->in_gross_weight,3)).'</td>
+                <td  class="text-right">'.floatVal(round($row->in_net_weight,3)).'</td>
 
                 <td  class="text-right">'.floatVal($row->out_qty).'</td>
-                <td  class="text-right">'.floatVal($row->out_gross_weight).'</td>
-                <td  class="text-right">'.floatVal($row->out_net_weight).'</td>
+                <td  class="text-right">'.floatVal(round($row->out_gross_weight,3)).'</td>
+                <td  class="text-right">'.floatVal(round($row->out_net_weight,3)).'</td>
 
                 <td  class="text-right">'.floatVal($balanceQty).'</td>
-                <td  class="text-right">'.floatVal($balanceGW).'</td>
-                <td  class="text-right">'.floatVal($balanceNW).'</td>
+                <td  class="text-right">'.floatVal(round($balanceGW,3)).'</td>
+                <td  class="text-right">'.floatVal(round($balanceNW,3)).'</td>
             </tr>';
         endforeach;
 
         $tfoot = '<tr>
             <th colspan="5">Total</th>
             <th>'.$itemDetail->in_stock_qty.'</th>
-            <th>'.$itemDetail->in_gross_weight.'</th>
-            <th>'.$itemDetail->in_net_weight.'</th>
+            <th>'.round($itemDetail->in_gross_weight,3).'</th>
+            <th>'.round($itemDetail->in_net_weight,3).'</th>
             <th>'.$itemDetail->out_stock_qty.'</th>
-            <th>'.$itemDetail->out_gross_weight.'</th>
-            <th>'.$itemDetail->out_net_weight.'</th>
+            <th>'.round($itemDetail->out_gross_weight,3).'</th>
+            <th>'.round($itemDetail->out_net_weight,3).'</th>
             <th>'.$itemDetail->cl_stock_qty.'</th>
-            <th>'.$itemDetail->cl_gross_weight.'</th>
-            <th>'.$itemDetail->cl_net_weight.'</th>
+            <th>'.round($itemDetail->cl_gross_weight,3).'</th>
+            <th>'.round($itemDetail->cl_net_weight,3).'</th>
         </tr>';
 
         $this->printJson(['status'=>1,'thead'=>$thead,'tbody'=>$tbody,'tfoot'=>$tfoot]);
