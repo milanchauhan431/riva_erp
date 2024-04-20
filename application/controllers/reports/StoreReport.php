@@ -220,7 +220,7 @@ class StoreReport extends MY_Controller{
                 <td  class="text-right">'.floatVal($row->in_net_weight).'</td>
 
                 <td  class="text-right">'.floatVal($row->out_qty).'</td>
-                <td  class="text-right">'.floatVal($row->out_gross_weight).'</td>
+                <td  class="text-right">'.$row->out_gross_weight.'</td>
                 <td  class="text-right">'.floatVal($row->out_net_weight).'</td>
 
                 <td  class="text-right">'.floatVal($balanceQty).'</td>
