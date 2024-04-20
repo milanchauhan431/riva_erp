@@ -404,10 +404,10 @@ class Migration extends CI_Controller{
             $result = $this->db->get('inward_receipt')->result();
 
             foreach($result as $row):
-                print_r("<hr>");
+                /* print_r("<hr>");
                 if(floatval($row->qty) > 1):
                     print_r("IR No. : ".$row->trans_number." Qty. : ".$row->qty);print_r("<hr>");
-                endif;
+                endif; */
                 $this->db->select('id,unique_id,item_id');
                 $this->db->where('main_ref_id',$row->id);
                 $this->db->where('entry_type',$row->entry_type);
@@ -427,16 +427,16 @@ class Migration extends CI_Controller{
                     if(empty($itemStock)): //out of stock
                         $serialNo[] = $trans->unique_id;
                     else: // in stock
-                        print_r($trans->unique_id);print_r("<br>");
-                        /* $this->db->where('id',$trans->id);
-                        $this->db->update('stock_transaction',['is_delete'=>2]); */
+                        //print_r($trans->unique_id);print_r("<br>");
+                        $this->db->where('id',$trans->id);
+                        $this->db->update('stock_transaction',['is_delete'=>2]);
                     endif;
                 endforeach;
 
                 if(empty($serialNo)):
-                    print_r("DELETE INW : ".$row->trans_number);print_r("<br>");
-                    /* $this->db->where('id',$row->id);
-                    $this->db->update('inward_receipt',['is_delete'=>2]); */
+                    //print_r("DELETE INW : ".$row->trans_number);print_r("<br>");
+                    $this->db->where('id',$row->id);
+                    $this->db->update('inward_receipt',['is_delete'=>2]);
                 else:
                     $this->db->select('SUM(qty) as inw_qty');
                     $this->db->where('main_ref_id',$row->id);
@@ -444,11 +444,11 @@ class Migration extends CI_Controller{
                     $this->db->where('p_or_m',1);
                     $inwardQtyTrans = $this->db->get('stock_transaction')->row();
 
-                    print_r("INW : ".$row->trans_number);print_r("<br>");
-                    print_r("INW QTY. : ".$inwardQtyTrans->inw_qty);print_r("<br>");
+                    /* print_r("INW : ".$row->trans_number);print_r("<br>");
+                    print_r("INW QTY. : ".$inwardQtyTrans->inw_qty);print_r("<br>"); */
 
-                    /* $this->db->where('id',$row->id);
-                    $this->db->update('inward_receipt',['qty'=>$inwardQtyTrans->inw_qty]); */
+                    $this->db->where('id',$row->id);
+                    $this->db->update('inward_receipt',['qty'=>$inwardQtyTrans->inw_qty]);
                 endif;
             endforeach;            
 
