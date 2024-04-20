@@ -443,6 +443,7 @@ class Migration extends CI_Controller{
                     $this->db->where('p_or_m',1);
                     $inwardQtyTrans = $this->db->get('stock_transaction')->row();
 
+                    print_r("INW : ".$row->trans_number);print_r("<br>");
                     print_r("INW QTY. : ".$inwardQtyTrans->inw_qty);print_r("<br>");
                 endif;
             endforeach;            
