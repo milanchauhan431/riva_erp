@@ -40,7 +40,7 @@
                     <?=(!empty($partyData->city_name))?"CITY : ".$partyData->city_name:""?></b>
                 </td>
                 <td>
-                    <b>Invoice No. : <?=$invData->trans_prefix . $invData->trans_no?></b>
+                    <b>Invoice No. : <?=$invData->trans_number?></b>
                 </td>
                 <td>
                     <b>Date : <?=date('d/m/Y', strtotime($invData->trans_date))?></b>
