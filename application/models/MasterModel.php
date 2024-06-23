@@ -851,6 +851,14 @@ class MasterModel extends CI_Model{
 				endif;            
 			endif;
 
+            if(isset($data['set_value'])):
+				if(!empty($data['set_value'])):
+					foreach($data['set_value'] as $key=>$value):
+						$this->db->set($key, $value, FALSE);
+					endforeach;
+				endif;            
+			endif;
+
             if(isset($data['update'])):
 				if(!empty($data['update'])):
 					foreach($data['update'] as $key=>$value):

@@ -121,7 +121,7 @@ function getCreaditNoteData($data){
 function getPurchaseInvoiceData($data){
     $editButton = '<a class="btn btn-success btn-edit permission-modify" href="'.base_url('purchaseInvoice/edit/'.$data->id).'" datatip="Edit" flow="down" ><i class="ti-pencil-alt"></i></a>';
 
-    $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Sales Invoice'}";
+    $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Purchase Invoice'}";
     $deleteButton = '<a class="btn btn-danger btn-delete permission-remove" href="javascript:void(0)" onclick="trash('.$deleteParam.');" datatip="Remove" flow="down"><i class="ti-trash"></i></a>';
 
     $print = '<a href="javascript:void(0)" class="btn btn-warning btn-edit printDialog permission-approve1" datatip="Print Invoice" flow="down" data-id="'.$data->id.'" data-fn_name="printInvoice"><i class="fa fa-print"></i></a>';

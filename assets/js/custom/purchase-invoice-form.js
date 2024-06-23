@@ -177,7 +177,7 @@ function createInvoice(){
 	var mainRefIds = []; var mainFromEntryType = [];
 	$(".orderItem:checked").map(function() {
 		row = $(this).data('row');
-		mainRefIds.push(row.id);
+		mainRefIds.push(row.ref_id);
 		mainFromEntryType.push(row.from_entry_type);
 		row.making_per = 0;
 		row.making_charge = 0;
@@ -192,7 +192,7 @@ function createInvoice(){
 	mainFromEntryType = mainFromEntryType.join(",");
 
 	$("#savePurchaseInvoice #ref_id").val("");
-	$("#savePurchaseInvoice #ref_id").val(mainRefIds);
+	//$("#savePurchaseInvoice #ref_id").val(mainRefIds);
 	$("#savePurchaseInvoice #from_entry_type").val("");
 	$("#savePurchaseInvoice #from_entry_type").val(mainFromEntryType);
 
