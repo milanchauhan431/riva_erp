@@ -87,7 +87,7 @@
                         foreach($dataRow->invoiceRef as $row):
                             $row = (object) $row;
 
-                            $totalDueAmt += (in_array($row->vou_name_s,['Sale','Purc']))?($row->net_amount):($row->net_amount * -1);
+                            $totalDueAmt += (in_array($row->vou_name_s,['Sale','Purc','MEMSIP']))?($row->net_amount):($row->net_amount * -1);
                             echo '<tr>
                                 <td>'.$row->trans_number.'</td>
                                 <td>'.formatDate($row->trans_date).'</td>

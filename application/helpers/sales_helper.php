@@ -98,6 +98,19 @@ function getSalesDtHeader($page){
     $data['deliveryChallan'][] = ["name"=>"Customer Name"];
     $data['deliveryChallan'][] = ["name"=>"Remark"];
 
+    /* Membership */
+    $data['membership'][] = ["name"=>"Action","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"];
+    $data['membership'][] = ["name"=>"#","style"=>"width:5%;","sortable"=>"FALSE","textAlign"=>"center"]; 
+    $data['membership'][] = ["name"=>"Membership No."];
+    $data['membership'][] = ["name"=>"Membership Date"];
+    $data['membership'][] = ["name"=>"Customer Name"];
+    $data['membership'][] = ["name"=>"Plan Name"];
+    $data['membership'][] = ["name"=>"Total EMI"];
+    $data['membership'][] = ["name"=>"EMI Amount"];
+    $data['membership'][] = ["name"=>"Total Amount"];
+    $data['membership'][] = ["name"=>"Received EMI"];
+    $data['membership'][] = ["name"=>"Received Amount"];
+
     return tableHeader($data[$page]);
 }
 
@@ -248,7 +261,6 @@ function getSalesOrderData($data){
 
     return [$action,$data->sr_no,$data->trans_number,$data->trans_date,$data->party_name,$data->item_name,$data->qty,$data->dispatch_qty,$data->pending_qty];
 }
-
 /* Estimate [Cash] Table Data */
 function getEstimateData($data){
     $editButton = '<a class="btn btn-success btn-edit permission-modify" href="'.base_url('estimate/edit/'.$data->id).'" datatip="Edit" flow="down" ><i class="ti-pencil-alt"></i></a>';
@@ -268,7 +280,6 @@ function getEstimateData($data){
     return [$action,$data->sr_no,$data->trans_number,$data->trans_date,$data->party_name,$data->taxable_amount,$data->net_amount];
 }
 
-
 /* Delivery Challan  Table Data */
 function getDeliveryChallanData($data){
     $editButton = '<a class="btn btn-success btn-edit permission-modify" href="'.base_url('deliveryChallan/edit/'.$data->id).'" datatip="Edit" flow="down" ><i class="ti-pencil-alt"></i></a>';
@@ -281,5 +292,21 @@ function getDeliveryChallanData($data){
     $action = getActionButton($print.$editButton.$deleteButton);
 
     return [$action,$data->sr_no,$data->trans_number,formatDate($data->trans_date),$data->party_name,$data->remark];
+}
+
+/* Membership Table Data */
+function getMembershipData($data){
+    $paymentParam = "{'postData':{'ref_id' : ".$data->id.",'from_entry_type':".$data->entry_type.",'party_id':".$data->party_id.",'party_name':'".$data->party_name."','net_amount':'".$data->emi_amount."','remark': 'MESP NO. : ".$data->trans_number."'},'modal_id' : 'modal-lg', 'form_id' : 'emiPayment', 'title' : 'Receive EMI','controller':'paymentVoucher','fnedit':'receiveMembershipEmi'}";
+    $paymentButton = '<a class="btn btn-success btn-edit permission-write" href="javascript:void(0)" datatip="Receive EMI" flow="down" onclick="edit('.$paymentParam.');"><i class="fas fa-rupee-sign"></i></a>';
+
+    $editParam = "{'postData':{'id' : ".$data->id."},'modal_id' : 'modal-lg', 'form_id' : 'editMembership', 'title' : 'Update Membership'}";
+    $editButton = '<a class="btn btn-warning btn-edit permission-modify" href="javascript:void(0)" datatip="Edit" flow="down" onclick="edit('.$editParam.');"><i class="ti-pencil-alt"></i></a>';
+
+    $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Membership'}";
+    $deleteButton = '<a class="btn btn-danger btn-delete permission-remove" href="javascript:void(0)" onclick="trash('.$deleteParam.');" datatip="Remove" flow="down"><i class="ti-trash"></i></a>';
+
+    $action = getActionButton($paymentButton.$editButton.$deleteButton);
+
+    return [$action,$data->sr_no,$data->trans_number,formatDate($data->trans_date),$data->party_name,$data->plan_name,$data->total_emi,$data->emi_amount,$data->total_amount,$data->received_emi,$data->received_amount];
 }
 ?>

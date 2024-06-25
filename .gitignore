@@ -3,3 +3,4 @@ assets/db/
 assets/uploads/
 vendor/
 application/config/constants.php
+composer.lock

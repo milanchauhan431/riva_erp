@@ -38,6 +38,16 @@ class PaymentVoucher extends MY_Controller{
 		$this->load->view($this->form,$this->data);
 	}
 
+	public function receiveMembershipEmi(){
+		$data = $this->input->post();
+		$this->data['dataRow'] = (object) $data;
+		$this->data['ledgerList'] = $this->party->getPartyList(['group_code'=>['"BA"','"BOL"','"BOA"','"CS"']]);		
+		$this->data['trans_prefix'] =  $this->data['entryData']->trans_prefix;
+        $this->data['trans_no'] =  $this->data['entryData']->trans_no;	
+        $this->data['trans_number']	= $this->data['trans_prefix'].$this->data['trans_no'];
+		$this->load->view("membership/payment_form",$this->data);
+	}
+
     public function getTransNo(){
 		$data = $this->input->post();
         if($data['vou_name_s'] == "BCRct"):
@@ -123,7 +133,11 @@ class PaymentVoucher extends MY_Controller{
         $this->data['dataRow'] = $dataRow = $this->paymentVoucher->getVoucher($data['id']);
 		$this->data['partyList'] = $this->party->getPartyList();
 		$this->data['ledgerList'] = $this->party->getPartyList(['group_code'=>['"BA"','"BOL"','"BOA"','"CS"']]);
-        $this->load->view($this->form,$this->data);
+		if(!empty($dataRow->from_entry_type)):
+			$this->load->view("membership/payment_form",$this->data);
+		else:
+        	$this->load->view($this->form,$this->data);
+		endif;
     }
 
     public function delete(){
