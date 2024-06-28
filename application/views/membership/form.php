@@ -52,7 +52,20 @@
                 <input type="text" name="net_amount" id="net_amount" class="form-control calculateEmi floatOnly req" value="<?=(!empty($dataRow->net_amount))?$dataRow->net_amount:""?>">
             </div>
 
-            <div class="col-md-12 form-group">
+            <div class="col-md-4 form-group">
+                <label for="sales_executive">Sales Executive</label>
+                <select name="sales_executive" id="sales_executive" class="form-control select2" >
+                    <option value="">Sales Executive</option>
+                    <?php
+                        foreach($salesExecutives as $row):
+                            $selected = (!empty($dataRow->sales_executive) && $dataRow->sales_executive == $row->id)?"selected":"";
+                            echo '<option value="'.$row->id.'" '.$selected.'>'.$row->emp_name.'</option>';
+                        endforeach;
+                    ?>
+                </select>
+            </div>
+
+            <div class="col-md-8 form-group">
                 <label for="remark">Note</label>
                 <input type="text" name="remark" id="remark" class="form-control" value="<?=(!empty($dataRow->remark))?$dataRow->remark:""?>">
             </div>

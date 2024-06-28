@@ -36,6 +36,7 @@ class Membership extends MY_Controller{
         $this->data['trans_number'] = $this->data['trans_prefix'].$this->data['trans_no'];
         $this->data['partyList'] = $this->party->getPartyList(['party_category'=>1]);
         $this->data['planList'] = $this->membershipPlan->getPlanList();
+        $this->data['salesExecutives'] = $this->employee->getEmployeeList();
         $this->load->view($this->form,$this->data);
     }
 
@@ -65,6 +66,7 @@ class Membership extends MY_Controller{
         $this->data['dataRow'] = $this->membership->getMembership($data);
         $this->data['partyList'] = $this->party->getPartyList(['party_category'=>1]);
         $this->data['planList'] = $this->membershipPlan->getPlanList();
+        $this->data['salesExecutives'] = $this->employee->getEmployeeList();
         $this->load->view($this->form,$this->data);
     }
 
