@@ -60,7 +60,9 @@ class MembershipModel extends MasterModel{
 
     public function getMembership($data){
         $queryData['tableName'] = $this->transMain;
-        $queryData['where']['id'] = $data['id'];
+        $queryData['select'] = "trans_main.*, membership_plan.plan_name, ROUND(IF(trans_main.rop_amount <> 0,(trans_main.rop_amount / trans_main.total_amount),0),2) as received_emi";
+        $queryData['leftJoin']['membership_plan'] = "membership_plan.id = trans_main.ref_id";
+        $queryData['where']['trans_main.id'] = $data['id'];
         $result = $this->row($queryData);
         return $result;
     }
@@ -91,6 +93,16 @@ class MembershipModel extends MasterModel{
             $this->db->trans_rollback();
             return ['status'=>2,'message'=>"somthing is wrong. Error : ".$e->getMessage()];
         }	
+    }
+
+    public function getEmiStatement($data){
+        $queryData = [];
+        $queryData['tableName'] = $this->transMain;
+        $queryData['select'] = "trans_main.id,trans_main.trans_number,trans_main.trans_date,trans_main.net_amount";
+        $queryData['where']['ref_id'] = $data['ref_id'];
+        $queryData['where']['from_entry_type'] = $data['from_entry_type'];
+        $result = $this->rows($queryData);
+        return $result;
     }
 }
 ?>

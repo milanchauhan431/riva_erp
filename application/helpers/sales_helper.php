@@ -299,13 +299,16 @@ function getMembershipData($data){
     $paymentParam = "{'postData':{'ref_id' : ".$data->id.",'from_entry_type':".$data->entry_type.",'party_id':".$data->party_id.",'party_name':'".$data->party_name."','net_amount':'".$data->emi_amount."','remark': 'MESP NO. : ".$data->trans_number."'},'modal_id' : 'modal-lg', 'form_id' : 'emiPayment', 'title' : 'Receive EMI','controller':'paymentVoucher','fnedit':'receiveMembershipEmi'}";
     $paymentButton = '<a class="btn btn-success btn-edit permission-write" href="javascript:void(0)" datatip="Receive EMI" flow="down" onclick="edit('.$paymentParam.');"><i class="fas fa-rupee-sign"></i></a>';
 
+    $emiStatementParam = ['id' => $data->id];
+    $emiStatement = '<a class="btn btn-info" href="'.base_url('membership/viewEmiStatement/'.encodeURL($emiStatementParam)).'" datatip="EMI Statement" flow="down" target="_blank"><i class="fas fa-eye"></i></a>';
+
     $editParam = "{'postData':{'id' : ".$data->id."},'modal_id' : 'modal-lg', 'form_id' : 'editMembership', 'title' : 'Update Membership'}";
     $editButton = '<a class="btn btn-warning btn-edit permission-modify" href="javascript:void(0)" datatip="Edit" flow="down" onclick="edit('.$editParam.');"><i class="ti-pencil-alt"></i></a>';
 
     $deleteParam = "{'postData':{'id' : ".$data->id."},'message' : 'Membership'}";
     $deleteButton = '<a class="btn btn-danger btn-delete permission-remove" href="javascript:void(0)" onclick="trash('.$deleteParam.');" datatip="Remove" flow="down"><i class="ti-trash"></i></a>';
 
-    $action = getActionButton($paymentButton.$editButton.$deleteButton);
+    $action = getActionButton($emiStatement.$paymentButton.$editButton.$deleteButton);
 
     return [$action,$data->sr_no,$data->trans_number,formatDate($data->trans_date),$data->party_name,$data->plan_name,$data->total_emi,$data->emi_amount,$data->total_amount,$data->received_emi,$data->received_amount];
 }
