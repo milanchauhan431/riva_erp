@@ -223,6 +223,8 @@ class SalesInvoiceModel extends MasterModel{
         $queryData['tableName'] = $this->transMain;
         $queryData['where']['entry_type'] = $data['entry_type'];
         $queryData['where']['trans_number'] = $data['trans_number'];
+        $queryData['where']['trans_date >='] = $this->startYearDate;
+        $queryData['where']['trans_date <='] = $this->endYearDate;
 
         if(!empty($data['id']))
             $queryData['where']['id !='] = $data['id'];

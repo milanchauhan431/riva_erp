@@ -388,6 +388,10 @@ $(document).ready(function(){
 			e.stopPropagation();
 		});
 	});
+
+	$('.modal').on('shown.bs.modal', function () {
+		$('.select2').select2({ dropdownParent: $(this) });
+	});
 });
 
 $(window).on('pageshow', function() {
