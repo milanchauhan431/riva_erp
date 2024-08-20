@@ -381,6 +381,19 @@ $(document).ready(function(){
 	$(document).on('focus', '.select2-selection.select2-selection--single', function (e) {
 		$(this).closest(".select2-container").siblings('select:enabled').select2('open');
 	});
+
+	// fix select2 bootstrap modal scroll bug
+	$(document).on('select2:open', '.select2', function (e) {
+		$(".modal.show").css('overflow','hidden');
+	});
+
+	// fix select2 bootstrap modal scroll bug
+	$(document).on('select2:close', '.select2', function (e) {
+		$(".modal.show").css('overflow','auto');
+		var evt = "scroll.select2";
+		$(e.target).parents().off(evt);
+		$(window).off(evt);
+	});
 	
 	// steal focus during close - only capture once and stop propogation
 	$('select.select2').on('select2:closing', function (e) {
@@ -389,9 +402,15 @@ $(document).ready(function(){
 		});
 	});
 
-	$('.modal').on('shown.bs.modal', function () {
-		$('.select2').select2({ dropdownParent: $(this) });
-	});
+	/* $(document).on('shown.bs.modal', function () {
+		// Apply dropdownParent to all Select2 instances within the open modal
+		$('.select2').each(function () {
+			if ($(this).data('select2')) {
+				$(this).select2('destroy'); // Destroy any existing Select2 instance
+			}
+			$(this).select2({ dropdownParent: $(this).closest('.modal') });
+		});
+	}); */
 });
 
 $(window).on('pageshow', function() {
