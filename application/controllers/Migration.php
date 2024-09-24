@@ -461,5 +461,37 @@ class Migration extends CI_Controller{
             echo $e->getMessage();exit;
         } 
     }
+	
+	public function changeStoreLocation($fromLocation,$toLocation){
+		try{
+            $this->db->trans_begin();
+			
+			if(!empty($fromLocation) && !empty($toLocation)):			
+				$this->db->select("item_id,location_id,batch_no,SUM(qty * p_or_m) as qty");
+				$this->db->where("is_delete",0);
+				$this->db->where("location_id",$fromLocation);
+				$this->db->group_by("item_id,location_id,batch_no");
+				$this->db->having("SUM(qty * p_or_m) > 0");
+				$result = $this->db->get("stock_transaction")->result();
+				
+				foreach($result as $row):
+					$this->db->where("batch_no",$row->batch_no);
+					$this->db->where("location_id",$row->location_id);
+					$this->db->where("item_id",$row->item_id);
+					$this->db->update("stock_transaction",['location_id'=>$toLocation,"remark"=>"Location Migrate - From : ".$row->location_id." To :".$toLocation]);
+				endforeach;
+			else:
+				echo "From and To Location required.":
+			endif;
+			
+			if($this->db->trans_status() !== FALSE):
+                $this->db->trans_commit();
+                echo "Item Location changed Successfully.";
+            endif;
+        }catch(\Throwable $e){
+            $this->db->trans_rollback();
+            echo $e->getMessage();exit;
+        }
+	}
 }
 ?>
