@@ -481,7 +481,7 @@ class Migration extends CI_Controller{
 					$this->db->update("stock_transaction",['location_id'=>$toLocation,"remark"=>"Location Migrate - From : ".$row->location_id." To :".$toLocation]);
 				endforeach;
 			else:
-				echo "From and To Location required.":
+				echo "From and To Location required.";
 			endif;
 			
 			if($this->db->trans_status() !== FALSE):
