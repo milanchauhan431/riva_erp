@@ -57,29 +57,33 @@ class DeliveryChallan extends MY_Controller{
             foreach($data['itemData'] as $key => $row):
                 $serialNo = $row['masterData']['t_col_1'];
                 if($row['stock_eff'] == 1):
-                    $postData = ['location_id' => $row['masterData']['i_col_1'],'batch_no' => $row['masterData']['t_col_1'],'item_id' => $row['item_id'],'stock_required'=>1,'single_row'=>1];
-                    
-                    $stockData = $this->itemStock->getItemStockBatchWise($postData);  
-                    
-                    $stockQty = (!empty($stockData->qty))?$stockData->qty:0;
-                    if(!empty($row['id'])):
-                        $oldItem = $this->deliveryChallan->getDeliveryChallanItem(['id'=>$row['id']]);
-                        $stockQty = $stockQty + $oldItem->qty;
-                    endif;
-                    
-                    if(!isset($bQty[$serialNo])):
-                        $bQty[$serialNo] = $row['qty'] ;
+					if(empty($serialNo)):
+                        $errorMessage['qty'.$key] = "Barcode No. is required.";
                     else:
-                        $bQty[$serialNo] += $row['qty'];
-                    endif;
+						$postData = ['location_id' => $row['masterData']['i_col_1'],'batch_no' => $row['masterData']['t_col_1'],'item_id' => $row['item_id'],'stock_required'=>1,'single_row'=>1];
+						
+						$stockData = $this->itemStock->getItemStockBatchWise($postData);  
+						
+						$stockQty = (!empty($stockData->qty))?$stockData->qty:0;
+						if(!empty($row['id'])):
+							$oldItem = $this->deliveryChallan->getDeliveryChallanItem(['id'=>$row['id']]);
+							$stockQty = $stockQty + $oldItem->qty;
+						endif;
+						
+						if(!isset($bQty[$serialNo])):
+							$bQty[$serialNo] = $row['qty'] ;
+						else:
+							$bQty[$serialNo] += $row['qty'];
+						endif;
 
-                    if(empty($stockQty)):
-                        $errorMessage['qty'.$key] = "Stock not available.";
-                    else:
-                        if($bQty[$serialNo] > $stockQty):
-                            $errorMessage['qty'.$key] = "Stock not available.";
-                        endif;
-                    endif;
+						if(empty($stockQty)):
+							$errorMessage['qty'.$key] = "Stock not available.";
+						else:
+							if($bQty[$serialNo] > $stockQty):
+								$errorMessage['qty'.$key] = "Stock not available.";
+							endif;
+						endif;
+					endif;
                 endif;
             endforeach;
         endif;
