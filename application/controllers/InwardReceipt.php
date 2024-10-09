@@ -27,7 +27,7 @@ class InwardReceipt extends MY_Controller
         $this->load->view("inward_receipt/print_barcode");
     }
 
-    public function printBarcode(){
+    /*public function printBarcode(){
         $data = $this->input->post();
         $logo = base_url('assets/images/logo.png');
         $boxData = '';
@@ -102,6 +102,100 @@ class InwardReceipt extends MY_Controller
                     </tr>
                     <tr>
                         <td colspan="2" style="padding-left:70px;" class="fw-700 fs-19"><b>';
+                            if ($stock_category == 2):
+                                $boxData .= $code->diamond_carat . '/' . (int)$code->diamond_pcs . 'pc &nbsp;  ' . $code->clarity. ' '.$code->color .'<br>';
+                            else:
+                                $boxData .=  $dcode . '-'.$code->item_code.'<br>';
+                            endif;
+                            $boxData .= 'PID:' . $code->party_code . '-' . $code->unique_id . '
+                            </b><br>
+                        </td> 
+                    </tr>
+                </table>
+            </div>';
+            
+            $mpdf->AddPage('P', '', '', '', '', 0, 0, 1, 1, 1, 1);
+            $mpdf->WriteHTML($boxData);
+        endforeach;
+
+        $mpdf->Output($pdfFileName, 'I');
+    }*/
+	
+	public function printBarcode(){
+        $data = $this->input->post();
+        $logo = base_url('assets/images/logo.png');
+        $boxData = '';
+        $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [75, 12]]); // Landscap
+        $pdfFileName = 'pack' . '.pdf';
+        $stylesheet = file_get_contents(base_url('assets/css/pdf_style.css'));
+        $mpdf->WriteHTML($stylesheet, 1);
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->SetProtection(array('print'));
+
+        $dcode = $this->inwardReceipt->getInwardReceipt($data)->design_no;
+        $codes = $this->inwardReceipt->getItemSerialNo($data);
+        $stock_category  = 0;
+        $stock_category_d  = 0;
+        foreach ($codes as $code):
+            if (in_array($code->stock_category, array("Gold", "Gold Items"))):
+                $stock_category = 1;
+            endif;
+
+            if (in_array($code->stock_category, array("Silver", "Silver Items"))):
+                $stock_category = 1;
+            endif;
+
+            if (in_array($code->stock_category, array("Platinum Items"))) :
+                $stock_category = 1;
+            endif;
+
+            if (in_array($code->stock_category, array("Palladium"))):
+                $stock_category = 1;
+            endif;
+
+            if (in_array($code->stock_category, array("Lab Grown Diamond", "Loos Diamond", "Gold + Diamond Items", "Platinum + Diamond Items"))):
+                $stock_category = 2;
+            endif;
+
+            if (in_array($code->stock_category, array("Lab Grown Diamond", "Loos Diamond"))):
+                $stock_category_d = 3;
+            endif;
+
+            $boxData = '';
+            $boxData .= '<div style="text-align:center;padding:0mm; ">
+                <table class="" border="0" cellspacing="0" cellpadding="1">  				
+                    <tr>
+                        <td rowspan="2" class="text-center" style="vertical-align: middle;padding-top:0px">
+                            <div  class="barcode" >
+                            
+                            <barcode code="' . $code->unique_id . '" type="C128C" size="2.0"/>
+                            </div>
+                            <b class="fs-32">' . $code->unique_id . '<br>' . $code->purity . 'K</b>';
+                            if ($stock_category_d == 3) {
+                                $boxData .=  '<b class="fs-32">/' . $dcode . '</b>';
+                            }else{
+                                $boxData .=  '<b class="fs-32">/' . $code->making_per . '%</b>';
+                            }
+                        $boxData .=  '</td>
+                        <td  class="text-left fw-700 fs-32" style="padding-left:70px;padding-top:0px" >
+                        <b class="fs-32"> ' . $code->gross_weight . '<br>' . $code->net_weight . '
+                        </td>
+                        <td  class="text-left fw-700 fs-32">';
+                        if ($stock_category != 2) {
+                            $boxData .= '  <b class="fs-32">OC:' . $code->otc_amount  . '
+                            <br>VC:' . $code->vrc_amount   . '</b>';
+                        } else {
+                            if ($stock_category_d == 3) {
+                                $boxData .= '<b class="fs-32">'. $code->item_code.'</b>';
+                            }else{
+                                $boxData .= '<b class="fs-32">'. $dcode . '<br>' . $code->item_code.'</b>';
+                            }
+                          
+                        }
+                        $boxData .= ' </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding-left:70px;" class="fw-700 fs-32"><b>';
                             if ($stock_category == 2):
                                 $boxData .= $code->diamond_carat . '/' . (int)$code->diamond_pcs . 'pc &nbsp;  ' . $code->clarity. ' '.$code->color .'<br>';
                             else:
