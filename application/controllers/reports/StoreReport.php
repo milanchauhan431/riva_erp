@@ -246,8 +246,8 @@ class StoreReport extends MY_Controller{
     }
 
     public function inventoryRegister(){
-        $this->data['pageHeader'] = 'STOCK REGISTER';
-        $this->data['headData']->pageUrl = "reports/storeReport/stockRegister";
+        $this->data['pageHeader'] = 'Inventory REGISTER';
+        $this->data['headData']->pageUrl = "reports/storeReport/inventoryRegister";
         $this->data['itemList'] = $this->item->getItemList();
         $this->data['locationList'] = $this->storeLocation->getStoreLocationList(['final_location' => 1]);
         $this->load->view("reports/store_report/inventory_register",$this->data);
