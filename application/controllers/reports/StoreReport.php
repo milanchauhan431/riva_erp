@@ -244,5 +244,34 @@ class StoreReport extends MY_Controller{
 
         $this->printJson(['status'=>1,'thead'=>$thead,'tbody'=>$tbody,'tfoot'=>$tfoot]);
     }
+
+    public function inventoryRegister(){
+        $this->data['pageHeader'] = 'STOCK REGISTER';
+        $this->data['headData']->pageUrl = "reports/storeReport/stockRegister";
+        $this->data['itemList'] = $this->item->getItemList();
+        $this->data['locationList'] = $this->storeLocation->getStoreLocationList(['final_location' => 1]);
+        $this->load->view("reports/store_report/inventory_register",$this->data);
+    }
+
+    public function getInventoryRegister(){
+        $data = $this->input->post();
+        $result = $this->storeReport->getSerialNumberWiseStockData($data);
+
+        $tbody = '';$i=1;
+        foreach($result as $row):
+            $tbody .= '<tr>
+                <td  class="text-center">'.$i++.'</td>
+                <td  class="text-left">'.$row->item_code.'</td>
+                <td  class="text-left">'.$row->item_name.'</td>
+                <td  class="text-left">'.$row->location.'</td>
+                <td  class="text-left">'.$row->unique_id.'</td>
+                <td  class="text-right">'.floatVal($row->stock_qty).'</td>
+                <td  class="text-right">'.floatVal($row->gross_weight).'</td>
+                <td  class="text-right">'.floatVal($row->net_weight).'</td>
+            </tr>';
+        endforeach;
+
+        $this->printJson(['status'=>1,'tbody'=>$tbody]);
+    }
 }
 ?>

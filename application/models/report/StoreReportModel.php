@@ -38,12 +38,22 @@ class StoreReportModel extends MasterModel{
     public function getSerialNumberWiseStockData($data){
         $queryData = array();
         $queryData['tableName'] = $this->stockTrans;
-        $queryData['select'] = "stock_transaction.item_id,stock_transaction.location_id,location_master.location,stock_transaction.unique_id,stock_transaction.item_id,SUM(stock_transaction.qty * stock_transaction.p_or_m) as stock_qty,SUM(stock_transaction.gross_weight * stock_transaction.p_or_m) as gross_weight,SUM(stock_transaction.net_weight * stock_transaction.p_or_m) as net_weight";
+        $queryData['select'] = "stock_transaction.item_id,item_master.item_code,item_master.item_name,stock_transaction.location_id,location_master.location,stock_transaction.unique_id,stock_transaction.item_id,SUM(stock_transaction.qty * stock_transaction.p_or_m) as stock_qty,SUM(stock_transaction.gross_weight * stock_transaction.p_or_m) as gross_weight,SUM(stock_transaction.net_weight * stock_transaction.p_or_m) as net_weight";
+        
+        $queryData['leftJoin']['item_master'] = "stock_transaction.item_id = item_master.id";
         $queryData['leftJoin']['location_master'] = "stock_transaction.location_id = location_master.id";
-        $queryData['where']['stock_transaction.item_id'] = $data['item_id'];
-        $queryData['where']['stock_transaction.location_id'] = $data['location_id'];
+
+        if(!empty($data['item_id'])):
+            $queryData['where']['stock_transaction.item_id'] = $data['item_id'];
+        endif;
+
+        if(!empty($data['location_id'])):
+            $queryData['where']['stock_transaction.location_id'] = $data['location_id'];
+        endif;
+
         $queryData['having'][] = "SUM(stock_transaction.qty * stock_transaction.p_or_m) > 0";
         $queryData['group_by'][] = "stock_transaction.unique_id";
+        
         $result = $this->rows($queryData);
         return $result;
     }
