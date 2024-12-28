@@ -39,7 +39,7 @@
                             <table id='reportTable' class="table table-bordered">
 								<thead class="thead-info" id="theadData">
                                     <tr class="text-center">
-                                        <th colspan="9">Serial No. Wise Stock Register</th>
+                                        <th colspan="9">Inventory Register</th>
                                     </tr>
 									<tr>
 										<th class="text-center">#</th>
