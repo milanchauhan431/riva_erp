@@ -67,9 +67,7 @@
 <script>
 $(document).ready(function(){
 	reportTable();
-    <?php if(!empty($item_id)): ?>
-    setTimeout(function(){$(".loadData").trigger('click');},500);
-    <?php endif; ?>
+    setTimeout(function(){ $(".loadData").trigger('click'); },500);
     
     $(document).on('click','.loadData',function(e){
 		var item_id = $('#item_id').val();
