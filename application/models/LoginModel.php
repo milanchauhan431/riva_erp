@@ -30,6 +30,8 @@ class LoginModel extends CI_Model{
 					//Defualt Store
 					$RTD_STORE = $this->db->where('store_type',1)->get('location_master')->row();
 					$this->session->set_userdata("RTD_STORE",$RTD_STORE);
+					$SHOWROOM_STORE = $this->db->where('store_type',2)->get('location_master')->row();
+					$this->session->set_userdata("SHOWROOM_STORE",$SHOWROOM_STORE);
 					
 					//FY Data
 					$fyData=$this->db->where('is_active',1)->get('financial_year')->row();

@@ -77,6 +77,8 @@ class StockTransModel extends MasterModel{
             $queryData['where']['stock_transaction.id'] = $data['id'];
         if(!empty($data['unique_id']))
             $queryData['where']['stock_transaction.unique_id'] = $data['unique_id'];
+		if(!empty($data['location_id']))
+			$queryData['where']['stock_transaction.location_id'] = $data['location_id'];
 
         if(!empty($data['stock_required'])):
             $queryData['where']['stock_transaction.stock_type'] = "FRESH";

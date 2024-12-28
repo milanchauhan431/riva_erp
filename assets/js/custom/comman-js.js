@@ -1328,11 +1328,12 @@ function resDiamondQualityMaster(response,formId){
 
 function getItemBybarcode(barcode=""){
 	var item_code = barcode || $("#barcode_scanner").val(); 
+	var defualt_location = $("#barcode_scanner").data("defualt_location") || $("#itemForm #unique_id").data("defualt_location") || "";
 	if(item_code){
 		$.ajax({
 			url : base_url + '/stockTrans/getItemDetails',
 			type:'post',
-			data: {unique_id:item_code,stock_required:1},
+			data: {unique_id:item_code,stock_required:1,location_id:defualt_location},
 			dataType : 'json',
 		}).done(function(response){
 			if(barcode != ""){

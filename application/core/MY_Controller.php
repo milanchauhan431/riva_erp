@@ -145,6 +145,7 @@ class MY_Controller extends CI_Controller{
 		$this->userRoleName = $this->session->userdata('roleName');
 
 		$this->RTD_STORE = $this->session->userdata('RTD_STORE');
+		$this->SHOWROOM_STORE = $this->session->userdata('SHOWROOM_STORE');
 
 		$models = $modelNames;
 		foreach($models as $modelName):
@@ -162,6 +163,7 @@ class MY_Controller extends CI_Controller{
 			$this->{$modelName}->userRoleName = $this->userRoleName;
 
 			$this->{$modelName}->RTD_STORE = $this->RTD_STORE;
+			$this->{$modelName}->SHOWROOM_STORE = $this->SHOWROOM_STORE;
 		endforeach;
 		return true;
 	}

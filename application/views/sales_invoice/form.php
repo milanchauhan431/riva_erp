@@ -194,7 +194,7 @@
                                     <div class="col-md-6"><h4>Item Details : </h4></div>
                                     <div class="col-md-4">
                                         <div class="input-group">
-										    <input type="text" id="barcode_scanner" class="form-control numericOnly float-right" value="" placeholder="Scan barcode" data-stock_effect="1">
+										    <input type="text" id="barcode_scanner" class="form-control numericOnly float-right" value="" placeholder="Scan barcode" data-stock_effect="1" data-defualt_location="<?=$this->SHOWROOM_STORE->id?>">
                                             <div class="input-group-append">
                                                 <button type="button" id="barcode_search" class="btn btn-info"><i class="fa fa-search"></i></button>
                                             </div>
@@ -354,7 +354,7 @@
                             <div class="col-md-4 form-group">
                                 <label for="unique_id">Barcode No.</label>
                                 <div class="input-group">
-                                    <input type="text" name="unique_id" id="unique_id" class="form-control numericOnly" value="">
+                                    <input type="text" name="unique_id" id="unique_id" class="form-control numericOnly" value="" data-defualt_location="<?=$this->SHOWROOM_STORE->id?>">
                                     <div class="input-group-append">
                                         <button type="button" id="unique_search" class="btn btn-info"><i class="fa fa-search"></i></button>
                                     </div>
