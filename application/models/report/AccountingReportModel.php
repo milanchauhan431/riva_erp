@@ -408,6 +408,5 @@ class AccountingReportModel extends MasterModel{
 
         return $result;
     }
-
 }
 ?>
