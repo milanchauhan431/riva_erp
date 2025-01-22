@@ -52,7 +52,7 @@ class StoreReportModel extends MasterModel{
         endif;
 
         $queryData['having'][] = "SUM(stock_transaction.qty * stock_transaction.p_or_m) > 0";
-        $queryData['group_by'][] = "stock_transaction.unique_id";
+        $queryData['group_by'][] = "stock_transaction.unique_id, stock_transaction.location_id";
         
         $result = $this->rows($queryData);
         return $result;
