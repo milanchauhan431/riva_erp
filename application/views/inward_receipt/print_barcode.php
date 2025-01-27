@@ -11,6 +11,11 @@
                             <th>Item Name</th>
                             <th>Barcode No.</th>
                             <th>Gross Weight</th>
+                            <th>Gold Weight</th>
+                            <th>Diamond Weight</th>
+                            <th>Kundan Weight</th>
+                            <th>Stone Weight</th>
+                            <th>Moti Weight</th>
                             <th>Net Weight</th>
                             <th>Product ID</th>
                             <th>Design No</th>
@@ -18,7 +23,7 @@
                     </thead>
                     <tbody>
                         <?php $i = 0;
-                        foreach ($dataRow as $row) :
+                        foreach ($dataRow as $row) : 
                             $checked = "checked";
                             $checkBoxInput = '<input type="checkbox" name="trans_id[]" id="return_checkbox' . $i . '" class="filled-in chk-col-success" data-rowid="' . $i . '" check="' . $checked . '" ' . $checked . ' value="' . $row->id . '" />
                                 <label for="return_checkbox' . $i . '"></label>';
@@ -30,9 +35,15 @@
                                     </td>
                                     <td>
                                         ' . $row->item_name . ' 
-                                       </td>
+                                        
+                                    </td>
                                     <td>' . $row->unique_id . '</td>
-                                    <td>' . $row->gross_weight . '</td> 
+                                    <td>' . $row->gross_weight . '</td>  
+                                    <td>' . $row->gold_weight . '</td>  
+                                    <td>' . $row->diamond_weight . '</td> 
+                                    <td>' . $row->kundan_weight . '</td> 
+                                    <td>' . $row->stone_weight . '</td> 
+                                    <td>' . $row->moti_weight . '</td> 
                                     <td>' . $row->net_weight . '</td> 
                                     <td>' . $row->party_code . '-' . $row->unique_id . '</td> 
                                     <td>' . $dcode . '</td> 

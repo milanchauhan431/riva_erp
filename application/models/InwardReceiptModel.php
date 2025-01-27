@@ -167,7 +167,7 @@ class InwardReceiptModel extends MasterModel{
     public function getItemSerialNo($data){
         $queryData = array();
         $queryData['tableName'] = $this->stockTransaction;
-        $queryData['select'] = "stock_transaction.*,item_master.item_code,item_master.item_name,party_master.party_code,party_master.party_name,inward_receipt.diamond_pcs,inward_receipt.diamond_carat,color_master.color,clarity_master.clarity";
+        $queryData['select'] = "stock_transaction.*,item_master.item_code,item_master.item_name,party_master.party_code,party_master.party_name,inward_receipt.diamond_pcs,inward_receipt.diamond_carat,inward_receipt.diamond_weight,inward_receipt.kundan_weight,inward_receipt.stone_weight,inward_receipt.moti_weight,inward_receipt.gold_weight,color_master.color,clarity_master.clarity";
         $queryData['leftJoin']['party_master'] = "party_master.id = stock_transaction.party_id";
         $queryData['leftJoin']['item_master'] = "item_master.id = stock_transaction.item_id";
         $queryData['leftJoin']['inward_receipt'] = "inward_receipt.id = stock_transaction.main_ref_id";

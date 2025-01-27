@@ -75,6 +75,7 @@
                             <th style="width:90px;">N.W.</th>
                             <th style="width:100px;">Qty</th>
                             <th style="width:50px;">UOM</th>
+                            <th style="width:50px;">Price</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,15 +86,45 @@
                                     
                                     echo '<tr>';
                                         echo '<td class="text-center">'.$i++.'</td>';
-                                        echo '<td>
-                                            <b>'.$row->item_name . '</b><br>
-                                            <small>Serial No. : '.$row->unique_id . '</small><br>
-                                        </td>';
+                                        echo '<td>';
+                                    echo '<b>'.$row->item_name . '</b><br>';
+                                    echo '<small>Serial No. : '.$row->unique_id . '</small><br>';
+
+                                    if(in_array($row->stock_category,["Gold","Gold Items","Gold + Diamond Items","Lab Grown Diamond + Gold Items","Platinum + Gold + Diamond Items"])):
+                                        echo '<small>Gold Carat: ' . $row->purity . '</small><br>';
+                                    endif;
+                                    if(!empty($row->gold_platinum_price) && $row->gold_platinum_price != 0 && in_array($row->stock_category,["Lab Grown Diamond + Gold Items","Platinum + Gold + Diamond Items"])):
+                                        echo '<small>Gold Amount : ' . floatVal($row->gold_platinum_price) . '</small><br>';
+                                    endif;
+                                    if(!empty($gold_weight) && $gold_weight > 0 && in_array($row->stock_category,["Lab Grown Diamond + Gold Items","Platinum + Gold + Diamond Items"])):
+                                        $row->gold_weight = $gold_weight;
+                                        echo '<small>Gold Weight : ' . floatVal($row->gold_weight) . '</small><br>';
+                                    endif;
+                                    if(!empty($row->other_charge) && $row->other_charge > 0):
+                                        echo '<small>Other Charge : ' . floatVal($row->other_charge) . '</small><br>';
+                                    endif;
+                                    if(!empty($row->vrc_charge) && $row->vrc_charge > 0):
+                                        echo '<small>Variety Charge : ' . floatVal($row->vrc_charge) . '</small><br>';
+                                    endif;
+                                    if(!empty($row->diamond_amount) && $row->diamond_amount > 0):
+                                        echo '<small>Diamond Amount : ' . floatVal($row->diamond_amount) . '</small><br>';
+                                    endif;
+                                    if(!empty($row->color)):
+                                        echo '<small>Diamond Color :</small> ' . $row->color . '<br>';
+                                    endif;
+                                    if(!empty($row->diamond_carat)):
+                                        echo '<small>Diamond Carat :</small> ' . $row->diamond_carat . '<br>';
+                                    endif;
+                                    if(!empty($row->diamond_pcs) && $row->diamond_pcs > 0):
+                                        echo '<small>Diamond Pcs. :</small> ' . floatVal($row->diamond_pcs) . '<br>';
+                                    endif;
+                                echo '</td>';
                                         echo '<td class="text-center">'.$row->hsn_code.'</td>';
                                         echo '<td class="text-center">'.$row->gross_weight.'</td>';
                                         echo '<td class="text-center">'.$row->net_weight.'</td>';
                                         echo '<td class="text-right">'.$row->qty.'</td>';
                                         echo '<td class="text-center">'.$row->unit_name.'</td>';
+                                        echo '<td class="text-center">'.$row->price.'</td>';
                                     echo '</tr>';
                                     $totalQty += $row->qty;
                                 endforeach;
@@ -110,6 +141,7 @@
                                         <td style="border-top:none;border-bottom:none;"></td>
                                         <td style="border-top:none;border-bottom:none;"></td>
                                         <td style="border-top:none;border-bottom:none;"></td>
+                                        <td style="border-top:none;border-bottom:none;"></td>
                                     </tr>';
                                 endfor;
                             endif;
@@ -118,9 +150,10 @@
                             <th colspan="5" class="text-right">Total Qty.</th>
                             <th class="text-right"><?=sprintf('%.3f',$totalQty)?></th>
                             <th class="text-right"></th>
+                            <th class="text-right"></th>
                         </tr>
                         <tr>
-                            <td colspan="7" class="text-left"><b>Note: </b> <?= $dataRow->remark ?></td>
+                            <td colspan="8" class="text-left"><b>Note: </b> <?= $dataRow->remark ?></td>
                         </tr>
                     </tbody>
                 </table>

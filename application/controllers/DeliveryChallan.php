@@ -120,7 +120,7 @@ class DeliveryChallan extends MY_Controller{
     }
 
     public function printChallan($id,$pdf_type=''){
-        $this->data['dataRow'] = $dataRow = $this->salesOrder->getSalesOrder(['id'=>$id,'itemList'=>1]);
+        $this->data['dataRow'] = $dataRow = $this->deliveryChallan->getDeliveryChallan(['id'=>$id,'itemList'=>1]);
         $this->data['partyData'] = $this->party->getParty(['id'=>$dataRow->party_id]);
         $this->data['companyData'] = $companyData = $this->masterModel->getCompanyInfo();
         
