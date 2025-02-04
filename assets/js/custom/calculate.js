@@ -466,7 +466,7 @@ async function barcodeScan(formData=""){
 
 		//mackingChargeAmt = parseFloat((parseFloat(totalMcAmt) * parseFloat(formData.making_per))/100).toFixed(2);
 		mackingChargeAmt = parseFloat((parseFloat(formData.price) * parseFloat(formData.making_per))/100).toFixed(2);
-		mackingChargeAmt = parseFloat(parseFloat(mackingChargeAmt) * parseFloat(formData.gross_weight)).toFixed(2);
+		mackingChargeAmt = parseFloat(parseFloat(mackingChargeAmt) * parseFloat(formData.net_weight)).toFixed(2);
 		if (formData.making_disc_per != "" && formData.making_disc_per != "0") {
 			mcDiscAmt = parseFloat((parseFloat(mackingChargeAmt) * parseFloat(formData.making_disc_per)) / 100).toFixed(2);
 		}
