@@ -104,6 +104,7 @@ function getSalesDtHeader($page){
     $data['membership'][] = ["name"=>"Membership No."];
     $data['membership'][] = ["name"=>"Membership Date"];
     $data['membership'][] = ["name"=>"Customer Name"];
+    $data['membership'][] = ["name"=>"Executive Name"];
     $data['membership'][] = ["name"=>"Plan Name"];
     $data['membership'][] = ["name"=>"Total EMI"];
     $data['membership'][] = ["name"=>"EMI Amount"];
@@ -310,6 +311,6 @@ function getMembershipData($data){
 
     $action = getActionButton($emiStatement.$paymentButton.$editButton.$deleteButton);
 
-    return [$action,$data->sr_no,$data->trans_number,formatDate($data->trans_date),$data->party_name,$data->plan_name,$data->total_emi,$data->emi_amount,$data->total_amount,$data->received_emi,$data->received_amount];
+    return [$action,$data->sr_no,$data->trans_number,formatDate($data->trans_date),$data->party_name,$data->executive_name,$data->plan_name,$data->total_emi,$data->emi_amount,$data->total_amount,$data->received_emi,$data->received_amount];
 }
 ?>

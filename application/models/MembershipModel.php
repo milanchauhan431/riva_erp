@@ -4,10 +4,11 @@ class MembershipModel extends MasterModel{
 
     public function getDTRows($data){
         $data['tableName'] = $this->transMain;
-        $data['select'] = "trans_main.id, trans_main.entry_type, trans_main.trans_number, trans_main.trans_date, trans_main.party_id, party_master.party_name, membership_plan.id as plan_id, membership_plan.plan_name, trans_main.credit_period as total_emi, trans_main.total_amount as emi_amount, trans_main.net_amount as total_amount, ROUND(IF(trans_main.rop_amount <> 0,(trans_main.rop_amount / trans_main.total_amount),0),2) as received_emi, trans_main.rop_amount as received_amount";
+        $data['select'] = "trans_main.id, trans_main.entry_type, trans_main.trans_number, trans_main.trans_date, trans_main.party_id, party_master.party_name, executive_master.emp_name as executive_name, membership_plan.id as plan_id, membership_plan.plan_name, trans_main.credit_period as total_emi, trans_main.total_amount as emi_amount, trans_main.net_amount as total_amount, ROUND(IF(trans_main.rop_amount <> 0,(trans_main.rop_amount / trans_main.total_amount),0),2) as received_emi, trans_main.rop_amount as received_amount";
 
         $data['leftJoin']['membership_plan'] = "membership_plan.id = trans_main.ref_id";
         $data['leftJoin']['party_master'] = "party_master.id = trans_main.party_id";
+        $data['leftJoin']['employee_master as executive_master'] = "trans_main.sales_executive = executive_master.id";
 
         $data['where']['trans_main.entry_type'] = $data['entry_type'];
         if($data['status'] == 0):
@@ -24,6 +25,7 @@ class MembershipModel extends MasterModel{
 		$data['searchCol'][] = "trans_main.trans_number";
         $data['searchCol'][] = "DATE_FORMAT(trans_main.trans_date,'%d-%m-%Y')";
         $data['searchCol'][] = "party_master.party_name";
+        $data['searchCol'][] = "executive_master.emp_name";
         $data['searchCol'][] = "membership_plan.plan_name";
         $data['searchCol'][] = "trans_main.credit_period";
         $data['searchCol'][] = "trans_main.total_amount";
