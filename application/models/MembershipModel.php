@@ -100,7 +100,7 @@ class MembershipModel extends MasterModel{
     public function getEmiStatement($data){
         $queryData = [];
         $queryData['tableName'] = $this->transMain;
-        $queryData['select'] = "trans_main.id,trans_main.trans_number,trans_main.trans_date,trans_main.net_amount";
+        $queryData['select'] = "trans_main.id,trans_main.trans_number,trans_main.trans_date,trans_main.payment_mode,trans_main.net_amount";
         $queryData['where']['ref_id'] = $data['ref_id'];
         $queryData['where']['from_entry_type'] = $data['from_entry_type'];
         $result = $this->rows($queryData);

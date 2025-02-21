@@ -66,6 +66,7 @@
 										<th>#</th>
 										<th>Vou. No.</th>
 										<th>Vou. Date</th>
+										<th>Payment Mode</th>
 										<th>Vou. Amount</th>
 									</tr>
 								</thead>

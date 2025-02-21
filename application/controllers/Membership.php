@@ -102,6 +102,7 @@ class Membership extends MY_Controller{
                 <td class="text-center">'.$i.'</td>
                 <td class="text-center">'.$row->trans_number.'</td>
                 <td class="text-center">'.formatDate($row->trans_date).'</td>
+                <td class="text-center">'.$row->payment_mode.'</td>
                 <td class="text-center">'.floatval($row->net_amount).'</td>
             </tr>';
             $i++;
@@ -168,6 +169,7 @@ class Membership extends MY_Controller{
                         <th>#</th>
                         <th>Vou. No.</th>
                         <th>Vou. Date</th>
+                        <th>Payment Mode</th>
                         <th>Vou. Amount</th>
                     </tr>
                 </thead>
