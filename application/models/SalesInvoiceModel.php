@@ -43,9 +43,9 @@ class SalesInvoiceModel extends MasterModel{
         try{
             $this->db->trans_begin();
 
-            if(empty($data['id'])):
+            /* if(empty($data['id'])):
                 $data['trans_no'] = $this->transMainModel->nextTransNo($data['entry_type']);
-            endif;
+            endif; */
             $data['trans_number'] = $data['trans_prefix'].$data['trans_no'];
 
             if($this->checkDuplicate($data) > 0):
