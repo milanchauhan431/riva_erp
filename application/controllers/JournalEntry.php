@@ -41,6 +41,9 @@ class JournalEntry extends MY_Controller{
     public function save(){
         $data = $this->input->post();
         $errorMessage = array();
+
+        if(empty($data['trans_date']))
+            $errorMessage['trans_date'] = "Date is required.";
         if(empty($data['itemData'])):
             $errorMessage['item_name_error'] = 'Entry is required.';
         else:

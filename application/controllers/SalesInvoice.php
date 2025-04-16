@@ -51,6 +51,8 @@ class SalesInvoice extends MY_Controller{
         $data = $this->input->post();
         $errorMessage = array();
 
+        if(empty($data['trans_date']))
+            $errorMessage['trans_date'] = "Date is required.";
         if(empty($data['party_id']))
             $errorMessage['party_id'] = "Party Name is required.";
         if(empty($data['sp_acc_id']))

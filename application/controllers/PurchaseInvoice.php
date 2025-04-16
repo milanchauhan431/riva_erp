@@ -50,6 +50,8 @@ class PurchaseInvoice extends MY_Controller{
         $data = $this->input->post();
         $errorMessage = array();
 
+        if(empty($data['trans_date']))
+            $errorMessage['trans_date'] = "Date is required.";
         if(empty($data['trans_number']))
             $errorMessage['trans_number'] = "Inv No. is required.";
         if(empty($data['party_id']))
