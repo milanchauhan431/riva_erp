@@ -176,7 +176,7 @@ class SalesInvoiceModel extends MasterModel{
                         'qty' => $row['qty'],
                         'standard_qty' => $serialData['d_col_1'],
                         'sales_price' => $row['taxable_amount'],
-                        'purity' => $serialData['d_col_2'],
+                        'purity' => floatval($serialData['d_col_2']),
                         'gross_weight' => $row['gross_weight'],
                         'net_weight' => $row['net_weight'],
                         'gold_weight' => $row['gold_weight'],

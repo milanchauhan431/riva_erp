@@ -27,7 +27,6 @@ class StockTransModel extends MasterModel{
         return $this->pagingRows($data);
     }
 
-
     public function save($data){
         try{
             $this->db->trans_begin();
