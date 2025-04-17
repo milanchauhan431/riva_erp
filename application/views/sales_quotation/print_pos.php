@@ -45,6 +45,10 @@
                             echo '<strong>HSN/SAC:</strong> ' . $row->hsn_code . '<br>';
                             echo '<strong>Qty:</strong> ' . floatVal($row->qty) . ' (' . $row->unit_name . ')<br>';
                             echo '<strong>Rate:</strong> ' . floatVal($row->price) . '<br>';
+                            echo '<strong>Gross weight:</strong> ' . floatVal($row->gross_weight) . '<br>';
+                            echo '<strong>Net weight:</strong> ' . floatVal($row->net_weight) . '<br>';
+                            echo '<strong>Diamond caret rate:</strong> ' . floatVal($row->diamond_carat) . '<br>';
+                         //   echo '<strong>Gold total amount:</strong> ' . floatVal($row->price) . '<br>';
                             if(!empty($row->gold_platinum_price)):
                                 echo '<strong>Gold Amount :</strong> ' . floatVal($row->gold_platinum_price) . '<br>';
                             endif;
