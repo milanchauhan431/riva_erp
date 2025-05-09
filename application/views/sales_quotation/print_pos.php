@@ -47,12 +47,16 @@
                             echo '<strong>Rate:</strong> ' . floatVal($row->price) . '<br>';
                             echo '<strong>Gross weight:</strong> ' . floatVal($row->gross_weight) . '<br>';
                             echo '<strong>Net weight:</strong> ' . floatVal($row->net_weight) . '<br>';
+                           
+                            if(!empty($row->gold_platinum_price) && $row->gold_platinum_price > 0):
+                                echo '<strong>Gold Amount :</strong> ' . floatVal($row->gold_platinum_price) . '<br>';
+                            else if:
+                                echo '<strong>Total amount:</strong> ' .  floatVal($row->price) * floatVal($row->net_weight)  . '<br>';
+                            endif;
                             if(!empty($row->diamond_carat) && $row->diamond_carat > 0):
                              echo '<strong>Diamond caret rate:</strong> ' . floatVal($row->diamond_carat) . '<br>'; 
                             endif;
-                            if(!empty($row->gold_platinum_price) && $row->gold_platinum_price > 0):
-                                echo '<strong>Gold Amount :</strong> ' . floatVal($row->gold_platinum_price) . '<br>';
-                            endif;
+                         
                             echo '<strong>Making Charge:</strong> ' . floatVal($row->making_charge - $row->making_charge_dicount) . '<br>';
                             echo '<strong>Disc :</strong> ' . floatVal($row->disc_amount) . '<br>';
                             echo '<strong>Other Charge :</strong> ' . floatVal($row->other_charge) . '<br>';
